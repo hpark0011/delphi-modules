@@ -2,6 +2,10 @@ export interface AnalyticsData {
   dateRange: DateRange;
   metrics: MetricsData;
   chartData: ChartDataPoint[];
+  activeUsersChart: Array<{ date: string; value: number }>;
+  conversationsChart: Array<{ date: string; value: number }>;
+  answeredQuestionsChart: Array<{ date: string; value: number }>;
+  timeCreatedChart: Array<{ date: string; value: number }>;
   isLoading?: boolean;
   error?: Error | null;
 }

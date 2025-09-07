@@ -6,12 +6,18 @@ import { Lock } from "lucide-react";
 import { KPICard } from "@/components/analytics/kpi-card";
 import { DateRangePicker } from "@/components/analytics/date-range-picker";
 import { StackedBarChart } from "@/components/analytics/stacked-bar-chart";
+import { LineChartComponent } from "@/components/analytics/line-chart";
+import { BarChartComponent } from "@/components/analytics/bar-chart";
 import {
   fetchAnalyticsData,
   getInitialDateRange,
 } from "@/lib/analytics-service";
 import type { AnalyticsData, DateRange } from "@/app/analytics/types";
 import { DashboardMainWrapper } from "@/components/analytics/dashboard-ui";
+
+export const Divider = () => {
+  return <div className='w-[2px] h-16 bg-[#E2E1DE] dark:bg-[#21201C]' />;
+};
 
 export default function AnalyticsPage() {
   const [analyticsData, setAnalyticsData] =
@@ -79,25 +85,51 @@ export default function AnalyticsPage() {
           <TabsContent value='engagement'>
             <div className='space-y-2 bg-[#F6F6F5] dark:bg-[#111110] p-1 rounded-[28px]'>
               <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2'>
-                <KPICard
-                  label='Active Users'
-                  metric={analyticsData.metrics.activeUsers}
-                />
-                <KPICard
-                  label='Conversations'
-                  metric={analyticsData.metrics.conversations}
-                />
-                <KPICard
-                  label='Answered Questions'
-                  metric={analyticsData.metrics.answeredQuestions}
-                />
-                <KPICard
-                  label='Time Created'
-                  metric={analyticsData.metrics.timeCreated}
-                />
+                <div className='space-y-2'>
+                  <KPICard
+                    label='Active Users'
+                    metric={analyticsData.metrics.activeUsers}
+                  />
+                  <LineChartComponent
+                    data={analyticsData.activeUsersChart}
+                    title='Active Users Trend'
+                    color='#22c55e'
+                  />
+                </div>
+                <div className='space-y-2'>
+                  <KPICard
+                    label='Conversations'
+                    metric={analyticsData.metrics.conversations}
+                  />
+                  <LineChartComponent
+                    data={analyticsData.conversationsChart}
+                    title='Conversations Trend'
+                    color='#3b82f6'
+                  />
+                </div>
+                <div className='space-y-2'>
+                  <KPICard
+                    label='Answered Questions'
+                    metric={analyticsData.metrics.answeredQuestions}
+                  />
+                  <BarChartComponent
+                    data={analyticsData.answeredQuestionsChart}
+                    title='Answered Questions'
+                    color='#ea580c'
+                  />
+                </div>
+                <div className='space-y-2'>
+                  <KPICard
+                    label='Time Created'
+                    metric={analyticsData.metrics.timeCreated}
+                  />
+                  <LineChartComponent
+                    data={analyticsData.timeCreatedChart}
+                    title='Time Created Trend'
+                    color='#8b5cf6'
+                  />
+                </div>
               </div>
-
-              <StackedBarChart data={analyticsData.chartData} />
             </div>
           </TabsContent>
 

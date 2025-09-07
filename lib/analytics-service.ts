@@ -28,6 +28,46 @@ function generateChartData(dateRange: DateRange): ChartDataPoint[] {
   })
 }
 
+function generateActiveUsersChart(): Array<{ date: string; value: number }> {
+  return [
+    { date: "Jul 26", value: 450 },
+    { date: "Jul 27", value: 520 },
+    { date: "Jul 28", value: 480 },
+    { date: "Jul 29", value: 550 },
+    { date: "Jul 30", value: 582 },
+  ];
+}
+
+function generateConversationsChart(): Array<{ date: string; value: number }> {
+  return [
+    { date: "Jul 26", value: 1850 },
+    { date: "Jul 27", value: 1920 },
+    { date: "Jul 28", value: 2000 },
+    { date: "Jul 29", value: 2050 },
+    { date: "Jul 30", value: 2100 },
+  ];
+}
+
+function generateAnsweredQuestionsChart(): Array<{ date: string; value: number }> {
+  return [
+    { date: "Jul 26", value: 42 },
+    { date: "Jul 27", value: 48 },
+    { date: "Jul 28", value: 51 },
+    { date: "Jul 29", value: 54 },
+    { date: "Jul 30", value: 56 },
+  ];
+}
+
+function generateTimeCreatedChart(): Array<{ date: string; value: number }> {
+  return [
+    { date: "Jul 26", value: 210 },
+    { date: "Jul 27", value: 225 },
+    { date: "Jul 28", value: 240 },
+    { date: "Jul 29", value: 235 },
+    { date: "Jul 30", value: 252 },
+  ];
+}
+
 function generateMetrics(): MetricsData {
   return {
     activeUsers: {
@@ -67,6 +107,10 @@ export async function fetchAnalyticsData(
     dateRange,
     metrics: generateMetrics(),
     chartData: generateChartData(dateRange),
+    activeUsersChart: generateActiveUsersChart(),
+    conversationsChart: generateConversationsChart(),
+    answeredQuestionsChart: generateAnsweredQuestionsChart(),
+    timeCreatedChart: generateTimeCreatedChart(),
     isLoading: false,
     error: null,
   }
