@@ -13,7 +13,7 @@ export default function AnalyticsLayout({
       <div className='flex h-screen w-full'>
         <AppSidebar />
         <SidebarInset className='flex-1 overflow-auto'>
-          <main className='flex-1 bg-gray-50'>{children}</main>
+          <main className='flex-1'>{children}</main>
         </SidebarInset>
       </div>
     </SidebarProvider>

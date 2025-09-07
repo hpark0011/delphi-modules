@@ -1,8 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import type React from "react";
-import { cn } from "@/lib/utils";
 
 export const HeaderContainer = ({
   children,
@@ -23,7 +23,7 @@ export const HeaderContainer = ({
   );
 };
 
-export const HeaderLogo = ({ title }: { title: string }) => {
+export const HeaderLogo = () => {
   return (
     <div className='flex items-center gap-1.5'>
       <Image
@@ -33,7 +33,7 @@ export const HeaderLogo = ({ title }: { title: string }) => {
         height={20}
         priority
       />
-      <h1 className='text-xl font-medium pb-[1px]'>{title}</h1>
+      <h1 className='text-xl font-medium pb-[1px]'>Delphi</h1>
     </div>
   );
 };

@@ -35,6 +35,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import type { NavSection, SidebarUser } from "@/app/analytics/types";
+import Image from "next/image";
+import delphiLogo from "@/public/delphi.svg";
+import { HeaderLogo } from "./header/header-ui";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   home: Home,
@@ -99,37 +102,7 @@ export function AppSidebar() {
       <SidebarHeader className='bg-background border-b border-gray-800'>
         <div className='flex items-center gap-3 px-3 py-4'>
           <div className='flex items-center gap-2'>
-            <svg
-              width='24'
-              height='24'
-              viewBox='0 0 24 24'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-              className='text-white'
-            >
-              <path
-                d='M12 2L2 7L12 12L22 7L12 2Z'
-                stroke='currentColor'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              />
-              <path
-                d='M2 17L12 22L22 17'
-                stroke='currentColor'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              />
-              <path
-                d='M2 12L12 17L22 12'
-                stroke='currentColor'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              />
-            </svg>
-            <span className='text-white font-semibold text-lg'>Delphi</span>
+            <HeaderLogo />
           </div>
           <Avatar className='h-8 w-8 ml-auto'>
             <AvatarImage src={user.avatar} alt={user.name} />
