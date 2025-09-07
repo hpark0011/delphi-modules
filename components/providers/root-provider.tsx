@@ -5,6 +5,14 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 
 import { Toaster } from "sonner";
 import { ReactQueryProvider } from "./react-query-provider";
+import { useThemeToggle } from "@/hooks/use-theme-toggle";
+
+// ThemeWrapper is used to toggle the theme when the user presses the command + k key. This is only for development purposes.
+function ThemeWrapper({ children }: { children: React.ReactNode }) {
+  useThemeToggle();
+  return children;
+}
+
 export function RootProvider({ children }: { children: React.ReactNode }) {
   return (
     <ReactQueryProvider>
@@ -14,10 +22,12 @@ export function RootProvider({ children }: { children: React.ReactNode }) {
         enableSystem
         disableTransitionOnChange
         storageKey='theme'
-        // themes={['light', 'dark']}
+        themes={["light", "dark"]}
       >
-        {children}
-        <Toaster />
+        <ThemeWrapper>
+          {children}
+          <Toaster />
+        </ThemeWrapper>
       </ThemeProvider>
     </ReactQueryProvider>
   );
