@@ -11,7 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { cn, formatCompactNumber } from "@/lib/utils";
 
 interface AreaChartProps {
   data: Array<{
@@ -42,7 +42,9 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   return (
     <div className='bg-gray-900 text-white p-3 rounded-lg shadow-lg border border-gray-700'>
       <p className='text-sm font-medium mb-1'>{label}</p>
-      <p className='text-lg font-semibold'>{payload[0].value}</p>
+      <p className='text-lg font-semibold'>
+        {formatCompactNumber(payload[0].value)}
+      </p>
     </div>
   );
 };
@@ -57,14 +59,14 @@ export function AreaChartComponent({
   const gradientId = React.useId();
 
   return (
-    <Card className={cn("rounded-[24px] border-none ", className)}>
-      <CardHeader className='pb-2'>
+    <Card className={cn("rounded-[24px] border-none p-4 ", className)}>
+      <CardHeader className='pb-2 px-0'>
         <CardTitle className='text-sm font-medium text-muted-foreground'>
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className='p-6 pt-0'>
-        <ResponsiveContainer width='100%' height={408}>
+      <CardContent className='p-0'>
+        <ResponsiveContainer width='100%' height={452}>
           <AreaChart
             data={data}
             margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
@@ -94,6 +96,7 @@ export function AreaChartComponent({
               tickLine={false}
               axisLine={{ stroke: "#e5e7eb" }}
               domain={yAxisDomain}
+              tickFormatter={(v) => formatCompactNumber(v as number)}
             />
 
             <Tooltip

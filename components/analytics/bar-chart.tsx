@@ -11,7 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { cn, formatCompactNumber } from "@/lib/utils";
 
 interface BarChartProps {
   data: Array<{
@@ -42,7 +42,9 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   return (
     <div className='bg-gray-900 text-white p-3 rounded-lg shadow-lg border border-gray-700'>
       <p className='text-sm font-medium mb-1'>{label}</p>
-      <p className='text-lg font-semibold'>{payload[0].value}</p>
+      <p className='text-lg font-semibold'>
+        {formatCompactNumber(payload[0].value)}
+      </p>
     </div>
   );
 };
@@ -90,6 +92,7 @@ export function BarChartComponent({
               tickLine={false}
               axisLine={{ stroke: "#e5e7eb" }}
               domain={yAxisDomain}
+              tickFormatter={(v) => formatCompactNumber(v as number)}
             />
 
             <Tooltip

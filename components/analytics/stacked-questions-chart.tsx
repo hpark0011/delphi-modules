@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { cn, formatCompactNumber } from "@/lib/utils";
 import * as React from "react";
 import {
   Bar,
@@ -50,12 +50,16 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
         <div className='flex items-center gap-2'>
           <div className='w-3 h-3 rounded-sm bg-[#FF713B]' />
           <span className='text-xs'>Answered</span>
-          <span className='text-xs font-semibold ml-auto'>{answered}</span>
+          <span className='text-xs font-semibold ml-auto'>
+            {formatCompactNumber(answered)}
+          </span>
         </div>
         <div className='flex items-center gap-2'>
           <div className='w-3 h-3 rounded-sm bg-orange-200' />
           <span className='text-xs'>Unanswered</span>
-          <span className='text-xs font-semibold ml-auto'>{unanswered}</span>
+          <span className='text-xs font-semibold ml-auto'>
+            {formatCompactNumber(unanswered)}
+          </span>
         </div>
       </div>
     </div>
@@ -172,17 +176,17 @@ export function StackedQuestionsChart({
   return (
     <Card
       className={cn(
-        "rounded-[24px] border-none shadow-card-primary",
+        "rounded-[24px] border-none shadow-card-primary p-4",
         className
       )}
     >
-      <CardHeader className='pb-2'>
+      <CardHeader className='pb-2 px-0'>
         <CardTitle className='text-sm font-medium text-muted-foreground'>
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className='p-6 pt-0'>
-        <ResponsiveContainer width='100%' height={376}>
+      <CardContent className='p-0'>
+        <ResponsiveContainer width='100%' height={416}>
           <BarChart
             data={data}
             margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
@@ -222,6 +226,7 @@ export function StackedQuestionsChart({
               tick={{ fontSize: 12, fill: "#6b7280" }}
               tickLine={false}
               axisLine={{ stroke: "#e5e7eb" }}
+              tickFormatter={(v) => formatCompactNumber(v as number)}
             />
 
             <Tooltip
