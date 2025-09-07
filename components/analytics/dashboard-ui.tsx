@@ -11,5 +11,7 @@ export const DashboardMainWrapper = ({
 };
 
 export const Divider = () => {
-  return <div className='w-[2px] h-16 bg-[#EBEBE9] dark:bg-[#21201C]' />;
+  return (
+    <div className='w-[2px] h-16 bg-[#EBEBE9] dark:bg-[#21201C] rounded-full' />
+  );
 };
