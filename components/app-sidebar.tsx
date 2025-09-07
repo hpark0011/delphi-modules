@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import * as React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Home,
   Users,
@@ -13,12 +13,12 @@ import {
   Video,
   Play,
   Package,
-  Broadcast,
+  RadioTower,
   Zap,
   ShoppingBag,
   CreditCard,
   Bell,
-} from "lucide-react"
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -31,10 +31,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { cn } from "@/lib/utils"
-import type { NavSection, SidebarUser } from "@/app/analytics/types"
+} from "@/components/ui/sidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import type { NavSection, SidebarUser } from "@/app/analytics/types";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   home: Home,
@@ -47,12 +47,12 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   conversations: MessageSquare,
   groups: Users2,
   integrations: Package,
-  broadcasts: Broadcast,
+  broadcasts: RadioTower,
   actions: Zap,
   products: ShoppingBag,
   memberships: CreditCard,
   notifications: Bell,
-}
+};
 
 const navigation: NavSection[] = [
   {
@@ -83,63 +83,63 @@ const navigation: NavSection[] = [
       { title: "Memberships", href: "/memberships", icon: "memberships" },
     ],
   },
-]
+];
 
 const user: SidebarUser = {
   name: "User",
   avatar: "",
   credits: 100,
-}
+};
 
 export function AppSidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
-    <Sidebar className="border-r-0 bg-black">
-      <SidebarHeader className="bg-black border-b border-gray-800">
-        <div className="flex items-center gap-3 px-3 py-4">
-          <div className="flex items-center gap-2">
+    <Sidebar className='border-r-0 bg-background'>
+      <SidebarHeader className='bg-background border-b border-gray-800'>
+        <div className='flex items-center gap-3 px-3 py-4'>
+          <div className='flex items-center gap-2'>
             <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="text-white"
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+              className='text-white'
             >
               <path
-                d="M12 2L2 7L12 12L22 7L12 2Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                d='M12 2L2 7L12 12L22 7L12 2Z'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
               />
               <path
-                d="M2 17L12 22L22 17"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                d='M2 17L12 22L22 17'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
               />
               <path
-                d="M2 12L12 17L22 12"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                d='M2 12L12 17L22 12'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
               />
             </svg>
-            <span className="text-white font-semibold text-lg">Delphi</span>
+            <span className='text-white font-semibold text-lg'>Delphi</span>
           </div>
-          <Avatar className="h-8 w-8 ml-auto">
+          <Avatar className='h-8 w-8 ml-auto'>
             <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback className="bg-gray-700 text-white text-xs">
+            <AvatarFallback className='bg-gray-700 text-white text-xs'>
               {user.name.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-black">
+      <SidebarContent className='bg-black'>
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -150,8 +150,8 @@ export function AppSidebar() {
                   pathname === "/" && "bg-gray-900 text-white"
                 )}
               >
-                <Link href="/">
-                  <Home className="h-4 w-4" />
+                <Link href='/'>
+                  <Home className='h-4 w-4' />
                   <span>Home</span>
                 </Link>
               </SidebarMenuButton>
@@ -164,8 +164,8 @@ export function AppSidebar() {
                   pathname === "/notifications" && "bg-gray-900 text-white"
                 )}
               >
-                <Link href="/notifications">
-                  <Bell className="h-4 w-4" />
+                <Link href='/notifications'>
+                  <Bell className='h-4 w-4' />
                   <span>Notifications</span>
                 </Link>
               </SidebarMenuButton>
@@ -174,15 +174,15 @@ export function AppSidebar() {
         </SidebarGroup>
         {navigation.map((section) => (
           <SidebarGroup key={section.title}>
-            <SidebarGroupLabel className="text-gray-500 text-xs font-medium px-3">
+            <SidebarGroupLabel className='text-gray-500 text-xs font-medium px-3'>
               {section.title}
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {section.items.map((item) => {
-                  const Icon = item.icon ? iconMap[item.icon] : null
-                  const isActive = pathname === item.href
-                  
+                  const Icon = item.icon ? iconMap[item.icon] : null;
+                  const isActive = pathname === item.href;
+
                   return (
                     <SidebarMenuItem key={item.href}>
                       <SidebarMenuButton
@@ -190,39 +190,40 @@ export function AppSidebar() {
                         disabled={item.disabled}
                         className={cn(
                           "text-gray-400 hover:text-white hover:bg-gray-900 relative",
-                          isActive && "bg-gray-900 text-white before:absolute before:left-0 before:top-0 before:h-full before:w-0.5 before:bg-white"
+                          isActive &&
+                            "bg-gray-900 text-white before:absolute before:left-0 before:top-0 before:h-full before:w-0.5 before:bg-white"
                         )}
                       >
                         <Link href={item.href}>
-                          {Icon && <Icon className="h-4 w-4" />}
+                          {Icon && <Icon className='h-4 w-4' />}
                           <span>{item.title}</span>
                           {item.badge && (
-                            <span className="ml-auto text-xs bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded">
+                            <span className='ml-auto text-xs bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded'>
                               {item.badge}
                             </span>
                           )}
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
-                  )
+                  );
                 })}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
       </SidebarContent>
-      <SidebarFooter className="bg-black border-t border-gray-800">
-        <div className="flex items-center justify-between px-3 py-3">
-          <div className="flex items-center gap-2">
-            <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-            <span className="text-gray-400 text-sm">{user.credits}</span>
+      <SidebarFooter className='bg-black border-t border-gray-800'>
+        <div className='flex items-center justify-between px-3 py-3'>
+          <div className='flex items-center gap-2'>
+            <div className='h-2 w-2 bg-green-500 rounded-full'></div>
+            <span className='text-gray-400 text-sm'>{user.credits}</span>
           </div>
-          <button className="text-gray-400 hover:text-white">
-            <Play className="h-4 w-4" />
+          <button className='text-gray-400 hover:text-white'>
+            <Play className='h-4 w-4' />
           </button>
         </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
