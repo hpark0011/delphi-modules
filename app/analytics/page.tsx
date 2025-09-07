@@ -83,53 +83,82 @@ export default function AnalyticsPage() {
           </TabsList>
 
           <TabsContent value='engagement'>
-            <div className='space-y-2 bg-[#F6F6F5] dark:bg-[#111110] p-1 rounded-[28px]'>
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2'>
-                <div className='space-y-2'>
-                  <KPICard
-                    label='Active Users'
-                    metric={analyticsData.metrics.activeUsers}
-                  />
+            <div className='bg-[#F6F6F5] dark:bg-[#111110] rounded-[28px] p-1'>
+              <Tabs defaultValue='activeUsers' className='w-full'>
+                <TabsList className='flex w-full gap-1 h-auto p-0 justify-between'>
+                  <TabsTrigger
+                    value='activeUsers'
+                    className='p-0 data-[state=active]:bg-white bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),_0_10px_20px_-5px_rgba(0,0,0,0.1),_0_1px_1px_0_rgba(0,0,0,0.05)]'
+                  >
+                    <KPICard
+                      label='Active Users'
+                      metric={analyticsData.metrics.activeUsers}
+                    />
+                  </TabsTrigger>
+                  <Divider />
+                  <TabsTrigger
+                    value='conversations'
+                    className='p-0 data-[state=active]:bg-white bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),_0_10px_20px_-5px_rgba(0,0,0,0.1),_0_1px_1px_0_rgba(0,0,0,0.05)]'
+                  >
+                    <KPICard
+                      label='Conversations'
+                      metric={analyticsData.metrics.conversations}
+                    />
+                  </TabsTrigger>
+                  <Divider />
+                  <TabsTrigger
+                    value='answeredQuestions'
+                    className='p-0 data-[state=active]:bg-white bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),_0_10px_20px_-5px_rgba(0,0,0,0.1),_0_1px_1px_0_rgba(0,0,0,0.05)]'
+                  >
+                    <KPICard
+                      label='Answered Questions'
+                      metric={analyticsData.metrics.answeredQuestions}
+                    />
+                  </TabsTrigger>
+                  <Divider />
+                  <TabsTrigger
+                    value='timeCreated'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-[#000] bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),_0_10px_20px_-5px_rgba(0,0,0,0.1),_0_1px_1px_0_rgba(0,0,0,0.05)]'
+                  >
+                    <KPICard
+                      label='Time Created'
+                      metric={analyticsData.metrics.timeCreated}
+                    />
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value='activeUsers'>
                   <LineChartComponent
                     data={analyticsData.activeUsersChart}
                     title='Active Users Trend'
                     color='#22c55e'
                   />
-                </div>
-                <div className='space-y-2'>
-                  <KPICard
-                    label='Conversations'
-                    metric={analyticsData.metrics.conversations}
-                  />
+                </TabsContent>
+
+                <TabsContent value='conversations'>
                   <LineChartComponent
                     data={analyticsData.conversationsChart}
                     title='Conversations Trend'
                     color='#3b82f6'
                   />
-                </div>
-                <div className='space-y-2'>
-                  <KPICard
-                    label='Answered Questions'
-                    metric={analyticsData.metrics.answeredQuestions}
-                  />
+                </TabsContent>
+
+                <TabsContent value='answeredQuestions'>
                   <BarChartComponent
                     data={analyticsData.answeredQuestionsChart}
                     title='Answered Questions'
                     color='#ea580c'
                   />
-                </div>
-                <div className='space-y-2'>
-                  <KPICard
-                    label='Time Created'
-                    metric={analyticsData.metrics.timeCreated}
-                  />
+                </TabsContent>
+
+                <TabsContent value='timeCreated'>
                   <LineChartComponent
                     data={analyticsData.timeCreatedChart}
                     title='Time Created Trend'
                     color='#8b5cf6'
                   />
-                </div>
-              </div>
+                </TabsContent>
+              </Tabs>
             </div>
           </TabsContent>
 
