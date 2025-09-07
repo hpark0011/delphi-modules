@@ -78,7 +78,12 @@ const CustomLegend = () => {
               width='4'
               height='4'
             >
-              <path d='M0,4 L4,0' stroke='#AE7830' strokeWidth='0.5' />
+              <path
+                d='M0,4 L4,0'
+                stroke='#AE7830'
+                strokeWidth='0.5'
+                strokeLinecap='square'
+              />
             </pattern>
           </defs>
           <rect width='12' height='12' fill='#fed7aa' />
@@ -139,6 +144,7 @@ export function StackedQuestionsChart({
             d="M0,4 L4,0"
             stroke="#AE7830"
             strokeWidth="0.5"
+            strokeLinecap="square"
           />
         </pattern>
       </defs>
@@ -180,12 +186,13 @@ export function StackedQuestionsChart({
                 width='4'
                 height='4'
               >
-                <rect width='4' height='4' fill='#fed7aa' />
+                <rect width='4' height='4' fill='#E7D6C1' />
                 <path
                   d='M0,4 L4,0'
-                  stroke='#AE7830'
-                  strokeWidth='0.5'
+                  stroke='#D6BA95'
+                  strokeWidth='1'
                   fill='none'
+                  strokeLinecap='square'
                 />
               </pattern>
             </defs>
@@ -217,7 +224,7 @@ export function StackedQuestionsChart({
             <Bar
               dataKey='answered'
               stackId='a'
-              fill='#ea580c'
+              fill='#FF713B'
               shape={BottomStackShape}
             />
             <Bar
