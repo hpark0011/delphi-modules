@@ -97,7 +97,15 @@ const CustomLegend = () => {
 
 const STACK_GAP_PX = 2;
 
-const TopStackShape = (props: any) => {
+interface BarShapeProps {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  fill?: string;
+}
+
+const TopStackShape = (props: BarShapeProps) => {
   const { x, y, width, height, fill } = props;
   // Reduce height by the gap to create space at the bottom
   const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX);
@@ -117,7 +125,7 @@ const TopStackShape = (props: any) => {
   );
 };
 
-const BottomStackShape = (props: any) => {
+const BottomStackShape = (props: BarShapeProps) => {
   const { x, y, width, height, fill } = props;
   // No adjustment needed for bottom bar
   return (

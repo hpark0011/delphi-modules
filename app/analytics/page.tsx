@@ -1,7 +1,10 @@
 "use client";
 
 import type { AnalyticsData, DateRange } from "@/app/analytics/types";
-import { DashboardMainWrapper } from "@/components/analytics/dashboard-ui";
+import {
+  DashboardMainWrapper,
+  Divider,
+} from "@/components/analytics/dashboard-ui";
 import { DateRangePicker } from "@/components/analytics/date-range-picker";
 import { KPICard } from "@/components/analytics/kpi-card";
 import { AreaChartComponent } from "@/components/analytics/area-chart";
@@ -13,10 +16,6 @@ import {
 } from "@/lib/analytics-service";
 import { Lock } from "lucide-react";
 import * as React from "react";
-
-export const Divider = () => {
-  return <div className='w-[2px] h-16 bg-[#EBEBE9] dark:bg-[#21201C]' />;
-};
 
 export default function AnalyticsPage() {
   const [analyticsData, setAnalyticsData] =

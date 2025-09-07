@@ -31,7 +31,7 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 import * as React from "react";
 import { HeaderLogo } from "./header/header-ui";
 
@@ -60,7 +60,7 @@ const user: SidebarUser = {
 };
 
 export function AppSidebar() {
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
   return (
     <Sidebar variant='inset' className='border-r-0'>
@@ -107,7 +107,7 @@ export function AppSidebar() {
               <SidebarMenu>
                 {section.items.map((item) => {
                   const Icon = item.icon ? iconMap[item.icon] : null;
-                  const isActive = pathname === item.href;
+                  // const isActive = pathname === item.href;
 
                   return (
                     <SidebarMenuItem key={item.href}>
