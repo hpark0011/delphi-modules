@@ -16,11 +16,11 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import {
+  AudioLines,
   Bell,
   Brain,
   Home,
-  MessageSquare,
-  AudioLines,
+  Inbox,
   Package,
   RadioTower,
   ShoppingBag,
@@ -41,8 +41,8 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   mind: Brain,
   voice: AudioLines,
   video: Video,
-  people: Users,
-  conversations: MessageSquare,
+  audience: Users,
+  conversations: Inbox,
   groups: Users2,
   integrations: Package,
   broadcasts: RadioTower,
@@ -51,7 +51,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   notifications: Bell,
 };
 
-import navigation from "@config/nav";
+import navigation from "@/config/nav-config";
 
 const user: SidebarUser = {
   name: "User",

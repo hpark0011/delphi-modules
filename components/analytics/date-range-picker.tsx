@@ -1,8 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { DateRange as CalendarDateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
 import type { DateRange, PeriodType } from "@/app/analytics/types";
@@ -11,38 +19,6 @@ interface DateRangePickerProps {
   dateRange: DateRange;
   onDateRangeChange: (range: DateRange) => void;
   className?: string;
-}
-
-function formatDateRange(start: Date, end: Date): string {
-  const options: Intl.DateTimeFormatOptions = {
-    month: "short",
-    day: "2-digit",
-  };
-  const startStr = start.toLocaleDateString("en-US", options);
-  const endStr = end.toLocaleDateString("en-US", options);
-
-  return `${startStr} - ${endStr}`;
-}
-
-function adjustDateRange(
-  currentRange: DateRange,
-  direction: "prev" | "next"
-): DateRange {
-  const { start, end, period } = currentRange;
-  const days = period === "1d" ? 1 : period === "7d" ? 7 : 30;
-  const multiplier = direction === "prev" ? -1 : 1;
-
-  const newStart = new Date(start);
-  const newEnd = new Date(end);
-
-  newStart.setDate(newStart.getDate() + days * multiplier);
-  newEnd.setDate(newEnd.getDate() + days * multiplier);
-
-  return {
-    start: newStart,
-    end: newEnd,
-    period,
-  };
 }
 
 function getDateRangeForPeriod(period: PeriodType): DateRange {
@@ -75,37 +51,67 @@ export function DateRangePicker({
     }
   };
 
-  const handleNavigate = (direction: "prev" | "next") => {
-    onDateRangeChange(adjustDateRange(dateRange, direction));
+  const [calendarDateRange, setCalendarDateRange] = React.useState<
+    CalendarDateRange | undefined
+  >({
+    from: dateRange.start,
+    to: dateRange.end,
+  });
+
+  React.useEffect(() => {
+    setCalendarDateRange({
+      from: dateRange.start,
+      to: dateRange.end,
+    });
+  }, [dateRange]);
+
+  const handleDateSelect = (range: CalendarDateRange | undefined) => {
+    setCalendarDateRange(range);
+    if (range?.from && range?.to) {
+      onDateRangeChange({
+        start: range.from,
+        end: range.to,
+        period: "custom" as PeriodType,
+      });
+    }
   };
 
   return (
-    <div className={cn("flex items-center gap-4", className)}>
-      <div className='flex items-center gap-2'>
-        <Button
-          variant='ghost'
-          size='icon'
-          className='h-8 w-8'
-          onClick={() => handleNavigate("prev")}
-        >
-          <ChevronLeft className='h-4 w-4' />
-        </Button>
-
-        <div className='text-sm font-medium min-w-[140px] text-center'>
-          {formatDateRange(dateRange.start, dateRange.end)}
-        </div>
-
-        <Button
-          variant='ghost'
-          size='icon'
-          className='h-8 w-8'
-          onClick={() => handleNavigate("next")}
-        >
-          <ChevronRight className='h-4 w-4' />
-        </Button>
-      </div>
-
-      <div className='h-4 w-px bg-light' />
+    <div className={cn("flex items-center gap-1", className)}>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant='outline'
+            className={cn(
+              "justify-start text-left rounded-full h-8 px-3 text-[13px]",
+              !calendarDateRange && "text-muted-foreground"
+            )}
+          >
+            {calendarDateRange?.from ? (
+              calendarDateRange.to ? (
+                <>
+                  {format(calendarDateRange.from, "MMM dd")} -{" "}
+                  {format(calendarDateRange.to, "MMM dd")}
+                </>
+              ) : (
+                format(calendarDateRange.from, "MMM dd, yyyy")
+              )
+            ) : (
+              <span>Pick a date range</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className='w-auto p-0' align='start'>
+          <Calendar
+            initialFocus
+            mode='range'
+            defaultMonth={calendarDateRange?.from}
+            selected={calendarDateRange}
+            onSelect={handleDateSelect}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
 
       <ToggleGroup
         type='single'
@@ -115,19 +121,19 @@ export function DateRangePicker({
       >
         <ToggleGroupItem
           value='1d'
-          className='h-8 px-3 text-sm data-[state=on]:bg-gray-500 data-[state=on]:text-white'
+          className='h-8 px-3 text-[13px] data-[state=on]:bg-[#E9E8E6] data-[state=on]:text-[#21201C] rounded-full'
         >
           1d
         </ToggleGroupItem>
         <ToggleGroupItem
           value='7d'
-          className='h-8 px-3 text-sm data-[state=on]:bg-gray-500 data-[state=on]:text-white'
+          className='h-8 px-3 text-[13px] data-[state=on]:bg-[#E9E8E6] data-[state=on]:text-[#21201C] rounded-full'
         >
           7d
         </ToggleGroupItem>
         <ToggleGroupItem
           value='30d'
-          className='h-8 px-3 text-sm data-[state=on]:bg-gray-500 data-[state=on]:text-white'
+          className='h-8 px-3 text-[13px] data-[state=on]:bg-[#E9E8E6] data-[state=on]:text-[#21201C] rounded-full'
         >
           30d
         </ToggleGroupItem>

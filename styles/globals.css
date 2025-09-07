@@ -202,7 +202,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-sans tracking-[-0.04em] font-[480];
+    @apply bg-background text-foreground font-sans tracking-[-0.02em] font-[480];
   }
   /* Ensure lucide icons inside the Sidebar follow theme icon color */
   [data-sidebar] svg.lucide {

@@ -11,6 +11,7 @@ import {
   getInitialDateRange,
 } from "@/lib/analytics-service";
 import type { AnalyticsData, DateRange } from "@/app/analytics/types";
+import { DashboardMainWrapper } from "@/components/analytics/dashboard-ui";
 
 export default function AnalyticsPage() {
   const [analyticsData, setAnalyticsData] =
@@ -42,7 +43,7 @@ export default function AnalyticsPage() {
 
   if (isLoading || !analyticsData) {
     return (
-      <div className='p-8'>
+      <DashboardMainWrapper>
         <div className='animate-pulse'>
           <div className='h-8 rounded w-32 mb-8'></div>
           <div className='grid grid-cols-4 gap-4 mb-8'>
@@ -52,29 +53,27 @@ export default function AnalyticsPage() {
           </div>
           <div className='h-96  rounded'></div>
         </div>
-      </div>
+      </DashboardMainWrapper>
     );
   }
 
   return (
-    <div className='p-8'>
+    <DashboardMainWrapper>
       <div className='mb-8'>
-        <div className='flex items-center justify-between mb-6'>
-          <h1 className='text-2xl font-semibold'>Analytics</h1>
+        <div className='flex items-center justify-between mb-6 px-3'>
+          <h1 className='text-2xl'>Analytics</h1>
           <DateRangePicker
             dateRange={dateRange}
             onDateRangeChange={handleDateRangeChange}
           />
         </div>
 
-        <Tabs defaultValue='engagement' className='w-full'>
-          <TabsList className='grid w-fit grid-cols-3 mb-6'>
+        <Tabs defaultValue='engagement' className='w-full space-y-7'>
+          <TabsList className='flex-row items-center gap-1'>
             <TabsTrigger value='engagement'>Engagement</TabsTrigger>
             <TabsTrigger value='audience'>Audience</TabsTrigger>
-            <TabsTrigger value='actions' disabled className='relative'>
-              Actions
-              <Lock className='h-3 w-3 ml-1 absolute -top-1 -right-1' />
-            </TabsTrigger>
+            <TabsTrigger value='actions'>Actions</TabsTrigger>
+            <TabsTrigger value='broadcasts'>Broadcasts</TabsTrigger>
           </TabsList>
 
           <TabsContent value='engagement' className='space-y-6'>
@@ -114,8 +113,15 @@ export default function AnalyticsPage() {
               <p className='text-sm'>This feature is locked</p>
             </div>
           </TabsContent>
+
+          <TabsContent value='broadcasts'>
+            <div className='py-12 text-center'>
+              <p className='text-lg font-medium mb-2'>Broadcasts Analytics</p>
+              <p className='text-sm'>Coming soon...</p>
+            </div>
+          </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </DashboardMainWrapper>
   );
 }
