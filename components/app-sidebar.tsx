@@ -1,24 +1,7 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  Home,
-  Users,
-  MessageSquare,
-  Users2,
-  User,
-  Mic,
-  Video,
-  Play,
-  Package,
-  RadioTower,
-  Zap,
-  ShoppingBag,
-  CreditCard,
-  Bell,
-} from "lucide-react";
+import type { NavSection, SidebarUser } from "@/app/analytics/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sidebar,
   SidebarContent,
@@ -32,9 +15,25 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
-import type { NavSection, SidebarUser } from "@/app/analytics/types";
+import {
+  Bell,
+  CreditCard,
+  Home,
+  MessageSquare,
+  Mic,
+  Package,
+  Play,
+  RadioTower,
+  ShoppingBag,
+  User,
+  Users,
+  Users2,
+  Video,
+  Zap,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import * as React from "react";
 import { HeaderLogo } from "./header/header-ui";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -163,7 +162,7 @@ export function AppSidebar() {
           </SidebarGroup>
         ))}
       </SidebarContent>
-      <SidebarFooter className='border-t'>
+      <SidebarFooter>
         <div className='flex items-center justify-between px-3 py-3'>
           <div className='flex items-center gap-2'>
             <span className='text-gray-400 text-sm'>{user.credits}</span>

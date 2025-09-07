@@ -24,7 +24,7 @@ export const HeaderContainer = ({
 
 export const HeaderLogo = () => {
   return (
-    <div className='flex items-center gap-1.5'>
+    <div className='flex items-center gap-2'>
       <svg
         width={20}
         height={20}
@@ -38,7 +38,9 @@ export const HeaderLogo = () => {
           fill='currentColor'
         />
       </svg>
-      <h1 className='text-xl font-medium pb-[1px]'>Delphi</h1>
+      <h1 className='text-[18px] font-[550] pb-[1px] tracking-[-0.06em]'>
+        Delphi
+      </h1>
     </div>
   );
 };
