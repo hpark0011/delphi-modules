@@ -64,6 +64,7 @@
   --shadow-button-outline-hover: var(--shadow-button-outline-hover);
   --shadow-button-submit: var(--shadow-button-submit);
   --shadow-button-submit-hover: var(--shadow-button-submit-hover);
+  --shadow-card-primary: var(--shadow-card-primary);
 
   /* Primitive Colors */
   --color-dq-gray-50: var(--color-dq-gray-50);
@@ -159,6 +160,8 @@
   --sidebar-ring: oklch(0.708 0 0);
   /* Sidebar icon color (light) */
   --sidebar-icon: #8d8d86;
+  --shadow-card-primary: 0 0 0 0.5px rgba(0, 0, 0, 0.05),
+    0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .dark {
@@ -195,6 +198,8 @@
   --sidebar-ring: oklch(0.556 0 0);
   /* Sidebar icon color (dark) */
   --sidebar-icon: #b4b3ac;
+  --shadow-card-primary: 0 0 0 0.5px rgba(0, 0, 0, 0.05),
+    0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 @layer base {

@@ -7,6 +7,8 @@ import type {
 
 function generateChartData(dateRange: DateRange): ChartDataPoint[] {
   const baseData = [
+    { date: "July 24", answered: 12, unanswered: 3 },
+    { date: "July 25", answered: 13, unanswered: 2 },
     { date: "July 26", answered: 14, unanswered: 2 },
     { date: "July 27", answered: 15, unanswered: 3 },
     { date: "July 28", answered: 17, unanswered: 3 },
@@ -30,6 +32,8 @@ function generateChartData(dateRange: DateRange): ChartDataPoint[] {
 
 function generateActiveUsersChart(): Array<{ date: string; value: number }> {
   return [
+    { date: "Jul 24", value: 420 },
+    { date: "Jul 25", value: 435 },
     { date: "Jul 26", value: 450 },
     { date: "Jul 27", value: 520 },
     { date: "Jul 28", value: 480 },
@@ -40,6 +44,8 @@ function generateActiveUsersChart(): Array<{ date: string; value: number }> {
 
 function generateConversationsChart(): Array<{ date: string; value: number }> {
   return [
+    { date: "Jul 24", value: 1750 },
+    { date: "Jul 25", value: 1800 },
     { date: "Jul 26", value: 1850 },
     { date: "Jul 27", value: 1920 },
     { date: "Jul 28", value: 2000 },
@@ -48,18 +54,22 @@ function generateConversationsChart(): Array<{ date: string; value: number }> {
   ];
 }
 
-function generateAnsweredQuestionsChart(): Array<{ date: string; value: number }> {
+function generateAnsweredQuestionsChart(): Array<{ date: string; answered: number; unanswered: number }> {
   return [
-    { date: "Jul 26", value: 42 },
-    { date: "Jul 27", value: 48 },
-    { date: "Jul 28", value: 51 },
-    { date: "Jul 29", value: 54 },
-    { date: "Jul 30", value: 56 },
+    { date: "Jul 24", answered: 38, unanswered: 7 },
+    { date: "Jul 25", answered: 40, unanswered: 6 },
+    { date: "Jul 26", answered: 42, unanswered: 8 },
+    { date: "Jul 27", answered: 48, unanswered: 12 },
+    { date: "Jul 28", answered: 51, unanswered: 9 },
+    { date: "Jul 29", answered: 54, unanswered: 16 },
+    { date: "Jul 30", answered: 56, unanswered: 24 },
   ];
 }
 
 function generateTimeCreatedChart(): Array<{ date: string; value: number }> {
   return [
+    { date: "Jul 24", value: 195 },
+    { date: "Jul 25", value: 205 },
     { date: "Jul 26", value: 210 },
     { date: "Jul 27", value: 225 },
     { date: "Jul 28", value: 240 },

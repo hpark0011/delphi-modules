@@ -8,6 +8,7 @@ import { DateRangePicker } from "@/components/analytics/date-range-picker";
 import { StackedBarChart } from "@/components/analytics/stacked-bar-chart";
 import { LineChartComponent } from "@/components/analytics/line-chart";
 import { BarChartComponent } from "@/components/analytics/bar-chart";
+import { StackedQuestionsChart } from "@/components/analytics/stacked-questions-chart";
 import {
   fetchAnalyticsData,
   getInitialDateRange,
@@ -65,7 +66,7 @@ export default function AnalyticsPage() {
 
   return (
     <DashboardMainWrapper>
-      <div className='mb-8'>
+      <div className=''>
         <div className='flex items-center justify-between mb-6 px-3'>
           <h1 className='text-2xl'>Analytics</h1>
           <DateRangePicker
@@ -74,8 +75,8 @@ export default function AnalyticsPage() {
           />
         </div>
 
-        <Tabs defaultValue='engagement' className='w-full space-y-7'>
-          <TabsList className='flex-row items-center gap-1'>
+        <Tabs defaultValue='engagement' className='w-full'>
+          <TabsList className='flex-row items-center gap-1 mb-7'>
             <TabsTrigger value='engagement'>Engagement</TabsTrigger>
             <TabsTrigger value='audience'>Audience</TabsTrigger>
             <TabsTrigger value='actions'>Actions</TabsTrigger>
@@ -88,7 +89,7 @@ export default function AnalyticsPage() {
                 <TabsList className='flex w-full gap-1 h-auto p-0 justify-between'>
                   <TabsTrigger
                     value='activeUsers'
-                    className='p-0 data-[state=active]:bg-white bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),_0_10px_20px_-5px_rgba(0,0,0,0.1),_0_1px_1px_0_rgba(0,0,0,0.05)]'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-neutral-200 dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Active Users'
@@ -98,7 +99,7 @@ export default function AnalyticsPage() {
                   <Divider />
                   <TabsTrigger
                     value='conversations'
-                    className='p-0 data-[state=active]:bg-white bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),_0_10px_20px_-5px_rgba(0,0,0,0.1),_0_1px_1px_0_rgba(0,0,0,0.05)]'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-neutral-200 dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Conversations'
@@ -108,7 +109,7 @@ export default function AnalyticsPage() {
                   <Divider />
                   <TabsTrigger
                     value='answeredQuestions'
-                    className='p-0 data-[state=active]:bg-white bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),_0_10px_20px_-5px_rgba(0,0,0,0.1),_0_1px_1px_0_rgba(0,0,0,0.05)]'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-neutral-200 dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Answered Questions'
@@ -118,7 +119,7 @@ export default function AnalyticsPage() {
                   <Divider />
                   <TabsTrigger
                     value='timeCreated'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-[#000] bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),_0_10px_20px_-5px_rgba(0,0,0,0.1),_0_1px_1px_0_rgba(0,0,0,0.05)]'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-neutral-200 dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Time Created'
@@ -144,10 +145,9 @@ export default function AnalyticsPage() {
                 </TabsContent>
 
                 <TabsContent value='answeredQuestions'>
-                  <BarChartComponent
+                  <StackedQuestionsChart
                     data={analyticsData.answeredQuestionsChart}
                     title='Answered Questions'
-                    color='#ea580c'
                   />
                 </TabsContent>
 
