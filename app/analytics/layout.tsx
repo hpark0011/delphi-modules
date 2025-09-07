@@ -13,9 +13,7 @@ export default function AnalyticsLayout({
       <div className='flex h-screen w-full'>
         <AppSidebar />
         <SidebarInset className='flex-1 overflow-auto md:peer-data-[variant=inset]:shadow-none border-border border'>
-          {/* <main className='bg-background relative flex w-full flex-1 flex-col md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2'> */}
           {children}
-          {/* </main> */}
         </SidebarInset>
       </div>
     </SidebarProvider>

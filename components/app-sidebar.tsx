@@ -1,6 +1,6 @@
 "use client";
 
-import type { NavSection, SidebarUser } from "@/app/analytics/types";
+import type { SidebarUser } from "@/app/analytics/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sidebar,
@@ -17,18 +17,17 @@ import {
 } from "@/components/ui/sidebar";
 import {
   Bell,
-  CreditCard,
-  Home,
-  Video,
   Brain,
+  Home,
   MessageSquare,
-  Mic,
+  AudioLines,
   Package,
   RadioTower,
   ShoppingBag,
   User,
   Users,
   Users2,
+  Video,
   Zap,
 } from "lucide-react";
 import Link from "next/link";
@@ -40,7 +39,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   home: Home,
   profile: User,
   mind: Brain,
-  voice: Mic,
+  voice: AudioLines,
   video: Video,
   people: Users,
   conversations: MessageSquare,
@@ -49,39 +48,10 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   broadcasts: RadioTower,
   actions: Zap,
   products: ShoppingBag,
-  memberships: CreditCard,
   notifications: Bell,
 };
 
-const navigation: NavSection[] = [
-  {
-    title: "IDENTITY",
-    items: [
-      { title: "Profile", href: "/profile", icon: "profile" },
-      { title: "Mind", href: "/mind", icon: "mind" },
-      { title: "Voice", href: "/voice", icon: "voice" },
-      { title: "Video", href: "/video", icon: "video" },
-    ],
-  },
-  {
-    title: "INTERACTIONS",
-    items: [
-      { title: "People", href: "/people", icon: "people" },
-      { title: "Conversations", href: "/conversations", icon: "conversations" },
-      { title: "Groups", href: "/groups", icon: "groups" },
-    ],
-  },
-  {
-    title: "ADVANCED",
-    items: [
-      { title: "Integrations", href: "/integrations", icon: "integrations" },
-      { title: "Broadcasts", href: "/broadcasts", icon: "broadcasts" },
-      { title: "Actions", href: "/actions", icon: "actions" },
-      { title: "Products", href: "/products", icon: "products" },
-      { title: "Memberships", href: "/memberships", icon: "memberships" },
-    ],
-  },
-];
+import navigation from "@config/nav";
 
 const user: SidebarUser = {
   name: "User",
@@ -94,8 +64,8 @@ export function AppSidebar() {
 
   return (
     <Sidebar variant='inset' className='border-r-0'>
-      <SidebarHeader>
-        <div className='flex items-center gap-3 px-3 py-4'>
+      <SidebarHeader className='px-7 '>
+        <div className='flex items-center gap-3 px-0 py-4'>
           <div className='flex items-center gap-2'>
             <HeaderLogo />
           </div>
@@ -107,13 +77,13 @@ export function AppSidebar() {
           </Avatar>
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className='py-3'>
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <Link href='/'>
-                  <Home className='h-4 w-4' />
+                  <Home className='h-5 w-5' />
                   <span>Home</span>
                 </Link>
               </SidebarMenuButton>
@@ -121,7 +91,7 @@ export function AppSidebar() {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <Link href='/notifications'>
-                  <Bell className='h-4 w-4' />
+                  <Bell className='h-5 w-5' />
                   <span>Notifications</span>
                 </Link>
               </SidebarMenuButton>
@@ -130,7 +100,7 @@ export function AppSidebar() {
         </SidebarGroup>
         {navigation.map((section) => (
           <SidebarGroup key={section.title}>
-            <SidebarGroupLabel className='text-gray-500 text-xs font-medium px-3'>
+            <SidebarGroupLabel className=' text-xs font-medium px-2.5'>
               {section.title}
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -143,7 +113,7 @@ export function AppSidebar() {
                     <SidebarMenuItem key={item.href}>
                       <SidebarMenuButton asChild disabled={item.disabled}>
                         <Link href={item.href}>
-                          {Icon && <Icon className='h-4 w-4' />}
+                          {Icon && <Icon className='h-5 w-5' />}
                           <span>{item.title}</span>
                           {item.badge && (
                             <span className='ml-auto text-xs bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded'>
