@@ -120,7 +120,12 @@ export function StackedBarChart({ data, className }: StackedBarChartProps) {
   }, []);
 
   return (
-    <Card className={cn("shadow-sm", className)}>
+    <Card
+      className={cn(
+        "rounded-[24px] border-none shadow-[0_0_0_0.5px_rgba(0,0,0,0.1),_0_10px_20px_-5px_rgba(0,0,0,0.05),_0_1px_1px_0_rgba(0,0,0,0.05)]",
+        className
+      )}
+    >
       <CardContent className='p-6'>
         <ResponsiveContainer width='100%' height={300}>
           <BarChart

@@ -1,14 +1,12 @@
 "use client";
 
-import * as React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import { TrendingUp, TrendingDown } from "lucide-react";
 import type {
   MetricValue,
   QuestionMetric,
   TimeMetric,
 } from "@/app/analytics/types";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 interface KPICardProps {
   label: string;
@@ -51,30 +49,26 @@ function formatValue(
 }
 
 export function KPICard({ label, metric, className }: KPICardProps) {
-  const TrendIcon = metric.isPositive ? TrendingUp : TrendingDown;
-  const trendColor = metric.isPositive ? "text-green-600" : "text-red-600";
-  const trendBgColor = metric.isPositive ? "bg-green-50" : "bg-red-50";
+  const trendColor = metric.isPositive ? "text-[#208368]" : "text-red-600";
 
   return (
-    <Card className={cn("shadow-sm", className)}>
-      <CardContent className='p-5'>
-        <div className='space-y-3'>
-          <p className='text-sm  font-medium'>{label}</p>
-          <div className='flex items-end justify-between'>
-            <div className='space-y-1'>
-              <p className='text-2xl font-semibold '>{formatValue(metric)}</p>
-            </div>
-            <div
-              className={cn(
-                "flex items-center gap-1 px-2 py-1 rounded-md",
-                trendBgColor
-              )}
-            >
-              <TrendIcon className={cn("h-3 w-3", trendColor)} />
-              <span className={cn("text-xs font-medium", trendColor)}>
-                {Math.abs(metric.change)}%
-              </span>
-            </div>
+    <Card
+      className={cn(
+        "rounded-[24px] border-none shadow-[0_0_0_0.5px_rgba(0,0,0,0.1),_0_10px_20px_-5px_rgba(0,0,0,0.05),_0_1px_1px_0_rgba(0,0,0,0.05)] p-4 px-4",
+        className
+      )}
+    >
+      <CardContent className='p-0'>
+        <div className='space-y-4'>
+          <p className='text-sm font-medium text-[#63635E]'>{label}</p>
+          <div className='flex items-baseline gap-2'>
+            <p className='text-3xl font-semibold tracking-[-0.04em] text-text-[#21201C] dark:text-text-[#EEEEEC]'>
+              {formatValue(metric)}
+            </p>
+            <span className={cn("text-sm font-medium", trendColor)}>
+              {metric.isPositive ? "+" : "-"}
+              {Math.abs(metric.change)}%
+            </span>
           </div>
         </div>
       </CardContent>

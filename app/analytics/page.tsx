@@ -76,27 +76,29 @@ export default function AnalyticsPage() {
             <TabsTrigger value='broadcasts'>Broadcasts</TabsTrigger>
           </TabsList>
 
-          <TabsContent value='engagement' className='space-y-6'>
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-              <KPICard
-                label='Active Users'
-                metric={analyticsData.metrics.activeUsers}
-              />
-              <KPICard
-                label='Conversations'
-                metric={analyticsData.metrics.conversations}
-              />
-              <KPICard
-                label='Answered Questions'
-                metric={analyticsData.metrics.answeredQuestions}
-              />
-              <KPICard
-                label='Time Created'
-                metric={analyticsData.metrics.timeCreated}
-              />
-            </div>
+          <TabsContent value='engagement'>
+            <div className='space-y-2 bg-[#F6F6F5] dark:bg-[#111110] p-1 rounded-[28px]'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2'>
+                <KPICard
+                  label='Active Users'
+                  metric={analyticsData.metrics.activeUsers}
+                />
+                <KPICard
+                  label='Conversations'
+                  metric={analyticsData.metrics.conversations}
+                />
+                <KPICard
+                  label='Answered Questions'
+                  metric={analyticsData.metrics.answeredQuestions}
+                />
+                <KPICard
+                  label='Time Created'
+                  metric={analyticsData.metrics.timeCreated}
+                />
+              </div>
 
-            <StackedBarChart data={analyticsData.chartData} />
+              <StackedBarChart data={analyticsData.chartData} />
+            </div>
           </TabsContent>
 
           <TabsContent value='audience'>
