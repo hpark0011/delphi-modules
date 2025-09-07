@@ -12,7 +12,7 @@ export interface DateRange {
   period: PeriodType;
 }
 
-export type PeriodType = '1d' | '7d' | '30d';
+export type PeriodType = "1d" | "7d" | "30d";
 
 export interface MetricsData {
   activeUsers: MetricValue;
@@ -65,7 +65,7 @@ export interface SidebarUser {
   credits?: number;
 }
 
-export type TabType = 'insights' | 'audience' | 'actions';
+export type TabType = "engagement" | "audience" | "actions";
 
 export interface AnalyticsTab {
   id: TabType;

@@ -19,16 +19,16 @@ import {
   Bell,
   CreditCard,
   Home,
+  Video,
+  Brain,
   MessageSquare,
   Mic,
   Package,
-  Play,
   RadioTower,
   ShoppingBag,
   User,
   Users,
   Users2,
-  Video,
   Zap,
 } from "lucide-react";
 import Link from "next/link";
@@ -39,10 +39,9 @@ import { HeaderLogo } from "./header/header-ui";
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   home: Home,
   profile: User,
-  mind: Mic,
+  mind: Brain,
   voice: Mic,
   video: Video,
-  playground: Play,
   people: Users,
   conversations: MessageSquare,
   groups: Users2,
@@ -62,7 +61,6 @@ const navigation: NavSection[] = [
       { title: "Mind", href: "/mind", icon: "mind" },
       { title: "Voice", href: "/voice", icon: "voice" },
       { title: "Video", href: "/video", icon: "video" },
-      { title: "Playground", href: "/playground", icon: "playground" },
     ],
   },
   {

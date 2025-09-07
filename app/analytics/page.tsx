@@ -67,9 +67,9 @@ export default function AnalyticsPage() {
           />
         </div>
 
-        <Tabs defaultValue='insights' className='w-full'>
+        <Tabs defaultValue='engagement' className='w-full'>
           <TabsList className='grid w-fit grid-cols-3 mb-6'>
-            <TabsTrigger value='insights'>Insights</TabsTrigger>
+            <TabsTrigger value='engagement'>Engagement</TabsTrigger>
             <TabsTrigger value='audience'>Audience</TabsTrigger>
             <TabsTrigger value='actions' disabled className='relative'>
               Actions
@@ -77,7 +77,7 @@ export default function AnalyticsPage() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value='insights' className='space-y-6'>
+          <TabsContent value='engagement' className='space-y-6'>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
               <KPICard
                 label='Active Users'
