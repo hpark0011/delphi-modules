@@ -1,5 +1,7 @@
 "use client";
 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import * as React from "react";
 import {
   Bar,
@@ -9,11 +11,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-  Cell,
-  Rectangle,
 } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
 interface StackedQuestionsChartProps {
   data: Array<{

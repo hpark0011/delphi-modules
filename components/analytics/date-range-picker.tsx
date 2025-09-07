@@ -1,9 +1,6 @@
 "use client";
 
-import * as React from "react";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { DateRange as CalendarDateRange } from "react-day-picker";
+import type { DateRange, PeriodType } from "@/app/analytics/types";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -13,7 +10,9 @@ import {
 } from "@/components/ui/popover";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
-import type { DateRange, PeriodType } from "@/app/analytics/types";
+import { format } from "date-fns";
+import * as React from "react";
+import { DateRange as CalendarDateRange } from "react-day-picker";
 
 interface DateRangePickerProps {
   dateRange: DateRange;
