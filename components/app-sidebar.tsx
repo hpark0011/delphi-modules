@@ -96,7 +96,7 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar className='border-r-0 bg-background'>
+    <Sidebar variant='inset' className='border-r-0'>
       <SidebarHeader>
         <div className='flex items-center gap-3 px-3 py-4'>
           <div className='flex items-center gap-2'>
@@ -166,12 +166,8 @@ export function AppSidebar() {
       <SidebarFooter className='border-t'>
         <div className='flex items-center justify-between px-3 py-3'>
           <div className='flex items-center gap-2'>
-            <div className='h-2 w-2 bg-green-500 rounded-full'></div>
             <span className='text-gray-400 text-sm'>{user.credits}</span>
           </div>
-          <button className='text-gray-400 hover:text-white'>
-            <Play className='h-4 w-4' />
-          </button>
         </div>
       </SidebarFooter>
       <SidebarRail />
