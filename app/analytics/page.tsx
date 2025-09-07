@@ -44,13 +44,13 @@ export default function AnalyticsPage() {
     return (
       <div className='p-8'>
         <div className='animate-pulse'>
-          <div className='h-8 bg-gray-200 rounded w-32 mb-8'></div>
+          <div className='h-8 rounded w-32 mb-8'></div>
           <div className='grid grid-cols-4 gap-4 mb-8'>
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className='h-32 bg-gray-200 rounded'></div>
+              <div key={i} className='h-32  rounded'></div>
             ))}
           </div>
-          <div className='h-96 bg-gray-200 rounded'></div>
+          <div className='h-96  rounded'></div>
         </div>
       </div>
     );
@@ -60,7 +60,7 @@ export default function AnalyticsPage() {
     <div className='p-8'>
       <div className='mb-8'>
         <div className='flex items-center justify-between mb-6'>
-          <h1 className='text-2xl font-semibold text-gray-900'>Analytics</h1>
+          <h1 className='text-2xl font-semibold'>Analytics</h1>
           <DateRangePicker
             dateRange={dateRange}
             onDateRangeChange={handleDateRangeChange}
@@ -101,15 +101,15 @@ export default function AnalyticsPage() {
           </TabsContent>
 
           <TabsContent value='audience'>
-            <div className='py-12 text-center text-gray-500'>
+            <div className='py-12 text-center'>
               <p className='text-lg font-medium mb-2'>Audience Analytics</p>
               <p className='text-sm'>Coming soon...</p>
             </div>
           </TabsContent>
 
           <TabsContent value='actions'>
-            <div className='py-12 text-center text-gray-500'>
-              <Lock className='h-12 w-12 mx-auto mb-4 text-gray-400' />
+            <div className='py-12 text-center'>
+              <Lock className='h-12 w-12 mx-auto mb-4' />
               <p className='text-lg font-medium mb-2'>Actions Analytics</p>
               <p className='text-sm'>This feature is locked</p>
             </div>

@@ -35,8 +35,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import type { NavSection, SidebarUser } from "@/app/analytics/types";
-import Image from "next/image";
-import delphiLogo from "@/public/delphi.svg";
 import { HeaderLogo } from "./header/header-ui";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -99,7 +97,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar className='border-r-0 bg-background'>
-      <SidebarHeader className='bg-background border-b border-gray-800'>
+      <SidebarHeader>
         <div className='flex items-center gap-3 px-3 py-4'>
           <div className='flex items-center gap-2'>
             <HeaderLogo />
@@ -112,17 +110,11 @@ export function AppSidebar() {
           </Avatar>
         </div>
       </SidebarHeader>
-      <SidebarContent className='bg-black'>
+      <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                className={cn(
-                  "text-gray-400 hover:text-white hover:bg-gray-900",
-                  pathname === "/" && "bg-gray-900 text-white"
-                )}
-              >
+              <SidebarMenuButton asChild>
                 <Link href='/'>
                   <Home className='h-4 w-4' />
                   <span>Home</span>
@@ -130,13 +122,7 @@ export function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                className={cn(
-                  "text-gray-400 hover:text-white hover:bg-gray-900",
-                  pathname === "/notifications" && "bg-gray-900 text-white"
-                )}
-              >
+              <SidebarMenuButton asChild>
                 <Link href='/notifications'>
                   <Bell className='h-4 w-4' />
                   <span>Notifications</span>
@@ -158,15 +144,7 @@ export function AppSidebar() {
 
                   return (
                     <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton
-                        asChild
-                        disabled={item.disabled}
-                        className={cn(
-                          "text-gray-400 hover:text-white hover:bg-gray-900 relative",
-                          isActive &&
-                            "bg-gray-900 text-white before:absolute before:left-0 before:top-0 before:h-full before:w-0.5 before:bg-white"
-                        )}
-                      >
+                      <SidebarMenuButton asChild disabled={item.disabled}>
                         <Link href={item.href}>
                           {Icon && <Icon className='h-4 w-4' />}
                           <span>{item.title}</span>
@@ -185,7 +163,7 @@ export function AppSidebar() {
           </SidebarGroup>
         ))}
       </SidebarContent>
-      <SidebarFooter className='bg-black border-t border-gray-800'>
+      <SidebarFooter className='border-t'>
         <div className='flex items-center justify-between px-3 py-3'>
           <div className='flex items-center gap-2'>
             <div className='h-2 w-2 bg-green-500 rounded-full'></div>
