@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import type {
   MetricValue,
   QuestionMetric,
@@ -28,9 +29,16 @@ function isTimeMetric(
 
 function formatValue(
   metric: MetricValue | QuestionMetric | TimeMetric
-): string {
+): string | React.ReactNode {
   if (isQuestionMetric(metric)) {
-    return `${metric.answered}/${metric.total}`;
+    return (
+      <>
+        <span>{metric.answered}</span>
+        <span className='text-sm text-[#8D8D86]'>
+          <span className='mx-[1px]'>/</span> {metric.total}
+        </span>
+      </>
+    );
   }
 
   if (isTimeMetric(metric)) {

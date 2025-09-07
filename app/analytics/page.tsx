@@ -1,23 +1,21 @@
 "use client";
 
-import * as React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Lock } from "lucide-react";
-import { KPICard } from "@/components/analytics/kpi-card";
+import type { AnalyticsData, DateRange } from "@/app/analytics/types";
+import { DashboardMainWrapper } from "@/components/analytics/dashboard-ui";
 import { DateRangePicker } from "@/components/analytics/date-range-picker";
-import { StackedBarChart } from "@/components/analytics/stacked-bar-chart";
+import { KPICard } from "@/components/analytics/kpi-card";
 import { LineChartComponent } from "@/components/analytics/line-chart";
-import { BarChartComponent } from "@/components/analytics/bar-chart";
 import { StackedQuestionsChart } from "@/components/analytics/stacked-questions-chart";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   fetchAnalyticsData,
   getInitialDateRange,
 } from "@/lib/analytics-service";
-import type { AnalyticsData, DateRange } from "@/app/analytics/types";
-import { DashboardMainWrapper } from "@/components/analytics/dashboard-ui";
+import { Lock } from "lucide-react";
+import * as React from "react";
 
 export const Divider = () => {
-  return <div className='w-[2px] h-16 bg-[#E2E1DE] dark:bg-[#21201C]' />;
+  return <div className='w-[2px] h-16 bg-[#EBEBE9] dark:bg-[#21201C]' />;
 };
 
 export default function AnalyticsPage() {
@@ -89,7 +87,7 @@ export default function AnalyticsPage() {
                 <TabsList className='flex w-full gap-1 h-auto p-0 justify-between'>
                   <TabsTrigger
                     value='activeUsers'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-neutral-200 dark:hover:bg-neutral-900'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Active Users'
@@ -99,7 +97,7 @@ export default function AnalyticsPage() {
                   <Divider />
                   <TabsTrigger
                     value='conversations'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-neutral-200 dark:hover:bg-neutral-900'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Conversations'
@@ -109,7 +107,7 @@ export default function AnalyticsPage() {
                   <Divider />
                   <TabsTrigger
                     value='answeredQuestions'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-neutral-200 dark:hover:bg-neutral-900'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Answered Questions'
@@ -119,7 +117,7 @@ export default function AnalyticsPage() {
                   <Divider />
                   <TabsTrigger
                     value='timeCreated'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-neutral-200 dark:hover:bg-neutral-900'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Time Created'
