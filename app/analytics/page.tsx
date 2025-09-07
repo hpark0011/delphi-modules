@@ -4,7 +4,7 @@ import type { AnalyticsData, DateRange } from "@/app/analytics/types";
 import { DashboardMainWrapper } from "@/components/analytics/dashboard-ui";
 import { DateRangePicker } from "@/components/analytics/date-range-picker";
 import { KPICard } from "@/components/analytics/kpi-card";
-import { LineChartComponent } from "@/components/analytics/line-chart";
+import { AreaChartComponent } from "@/components/analytics/area-chart";
 import { StackedQuestionsChart } from "@/components/analytics/stacked-questions-chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -127,7 +127,7 @@ export default function AnalyticsPage() {
                 </TabsList>
 
                 <TabsContent value='activeUsers'>
-                  <LineChartComponent
+                  <AreaChartComponent
                     data={analyticsData.activeUsersChart}
                     title='Active Users Trend'
                     color='#22c55e'
@@ -135,7 +135,7 @@ export default function AnalyticsPage() {
                 </TabsContent>
 
                 <TabsContent value='conversations'>
-                  <LineChartComponent
+                  <AreaChartComponent
                     data={analyticsData.conversationsChart}
                     title='Conversations Trend'
                     color='#3b82f6'
@@ -150,7 +150,7 @@ export default function AnalyticsPage() {
                 </TabsContent>
 
                 <TabsContent value='timeCreated'>
-                  <LineChartComponent
+                  <AreaChartComponent
                     data={analyticsData.timeCreatedChart}
                     title='Time Created Trend'
                     color='#8b5cf6'

@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import {
-  Line,
-  LineChart,
+  Area,
+  AreaChart,
   CartesianGrid,
   ResponsiveContainer,
   Tooltip,
@@ -13,7 +13,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-interface LineChartProps {
+interface AreaChartProps {
   data: Array<{
     date: string;
     value: number;
@@ -47,13 +47,15 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   );
 };
 
-export function LineChartComponent({
+export function AreaChartComponent({
   data,
   title,
   color = "#ea580c",
   className,
   yAxisDomain,
-}: LineChartProps) {
+}: AreaChartProps) {
+  const gradientId = React.useId();
+
   return (
     <Card className={cn("rounded-[24px] border-none ", className)}>
       <CardHeader className='pb-2'>
@@ -63,10 +65,17 @@ export function LineChartComponent({
       </CardHeader>
       <CardContent className='p-6 pt-0'>
         <ResponsiveContainer width='100%' height={408}>
-          <LineChart
+          <AreaChart
             data={data}
             margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
           >
+            <defs>
+              <linearGradient id={gradientId} x1='0' y1='0' x2='0' y2='1'>
+                <stop offset='0%' stopColor={color} stopOpacity={0.5} />
+                <stop offset='100%' stopColor={color} stopOpacity={0} />
+              </linearGradient>
+            </defs>
+
             <CartesianGrid
               strokeDasharray='3 3'
               vertical={false}
@@ -92,15 +101,15 @@ export function LineChartComponent({
               cursor={{ stroke: "rgba(0, 0, 0, 0.1)" }}
             />
 
-            <Line
+            <Area
               type='monotone'
               dataKey='value'
               stroke={color}
               strokeWidth={2}
-              dot={{ fill: color, r: 3 }}
-              activeDot={{ r: 5 }}
+              fill={`url(#${gradientId})`}
+              fillOpacity={1}
             />
-          </LineChart>
+          </AreaChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>

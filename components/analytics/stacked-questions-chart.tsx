@@ -50,7 +50,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
       <p className='text-sm font-medium mb-2'>{label}</p>
       <div className='space-y-1'>
         <div className='flex items-center gap-2'>
-          <div className='w-3 h-3 rounded-sm bg-orange-500' />
+          <div className='w-3 h-3 rounded-sm bg-[#FF713B]' />
           <span className='text-xs'>Answered</span>
           <span className='text-xs font-semibold ml-auto'>{answered}</span>
         </div>
@@ -68,7 +68,7 @@ const CustomLegend = () => {
   return (
     <div className='flex items-center gap-6 justify-center mt-4'>
       <div className='flex items-center gap-2'>
-        <div className='w-3 h-3 rounded-sm bg-orange-500' />
+        <div className='w-3 h-3 rounded-sm bg-[#FF713B]' />
         <span className='text-sm'>Answered Questions</span>
       </div>
       <div className='flex items-center gap-2'>
@@ -80,7 +80,7 @@ const CustomLegend = () => {
               width='4'
               height='4'
             >
-              <path d='M0,4 L4,0' stroke='#fed7aa' strokeWidth='0.5' />
+              <path d='M0,4 L4,0' stroke='#AE7830' strokeWidth='0.5' />
             </pattern>
           </defs>
           <rect width='12' height='12' fill='#fed7aa' />
@@ -95,16 +95,31 @@ const CustomLegend = () => {
 const STACK_GAP_PX = 2;
 
 const TopStackShape = (props: any) => {
-  const { height } = props;
-  const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX / 2);
-  return <Rectangle {...props} height={adjustedHeight} />;
+  const { x, y, width, height, fill } = props;
+  // Reduce height by the gap to create space at the bottom
+  const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX);
+
+  return (
+    <g>
+      <rect
+        x={x}
+        y={y}
+        width={width}
+        height={adjustedHeight}
+        fill={fill}
+        rx={8}
+        ry={8}
+      />
+    </g>
+  );
 };
 
 const BottomStackShape = (props: any) => {
-  const { y, height } = props;
-  const adjustedY = (y ?? 0) + STACK_GAP_PX / 2;
-  const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX / 2);
-  return <Rectangle {...props} y={adjustedY} height={adjustedHeight} />;
+  const { x, y, width, height, fill } = props;
+  // No adjustment needed for bottom bar
+  return (
+    <rect x={x} y={y} width={width} height={height} fill={fill} rx={8} ry={8} />
+  );
 };
 
 export function StackedQuestionsChart({
@@ -124,7 +139,7 @@ export function StackedQuestionsChart({
         >
           <path
             d="M0,4 L4,0"
-            stroke="#c2846a"
+            stroke="#AE7830"
             strokeWidth="0.5"
           />
         </pattern>
@@ -167,9 +182,10 @@ export function StackedQuestionsChart({
                 width='4'
                 height='4'
               >
+                <rect width='4' height='4' fill='#fed7aa' />
                 <path
                   d='M0,4 L4,0'
-                  stroke='#E7D6C1'
+                  stroke='#AE7830'
                   strokeWidth='0.5'
                   fill='none'
                 />
@@ -204,27 +220,14 @@ export function StackedQuestionsChart({
               dataKey='answered'
               stackId='a'
               fill='#ea580c'
-              radius={[8, 8, 8, 8]}
-              shape={TopStackShape}
+              shape={BottomStackShape}
             />
             <Bar
               dataKey='unanswered'
               stackId='a'
-              radius={[8, 8, 8, 8]}
-              shape={BottomStackShape}
-            >
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill='url(#stripes)'
-                  style={{
-                    fill: "#E7D6C1",
-                    borderRadius: "8px",
-                    marginTop: "4px",
-                  }}
-                />
-              ))}
-            </Bar>
+              fill='url(#stripes)'
+              shape={TopStackShape}
+            />
           </BarChart>
         </ResponsiveContainer>
         <CustomLegend />
