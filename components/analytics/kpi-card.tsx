@@ -62,7 +62,7 @@ export function KPICard({ label, metric, className }: KPICardProps) {
         <div className='space-y-4'>
           <p className='text-sm font-medium text-[#63635E]'>{label}</p>
           <div className='flex items-baseline gap-2'>
-            <p className='text-3xl font-semibold tracking-[-0.04em] text-text-[#21201C] dark:text-text-[#EEEEEC]'>
+            <p className='text-3xl tracking-[-0.04em] text-text-[#21201C] dark:text-text-[#EEEEEC]'>
               {formatValue(metric)}
             </p>
             <span className={cn("text-sm font-medium", trendColor)}>

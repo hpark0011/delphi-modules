@@ -127,7 +127,7 @@ export function StackedBarChart({ data, className }: StackedBarChartProps) {
       )}
     >
       <CardContent className='p-6'>
-        <ResponsiveContainer width='100%' height={300}>
+        <ResponsiveContainer width='100%' height='100%' minHeight={408}>
           <BarChart
             data={data}
             margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
