@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
   Cell,
+  Rectangle,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -91,6 +92,21 @@ const CustomLegend = () => {
   );
 };
 
+const STACK_GAP_PX = 2;
+
+const TopStackShape = (props: any) => {
+  const { height } = props;
+  const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX / 2);
+  return <Rectangle {...props} height={adjustedHeight} />;
+};
+
+const BottomStackShape = (props: any) => {
+  const { y, height } = props;
+  const adjustedY = (y ?? 0) + STACK_GAP_PX / 2;
+  const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX / 2);
+  return <Rectangle {...props} y={adjustedY} height={adjustedHeight} />;
+};
+
 export function StackedQuestionsChart({
   data,
   title,
@@ -153,7 +169,7 @@ export function StackedQuestionsChart({
               >
                 <path
                   d='M0,4 L4,0'
-                  stroke='#c2846a'
+                  stroke='#E7D6C1'
                   strokeWidth='0.5'
                   fill='none'
                 />
@@ -188,14 +204,24 @@ export function StackedQuestionsChart({
               dataKey='answered'
               stackId='a'
               fill='#ea580c'
-              radius={[0, 0, 0, 0]}
+              radius={[8, 8, 8, 8]}
+              shape={TopStackShape}
             />
-            <Bar dataKey='unanswered' stackId='a' radius={[4, 4, 0, 0]}>
+            <Bar
+              dataKey='unanswered'
+              stackId='a'
+              radius={[8, 8, 8, 8]}
+              shape={BottomStackShape}
+            >
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill='url(#stripes)'
-                  style={{ fill: "#fed7aa" }}
+                  style={{
+                    fill: "#E7D6C1",
+                    borderRadius: "8px",
+                    marginTop: "4px",
+                  }}
                 />
               ))}
             </Bar>
