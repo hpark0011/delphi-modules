@@ -120,19 +120,19 @@ export function DateRangePicker({
       >
         <ToggleGroupItem
           value='1d'
-          className='h-8 px-3 text-[13px] data-[state=on]:bg-[#E9E8E6] data-[state=on]:text-[#21201C] rounded-full'
+          className='h-8 px-3 text-[13px] data-[state=on]:bg-[#F1F0EF] data-[state=on]:text-[#21201C] rounded-full'
         >
           1d
         </ToggleGroupItem>
         <ToggleGroupItem
           value='7d'
-          className='h-8 px-3 text-[13px] data-[state=on]:bg-[#E9E8E6] data-[state=on]:text-[#21201C] rounded-full'
+          className='h-8 px-3 text-[13px] data-[state=on]:bg-[#F1F0EF] data-[state=on]:text-[#21201C] rounded-full'
         >
           7d
         </ToggleGroupItem>
         <ToggleGroupItem
           value='30d'
-          className='h-8 px-3 text-[13px] data-[state=on]:bg-[#E9E8E6] data-[state=on]:text-[#21201C] rounded-full'
+          className='h-8 px-3 text-[13px] data-[state=on]:bg-[#F1F0EF] data-[state=on]:text-[#21201C] rounded-full'
         >
           30d
         </ToggleGroupItem>
