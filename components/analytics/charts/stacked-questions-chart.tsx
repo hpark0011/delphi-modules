@@ -24,9 +24,7 @@ import {
 const CHART_COLORS = {
   answered: "#FF713B",
   // Primary fill used for unanswered legend tile and pattern background
-  unanswered: "rgba(255, 113, 59, 0.7)",
-  // Tooltip chip color for unanswered for adequate contrast
-  unansweredTooltip: "rgb(254, 215, 170)",
+  unanswered: "rgba(103, 30, 15, 0.9)",
   // Stroke used in hatch pattern where applicable
   unansweredPatternStroke: "#AE7830",
 } as const;
@@ -70,7 +68,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
           value={answered}
         />
         <ChartTooltipItem
-          color={CHART_COLORS.unansweredTooltip}
+          color={CHART_COLORS.unanswered}
           label='Unanswered'
           value={unanswered}
         />
