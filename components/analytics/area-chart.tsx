@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTheme } from "next-themes";
 import {
   Area,
   AreaChart,
@@ -12,6 +13,13 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn, formatCompactNumber } from "@/lib/utils";
+import {
+  ChartTooltipRoot,
+  ChartTooltipLabel,
+  ChartTooltipValue,
+  ChartTooltipChange,
+  ChartTooltipContent,
+} from "./chart-tooltip";
 
 interface AreaChartProps {
   data: Array<{
@@ -24,30 +32,7 @@ interface AreaChartProps {
   yAxisDomain?: [number, number];
 }
 
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: Array<{
-    value: number;
-  }>;
-  label?: string;
-}
-
-const CustomTooltip: React.FC<CustomTooltipProps> = ({
-  active,
-  payload,
-  label,
-}) => {
-  if (!active || !payload || !payload.length) return null;
-
-  return (
-    <div className='bg-gray-900 text-white p-3 rounded-lg shadow-lg border border-gray-700'>
-      <p className='text-sm font-medium mb-1'>{label}</p>
-      <p className='text-lg font-semibold'>
-        {formatCompactNumber(payload[0].value)}
-      </p>
-    </div>
-  );
-};
+// Custom tooltip is defined inside the component to access the series data
 
 export function AreaChartComponent({
   data,
@@ -57,6 +42,44 @@ export function AreaChartComponent({
   yAxisDomain,
 }: AreaChartProps) {
   const gradientId = React.useId();
+  const { theme, resolvedTheme } = useTheme();
+  const isDark = (resolvedTheme || theme) === "dark";
+
+  interface CustomTooltipProps {
+    active?: boolean;
+    payload?: Array<{
+      value: number;
+      payload?: { date?: string; value?: number };
+    }>;
+    label?: string;
+  }
+
+  const CustomTooltip: React.FC<CustomTooltipProps> = ({
+    active,
+    payload,
+    label,
+  }) => {
+    if (!active || !payload || !payload.length) return null;
+
+    const currentValue = payload[0].value;
+    const currentIndex =
+      typeof label === "string" ? data.findIndex((d) => d.date === label) : -1;
+    const previousValue =
+      currentIndex > 0 ? data[currentIndex - 1]?.value : undefined;
+
+    return (
+      <ChartTooltipRoot className='pb-1.5'>
+        <ChartTooltipLabel label={label || ""} />
+        <ChartTooltipContent>
+          <ChartTooltipValue value={currentValue} />
+          <ChartTooltipChange
+            currentValue={currentValue}
+            previousValue={previousValue}
+          />
+        </ChartTooltipContent>
+      </ChartTooltipRoot>
+    );
+  };
 
   return (
     <Card className={cn("rounded-[24px] border-none p-0", className)}>
@@ -79,16 +102,16 @@ export function AreaChartComponent({
             </defs>
 
             <CartesianGrid
-              strokeDasharray='3 3'
+              strokeDasharray='4 4'
               vertical={false}
-              stroke='#f0f0f0'
+              stroke={isDark ? "#21201C" : "#F1F0EF"}
             />
 
             <XAxis
               dataKey='date'
               tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
-              axisLine={{ stroke: "#e5e7eb" }}
+              axisLine={{ stroke: isDark ? "#21201C" : "#F1F0EF" }}
               tickMargin={8}
             />
 
