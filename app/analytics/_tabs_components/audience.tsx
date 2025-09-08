@@ -73,7 +73,7 @@ export function AudienceTab() {
               </span>
               <span className='font-normal text-[#8D8D86]'>Messages</span>
             </ModuleCardHeader>
-            <ModuleCardContent>
+            <ModuleCardContent className='pt-0'>
               {mostActiveUsers.map((user) => (
                 <UserListItem
                   key={user.id}
@@ -94,7 +94,7 @@ export function AudienceTab() {
               </div>
             </ModuleCardContent>
           </ModuleCard>
-          <ModuleCard className='bg-white w-full rounded-[24px] p-4'>
+          <ModuleCard className='w-full rounded-[24px]'>
             <ModuleCardHeader>Languages</ModuleCardHeader>
           </ModuleCard>
         </div>
