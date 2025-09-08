@@ -12,6 +12,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import {
+  ChartTooltipRootAlt,
+  ChartTooltipLabel,
+  ChartTooltipItem,
+  ChartTooltipItems,
+} from "./chart-tooltip";
 
 interface StackedQuestionsChartProps {
   data: Array<{
@@ -19,7 +25,6 @@ interface StackedQuestionsChartProps {
     answered: number;
     unanswered: number;
   }>;
-  title: string;
   className?: string;
 }
 
@@ -44,25 +49,21 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
     payload.find((p) => p.dataKey === "unanswered")?.value || 0;
 
   return (
-    <div className='bg-gray-900 text-white p-3 rounded-lg shadow-lg border border-gray-700'>
-      <p className='text-sm font-medium mb-2'>{label}</p>
-      <div className='space-y-1'>
-        <div className='flex items-center gap-2'>
-          <div className='w-3 h-3 rounded-sm bg-[#FF713B]' />
-          <span className='text-xs'>Answered</span>
-          <span className='text-xs font-semibold ml-auto'>
-            {formatCompactNumber(answered)}
-          </span>
-        </div>
-        <div className='flex items-center gap-2'>
-          <div className='w-3 h-3 rounded-sm bg-orange-200' />
-          <span className='text-xs'>Unanswered</span>
-          <span className='text-xs font-semibold ml-auto'>
-            {formatCompactNumber(unanswered)}
-          </span>
-        </div>
-      </div>
-    </div>
+    <ChartTooltipRootAlt>
+      <ChartTooltipLabel label={label || ""} className="mb-2" />
+      <ChartTooltipItems>
+        <ChartTooltipItem
+          color="#FF713B"
+          label="Answered"
+          value={answered}
+        />
+        <ChartTooltipItem
+          color="rgb(254 215 170)"
+          label="Unanswered"
+          value={unanswered}
+        />
+      </ChartTooltipItems>
+    </ChartTooltipRootAlt>
   );
 };
 
@@ -139,7 +140,6 @@ const BottomStackShape = (props: BarShapeProps) => {
 
 export function StackedQuestionsChart({
   data,
-  title,
   className,
 }: StackedQuestionsChartProps) {
   React.useEffect(() => {
@@ -183,7 +183,6 @@ export function StackedQuestionsChart({
       <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0 border-[#F1F0EF] dark:border-[#21201C] border-b'>
         <CardTitle className='text-sm font-medium text-muted-foreground'>
           <CustomLegend />
-          {/* {title} */}
         </CardTitle>
       </CardHeader>
       <CardContent className='p-0 relative pb-4'>

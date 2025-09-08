@@ -144,7 +144,6 @@ export default function AnalyticsPage() {
                 <TabsContent value='answeredQuestions'>
                   <StackedQuestionsChart
                     data={analyticsData.answeredQuestionsChart}
-                    title='Answered Questions'
                   />
                 </TabsContent>
 

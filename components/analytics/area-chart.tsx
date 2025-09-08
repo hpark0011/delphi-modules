@@ -12,6 +12,13 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn, formatCompactNumber } from "@/lib/utils";
+import {
+  ChartTooltipRoot,
+  ChartTooltipLabel,
+  ChartTooltipValue,
+  ChartTooltipChange,
+  ChartTooltipContent,
+} from "./chart-tooltip";
 
 interface AreaChartProps {
   data: Array<{
@@ -57,37 +64,17 @@ export function AreaChartComponent({
     const previousValue =
       currentIndex > 0 ? data[currentIndex - 1]?.value : undefined;
 
-    let percentageText = "0%";
-    let isPositive = false;
-    let isNegative = false;
-
-    if (typeof previousValue === "number" && previousValue !== 0) {
-      const rawChange = ((currentValue - previousValue) / previousValue) * 100;
-      const rounded = Math.abs(rawChange) < 0.1 ? 0 : rawChange;
-      const sign = rounded > 0 ? "+" : rounded < 0 ? "-" : "";
-      percentageText = `${sign}${Math.abs(rounded).toFixed(1)}%`;
-      isPositive = rounded > 0;
-      isNegative = rounded < 0;
-    }
-
-    const percentageClass = isPositive
-      ? "text-[var(--color-trend-positive)]"
-      : isNegative
-        ? "text-[var(--color-trend-negative)]"
-        : "text-[var(--color-trend-neutral)]";
-
     return (
-      <div className='bg-[#21201C] px-3 py-2 pb-1.5 rounded-[12px] shadow-xl border border-[#3A3935]/5'>
-        <p className='text-sm font-medium mb-1 text-[#8D8D86]'>{label}</p>
-        <div className='flex items-baseline gap-2'>
-          <p className='text-lg font-medium text-white'>
-            {formatCompactNumber(currentValue)}
-          </p>
-          <p className={cn("text-sm font-medium", percentageClass)}>
-            {percentageText}
-          </p>
-        </div>
-      </div>
+      <ChartTooltipRoot>
+        <ChartTooltipLabel label={label || ""} />
+        <ChartTooltipContent>
+          <ChartTooltipValue value={currentValue} />
+          <ChartTooltipChange
+            currentValue={currentValue}
+            previousValue={previousValue}
+          />
+        </ChartTooltipContent>
+      </ChartTooltipRoot>
     );
   };
 
