@@ -90,8 +90,8 @@ const CustomLegend = () => {
               />
             </pattern>
           </defs>
-          <rect width='12' height='12' fill='#fed7aa' />
-          <rect width='12' height='12' fill='url(#diagonalHatch)' />
+          <rect width='12' height='12' fill='rgba(255, 113, 59, 0.7)' />
+          {/* <rect width='12' height='12' fill='url(#diagonalHatch)' /> */}
         </svg>
         <span className='text-sm'>Unanswered Questions</span>
       </div>
@@ -199,14 +199,14 @@ export function StackedQuestionsChart({
                 width='4'
                 height='4'
               >
-                <rect width='4' height='4' fill='#E7D6C1' />
-                <path
+                <rect width='4' height='4' fill='rgba(255, 113, 59, 0.7)' />
+                {/* <path
                   d='M0,4 L4,0'
                   stroke='#D6BA95'
                   strokeWidth='1'
                   fill='none'
                   strokeLinecap='square'
-                />
+                /> */}
               </pattern>
             </defs>
 
@@ -218,13 +218,14 @@ export function StackedQuestionsChart({
 
             <XAxis
               dataKey='date'
-              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
               axisLine={{ stroke: "#e5e7eb" }}
+              tickMargin={8}
             />
 
             <YAxis
-              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
               axisLine={{ stroke: "transparent" }}
               tickFormatter={(v) => formatCompactNumber(v as number)}

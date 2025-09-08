@@ -86,17 +86,19 @@ export function AreaChartComponent({
 
             <XAxis
               dataKey='date'
-              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
               axisLine={{ stroke: "#e5e7eb" }}
+              tickMargin={8}
             />
 
             <YAxis
-              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
               axisLine={{ stroke: "transparent" }}
               domain={yAxisDomain}
               tickFormatter={(v) => formatCompactNumber(v as number)}
+              tickMargin={4}
             />
 
             <Tooltip
