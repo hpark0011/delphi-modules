@@ -26,6 +26,7 @@ interface StackedQuestionsChartProps {
     answered: number;
     unanswered: number;
   }>;
+  title?: string;
   className?: string;
 }
 
@@ -137,6 +138,7 @@ const BottomStackShape = (props: BarShapeProps) => {
 
 export function StackedQuestionsChart({
   data,
+  title,
   className,
 }: StackedQuestionsChartProps) {
   const { theme, resolvedTheme } = useTheme();
@@ -180,9 +182,10 @@ export function StackedQuestionsChart({
       )}
     >
       <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0 border-[#F1F0EF] dark:border-[#21201C] border-b'>
-        <CardTitle className='text-sm font-medium text-muted-foreground'>
-          <CustomLegend />
+        <CardTitle className='text-sm font-medium text-muted-foreground p-0'>
+          {title || "Stacked Questions"}
         </CardTitle>
+        <CustomLegend />
       </CardHeader>
       <CardContent className='p-0 relative pb-4'>
         <ResponsiveContainer width='100%' height={452}>

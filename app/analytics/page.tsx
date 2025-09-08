@@ -7,13 +7,16 @@ import {
 } from "@/components/analytics/dashboard-ui";
 import { DateRangePicker } from "@/components/analytics/date-range-picker";
 import { KPICard } from "@/components/analytics/kpi-card";
-import { AreaChartComponent } from "@/components/analytics/area-chart";
-import { StackedQuestionsChart } from "@/components/analytics/stacked-questions-chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   fetchAnalyticsData,
   getInitialDateRange,
 } from "@/lib/analytics-service";
+import { getAllMetricConfigs } from "@/lib/analytics/metric-configs";
+import { ActiveUsersMetric } from "@/components/analytics/metrics/ActiveUsersMetric";
+import { ConversationsMetric } from "@/components/analytics/metrics/ConversationsMetric";
+import { AnsweredQuestionsMetric } from "@/components/analytics/metrics/AnsweredQuestionsMetric";
+import { TimeCreatedMetric } from "@/components/analytics/metrics/TimeCreatedMetric";
 import { Lock } from "lucide-react";
 import * as React from "react";
 
@@ -24,6 +27,7 @@ export default function AnalyticsPage() {
     getInitialDateRange()
   );
   const [isLoading, setIsLoading] = React.useState(true);
+  const metricConfigs = getAllMetricConfigs();
 
   React.useEffect(() => {
     const loadData = async () => {
@@ -43,6 +47,43 @@ export default function AnalyticsPage() {
 
   const handleDateRangeChange = (newRange: DateRange) => {
     setDateRange(newRange);
+  };
+
+  const handleRetry = () => {
+    const loadData = async () => {
+      setIsLoading(true);
+      try {
+        const data = await fetchAnalyticsData(dateRange);
+        setAnalyticsData(data);
+      } catch (error) {
+        console.error("Failed to fetch analytics data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadData();
+  };
+
+  const renderMetricComponent = (metricId: string) => {
+    const props = {
+      dateRange,
+      analyticsData,
+      globalLoading: isLoading,
+      onRetry: handleRetry,
+    };
+
+    switch (metricId) {
+      case "activeUsers":
+        return <ActiveUsersMetric {...props} />;
+      case "conversations":
+        return <ConversationsMetric {...props} />;
+      case "answeredQuestions":
+        return <AnsweredQuestionsMetric {...props} />;
+      case "timeCreated":
+        return <TimeCreatedMetric {...props} />;
+      default:
+        return null;
+    }
   };
 
   if (isLoading || !analyticsData) {
@@ -84,76 +125,28 @@ export default function AnalyticsPage() {
             <div className='bg-[#F6F6F5] dark:bg-[#111110] rounded-[28px] p-1'>
               <Tabs defaultValue='activeUsers' className='w-full'>
                 <TabsList className='flex w-full gap-1 h-auto p-0 justify-between'>
-                  <TabsTrigger
-                    value='activeUsers'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Active Users'
-                      metric={analyticsData.metrics.activeUsers}
-                    />
-                  </TabsTrigger>
-                  <Divider />
-                  <TabsTrigger
-                    value='conversations'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Conversations'
-                      metric={analyticsData.metrics.conversations}
-                    />
-                  </TabsTrigger>
-                  <Divider />
-                  <TabsTrigger
-                    value='answeredQuestions'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Answered Questions'
-                      metric={analyticsData.metrics.answeredQuestions}
-                    />
-                  </TabsTrigger>
-                  <Divider />
-                  <TabsTrigger
-                    value='timeCreated'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Time Created'
-                      metric={analyticsData.metrics.timeCreated}
-                    />
-                  </TabsTrigger>
+                  {metricConfigs.map((config, index) => (
+                    <React.Fragment key={config.id}>
+                      <TabsTrigger
+                        value={config.id}
+                        className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
+                      >
+                        <KPICard
+                          label={config.label}
+                          metric={analyticsData.metrics[config.id]}
+                        />
+                      </TabsTrigger>
+                      {index < metricConfigs.length - 1 && <Divider />}
+                    </React.Fragment>
+                  ))}
                 </TabsList>
 
-                <TabsContent value='activeUsers'>
-                  <AreaChartComponent
-                    data={analyticsData.activeUsersChart}
-                    title='Active Users'
-                    color='#22c55e'
-                  />
-                </TabsContent>
+                {metricConfigs.map((config) => (
+                  <TabsContent key={config.id} value={config.id}>
+                    {renderMetricComponent(config.id)}
+                  </TabsContent>
+                ))}
 
-                <TabsContent value='conversations'>
-                  <AreaChartComponent
-                    data={analyticsData.conversationsChart}
-                    title='Conversations'
-                    color='#3b82f6'
-                  />
-                </TabsContent>
-
-                <TabsContent value='answeredQuestions'>
-                  <StackedQuestionsChart
-                    data={analyticsData.answeredQuestionsChart}
-                  />
-                </TabsContent>
-
-                <TabsContent value='timeCreated'>
-                  <AreaChartComponent
-                    data={analyticsData.timeCreatedChart}
-                    title='Time Created'
-                    color='#8b5cf6'
-                  />
-                </TabsContent>
               </Tabs>
             </div>
           </TabsContent>
