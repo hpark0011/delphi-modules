@@ -16,20 +16,27 @@ interface EngagementTabProps {
   isLoading: boolean;
 }
 
-export function EngagementTab({ analyticsData, isLoading }: EngagementTabProps) {
+export function EngagementTab({
+  analyticsData,
+  isLoading,
+}: EngagementTabProps) {
+  console.log("isLoading:::::", isLoading);
+  console.log("analyticsData::::", analyticsData);
   if (isLoading || !analyticsData) {
     return (
       <AnalyticsSectionWrapper>
-        <div className="animate-pulse">
-          <div className="flex gap-1 justify-between mb-6">
+        <div className='animate-pulse'>
+          <div className='flex gap-1 justify-between mb-6'>
             {[1, 2, 3, 4].map((i) => (
               <React.Fragment key={i}>
-                <div className="h-24 bg-white/50 rounded-3xl flex-1"></div>
-                {i < 4 && <div className="w-[3px] h-16 bg-[#EBEBE9] rounded-full self-center" />}
+                <div className='h-24 bg-white/50 rounded-3xl flex-1'></div>
+                {i < 4 && (
+                  <div className='w-[3px] h-16 bg-[#EBEBE9] rounded-full self-center' />
+                )}
               </React.Fragment>
             ))}
           </div>
-          <div className="h-96 bg-white/50 rounded-3xl"></div>
+          <div className='h-96 bg-white/50 rounded-3xl'></div>
         </div>
       </AnalyticsSectionWrapper>
     );

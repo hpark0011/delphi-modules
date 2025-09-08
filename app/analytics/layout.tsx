@@ -67,7 +67,7 @@ export default function AnalyticsLayout({
                 ))}
               </nav>
 
-              <div className='mt-6'>{children}</div>
+              <div className='mt-4'>{children}</div>
             </div>
           </DashboardMainWrapper>
         </SidebarInset>
