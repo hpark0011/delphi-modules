@@ -63,7 +63,7 @@ export function AudienceTab() {
     <div className='flex flex-col gap-6 w-full'>
       <AnalyticsSectionWrapper>
         <div className='flex items-center justify-between px-4 py-2.5'>
-          <p className='text-lg font-medium'>Audience</p>
+          <p className='font-medium'>Audience</p>
         </div>
         <div className='grid grid-cols-2 gap-2'>
           <ModuleCard className='w-full rounded-[24px]'>
@@ -101,7 +101,7 @@ export function AudienceTab() {
       </AnalyticsSectionWrapper>
       <AnalyticsSectionWrapper>
         <div className='flex items-center justify-between px-4 py-3'>
-          <p className='text-lg font-medium'>Trends</p>
+          <p className='font-medium'>Trends</p>
         </div>
         <div className='grid grid-cols-2 gap-2'></div>
       </AnalyticsSectionWrapper>
