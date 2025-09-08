@@ -24,33 +24,7 @@ interface AreaChartProps {
   yAxisDomain?: [number, number];
 }
 
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: Array<{
-    value: number;
-  }>;
-  label?: string;
-}
-
-const CustomTooltip: React.FC<CustomTooltipProps> = ({
-  active,
-  payload,
-  label,
-}) => {
-  if (!active || !payload || !payload.length) return null;
-
-  return (
-    <div className='bg-[#21201C]  p-3 rounded-lg shadow-lg border border-[#3A3935]'>
-      <p className='text-sm font-medium mb-1 text-[#8D8D86]'>{label}</p>
-      <div className='flex items-baseline gap-2'>
-        <p className='text-lg font-semibold text-white'>
-          {formatCompactNumber(payload[0].value)}
-        </p>
-        <p className={cn(`text-sm font-medium text-[#8D8D86]`)}>percentage</p>
-      </div>
-    </div>
-  );
-};
+// Custom tooltip is defined inside the component to access the series data
 
 export function AreaChartComponent({
   data,
@@ -60,6 +34,62 @@ export function AreaChartComponent({
   yAxisDomain,
 }: AreaChartProps) {
   const gradientId = React.useId();
+
+  interface CustomTooltipProps {
+    active?: boolean;
+    payload?: Array<{
+      value: number;
+      payload?: { date?: string; value?: number };
+    }>;
+    label?: string;
+  }
+
+  const CustomTooltip: React.FC<CustomTooltipProps> = ({
+    active,
+    payload,
+    label,
+  }) => {
+    if (!active || !payload || !payload.length) return null;
+
+    const currentValue = payload[0].value;
+    const currentIndex =
+      typeof label === "string" ? data.findIndex((d) => d.date === label) : -1;
+    const previousValue =
+      currentIndex > 0 ? data[currentIndex - 1]?.value : undefined;
+
+    let percentageText = "0%";
+    let isPositive = false;
+    let isNegative = false;
+
+    if (typeof previousValue === "number" && previousValue !== 0) {
+      const rawChange = ((currentValue - previousValue) / previousValue) * 100;
+      const rounded = Math.abs(rawChange) < 0.1 ? 0 : rawChange;
+      const sign = rounded > 0 ? "+" : rounded < 0 ? "-" : "";
+      percentageText = `${sign}${Math.abs(rounded).toFixed(1)}%`;
+      isPositive = rounded > 0;
+      isNegative = rounded < 0;
+    }
+
+    const percentageClass = isPositive
+      ? "text-[#208368]"
+      : isNegative
+        ? "text-[#E5484D]"
+        : "text-[#8D8D86]";
+
+    return (
+      <div className='bg-[#21201C]  p-3 rounded-lg shadow-lg border border-[#3A3935]'>
+        <p className='text-sm font-medium mb-1 text-[#8D8D86]'>{label}</p>
+        <div className='flex items-baseline gap-2'>
+          <p className='text-lg font-semibold text-white'>
+            {formatCompactNumber(currentValue)}
+          </p>
+          <p className={cn("text-sm font-medium", percentageClass)}>
+            {percentageText}
+          </p>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <Card className={cn("rounded-[24px] border-none p-0", className)}>
