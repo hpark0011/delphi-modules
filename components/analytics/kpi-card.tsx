@@ -57,7 +57,9 @@ function formatValue(
 }
 
 export function KPICard({ label, metric, className }: KPICardProps) {
-  const trendColor = metric.isPositive ? "text-[#208368]" : "text-[#E5484D]";
+  const trendColor = metric.isPositive
+    ? "text-[var(--color-trend-positive)]"
+    : "text-[var(--color-trend-negative)]";
 
   return (
     <Card

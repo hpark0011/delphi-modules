@@ -5,7 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -15,6 +14,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 import {
   AudioLines,
   Bell,
@@ -81,15 +81,27 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === '/' || pathname === '/analytics'}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === "/" || pathname === "/analytics"}
+              >
                 <Link href='/'>
-                  <Home className='h-5 w-5' />
+                  <Home
+                    className={cn(
+                      "h-5 w-5 ",
+                      pathname === "/" ||
+                        (pathname === "/analytics" && "text-[#FDFDFC]")
+                    )}
+                  />
                   <span>Home</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === '/notifications'}>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === "/notifications"}
+              >
                 <Link href='/notifications'>
                   <Bell className='h-5 w-5' />
                   <span>Notifications</span>
@@ -111,7 +123,11 @@ export function AppSidebar() {
 
                   return (
                     <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton asChild isActive={isActive} disabled={item.disabled}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={isActive}
+                        disabled={item.disabled}
+                      >
                         <Link href={item.href}>
                           {Icon && <Icon className='h-5 w-5' />}
                           <span>{item.title}</span>

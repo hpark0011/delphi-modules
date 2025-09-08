@@ -123,6 +123,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --chart-tooltip-background: var(--chart-tooltip-background);
+  --shadow-chart-tooltip: var(--chart-tooltip-shadow);
 }
 
 :root {
@@ -150,6 +152,10 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
+  --chart-tooltip-background: #21201c;
+  --chart-tooltip-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1),
+    0 2px 4px 0 rgba(0, 0, 0, 0.08), 0 4px 12px 0 rgba(0, 0, 0, 0.06),
+    0 0 0 0.5px rgba(255, 255, 255, 0.12) inset;
   --sidebar: #f9f9f8;
   --sidebar-foreground: #63635e;
   --sidebar-primary: oklch(0.205 0 0);
@@ -188,6 +194,10 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
+  --chart-tooltip-background: #21201c;
+  --chart-tooltip-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1),
+    0 2px 4px 0 rgba(0, 0, 0, 0.08), 0 4px 12px 0 rgba(0, 0, 0, 0.06),
+    0 0 0 0.5px rgba(255, 255, 255, 0.12) inset;
   --sidebar: #111110;
   --sidebar-foreground: #b4b3ac;
   --sidebar-primary: oklch(0.488 0.243 264.376);
