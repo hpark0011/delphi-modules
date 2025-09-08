@@ -64,7 +64,7 @@ export function EngagementTab({ analyticsData }: EngagementTabProps) {
           <AreaChartComponent
             data={analyticsData.activeUsersChart}
             title='Active Users'
-            color='#22c55e'
+            color=' #EF5F28'
           />
         </TabsContent>
 
@@ -84,7 +84,7 @@ export function EngagementTab({ analyticsData }: EngagementTabProps) {
           <AreaChartComponent
             data={analyticsData.timeCreatedChart}
             title='Time Created'
-            color='#8b5cf6'
+            color='#22c55e'
           />
         </TabsContent>
       </Tabs>
