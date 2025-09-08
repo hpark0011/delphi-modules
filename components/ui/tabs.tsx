@@ -42,7 +42,7 @@ function TabsTrigger({
     <TabsPrimitive.Trigger
       data-slot='tabs-trigger'
       className={cn(
-        "data-[state=active]:bg-[#F1F0EF] data-[state=active]:text-[#21201C]  focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-transparent dark:data-[state=active]:bg-input/30 text-text-tertiary dark:text-muted-foreground inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-transparent px-3 h-8  font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 text-sm hover:bg-[#F1F0EF] cursor-pointer w-fit ",
+        "data-[state=active]:bg-[#F1F0EF] data-[state=active]:text-[#21201C]  focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-transparent dark:data-[state=active]:bg-[#262626] text-text-tertiary dark:text-neutral-500 dark:data-[state=active]:text-white inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-transparent px-3 h-8  font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 text-sm hover:bg-[#F1F0EF] cursor-pointer w-fit ",
         className
       )}
       {...props}
