@@ -77,10 +77,10 @@ export function AreaChartComponent({
         : "text-[#8D8D86]";
 
     return (
-      <div className='bg-[#21201C]  p-3 rounded-lg shadow-lg border border-[#3A3935]'>
+      <div className='bg-[#21201C] px-3 py-2 pb-1.5 rounded-[12px] shadow-xl border border-[#3A3935]/5'>
         <p className='text-sm font-medium mb-1 text-[#8D8D86]'>{label}</p>
         <div className='flex items-baseline gap-2'>
-          <p className='text-lg font-semibold text-white'>
+          <p className='text-lg font-medium text-white'>
             {formatCompactNumber(currentValue)}
           </p>
           <p className={cn("text-sm font-medium", percentageClass)}>
