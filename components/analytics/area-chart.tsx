@@ -40,11 +40,14 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   if (!active || !payload || !payload.length) return null;
 
   return (
-    <div className='bg-gray-900 text-white p-3 rounded-lg shadow-lg border border-gray-700'>
-      <p className='text-sm font-medium mb-1'>{label}</p>
-      <p className='text-lg font-semibold'>
-        {formatCompactNumber(payload[0].value)}
-      </p>
+    <div className='bg-[#21201C]  p-3 rounded-lg shadow-lg border border-[#3A3935]'>
+      <p className='text-sm font-medium mb-1 text-[#8D8D86]'>{label}</p>
+      <div className='flex items-baseline gap-2'>
+        <p className='text-lg font-semibold text-white'>
+          {formatCompactNumber(payload[0].value)}
+        </p>
+        <p className={cn(`text-sm font-medium text-[#8D8D86]`)}>percentage</p>
+      </div>
     </div>
   );
 };
