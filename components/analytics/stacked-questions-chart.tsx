@@ -13,10 +13,10 @@ import {
   YAxis,
 } from "recharts";
 import {
-  ChartTooltipRootAlt,
-  ChartTooltipLabel,
   ChartTooltipItem,
   ChartTooltipItems,
+  ChartTooltipLabel,
+  ChartTooltipRoot,
 } from "./chart-tooltip";
 
 interface StackedQuestionsChartProps {
@@ -49,21 +49,17 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
     payload.find((p) => p.dataKey === "unanswered")?.value || 0;
 
   return (
-    <ChartTooltipRootAlt>
-      <ChartTooltipLabel label={label || ""} className="mb-2" />
+    <ChartTooltipRoot>
+      <ChartTooltipLabel label={label || ""} className='mb-2' />
       <ChartTooltipItems>
+        <ChartTooltipItem color='#FF713B' label='Answered' value={answered} />
         <ChartTooltipItem
-          color="#FF713B"
-          label="Answered"
-          value={answered}
-        />
-        <ChartTooltipItem
-          color="rgb(254 215 170)"
-          label="Unanswered"
+          color='rgb(254 215 170)'
+          label='Unanswered'
           value={unanswered}
         />
       </ChartTooltipItems>
-    </ChartTooltipRootAlt>
+    </ChartTooltipRoot>
   );
 };
 

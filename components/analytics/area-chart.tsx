@@ -65,7 +65,7 @@ export function AreaChartComponent({
       currentIndex > 0 ? data[currentIndex - 1]?.value : undefined;
 
     return (
-      <ChartTooltipRoot>
+      <ChartTooltipRoot className='pb-1.5'>
         <ChartTooltipLabel label={label || ""} />
         <ChartTooltipContent>
           <ChartTooltipValue value={currentValue} />
