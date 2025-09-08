@@ -84,7 +84,11 @@ export function AppSidebar() {
               <SidebarMenuButton
                 asChild
                 isActive={
-                  pathname === "/" || pathname === "/analytics/engagement"
+                  pathname === "/" ||
+                  pathname === "/analytics/engagement" ||
+                  pathname === "/analytics/audience" ||
+                  pathname === "/analytics/actions" ||
+                  pathname === "/analytics/broadcasts"
                 }
               >
                 <Link href='/'>
@@ -93,6 +97,12 @@ export function AppSidebar() {
                       "h-5 w-5 ",
                       pathname === "/" ||
                         (pathname === "/analytics/engagement" &&
+                          "text-[#FDFDFC]") ||
+                        (pathname === "/analytics/audience" &&
+                          "text-[#FDFDFC]") ||
+                        (pathname === "/analytics/actions" &&
+                          "text-[#FDFDFC]") ||
+                        (pathname === "/analytics/broadcasts" &&
                           "text-[#FDFDFC]")
                     )}
                   />

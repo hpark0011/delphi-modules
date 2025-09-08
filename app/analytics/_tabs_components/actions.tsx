@@ -1,11 +1,14 @@
 "use client";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
+import { Card } from "@/components/ui/card";
 
 export function ActionsTab() {
   return (
     <AnalyticsSectionWrapper>
-      <p className='text-lg font-medium mb-2'>Actions Analytics</p>
-      <p className='text-sm'>This feature is locked</p>
+      <div className='grid grid-cols-2 gap-2'>
+        <Card className='bg-white w-full rounded-[24px] p-4'>hello</Card>
+        <Card className='bg-white w-full rounded-[24px] p-4'>hello</Card>
+      </div>
     </AnalyticsSectionWrapper>
   );
 }
