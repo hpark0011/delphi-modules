@@ -126,7 +126,12 @@ export function AreaChartComponent({
 
             <Tooltip
               content={<CustomTooltip />}
-              cursor={{ stroke: "rgba(0, 0, 0, 0.1)" }}
+              cursor={{
+                stroke: isDark
+                  ? "rgba(255, 255, 255, 0.05)"
+                  : "rgba(0, 0, 0, 0.05)",
+                strokeDasharray: "4 4",
+              }}
             />
 
             <Area
