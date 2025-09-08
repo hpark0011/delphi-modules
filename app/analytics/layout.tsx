@@ -17,9 +17,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
 
-export default function AnalyticsLayout({}: {
-  children: React.ReactNode;
-}) {
+export default function AnalyticsLayout({}: { children: React.ReactNode }) {
   const [analyticsData, setAnalyticsData] =
     React.useState<AnalyticsData | null>(null);
   const [dateRange, setDateRange] = React.useState<DateRange>(
@@ -95,10 +93,12 @@ export default function AnalyticsLayout({}: {
                   </div>
                 ) : (
                   <div className='mt-4'>
-                    {currentTab === 'engagement' && <EngagementTab analyticsData={analyticsData} />}
-                    {currentTab === 'audience' && <AudienceTab />}
-                    {currentTab === 'actions' && <ActionsTab />}
-                    {currentTab === 'broadcasts' && <BroadcastsTab />}
+                    {currentTab === "engagement" && (
+                      <EngagementTab analyticsData={analyticsData} />
+                    )}
+                    {currentTab === "audience" && <AudienceTab />}
+                    {currentTab === "actions" && <ActionsTab />}
+                    {currentTab === "broadcasts" && <BroadcastsTab />}
                   </div>
                 )}
               </Tabs>
