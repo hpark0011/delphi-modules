@@ -1,4 +1,5 @@
+import { AudienceTab } from "@/app/analytics/_tabs_components/audience";
+
 export default function AudiencePage() {
-  // This page component is a placeholder - the actual content is rendered by the layout
-  return null;
+  return <AudienceTab />;
 }

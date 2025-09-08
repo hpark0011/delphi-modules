@@ -1,4 +1,5 @@
+import { ActionsTab } from "@/app/analytics/_tabs_components/actions";
+
 export default function ActionsPage() {
-  // This page component is a placeholder - the actual content is rendered by the layout
-  return null;
+  return <ActionsTab />;
 }
