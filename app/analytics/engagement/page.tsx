@@ -28,17 +28,17 @@ export default function EngagementPage() {
 
   if (isLoading || !analyticsData) {
     return (
-      <div className="animate-pulse">
-        <div className="h-8 rounded w-32 mb-8"></div>
-        <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className='animate-pulse'>
+        <div className='h-8 rounded w-32 mb-8'></div>
+        <div className='grid grid-cols-4 gap-4 mb-8'>
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-32 rounded"></div>
+            <div key={i} className='h-32 rounded'></div>
           ))}
         </div>
-        <div className="h-96 rounded"></div>
+        <div className='h-96 rounded'></div>
       </div>
     );
   }
 
-  return <EngagementTab analyticsData={analyticsData} />;
+  return <EngagementTab analyticsData={analyticsData} isLoading={isLoading} />;
 }

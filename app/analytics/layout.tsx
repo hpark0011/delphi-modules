@@ -56,9 +56,10 @@ export default function AnalyticsLayout({
                     key={item.value}
                     href={item.href}
                     className={cn(
-                      "rounded-full px-4 py-1.5 text-sm transition-all hover:bg-[#EBEBE9]",
+                      "rounded-full px-4 py-1.5 text-sm transition-all",
+                      currentTab !== item.value && "hover:bg-[#EBEBE9]",
                       currentTab === item.value &&
-                        "bg-white shadow-card-primary"
+                        "bg-white shadow-card-primary "
                     )}
                   >
                     {item.label}
