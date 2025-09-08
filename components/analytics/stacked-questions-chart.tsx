@@ -225,7 +225,7 @@ export function StackedQuestionsChart({
             <YAxis
               tick={{ fontSize: 12, fill: "#6b7280" }}
               tickLine={false}
-              axisLine={{ stroke: "#e5e7eb" }}
+              axisLine={{ stroke: "transparent" }}
               tickFormatter={(v) => formatCompactNumber(v as number)}
             />
 
