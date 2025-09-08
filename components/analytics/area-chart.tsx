@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTheme } from "next-themes";
 import {
   Area,
   AreaChart,
@@ -41,6 +42,8 @@ export function AreaChartComponent({
   yAxisDomain,
 }: AreaChartProps) {
   const gradientId = React.useId();
+  const { theme, resolvedTheme } = useTheme();
+  const isDark = (resolvedTheme || theme) === "dark";
 
   interface CustomTooltipProps {
     active?: boolean;
@@ -99,16 +102,16 @@ export function AreaChartComponent({
             </defs>
 
             <CartesianGrid
-              strokeDasharray='3 3'
+              strokeDasharray='4 4'
               vertical={false}
-              stroke='#f0f0f0'
+              stroke={isDark ? "#21201C" : "#F1F0EF"}
             />
 
             <XAxis
               dataKey='date'
               tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
-              axisLine={{ stroke: "#e5e7eb" }}
+              axisLine={{ stroke: isDark ? "#21201C" : "#F1F0EF" }}
               tickMargin={8}
             />
 

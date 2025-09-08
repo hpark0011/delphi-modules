@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn, formatCompactNumber } from "@/lib/utils";
+import { useTheme } from "next-themes";
 import * as React from "react";
 import {
   Bar,
@@ -138,6 +139,8 @@ export function StackedQuestionsChart({
   data,
   className,
 }: StackedQuestionsChartProps) {
+  const { theme, resolvedTheme } = useTheme();
+  const isDark = (resolvedTheme || theme) === "dark";
   React.useEffect(() => {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.innerHTML = `
@@ -206,16 +209,16 @@ export function StackedQuestionsChart({
             </defs>
 
             <CartesianGrid
-              strokeDasharray='3 3'
+              strokeDasharray='4 4'
               vertical={false}
-              stroke='#f0f0f0'
+              stroke={isDark ? "#21201C" : "#F1F0EF"}
             />
 
             <XAxis
               dataKey='date'
               tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
-              axisLine={{ stroke: "#e5e7eb" }}
+              axisLine={{ stroke: isDark ? "#21201C" : "#F1F0EF" }}
               tickMargin={8}
             />
 
