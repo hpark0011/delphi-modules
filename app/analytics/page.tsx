@@ -1,10 +1,10 @@
 "use client";
 
 import type { AnalyticsData, DateRange } from "@/app/analytics/types";
-import { ActionsTab } from "@/app/analytics/tabs/actions";
-import { AudienceTab } from "@/app/analytics/tabs/audience";
-import { BroadcastsTab } from "@/app/analytics/tabs/broadcasts";
-import { EngagementTab } from "@/app/analytics/tabs/engagement";
+import { ActionsTab } from "@/app/analytics/_tabs_components/actions";
+import { AudienceTab } from "@/app/analytics/_tabs_components/audience";
+import { BroadcastsTab } from "@/app/analytics/_tabs_components/broadcasts";
+import { EngagementTab } from "@/app/analytics/_tabs_components/engagement";
 import { DashboardMainWrapper } from "@/components/analytics/dashboard-ui";
 import { DateRangePicker } from "@/components/analytics/date-range-picker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -70,7 +70,7 @@ export default function AnalyticsPage() {
         </div>
 
         <Tabs defaultValue='engagement' className='w-full'>
-          <TabsList className='flex-row items-center gap-0.5 mb-7'>
+          <TabsList className='flex-row items-center gap-0.5 mb-1 px-2'>
             <TabsTrigger value='engagement'>Engagement</TabsTrigger>
             <TabsTrigger value='audience'>Audience</TabsTrigger>
             <TabsTrigger value='actions'>Actions</TabsTrigger>
