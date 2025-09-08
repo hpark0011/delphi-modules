@@ -20,6 +20,17 @@ import {
   ChartTooltipRoot,
 } from "./chart-tooltip";
 
+// Centralized chart colors
+const CHART_COLORS = {
+  answered: "#FF713B",
+  // Primary fill used for unanswered legend tile and pattern background
+  unanswered: "rgba(255, 113, 59, 0.7)",
+  // Tooltip chip color for unanswered for adequate contrast
+  unansweredTooltip: "rgb(254, 215, 170)",
+  // Stroke used in hatch pattern where applicable
+  unansweredPatternStroke: "#AE7830",
+} as const;
+
 interface StackedQuestionsChartProps {
   data: Array<{
     date: string;
@@ -53,9 +64,13 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
     <ChartTooltipRoot>
       <ChartTooltipLabel label={label || ""} className='mb-2' />
       <ChartTooltipItems>
-        <ChartTooltipItem color='#FF713B' label='Answered' value={answered} />
         <ChartTooltipItem
-          color='rgb(254 215 170)'
+          color={CHART_COLORS.answered}
+          label='Answered'
+          value={answered}
+        />
+        <ChartTooltipItem
+          color={CHART_COLORS.unansweredTooltip}
           label='Unanswered'
           value={unanswered}
         />
@@ -68,7 +83,10 @@ const CustomLegend = () => {
   return (
     <div className='flex items-center gap-4'>
       <div className='flex items-center gap-1.5'>
-        <div className='w-3 h-3 rounded-[3px] bg-[#FF713B]' />
+        <div
+          className='w-3 h-3 rounded-[3px]'
+          style={{ backgroundColor: CHART_COLORS.answered }}
+        />
         <span className='text-sm'>Answered Questions</span>
       </div>
       <div className='flex items-center gap-1.5'>
@@ -82,13 +100,13 @@ const CustomLegend = () => {
             >
               <path
                 d='M0,4 L4,0'
-                stroke='#AE7830'
+                stroke={CHART_COLORS.unansweredPatternStroke}
                 strokeWidth='0.5'
                 strokeLinecap='square'
               />
             </pattern>
           </defs>
-          <rect width='12' height='12' fill='rgba(255, 113, 59, 0.7)' />
+          <rect width='12' height='12' fill={CHART_COLORS.unanswered} />
           {/* <rect width='12' height='12' fill='url(#diagonalHatch)' /> */}
         </svg>
         <span className='text-sm'>Unanswered Questions</span>
@@ -153,7 +171,7 @@ export function StackedQuestionsChart({
         >
           <path
             d="M0,4 L4,0"
-            stroke="#AE7830"
+            stroke="${CHART_COLORS.unansweredPatternStroke}"
             strokeWidth="0.5"
             strokeLinecap="square"
           />
@@ -189,6 +207,7 @@ export function StackedQuestionsChart({
           <BarChart
             data={data}
             margin={{ top: 10, right: 20, left: -10, bottom: 5 }}
+            barCategoryGap={"25%"}
           >
             <defs>
               <pattern
@@ -197,7 +216,7 @@ export function StackedQuestionsChart({
                 width='4'
                 height='4'
               >
-                <rect width='4' height='4' fill='rgba(255, 113, 59, 0.7)' />
+                <rect width='4' height='4' fill={CHART_COLORS.unanswered} />
                 {/* <path
                   d='M0,4 L4,0'
                   stroke='#D6BA95'
@@ -237,14 +256,16 @@ export function StackedQuestionsChart({
             <Bar
               dataKey='answered'
               stackId='a'
-              fill='#FF713B'
+              fill={CHART_COLORS.answered}
               shape={BottomStackShape}
+              maxBarSize={80}
             />
             <Bar
               dataKey='unanswered'
               stackId='a'
               fill='url(#stripes)'
               shape={TopStackShape}
+              maxBarSize={80}
             />
           </BarChart>
         </ResponsiveContainer>

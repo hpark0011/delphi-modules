@@ -74,28 +74,28 @@ export default function AnalyticsLayout({}: { children: React.ReactNode }) {
                 onValueChange={handleTabChange}
                 className='w-full gap-4'
               >
-                <TabsList className='flex-row items-center gap-0.5 p-1 bg-extra-light box-content h-fit rounded-full mx-1'>
+                <TabsList className='flex-row items-center gap-0.5 p-1 bg-extra-light box-content h-fit rounded-full mx-0.5'>
                   <TabsTrigger
                     value='engagement'
-                    className='data-[state=active]:bg-white rounded-full px-3 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
+                    className='data-[state=active]:bg-white rounded-full px-4 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
                   >
                     Engagement
                   </TabsTrigger>
                   <TabsTrigger
                     value='audience'
-                    className='data-[state=active]:bg-white rounded-full px-3 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
+                    className='data-[state=active]:bg-white rounded-full px-4 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
                   >
                     Audience
                   </TabsTrigger>
                   <TabsTrigger
                     value='actions'
-                    className='data-[state=active]:bg-white rounded-full px-3 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
+                    className='data-[state=active]:bg-white rounded-full px-4 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
                   >
                     Actions
                   </TabsTrigger>
                   <TabsTrigger
                     value='broadcasts'
-                    className='data-[state=active]:bg-white rounded-full px-3 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
+                    className='data-[state=active]:bg-white rounded-full px-4 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
                   >
                     Broadcasts
                   </TabsTrigger>
