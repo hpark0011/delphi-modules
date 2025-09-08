@@ -62,12 +62,12 @@ export function AudienceTab() {
   return (
     <div className='flex flex-col gap-6 w-full'>
       <AnalyticsSectionWrapper>
-        <div className='flex items-center justify-between px-4 py-3'>
+        <div className='flex items-center justify-between px-4 py-2.5'>
           <p className='text-lg font-medium'>Audience</p>
         </div>
         <div className='grid grid-cols-2 gap-2'>
-          <ModuleCard className='bg-white w-full rounded-[24px] p-4'>
-            <ModuleCardHeader className='mb-4'>
+          <ModuleCard className='w-full rounded-[24px]'>
+            <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>
                 Most Active Users
               </span>
@@ -84,13 +84,12 @@ export function AudienceTab() {
                   messageCount={user.messageCount}
                 />
               ))}
-              <div className='pt-4 flex justify-center'>
+              <div className=' flex justify-center absolute bottom-0 p-3 left-0 w-full bg-gradient-to-t from-card to-transparent'>
                 <Button
                   variant='outline'
-                  className='h-12 px-6 rounded-full border-[#E5E5E0] font-medium text-[#1C1C17] hover:bg-gray-50'
+                  className='h-8 px-3 rounded-full border-[#E5E5E0] font-medium text-[#1C1C17] hover:bg-gray-50 bg-base'
                 >
                   View All
-                  <ExternalLink className='ml-2 h-4 w-4' />
                 </Button>
               </div>
             </ModuleCardContent>
