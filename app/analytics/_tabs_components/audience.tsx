@@ -8,6 +8,7 @@ import {
   ModuleViewMoreButton,
 } from "@/components/analytics/module-ui";
 import { UserListItem } from "@/components/analytics/user-list-item";
+import { LanguageChart } from "@/components/analytics/language-chart";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 
@@ -89,7 +90,13 @@ export function AudienceTab() {
             </ModuleCardContent>
           </ModuleCard>
           <ModuleCard className='w-full rounded-[24px]'>
-            <ModuleCardHeader>Languages</ModuleCardHeader>
+            <ModuleCardHeader className="mb-2">
+              <span className='font-medium text-[#63635E]'>Languages</span>
+            </ModuleCardHeader>
+            <ModuleCardContent className='pt-0 pb-8'>
+              <LanguageChart />
+              <ModuleViewMoreButton>View All</ModuleViewMoreButton>
+            </ModuleCardContent>
           </ModuleCard>
         </div>
       </AnalyticsSectionWrapper>
