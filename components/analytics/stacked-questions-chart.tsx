@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { cn, formatCompactNumber } from "@/lib/utils";
 import * as React from "react";
 import {
   Bar,
@@ -50,12 +50,16 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
         <div className='flex items-center gap-2'>
           <div className='w-3 h-3 rounded-sm bg-[#FF713B]' />
           <span className='text-xs'>Answered</span>
-          <span className='text-xs font-semibold ml-auto'>{answered}</span>
+          <span className='text-xs font-semibold ml-auto'>
+            {formatCompactNumber(answered)}
+          </span>
         </div>
         <div className='flex items-center gap-2'>
           <div className='w-3 h-3 rounded-sm bg-orange-200' />
           <span className='text-xs'>Unanswered</span>
-          <span className='text-xs font-semibold ml-auto'>{unanswered}</span>
+          <span className='text-xs font-semibold ml-auto'>
+            {formatCompactNumber(unanswered)}
+          </span>
         </div>
       </div>
     </div>
@@ -64,13 +68,13 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
 
 const CustomLegend = () => {
   return (
-    <div className='flex items-center gap-6 justify-center mt-4'>
-      <div className='flex items-center gap-2'>
-        <div className='w-3 h-3 rounded-sm bg-[#FF713B]' />
+    <div className='flex items-center gap-4'>
+      <div className='flex items-center gap-1.5'>
+        <div className='w-3 h-3 rounded-[3px] bg-[#FF713B]' />
         <span className='text-sm'>Answered Questions</span>
       </div>
-      <div className='flex items-center gap-2'>
-        <svg width='12' height='12' className='rounded-sm'>
+      <div className='flex items-center gap-1.5'>
+        <svg width='12' height='12' className='rounded-[3px]'>
           <defs>
             <pattern
               id='diagonalHatch'
@@ -86,8 +90,8 @@ const CustomLegend = () => {
               />
             </pattern>
           </defs>
-          <rect width='12' height='12' fill='#fed7aa' />
-          <rect width='12' height='12' fill='url(#diagonalHatch)' />
+          <rect width='12' height='12' fill='rgba(255, 113, 59, 0.7)' />
+          {/* <rect width='12' height='12' fill='url(#diagonalHatch)' /> */}
         </svg>
         <span className='text-sm'>Unanswered Questions</span>
       </div>
@@ -172,20 +176,21 @@ export function StackedQuestionsChart({
   return (
     <Card
       className={cn(
-        "rounded-[24px] border-none shadow-card-primary",
+        "rounded-[24px] border-none shadow-card-primary p-0 gap-6",
         className
       )}
     >
-      <CardHeader className='pb-2'>
+      <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0 border-[#F1F0EF] dark:border-[#21201C] border-b'>
         <CardTitle className='text-sm font-medium text-muted-foreground'>
-          {title}
+          <CustomLegend />
+          {/* {title} */}
         </CardTitle>
       </CardHeader>
-      <CardContent className='p-6 pt-0'>
-        <ResponsiveContainer width='100%' height={376}>
+      <CardContent className='p-0 relative pb-4'>
+        <ResponsiveContainer width='100%' height={452}>
           <BarChart
             data={data}
-            margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+            margin={{ top: 10, right: 20, left: -10, bottom: 5 }}
           >
             <defs>
               <pattern
@@ -194,14 +199,14 @@ export function StackedQuestionsChart({
                 width='4'
                 height='4'
               >
-                <rect width='4' height='4' fill='#E7D6C1' />
-                <path
+                <rect width='4' height='4' fill='rgba(255, 113, 59, 0.7)' />
+                {/* <path
                   d='M0,4 L4,0'
                   stroke='#D6BA95'
                   strokeWidth='1'
                   fill='none'
                   strokeLinecap='square'
-                />
+                /> */}
               </pattern>
             </defs>
 
@@ -213,15 +218,17 @@ export function StackedQuestionsChart({
 
             <XAxis
               dataKey='date'
-              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
               axisLine={{ stroke: "#e5e7eb" }}
+              tickMargin={8}
             />
 
             <YAxis
-              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
-              axisLine={{ stroke: "#e5e7eb" }}
+              axisLine={{ stroke: "transparent" }}
+              tickFormatter={(v) => formatCompactNumber(v as number)}
             />
 
             <Tooltip
@@ -243,7 +250,7 @@ export function StackedQuestionsChart({
             />
           </BarChart>
         </ResponsiveContainer>
-        <CustomLegend />
+        {/* <CustomLegend /> */}
       </CardContent>
     </Card>
   );

@@ -11,7 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { cn, formatCompactNumber } from "@/lib/utils";
 
 interface AreaChartProps {
   data: Array<{
@@ -42,7 +42,9 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
   return (
     <div className='bg-gray-900 text-white p-3 rounded-lg shadow-lg border border-gray-700'>
       <p className='text-sm font-medium mb-1'>{label}</p>
-      <p className='text-lg font-semibold'>{payload[0].value}</p>
+      <p className='text-lg font-semibold'>
+        {formatCompactNumber(payload[0].value)}
+      </p>
     </div>
   );
 };
@@ -57,17 +59,17 @@ export function AreaChartComponent({
   const gradientId = React.useId();
 
   return (
-    <Card className={cn("rounded-[24px] border-none ", className)}>
-      <CardHeader className='pb-2'>
-        <CardTitle className='text-sm font-medium text-muted-foreground'>
+    <Card className={cn("rounded-[24px] border-none p-0", className)}>
+      <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0 border-[#F1F0EF] dark:border-[#21201C] border-b'>
+        <CardTitle className='text-sm font-medium text-muted-foreground p-0'>
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className='p-6 pt-0'>
-        <ResponsiveContainer width='100%' height={408}>
+      <CardContent className='p-0 pr-4 pb-4'>
+        <ResponsiveContainer width='100%' height={452}>
           <AreaChart
             data={data}
-            margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+            margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
           >
             <defs>
               <linearGradient id={gradientId} x1='0' y1='0' x2='0' y2='1'>
@@ -84,16 +86,19 @@ export function AreaChartComponent({
 
             <XAxis
               dataKey='date'
-              tick={{ fontSize: 11, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
               axisLine={{ stroke: "#e5e7eb" }}
+              tickMargin={8}
             />
 
             <YAxis
-              tick={{ fontSize: 11, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
-              axisLine={{ stroke: "#e5e7eb" }}
+              axisLine={{ stroke: "transparent" }}
               domain={yAxisDomain}
+              tickFormatter={(v) => formatCompactNumber(v as number)}
+              tickMargin={4}
             />
 
             <Tooltip

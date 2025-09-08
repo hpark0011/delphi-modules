@@ -71,7 +71,7 @@ export function AppSidebar() {
           </div>
           <Avatar className='h-8 w-8 ml-auto'>
             <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback className='bg-gray-700 text-white text-xs'>
+            <AvatarFallback className='bg-neutral-800 text-white text-xs'>
               {user.name.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
@@ -130,13 +130,6 @@ export function AppSidebar() {
           </SidebarGroup>
         ))}
       </SidebarContent>
-      <SidebarFooter>
-        <div className='flex items-center justify-between px-3 py-3'>
-          <div className='flex items-center gap-2'>
-            <span className='text-gray-400 text-sm'>{user.credits}</span>
-          </div>
-        </div>
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

@@ -128,7 +128,7 @@ export default function AnalyticsPage() {
                 <TabsContent value='activeUsers'>
                   <AreaChartComponent
                     data={analyticsData.activeUsersChart}
-                    title='Active Users Trend'
+                    title='Active Users'
                     color='#22c55e'
                   />
                 </TabsContent>
@@ -136,7 +136,7 @@ export default function AnalyticsPage() {
                 <TabsContent value='conversations'>
                   <AreaChartComponent
                     data={analyticsData.conversationsChart}
-                    title='Conversations Trend'
+                    title='Conversations'
                     color='#3b82f6'
                   />
                 </TabsContent>
@@ -151,7 +151,7 @@ export default function AnalyticsPage() {
                 <TabsContent value='timeCreated'>
                   <AreaChartComponent
                     data={analyticsData.timeCreatedChart}
-                    title='Time Created Trend'
+                    title='Time Created'
                     color='#8b5cf6'
                   />
                 </TabsContent>
