@@ -86,7 +86,7 @@ export default function AnalyticsPage() {
                 <TabsList className='flex w-full gap-1 h-auto p-0 justify-between'>
                   <TabsTrigger
                     value='activeUsers'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Active Users'
@@ -96,7 +96,7 @@ export default function AnalyticsPage() {
                   <Divider />
                   <TabsTrigger
                     value='conversations'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Conversations'
@@ -106,7 +106,7 @@ export default function AnalyticsPage() {
                   <Divider />
                   <TabsTrigger
                     value='answeredQuestions'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Answered Questions'
@@ -116,7 +116,7 @@ export default function AnalyticsPage() {
                   <Divider />
                   <TabsTrigger
                     value='timeCreated'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
+                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
                   >
                     <KPICard
                       label='Time Created'
