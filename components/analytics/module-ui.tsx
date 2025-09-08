@@ -2,7 +2,10 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-export function Card({ className, ...props }: React.ComponentProps<"div">) {
+export function ModuleCard({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='card'
@@ -13,4 +16,18 @@ export function Card({ className, ...props }: React.ComponentProps<"div">) {
       {...props}
     />
   );
+}
+
+export function ModuleCardHeader({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return <div className={cn("flex flex-col", className)} {...props} />;
+}
+
+export function ModuleCardContent({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return <div className={cn("flex flex-col", className)} {...props} />;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
-import { Card } from "@/components/analytics/module-ui";
+import { ModuleCard } from "@/components/analytics/module-ui";
 
 export function AudienceTab() {
   return (
@@ -10,8 +10,12 @@ export function AudienceTab() {
         <p className='text-lg font-medium'>Audience</p>
       </div>
       <div className='grid grid-cols-2 gap-2'>
-        <Card className='bg-white w-full rounded-[24px] p-4'>hello</Card>
-        <Card className='bg-white w-full rounded-[24px] p-4'>hello</Card>
+        <ModuleCard className='bg-white w-full rounded-[24px] p-4'>
+          hello
+        </ModuleCard>
+        <ModuleCard className='bg-white w-full rounded-[24px] p-4'>
+          hello
+        </ModuleCard>
       </div>
     </AnalyticsSectionWrapper>
   );
