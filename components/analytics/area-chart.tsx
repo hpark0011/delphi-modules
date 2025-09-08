@@ -69,7 +69,7 @@ export function AreaChartComponent({
         <ResponsiveContainer width='100%' height={452}>
           <AreaChart
             data={data}
-            margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+            margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
           >
             <defs>
               <linearGradient id={gradientId} x1='0' y1='0' x2='0' y2='1'>
@@ -86,13 +86,13 @@ export function AreaChartComponent({
 
             <XAxis
               dataKey='date'
-              tick={{ fontSize: 11, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#6b7280" }}
               tickLine={false}
               axisLine={{ stroke: "#e5e7eb" }}
             />
 
             <YAxis
-              tick={{ fontSize: 11, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#6b7280" }}
               tickLine={false}
               axisLine={{ stroke: "transparent" }}
               domain={yAxisDomain}

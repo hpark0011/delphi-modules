@@ -68,13 +68,13 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({
 
 const CustomLegend = () => {
   return (
-    <div className='flex items-center gap-6 justify-center mt-4'>
-      <div className='flex items-center gap-2'>
-        <div className='w-3 h-3 rounded-sm bg-[#FF713B]' />
+    <div className='flex items-center gap-4'>
+      <div className='flex items-center gap-1.5'>
+        <div className='w-3 h-3 rounded-[3px] bg-[#FF713B]' />
         <span className='text-sm'>Answered Questions</span>
       </div>
-      <div className='flex items-center gap-2'>
-        <svg width='12' height='12' className='rounded-sm'>
+      <div className='flex items-center gap-1.5'>
+        <svg width='12' height='12' className='rounded-[3px]'>
           <defs>
             <pattern
               id='diagonalHatch'
@@ -176,20 +176,21 @@ export function StackedQuestionsChart({
   return (
     <Card
       className={cn(
-        "rounded-[24px] border-none shadow-card-primary p-4",
+        "rounded-[24px] border-none shadow-card-primary p-0 gap-6",
         className
       )}
     >
-      <CardHeader className='pb-2 px-0'>
+      <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0 border-[#F1F0EF] dark:border-[#21201C] border-b'>
         <CardTitle className='text-sm font-medium text-muted-foreground'>
-          {title}
+          <CustomLegend />
+          {/* {title} */}
         </CardTitle>
       </CardHeader>
-      <CardContent className='p-0'>
-        <ResponsiveContainer width='100%' height={416}>
+      <CardContent className='p-0 relative pb-4'>
+        <ResponsiveContainer width='100%' height={452}>
           <BarChart
             data={data}
-            margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+            margin={{ top: 10, right: 20, left: -10, bottom: 5 }}
           >
             <defs>
               <pattern
@@ -248,7 +249,7 @@ export function StackedQuestionsChart({
             />
           </BarChart>
         </ResponsiveContainer>
-        <CustomLegend />
+        {/* <CustomLegend /> */}
       </CardContent>
     </Card>
   );
