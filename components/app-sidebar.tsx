@@ -83,14 +83,17 @@ export function AppSidebar() {
             <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
-                isActive={pathname === "/" || pathname === "/analytics"}
+                isActive={
+                  pathname === "/" || pathname === "/analytics/engagement"
+                }
               >
                 <Link href='/'>
                   <Home
                     className={cn(
                       "h-5 w-5 ",
                       pathname === "/" ||
-                        (pathname === "/analytics" && "text-[#FDFDFC]")
+                        (pathname === "/analytics/engagement" &&
+                          "text-[#FDFDFC]")
                     )}
                   />
                   <span>Home</span>

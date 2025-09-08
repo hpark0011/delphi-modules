@@ -72,17 +72,37 @@ export default function AnalyticsLayout({}: { children: React.ReactNode }) {
               <Tabs
                 value={currentTab}
                 onValueChange={handleTabChange}
-                className='w-full'
+                className='w-full gap-4'
               >
-                <TabsList className='flex-row items-center gap-0.5 mb-1 px-2'>
-                  <TabsTrigger value='engagement'>Engagement</TabsTrigger>
-                  <TabsTrigger value='audience'>Audience</TabsTrigger>
-                  <TabsTrigger value='actions'>Actions</TabsTrigger>
-                  <TabsTrigger value='broadcasts'>Broadcasts</TabsTrigger>
+                <TabsList className='flex-row items-center gap-0.5 p-1 bg-extra-light box-content h-fit rounded-full mx-1'>
+                  <TabsTrigger
+                    value='engagement'
+                    className='data-[state=active]:bg-white rounded-full px-3 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
+                  >
+                    Engagement
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value='audience'
+                    className='data-[state=active]:bg-white rounded-full px-3 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
+                  >
+                    Audience
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value='actions'
+                    className='data-[state=active]:bg-white rounded-full px-3 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
+                  >
+                    Actions
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value='broadcasts'
+                    className='data-[state=active]:bg-white rounded-full px-3 data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9]'
+                  >
+                    Broadcasts
+                  </TabsTrigger>
                 </TabsList>
 
                 {isLoading || !analyticsData ? (
-                  <div className='animate-pulse mt-4'>
+                  <div className='animate-pulse'>
                     <div className='h-8 rounded w-32 mb-8'></div>
                     <div className='grid grid-cols-4 gap-4 mb-8'>
                       {[1, 2, 3, 4].map((i) => (
@@ -92,7 +112,7 @@ export default function AnalyticsLayout({}: { children: React.ReactNode }) {
                     <div className='h-96 rounded'></div>
                   </div>
                 ) : (
-                  <div className='mt-4'>
+                  <div>
                     {currentTab === "engagement" && (
                       <EngagementTab analyticsData={analyticsData} />
                     )}

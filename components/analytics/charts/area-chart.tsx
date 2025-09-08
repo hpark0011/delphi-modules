@@ -89,7 +89,7 @@ export function AreaChartComponent({
         </CardTitle>
       </CardHeader>
       <CardContent className='p-0 pr-4 pb-4'>
-        <ResponsiveContainer width='100%' height={452}>
+        <ResponsiveContainer width='100%' height={472}>
           <AreaChart
             data={data}
             margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
