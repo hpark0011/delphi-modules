@@ -7,7 +7,9 @@ export function ActionsTab() {
     <AnalyticsSectionWrapper>
       <div className='grid grid-cols-2 gap-2'>
         <ModuleCard className='bg-white w-full rounded-[24px] p-4'>
-          <ModuleCardHeader>hello</ModuleCardHeader>
+          <ModuleCardHeader>
+            hello<span>hello</span>
+          </ModuleCardHeader>
         </ModuleCard>
         <ModuleCard className='bg-white w-full rounded-[24px] p-4'>
           <ModuleCardHeader>hello</ModuleCardHeader>
