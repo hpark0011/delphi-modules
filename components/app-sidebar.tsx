@@ -31,7 +31,7 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-// import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 import { HeaderLogo } from "./header/header-ui";
 
@@ -60,7 +60,7 @@ const user: SidebarUser = {
 };
 
 export function AppSidebar() {
-  // const pathname = usePathname();
+  const pathname = usePathname();
 
   return (
     <Sidebar variant='inset' className='border-r-0'>
@@ -81,7 +81,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton asChild isActive={pathname === '/' || pathname === '/analytics'}>
                 <Link href='/'>
                   <Home className='h-5 w-5' />
                   <span>Home</span>
@@ -89,7 +89,7 @@ export function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton asChild isActive={pathname === '/notifications'}>
                 <Link href='/notifications'>
                   <Bell className='h-5 w-5' />
                   <span>Notifications</span>
@@ -107,11 +107,11 @@ export function AppSidebar() {
               <SidebarMenu>
                 {section.items.map((item) => {
                   const Icon = item.icon ? iconMap[item.icon] : null;
-                  // const isActive = pathname === item.href;
+                  const isActive = pathname === item.href;
 
                   return (
                     <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton asChild disabled={item.disabled}>
+                      <SidebarMenuButton asChild isActive={isActive} disabled={item.disabled}>
                         <Link href={item.href}>
                           {Icon && <Icon className='h-5 w-5' />}
                           <span>{item.title}</span>
