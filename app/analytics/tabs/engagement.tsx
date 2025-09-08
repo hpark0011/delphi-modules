@@ -2,7 +2,10 @@
 
 import type { AnalyticsData } from "@/app/analytics/types";
 import { AreaChartComponent } from "@/components/analytics/area-chart";
-import { Divider } from "@/components/analytics/dashboard-ui";
+import {
+  AnalyticsSectionWrapper,
+  Divider,
+} from "@/components/analytics/dashboard-ui";
 import { KPICard } from "@/components/analytics/kpi-card";
 import { StackedQuestionsChart } from "@/components/analytics/stacked-questions-chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,7 +16,7 @@ interface EngagementTabProps {
 
 export function EngagementTab({ analyticsData }: EngagementTabProps) {
   return (
-    <div className='bg-[#F6F6F5] dark:bg-[#111110] rounded-[28px] p-1'>
+    <AnalyticsSectionWrapper>
       <Tabs defaultValue='activeUsers' className='w-full'>
         <TabsList className='flex w-full gap-1 h-auto p-0 justify-between'>
           <TabsTrigger
@@ -74,9 +77,7 @@ export function EngagementTab({ analyticsData }: EngagementTabProps) {
         </TabsContent>
 
         <TabsContent value='answeredQuestions'>
-          <StackedQuestionsChart
-            data={analyticsData.answeredQuestionsChart}
-          />
+          <StackedQuestionsChart data={analyticsData.answeredQuestionsChart} />
         </TabsContent>
 
         <TabsContent value='timeCreated'>
@@ -87,6 +88,6 @@ export function EngagementTab({ analyticsData }: EngagementTabProps) {
           />
         </TabsContent>
       </Tabs>
-    </div>
+    </AnalyticsSectionWrapper>
   );
 }
