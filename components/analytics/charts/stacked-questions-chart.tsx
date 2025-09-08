@@ -29,6 +29,8 @@ const CHART_COLORS = {
   unansweredPatternStroke: "#AE7830",
 } as const;
 
+const STACK_GAP_PX = 0;
+
 interface StackedQuestionsChartProps {
   data: Array<{
     date: string;
@@ -112,8 +114,6 @@ const CustomLegend = () => {
     </div>
   );
 };
-
-const STACK_GAP_PX = 2;
 
 interface BarShapeProps {
   x?: number;
@@ -205,7 +205,7 @@ export function StackedQuestionsChart({
           <BarChart
             data={data}
             margin={{ top: 10, right: 20, left: -10, bottom: 5 }}
-            barCategoryGap={"25%"}
+            barCategoryGap={"15%"}
           >
             <defs>
               <pattern
@@ -255,15 +255,17 @@ export function StackedQuestionsChart({
               dataKey='answered'
               stackId='a'
               fill={CHART_COLORS.answered}
-              shape={BottomStackShape}
-              maxBarSize={48}
+              // shape={BottomStackShape}
+              // maxBarSize={48}
+              radius={[0, 0, 8, 8]}
             />
             <Bar
               dataKey='unanswered'
               stackId='a'
               fill='url(#stripes)'
-              shape={TopStackShape}
-              maxBarSize={48}
+              // shape={TopStackShape}
+              // maxBarSize={48}
+              radius={[8, 8, 0, 0]}
             />
           </BarChart>
         </ResponsiveContainer>
