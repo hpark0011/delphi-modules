@@ -1,13 +1,13 @@
 "use client";
 
 import type { AnalyticsData } from "@/app/analytics/types";
-import { AreaChartComponent } from "@/components/analytics/area-chart";
+import { AreaChartComponent } from "@/components/analytics/charts/area-chart";
 import {
   AnalyticsSectionWrapper,
   Divider,
 } from "@/components/analytics/dashboard-ui";
 import { KPICard } from "@/components/analytics/kpi-card";
-import { StackedQuestionsChart } from "@/components/analytics/stacked-questions-chart";
+import { StackedQuestionsChart } from "@/components/analytics/charts/stacked-questions-chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface EngagementTabProps {
