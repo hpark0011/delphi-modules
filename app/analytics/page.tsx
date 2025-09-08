@@ -1,20 +1,17 @@
 "use client";
 
 import type { AnalyticsData, DateRange } from "@/app/analytics/types";
-import {
-  DashboardMainWrapper,
-  Divider,
-} from "@/components/analytics/dashboard-ui";
+import { ActionsTab } from "@/app/analytics/tabs/actions";
+import { AudienceTab } from "@/app/analytics/tabs/audience";
+import { BroadcastsTab } from "@/app/analytics/tabs/broadcasts";
+import { EngagementTab } from "@/app/analytics/tabs/engagement";
+import { DashboardMainWrapper } from "@/components/analytics/dashboard-ui";
 import { DateRangePicker } from "@/components/analytics/date-range-picker";
-import { KPICard } from "@/components/analytics/kpi-card";
-import { AreaChartComponent } from "@/components/analytics/area-chart";
-import { StackedQuestionsChart } from "@/components/analytics/stacked-questions-chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   fetchAnalyticsData,
   getInitialDateRange,
 } from "@/lib/analytics-service";
-import { Lock } from "lucide-react";
 import * as React from "react";
 
 export default function AnalyticsPage() {
@@ -81,103 +78,19 @@ export default function AnalyticsPage() {
           </TabsList>
 
           <TabsContent value='engagement'>
-            <div className='bg-[#F6F6F5] dark:bg-[#111110] rounded-[28px] p-1'>
-              <Tabs defaultValue='activeUsers' className='w-full'>
-                <TabsList className='flex w-full gap-1 h-auto p-0 justify-between'>
-                  <TabsTrigger
-                    value='activeUsers'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Active Users'
-                      metric={analyticsData.metrics.activeUsers}
-                    />
-                  </TabsTrigger>
-                  <Divider />
-                  <TabsTrigger
-                    value='conversations'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Conversations'
-                      metric={analyticsData.metrics.conversations}
-                    />
-                  </TabsTrigger>
-                  <Divider />
-                  <TabsTrigger
-                    value='answeredQuestions'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Answered Questions'
-                      metric={analyticsData.metrics.answeredQuestions}
-                    />
-                  </TabsTrigger>
-                  <Divider />
-                  <TabsTrigger
-                    value='timeCreated'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Time Created'
-                      metric={analyticsData.metrics.timeCreated}
-                    />
-                  </TabsTrigger>
-                </TabsList>
-
-                <TabsContent value='activeUsers'>
-                  <AreaChartComponent
-                    data={analyticsData.activeUsersChart}
-                    title='Active Users'
-                    color='#22c55e'
-                  />
-                </TabsContent>
-
-                <TabsContent value='conversations'>
-                  <AreaChartComponent
-                    data={analyticsData.conversationsChart}
-                    title='Conversations'
-                    color='#3b82f6'
-                  />
-                </TabsContent>
-
-                <TabsContent value='answeredQuestions'>
-                  <StackedQuestionsChart
-                    data={analyticsData.answeredQuestionsChart}
-                  />
-                </TabsContent>
-
-                <TabsContent value='timeCreated'>
-                  <AreaChartComponent
-                    data={analyticsData.timeCreatedChart}
-                    title='Time Created'
-                    color='#8b5cf6'
-                  />
-                </TabsContent>
-              </Tabs>
-            </div>
+            <EngagementTab analyticsData={analyticsData} />
           </TabsContent>
 
           <TabsContent value='audience'>
-            <div className='py-12 text-center'>
-              <p className='text-lg font-medium mb-2'>Audience Analytics</p>
-              <p className='text-sm'>Coming soon...</p>
-            </div>
+            <AudienceTab />
           </TabsContent>
 
           <TabsContent value='actions'>
-            <div className='py-12 text-center'>
-              <Lock className='h-12 w-12 mx-auto mb-4' />
-              <p className='text-lg font-medium mb-2'>Actions Analytics</p>
-              <p className='text-sm'>This feature is locked</p>
-            </div>
+            <ActionsTab />
           </TabsContent>
 
           <TabsContent value='broadcasts'>
-            <div className='py-12 text-center'>
-              <p className='text-lg font-medium mb-2'>Broadcasts Analytics</p>
-              <p className='text-sm'>Coming soon...</p>
-            </div>
+            <BroadcastsTab />
           </TabsContent>
         </Tabs>
       </div>

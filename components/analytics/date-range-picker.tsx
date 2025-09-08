@@ -82,7 +82,7 @@ export function DateRangePicker({
           <Button
             variant='outline'
             className={cn(
-              "justify-start text-left rounded-full h-8 px-3 text-[13px]",
+              "justify-start text-left rounded-full h-8 px-3 text-[13px] dark:bg-transparent ",
               !calendarDateRange && "text-muted-foreground"
             )}
           >
