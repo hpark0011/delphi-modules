@@ -73,7 +73,7 @@ export default function AnalyticsPage() {
         </div>
 
         <Tabs defaultValue='engagement' className='w-full'>
-          <TabsList className='flex-row items-center gap-1 mb-7'>
+          <TabsList className='flex-row items-center gap-0.5 mb-7'>
             <TabsTrigger value='engagement'>Engagement</TabsTrigger>
             <TabsTrigger value='audience'>Audience</TabsTrigger>
             <TabsTrigger value='actions'>Actions</TabsTrigger>
