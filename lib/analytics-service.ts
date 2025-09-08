@@ -109,14 +109,16 @@ function generateMetrics(): MetricsData {
 }
 
 export async function fetchAnalyticsData(
-  dateRange: DateRange
+  dateRange?: DateRange
 ): Promise<AnalyticsData> {
   await new Promise(resolve => setTimeout(resolve, 500))
   
+  const range = dateRange || getInitialDateRange()
+  
   return {
-    dateRange,
+    dateRange: range,
     metrics: generateMetrics(),
-    chartData: generateChartData(dateRange),
+    chartData: generateChartData(range),
     activeUsersChart: generateActiveUsersChart(),
     conversationsChart: generateConversationsChart(),
     answeredQuestionsChart: generateAnsweredQuestionsChart(),

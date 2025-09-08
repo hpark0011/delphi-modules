@@ -11,7 +11,11 @@ import { usePathname } from "next/navigation";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export default function AnalyticsLayout({ children }: { children: React.ReactNode }) {
+export default function AnalyticsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [dateRange, setDateRange] = React.useState<DateRange>(
     getInitialDateRange()
   );
@@ -52,8 +56,9 @@ export default function AnalyticsLayout({ children }: { children: React.ReactNod
                     key={item.value}
                     href={item.href}
                     className={cn(
-                      "rounded-full px-4 py-1.5 transition-all hover:bg-[#EBEBE9]",
-                      currentTab === item.value && "bg-white shadow-card-primary"
+                      "rounded-full px-4 py-1.5 text-sm transition-all hover:bg-[#EBEBE9]",
+                      currentTab === item.value &&
+                        "bg-white shadow-card-primary"
                     )}
                   >
                     {item.label}
@@ -61,9 +66,7 @@ export default function AnalyticsLayout({ children }: { children: React.ReactNod
                 ))}
               </nav>
 
-              <div className='mt-6'>
-                {children}
-              </div>
+              <div className='mt-6'>{children}</div>
             </div>
           </DashboardMainWrapper>
         </SidebarInset>
