@@ -6,12 +6,12 @@ export function ActionsTab() {
   return (
     <AnalyticsSectionWrapper>
       <div className='grid grid-cols-2 gap-2'>
-        <ModuleCard className='bg-white w-full rounded-[24px] p-4'>
+        <ModuleCard className='w-full rounded-[24px]'>
           <ModuleCardHeader>
             hello<span>hello</span>
           </ModuleCardHeader>
         </ModuleCard>
-        <ModuleCard className='bg-white w-full rounded-[24px] p-4'>
+        <ModuleCard className=' w-full rounded-[24px]'>
           <ModuleCardHeader>hello</ModuleCardHeader>
         </ModuleCard>
       </div>

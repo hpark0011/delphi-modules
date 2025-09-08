@@ -256,14 +256,14 @@ export function StackedQuestionsChart({
               stackId='a'
               fill={CHART_COLORS.answered}
               shape={BottomStackShape}
-              maxBarSize={80}
+              maxBarSize={48}
             />
             <Bar
               dataKey='unanswered'
               stackId='a'
               fill='url(#stripes)'
               shape={TopStackShape}
-              maxBarSize={80}
+              maxBarSize={48}
             />
           </BarChart>
         </ResponsiveContainer>

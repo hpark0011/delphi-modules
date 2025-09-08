@@ -5,6 +5,7 @@ import {
   ModuleCard,
   ModuleCardHeader,
   ModuleCardContent,
+  ModuleViewMoreButton,
 } from "@/components/analytics/module-ui";
 import { UserListItem } from "@/components/analytics/user-list-item";
 import { Button } from "@/components/ui/button";
@@ -84,14 +85,7 @@ export function AudienceTab() {
                   messageCount={user.messageCount}
                 />
               ))}
-              <div className=' flex justify-center absolute bottom-0 p-3 left-0 w-full bg-gradient-to-t from-card to-transparent'>
-                <Button
-                  variant='outline'
-                  className='h-8 px-3 rounded-full border-[#E5E5E0] font-medium text-[#1C1C17] hover:bg-gray-50 bg-base'
-                >
-                  View All
-                </Button>
-              </div>
+              <ModuleViewMoreButton>View All</ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
           <ModuleCard className='w-full rounded-[24px]'>
