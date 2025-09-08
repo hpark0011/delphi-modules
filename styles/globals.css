@@ -155,7 +155,8 @@
   --chart-tooltip-background: #21201c;
   --chart-tooltip-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1),
     0 2px 4px 0 rgba(0, 0, 0, 0.08), 0 4px 12px 0 rgba(0, 0, 0, 0.06),
-    0 0 0 0.5px rgba(255, 255, 255, 0.12) inset --sidebar: #f9f9f8;
+    0 0 0 0.5px rgba(255, 255, 255, 0.12) inset;
+  --sidebar: #f9f9f8;
   --sidebar-foreground: #63635e;
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);

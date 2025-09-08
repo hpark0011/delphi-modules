@@ -71,10 +71,10 @@ export function AreaChartComponent({
     }
 
     const percentageClass = isPositive
-      ? "text-[#208368]"
+      ? "text-[var(--color-trend-positive)]"
       : isNegative
-        ? "text-[#E5484D]"
-        : "text-[#8D8D86]";
+        ? "text-[var(--color-trend-negative)]"
+        : "text-[var(--color-trend-neutral)]";
 
     return (
       <div className='bg-[#21201C] px-3 py-2 pb-1.5 rounded-[12px] shadow-xl border border-[#3A3935]/5'>
