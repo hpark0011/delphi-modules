@@ -10,6 +10,9 @@ export default function EngagementPage() {
     React.useState<AnalyticsData | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
 
+  console.log("analyticsData::::", analyticsData);
+  console.log("isLoading::::", isLoading);
+
   React.useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
@@ -25,20 +28,6 @@ export default function EngagementPage() {
 
     loadData();
   }, []);
-
-  if (isLoading || !analyticsData) {
-    return (
-      <div className='animate-pulse'>
-        <div className='h-8 rounded w-32 mb-8'></div>
-        <div className='grid grid-cols-4 gap-4 mb-8'>
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className='h-32 rounded'></div>
-          ))}
-        </div>
-        <div className='h-96 rounded'></div>
-      </div>
-    );
-  }
 
   return <EngagementTab analyticsData={analyticsData} isLoading={isLoading} />;
 }

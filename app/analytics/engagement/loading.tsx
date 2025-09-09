@@ -1,26 +1,22 @@
+import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
+import * as React from "react";
+
 export default function EngagementLoading() {
   return (
-    <div className='animate-pulse space-y-6'>
-      {/* KPI Cards Skeleton */}
-      <div className='bg-[#F6F6F5] dark:bg-[#111110] rounded-[28px] p-1'>
-        <div className='flex w-full gap-1 justify-between'>
+    <AnalyticsSectionWrapper className='h-[320px] bg-red-500'>
+      <div className='animate-pulse'>
+        <div className='flex gap-1 justify-between mb-6'>
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className='flex-1'>
-              <div className='bg-white dark:bg-card rounded-[24px] p-6'>
-                <div className='h-4 bg-gray-200 dark:bg-gray-700 rounded w-24 mb-3'></div>
-                <div className='h-8 bg-gray-200 dark:bg-gray-700 rounded w-16 mb-2'></div>
-                <div className='h-3 bg-gray-200 dark:bg-gray-700 rounded w-20'></div>
-              </div>
-            </div>
+            <React.Fragment key={i}>
+              <div className='h-24 bg-white/50 rounded-3xl flex-1'></div>
+              {i < 4 && (
+                <div className='w-[3px] h-16 bg-[#EBEBE9] rounded-full self-center' />
+              )}
+            </React.Fragment>
           ))}
         </div>
+        <div className='h-96 bg-white/50 rounded-3xl'>loading....</div>
       </div>
-
-      {/* Chart Skeleton */}
-      <div className='bg-white dark:bg-card rounded-[24px] p-6'>
-        <div className='h-4 bg-gray-200 dark:bg-gray-700 rounded w-32 mb-6'></div>
-        <div className='h-[452px] bg-gray-100 dark:bg-gray-800 rounded'></div>
-      </div>
-    </div>
+    </AnalyticsSectionWrapper>
   );
 }

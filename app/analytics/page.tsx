@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
+import { MindScore } from "@/components/analytics/home/mindscore";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { ChevronRight, TrendingUp, TrendingDown, Sparkles } from "lucide-react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { ChevronRight, Sparkles, TrendingDown, TrendingUp } from "lucide-react";
+import Link from "next/link";
 
 export default function AnalyticsPage() {
   // Sample data - replace with actual data fetching
@@ -175,77 +176,12 @@ export default function AnalyticsPage() {
           </Card>
         </div>
 
-        {/* Mind Score Card */}
         <div className='flex flex-col space-y-2 w-full max-w-[392px]'>
-          <Card className='rounded-[20px] border-none shadow-card-primary dark:shadow-card-secondary bg-gradient-to-br from-orange-400 to-orange-500 text-white p-4'>
-            <CardContent className='h-full flex flex-col justify-between'>
-              <div>
-                <p className='text-sm opacity-90 mb-1'>Mind Score</p>
-                <h2 className='text-4xl font-bold mb-4'>{mindScore.level}</h2>
-              </div>
+          {/* Mind Score Card */}
+          <MindScore mindScore={mindScore} />
 
-              <div className='space-y-4'>
-                <div className='flex items-center justify-center'>
-                  <div className='relative w-32 h-32'>
-                    <div className='absolute inset-0 flex items-center justify-center'>
-                      <div className='text-center'>
-                        <p className='text-3xl font-bold'>
-                          {mindScore.current}
-                        </p>
-                        <p className='text-xs opacity-75'>MIND SCORE</p>
-                      </div>
-                    </div>
-                    <svg className='w-32 h-32 transform -rotate-90'>
-                      <circle
-                        cx='64'
-                        cy='64'
-                        r='56'
-                        stroke='rgba(255, 255, 255, 0.2)'
-                        strokeWidth='8'
-                        fill='none'
-                      />
-                      <circle
-                        cx='64'
-                        cy='64'
-                        r='56'
-                        stroke='white'
-                        strokeWidth='8'
-                        fill='none'
-                        strokeDasharray={`${(mindScore.current / mindScore.total) * 352} 352`}
-                        strokeLinecap='round'
-                      />
-                    </svg>
-                  </div>
-                </div>
-
-                <button className='w-full py-3 bg-white/20 backdrop-blur rounded-xl hover:bg-white/30 transition-colors text-sm font-medium'>
-                  Open breakdown
-                </button>
-
-                <div className='flex justify-between items-center pt-2'>
-                  <div>
-                    <p className='text-xs opacity-75'>{mindScore.level}</p>
-                    <p className='text-sm font-medium'>{mindScore.current}</p>
-                  </div>
-                  <div className='text-right'>
-                    <p className='text-xs opacity-75'>Advanced</p>
-                    <p className='text-sm font-medium'>{mindScore.total}</p>
-                  </div>
-                </div>
-
-                <div className='w-full bg-white/20 rounded-full h-2'>
-                  <div
-                    className='bg-white rounded-full h-2 transition-all'
-                    style={{
-                      width: `${(mindScore.current / mindScore.total) * 100}%`,
-                    }}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
           {/* Analytics Section */}
-          <div className='space-y-4'>
+          <AnalyticsSectionWrapper className='space-y-4 rounded-[20px]'>
             <Link
               href='/analytics/engagement'
               className='flex items-center justify-between group hover:opacity-80 transition-opacity'
@@ -256,7 +192,7 @@ export default function AnalyticsPage() {
               <ChevronRight className='w-5 h-5 text-[#8D8D86] dark:text-neutral-500 group-hover:translate-x-1 transition-transform' />
             </Link>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div className='flex flex-col gap-2'>
               {/* Conversations Card */}
               <Card className='rounded-[24px] border-none shadow-card-primary dark:shadow-card-secondary bg-white dark:bg-[#1C1C1A]'>
                 <CardContent className='p-6'>
@@ -319,7 +255,7 @@ export default function AnalyticsPage() {
                 </CardContent>
               </Card>
             </div>
-          </div>
+          </AnalyticsSectionWrapper>
         </div>
       </div>
     </div>
