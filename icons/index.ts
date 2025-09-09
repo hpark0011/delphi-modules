@@ -29,6 +29,7 @@ export { default as ArrowshapeUpFillIcon } from "@/icons/arrowshape.up.fill.svg"
 export { default as BellFillIcon } from "@/icons/bell.fill.svg";
 export { default as BoldIcon } from "@/icons/bold.svg";
 export { default as BoltIcon } from "@/icons/bolt.svg";
+export { default as BookClosedFillIcon } from "@/icons/book.closed.fill.svg";
 export { default as BookFillIcon } from "@/icons/book.fill.svg";
 export { default as BookmarkFillIcon } from "@/icons/bookmark.fill.svg";
 export { default as BubbleLeftFillIcon } from "@/icons/bubble.left.fill.svg";
@@ -133,7 +134,6 @@ export { default as StopWatchFillIcon } from "@/icons/stopwatch.fill.svg";
 export { default as StrikethroughIcon } from "@/icons/strikethrough.svg";
 export { default as SunMaxFillIcon } from "@/icons/sun.max.fill.svg";
 export { default as TargetIcon } from "@/icons/target.svg";
-export { default as TavusLogo } from "@/icons/tavus.logo.svg";
 export { default as TextBubbleFillIcon } from "@/icons/text.bubble.fill.svg";
 export { default as TextFormatSizeLargerIcon } from "@/icons/textformat.size.larger.svg";
 export { default as TextFormatSizeSmallerIcon } from "@/icons/textformat.size.smaller.svg";

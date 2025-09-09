@@ -23,10 +23,10 @@ function MetricCard({
   return (
     <Link
       href={href}
-      className='bg-card p-4 py-3 pr-3 hover:bg-[#f2f2f2] dark:hover:bg-[#262626] transition-all cursor-pointer'
+      className='bg-card p-3.5 py-3 pr-3 hover:bg-[#f2f2f2] dark:hover:bg-[#262626] transition-all cursor-pointer'
     >
       <div className='flex w-full flex-col gap-2'>
-        <p className='text-sm text-[#63635E] dark:text-neutral-400 leading-[1.2] w-full text-start'>
+        <p className='text-[13px] text-[#63635E] dark:text-neutral-400 leading-[1.2] w-full text-start'>
           {label}
         </p>
         <div className='flex items-center justify-between'>
@@ -35,7 +35,7 @@ function MetricCard({
           </p>
           <span
             className={cn(
-              "text-sm font-medium flex items-center gap-1 px-2 py-0.5 rounded-full",
+              "text-[13px] font-medium flex items-center gap-1 px-2 py-0.5 rounded-full",
               isPositive
                 ? "text-trend-positive bg-trend-positive/10"
                 : "text-trend-negative bg-trend-negative/10"
