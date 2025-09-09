@@ -18,8 +18,8 @@
   --color-text-info: var(--color-dq-blue-500);
 
   /* Trend Text Colors */
-  --color-trend-positive: #208368;
-  --color-trend-negative: #e5484d;
+  --color-text-trend-positive: #208368;
+  --color-text-trend-negative: #e5484d;
   --color-trend-neutral: #8d8d86;
 
   /* Text Highlight Colors */
@@ -46,8 +46,8 @@
   --color-text-info: var(--color-dq-blue-500);
 
   /* Trend Text Colors (same in dark for consistency) */
-  --color-trend-positive: #208368;
-  --color-trend-negative: #e5484d;
+  --color-text-trend-positive: #208368;
+  --color-text-trend-negative: #e5484d;
   --color-trend-neutral: #8d8d86;
 
   /* Text Highlight Colors */

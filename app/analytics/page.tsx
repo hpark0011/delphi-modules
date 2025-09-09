@@ -1,186 +1,181 @@
 "use client";
 
-import type { AnalyticsData, DateRange } from "@/app/analytics/types";
-import {
-  DashboardMainWrapper,
-  Divider,
-} from "@/components/analytics/dashboard-ui";
-import { DateRangePicker } from "@/components/analytics/date-range-picker";
-import { KPICard } from "@/components/analytics/kpi-card";
-import { AreaChartComponent } from "@/components/analytics/area-chart";
-import { StackedQuestionsChart } from "@/components/analytics/stacked-questions-chart";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  fetchAnalyticsData,
-  getInitialDateRange,
-} from "@/lib/analytics-service";
-import { Lock } from "lucide-react";
-import * as React from "react";
+import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
+import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
+import { MindScore } from "@/components/analytics/home/mindscore";
+import { Card, CardContent } from "@/components/ui/card";
+import { Icon } from "@/components/ui/icon";
+import { CircleDashedIcon } from "lucide-react";
+
+export type Engagements = {
+  conversations: {
+    value: number;
+    change: number;
+    isPositive: boolean;
+  };
+  activeUsers: {
+    value: number;
+    change: number;
+    isPositive: boolean;
+  };
+};
 
 export default function AnalyticsPage() {
-  const [analyticsData, setAnalyticsData] =
-    React.useState<AnalyticsData | null>(null);
-  const [dateRange, setDateRange] = React.useState<DateRange>(
-    getInitialDateRange()
-  );
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    const loadData = async () => {
-      setIsLoading(true);
-      try {
-        const data = await fetchAnalyticsData(dateRange);
-        setAnalyticsData(data);
-      } catch (error) {
-        console.error("Failed to fetch analytics data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadData();
-  }, [dateRange]);
-
-  const handleDateRangeChange = (newRange: DateRange) => {
-    setDateRange(newRange);
+  // Sample data - replace with actual data fetching
+  const mindScore = {
+    current: 110,
+    total: 200,
+    level: "Beginner",
   };
 
-  if (isLoading || !analyticsData) {
-    return (
-      <DashboardMainWrapper>
-        <div className='animate-pulse'>
-          <div className='h-8 rounded w-32 mb-8'></div>
-          <div className='grid grid-cols-4 gap-4 mb-8'>
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className='h-32  rounded'></div>
-            ))}
-          </div>
-          <div className='h-96  rounded'></div>
-        </div>
-      </DashboardMainWrapper>
-    );
-  }
+  const engagements: Engagements = {
+    conversations: {
+      value: 418,
+      change: 36,
+      isPositive: true,
+    },
+    activeUsers: {
+      value: 231,
+      change: 21,
+      isPositive: true,
+    },
+  };
+
+  const trainingCards = [
+    {
+      icon: "import",
+      title: "Import your website",
+      description: "Connect your blog or website content",
+      points: 5,
+    },
+    {
+      icon: "upload",
+      title: "Upload your documents",
+      description: "Add PDFs, presentations, and files",
+      points: 5,
+    },
+    {
+      icon: "connect",
+      title: "Connect your notes",
+      description: "Link your note-taking apps",
+      points: 5,
+    },
+    {
+      icon: "podcast",
+      title: "Find your podcast appearances",
+      description: "Claim podcast episodes you've been on",
+      points: 15,
+    },
+    {
+      icon: "childhood",
+      title: "Talk about your childhood",
+      description:
+        "Increase the accuracy and variety of questions your mind can answer",
+      points: 30,
+    },
+    {
+      icon: "education",
+      title: "Talk about your education",
+      description:
+        "Complete the Big 5 assessment to understand your communication style",
+      points: 30,
+    },
+    {
+      icon: "topic",
+      title: "Choose your next topic",
+      description: "Pick another area to train your Delphi on",
+      points: 15,
+    },
+    {
+      icon: "claim",
+      title: "Claim your content",
+      description: "Verify content we found about you online",
+      points: 15,
+    },
+  ];
 
   return (
-    <DashboardMainWrapper>
-      <div className=''>
-        <div className='flex items-center justify-between mb-6 px-3'>
-          <h1 className='text-2xl'>Analytics</h1>
-          <DateRangePicker
-            dateRange={dateRange}
-            onDateRangeChange={handleDateRangeChange}
-          />
+    <div className='space-y-6 px-13'>
+      {/* Header Section */}
+      <div>
+        <h1 className='text-[28px] leading-[1.2] font-medium mb-2 text-[#21201C] dark:text-[#EEEEEC] px-3'>
+          Good Afternoon, John!
+        </h1>
+      </div>
+
+      {/* Top Section: Training and Mind Score */}
+      <div className='flex gap-2'>
+        <div className='w-full flex flex-col gap-2'>
+          {/* Train your Delphi Section */}
+          <AnalyticsSectionWrapper className='w-full p-2 rounded-[20px]'>
+            {/* Header */}
+            <div className='space-y-2 w-full'>
+              <div className='flex items-center justify-between'>
+                <div className='flex items-center gap-3 p-2'>
+                  <div className='w-8 h-8 bg-[#FF8D28]/10 rounded-full flex items-center justify-center'>
+                    <Icon
+                      name='BookClosedFillIcon'
+                      className='size-6 text-[#FF8D28]'
+                    />
+                  </div>
+                  <h2 className='text-lg font-medium'>Train your Delphi</h2>
+                </div>
+                <div className='flex items-end text-xs text-[#8D8D86] dark:text-neutral-400 flex-col mr-4'>
+                  <span>Reach 200 Mind Score</span>
+                  <span className='text-[#21201C] dark:text-[#EEEEEC]'>
+                    {mindScore.current} / {mindScore.total}
+                  </span>
+                </div>
+              </div>
+
+              {/* Cards */}
+              <div className='grid grid-cols-2 gap-2'>
+                {trainingCards.map((card, index) => (
+                  <div
+                    key={index}
+                    className='group p-3 rounded-[20px] bg-card dark:bg-[#262626] hover:bg-[#EBEBE9] dark:hover:bg-[#2C2C2A] transition-colors cursor-pointer shadow-card-primary flex flex-col gap-3 w-full h-[144px]'
+                  >
+                    <CircleDashedIcon className='size-5 min-h-5 text-[#CFCECA]' />
+                    <div className='flex flex-col w-full h-full'>
+                      <h3 className='text-sm font-medium text-[#21201C] dark:text-[#EEEEEC]'>
+                        {card.title}
+                      </h3>
+                      <p className='text-xs leading-[1.4] text-[#8D8D86] dark:text-neutral-500'>
+                        {card.description}
+                      </p>
+                    </div>
+
+                    <div className='h-[24px] min-h-[24px] px-3 w-fit rounded-full bg-[#F0EEE4] dark:bg-[#363636] flex items-center justify-center'>
+                      <span className='text-sm text-[#71624B] dark:text-neutral-400'>
+                        +{card.points}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </AnalyticsSectionWrapper>
+
+          <AnalyticsSectionWrapper className='p-4 py-3 rounded-[20px] flex gap-3 flex-row items-center justify-between'>
+            {/* Bottom Section - Next Actions */}
+            <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-2 size-8 bg-[#F1F0EF] rounded-full justify-center'>
+                <span className='text-[#8D8D86] dark:text-neutral-500'>▶</span>
+              </div>
+              <div className='text-[#8D8D86]'>Next up</div>
+            </div>
+            <div className='text-[#8D8D86] pr-2'>Test your Delphi</div>
+          </AnalyticsSectionWrapper>
         </div>
 
-        <Tabs defaultValue='engagement' className='w-full'>
-          <TabsList className='flex-row items-center gap-0.5 mb-7'>
-            <TabsTrigger value='engagement'>Engagement</TabsTrigger>
-            <TabsTrigger value='audience'>Audience</TabsTrigger>
-            <TabsTrigger value='actions'>Actions</TabsTrigger>
-            <TabsTrigger value='broadcasts'>Broadcasts</TabsTrigger>
-          </TabsList>
+        <div className='flex flex-col space-y-2 w-full max-w-[392px]'>
+          {/* Mind Score Card */}
+          <MindScore mindScore={mindScore} />
 
-          <TabsContent value='engagement'>
-            <div className='bg-[#F6F6F5] dark:bg-[#111110] rounded-[28px] p-1'>
-              <Tabs defaultValue='activeUsers' className='w-full'>
-                <TabsList className='flex w-full gap-1 h-auto p-0 justify-between'>
-                  <TabsTrigger
-                    value='activeUsers'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Active Users'
-                      metric={analyticsData.metrics.activeUsers}
-                    />
-                  </TabsTrigger>
-                  <Divider />
-                  <TabsTrigger
-                    value='conversations'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Conversations'
-                      metric={analyticsData.metrics.conversations}
-                    />
-                  </TabsTrigger>
-                  <Divider />
-                  <TabsTrigger
-                    value='answeredQuestions'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Answered Questions'
-                      metric={analyticsData.metrics.answeredQuestions}
-                    />
-                  </TabsTrigger>
-                  <Divider />
-                  <TabsTrigger
-                    value='timeCreated'
-                    className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card dark:data-[state=active]:border-none bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
-                  >
-                    <KPICard
-                      label='Time Created'
-                      metric={analyticsData.metrics.timeCreated}
-                    />
-                  </TabsTrigger>
-                </TabsList>
-
-                <TabsContent value='activeUsers'>
-                  <AreaChartComponent
-                    data={analyticsData.activeUsersChart}
-                    title='Active Users'
-                    color='#22c55e'
-                  />
-                </TabsContent>
-
-                <TabsContent value='conversations'>
-                  <AreaChartComponent
-                    data={analyticsData.conversationsChart}
-                    title='Conversations'
-                    color='#3b82f6'
-                  />
-                </TabsContent>
-
-                <TabsContent value='answeredQuestions'>
-                  <StackedQuestionsChart
-                    data={analyticsData.answeredQuestionsChart}
-                  />
-                </TabsContent>
-
-                <TabsContent value='timeCreated'>
-                  <AreaChartComponent
-                    data={analyticsData.timeCreatedChart}
-                    title='Time Created'
-                    color='#8b5cf6'
-                  />
-                </TabsContent>
-              </Tabs>
-            </div>
-          </TabsContent>
-
-          <TabsContent value='audience'>
-            <div className='py-12 text-center'>
-              <p className='text-lg font-medium mb-2'>Audience Analytics</p>
-              <p className='text-sm'>Coming soon...</p>
-            </div>
-          </TabsContent>
-
-          <TabsContent value='actions'>
-            <div className='py-12 text-center'>
-              <Lock className='h-12 w-12 mx-auto mb-4' />
-              <p className='text-lg font-medium mb-2'>Actions Analytics</p>
-              <p className='text-sm'>This feature is locked</p>
-            </div>
-          </TabsContent>
-
-          <TabsContent value='broadcasts'>
-            <div className='py-12 text-center'>
-              <p className='text-lg font-medium mb-2'>Broadcasts Analytics</p>
-              <p className='text-sm'>Coming soon...</p>
-            </div>
-          </TabsContent>
-        </Tabs>
+          {/* Analytics Section */}
+          <HomeAnalytics engagements={engagements} />
+        </div>
       </div>
-    </DashboardMainWrapper>
+    </div>
   );
 }

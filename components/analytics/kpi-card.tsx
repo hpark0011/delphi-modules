@@ -69,9 +69,9 @@ export function KPICard({ label, metric, className }: KPICardProps) {
         "flex-1"
       )}
     >
-      <CardContent className='p-0'>
+      <CardContent className='p-0 border-none'>
         <div className='space-y-4'>
-          <p className='text-sm font-medium text-[#63635E] w-full text-start'>
+          <p className='text-sm font-medium text-[#63635E] dark:text-neutral-400 w-full text-start'>
             {label}
           </p>
           <div className='flex items-baseline gap-2'>

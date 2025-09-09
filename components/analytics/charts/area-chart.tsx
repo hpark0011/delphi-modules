@@ -89,14 +89,14 @@ export function AreaChartComponent({
         </CardTitle>
       </CardHeader>
       <CardContent className='p-0 pr-4 pb-4'>
-        <ResponsiveContainer width='100%' height={452}>
+        <ResponsiveContainer width='100%' height={472}>
           <AreaChart
             data={data}
             margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
           >
             <defs>
               <linearGradient id={gradientId} x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='0%' stopColor={color} stopOpacity={0.5} />
+                <stop offset='0%' stopColor={color} stopOpacity={0.3} />
                 <stop offset='100%' stopColor={color} stopOpacity={0} />
               </linearGradient>
             </defs>
@@ -126,7 +126,12 @@ export function AreaChartComponent({
 
             <Tooltip
               content={<CustomTooltip />}
-              cursor={{ stroke: "rgba(0, 0, 0, 0.1)" }}
+              cursor={{
+                stroke: isDark
+                  ? "rgba(255, 255, 255, 0.05)"
+                  : "rgba(0, 0, 0, 0.05)",
+                strokeDasharray: "4 4",
+              }}
             />
 
             <Area

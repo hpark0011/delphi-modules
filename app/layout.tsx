@@ -1,18 +1,8 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "@/styles/globals.css";
 import { RootProvider } from "@/components/providers/root-provider";
+import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import type { Metadata } from "next";
+import { InstrumentSerif } from "./fonts/font";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${InstrumentSerif.variable} antialiased`}>
         <RootProvider>{children}</RootProvider>
         <Analytics />
       </body>
