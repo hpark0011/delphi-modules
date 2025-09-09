@@ -20,12 +20,10 @@ export function EngagementTab({
   analyticsData,
   isLoading,
 }: EngagementTabProps) {
-  console.log("isLoading:::::", isLoading);
-  console.log("analyticsData::::", analyticsData);
   if (isLoading || !analyticsData) {
     return (
       <AnalyticsSectionWrapper>
-        {/* <div className='animate-pulse'>
+        <div className='animate-pulse'>
           <div className='flex gap-1 justify-between mb-6'>
             {[1, 2, 3, 4].map((i) => (
               <React.Fragment key={i}>
@@ -37,7 +35,7 @@ export function EngagementTab({
             ))}
           </div>
           <div className='h-96 bg-white/50 rounded-3xl'></div>
-        </div> */}
+        </div>
       </AnalyticsSectionWrapper>
     );
   }

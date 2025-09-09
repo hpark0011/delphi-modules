@@ -10,9 +10,6 @@ export default function EngagementPage() {
     React.useState<AnalyticsData | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  console.log("analyticsData::::", analyticsData);
-  console.log("isLoading::::", isLoading);
-
   React.useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
