@@ -39,6 +39,11 @@
 
   --color-text-highlight: var(--color-text-highlight);
 
+  /* Trend Text Colors */
+  --color-trend-positive: var(--color-text-trend-positive);
+  --color-trend-negative: var(--color-text-trend-negative);
+  --color-trend-neutral: var(--color-trend-neutral);
+
   /* Border Colors */
   --color-border-extra-light: var(--color-border-extra-light);
   --color-border-light: var(--color-border-light);

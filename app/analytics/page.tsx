@@ -1,11 +1,22 @@
 "use client";
 
-import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
+import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { MindScore } from "@/components/analytics/home/mindscore";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import { ChevronRight, Sparkles, TrendingDown, TrendingUp } from "lucide-react";
-import Link from "next/link";
+import { Sparkles } from "lucide-react";
+
+export type Engagements = {
+  conversations: {
+    value: number;
+    change: number;
+    isPositive: boolean;
+  };
+  activeUsers: {
+    value: number;
+    change: number;
+    isPositive: boolean;
+  };
+};
 
 export default function AnalyticsPage() {
   // Sample data - replace with actual data fetching
@@ -15,16 +26,17 @@ export default function AnalyticsPage() {
     level: "Beginner",
   };
 
-  const conversions = {
-    value: 418,
-    change: 36,
-    isPositive: true,
-  };
-
-  const activeUsers = {
-    value: 231,
-    change: 21,
-    isPositive: true,
+  const engagements: Engagements = {
+    conversations: {
+      value: 418,
+      change: 36,
+      isPositive: true,
+    },
+    activeUsers: {
+      value: 231,
+      change: 21,
+      isPositive: true,
+    },
   };
 
   const trainingCards = [
@@ -181,81 +193,7 @@ export default function AnalyticsPage() {
           <MindScore mindScore={mindScore} />
 
           {/* Analytics Section */}
-          <AnalyticsSectionWrapper className='space-y-4 rounded-[20px]'>
-            <Link
-              href='/analytics/engagement'
-              className='flex items-center justify-between group hover:opacity-80 transition-opacity'
-            >
-              <h2 className='text-xl font-medium text-[#21201C] dark:text-[#EEEEEC]'>
-                Analytics this week
-              </h2>
-              <ChevronRight className='w-5 h-5 text-[#8D8D86] dark:text-neutral-500 group-hover:translate-x-1 transition-transform' />
-            </Link>
-
-            <div className='flex flex-col gap-2'>
-              {/* Conversations Card */}
-              <Card className='rounded-[24px] border-none shadow-card-primary dark:shadow-card-secondary bg-white dark:bg-[#1C1C1A]'>
-                <CardContent className='p-6'>
-                  <div className='space-y-4'>
-                    <p className='text-sm font-medium text-[#63635E] dark:text-neutral-400'>
-                      Conversations
-                    </p>
-                    <div className='flex items-baseline justify-between'>
-                      <p className='text-3xl font-medium tracking-[-0.04em] text-[#21201C] dark:text-[#EEEEEC]'>
-                        {conversions.value}
-                      </p>
-                      <span
-                        className={cn(
-                          "text-sm font-medium flex items-center gap-1",
-                          conversions.isPositive
-                            ? "text-[#16A34A]"
-                            : "text-[#DC2626]"
-                        )}
-                      >
-                        {conversions.isPositive ? (
-                          <TrendingUp className='w-4 h-4' />
-                        ) : (
-                          <TrendingDown className='w-4 h-4' />
-                        )}
-                        +{conversions.change}%
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Active Users Card */}
-              <Card className='rounded-[24px] border-none shadow-card-primary dark:shadow-card-secondary bg-white dark:bg-[#1C1C1A]'>
-                <CardContent className='p-6'>
-                  <div className='space-y-4'>
-                    <p className='text-sm font-medium text-[#63635E] dark:text-neutral-400'>
-                      Active Users
-                    </p>
-                    <div className='flex items-baseline justify-between'>
-                      <p className='text-3xl font-medium tracking-[-0.04em] text-[#21201C] dark:text-[#EEEEEC]'>
-                        {activeUsers.value}
-                      </p>
-                      <span
-                        className={cn(
-                          "text-sm font-medium flex items-center gap-1",
-                          activeUsers.isPositive
-                            ? "text-[#16A34A]"
-                            : "text-[#DC2626]"
-                        )}
-                      >
-                        {activeUsers.isPositive ? (
-                          <TrendingUp className='w-4 h-4' />
-                        ) : (
-                          <TrendingDown className='w-4 h-4' />
-                        )}
-                        +{activeUsers.change}%
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </AnalyticsSectionWrapper>
+          <HomeAnalytics engagements={engagements} />
         </div>
       </div>
     </div>
