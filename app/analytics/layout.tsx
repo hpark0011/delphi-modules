@@ -21,6 +21,9 @@ export default function AnalyticsLayout({
   );
   const pathname = usePathname();
 
+  // Check if we're on the analytics home page or a detail page
+  const isHomePage = pathname === "/analytics";
+
   // Determine current tab based on pathname
   const currentTab = pathname.split("/").pop() || "engagement";
 
@@ -41,35 +44,41 @@ export default function AnalyticsLayout({
         <AppSidebar />
         <SidebarInset className='flex-1 overflow-auto md:peer-data-[variant=inset]:shadow-none border-border border'>
           <DashboardMainWrapper>
-            <div className=''>
-              <div className='flex items-center justify-between mb-6 px-3'>
-                <h1 className='text-2xl'>Analytics</h1>
-                <DateRangePicker
-                  dateRange={dateRange}
-                  onDateRangeChange={handleDateRangeChange}
-                />
+            {isHomePage ? (
+              // For home page, render children directly without header/nav
+              <div>{children}</div>
+            ) : (
+              // For detail pages, show header and navigation
+              <div className=''>
+                <div className='flex items-center justify-between mb-6 px-3'>
+                  <h1 className='text-2xl'>Analytics</h1>
+                  <DateRangePicker
+                    dateRange={dateRange}
+                    onDateRangeChange={handleDateRangeChange}
+                  />
+                </div>
+
+                <nav className='flex-row items-center gap-0.5 p-1 bg-extra-light box-content h-fit rounded-full mx-0.5 inline-flex'>
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.value}
+                      href={item.href}
+                      className={cn(
+                        "rounded-full px-4 py-1.5 text-sm transition-all",
+                        currentTab !== item.value &&
+                          "hover:bg-[#EBEBE9] dark:hover:bg-[#262626]",
+                        currentTab === item.value &&
+                          "bg-white shadow-card-primary dark:bg-[#262626]"
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </nav>
+
+                <div className='mt-4'>{children}</div>
               </div>
-
-              <nav className='flex-row items-center gap-0.5 p-1 bg-extra-light box-content h-fit rounded-full mx-0.5 inline-flex'>
-                {navItems.map((item) => (
-                  <Link
-                    key={item.value}
-                    href={item.href}
-                    className={cn(
-                      "rounded-full px-4 py-1.5 text-sm transition-all",
-                      currentTab !== item.value &&
-                        "hover:bg-[#EBEBE9] dark:hover:bg-[#262626]",
-                      currentTab === item.value &&
-                        "bg-white shadow-card-primary dark:bg-[#262626]"
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-
-              <div className='mt-4'>{children}</div>
-            </div>
+            )}
           </DashboardMainWrapper>
         </SidebarInset>
       </div>
