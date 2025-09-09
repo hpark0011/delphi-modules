@@ -3,8 +3,64 @@ import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { AnalyticsSectionWrapper } from "../dashboard-ui";
+import { Fragment } from "react";
+
+interface MetricCardProps {
+  href: string;
+  label: string;
+  value: string | number;
+  change: number;
+  isPositive: boolean;
+}
+
+function MetricCard({
+  href,
+  label,
+  value,
+  change,
+  isPositive,
+}: MetricCardProps) {
+  return (
+    <Link
+      href={href}
+      className='bg-card p-4 py-3 pr-3 hover:bg-[#f2f2f2] dark:hover:bg-[#262626] transition-all cursor-pointer'
+    >
+      <div className='flex w-full flex-col gap-2'>
+        <p className='text-sm text-[#63635E] dark:text-neutral-400 leading-[1.2] w-full text-start'>
+          {label}
+        </p>
+        <div className='flex items-center justify-between'>
+          <p className='text-[24px] leading-1 font-medium tracking-[-0.04em] text-[#21201C] dark:text-[#EEEEEC]'>
+            {value}
+          </p>
+          <span
+            className={cn(
+              "text-sm font-medium flex items-center gap-1 px-2 py-0.5 rounded-full",
+              isPositive
+                ? "text-trend-positive bg-trend-positive/10"
+                : "text-trend-negative bg-trend-negative/10"
+            )}
+          >
+            +{change}%
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 export function HomeAnalytics({ engagements }: { engagements: Engagements }) {
+  const metrics = [
+    {
+      label: "Active Users",
+      ...engagements.activeUsers,
+    },
+    {
+      label: "Conversations",
+      ...engagements.conversations,
+    },
+  ];
+
   return (
     <AnalyticsSectionWrapper className='rounded-[20px] gap-1 flex flex-col'>
       <Link
@@ -18,55 +74,21 @@ export function HomeAnalytics({ engagements }: { engagements: Engagements }) {
       </Link>
 
       <div className='flex flex-col rounded-[18px] overflow-hidden shadow-card-primary bg-card'>
-        {/* Conversations Card */}
-        <div className='bg-transparent  p-4 py-3 rounded-[18px] pr-3  '>
-          <div className='flex w-full flex-col gap-2'>
-            <p className='text-sm  text-[#63635E] dark:text-neutral-400 leading-[1.2] w-full text-start'>
-              Conversations
-            </p>
-            <div className='flex items-center justify-between w-full'>
-              <p className='text-[24px] leading-1 font-medium tracking-[-0.04em] text-[#21201C] dark:text-[#EEEEEC]'>
-                {engagements.conversations.value}
-              </p>
-              <span
-                className={cn(
-                  "text-sm font-medium flex items-center gap-1 px-2 py-0.5 rounded-full",
-                  engagements.conversations.isPositive
-                    ? "text-trend-positive bg-trend-positive/10"
-                    : "text-trend-negative bg-trend-negative/10"
-                )}
-              >
-                +{engagements.conversations.change}%
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className='h-[1px] bg-[#EBEBE9] dark:bg-[#21201C]' />
-
-        {/* Active Users Card */}
-        <div className='bg-transparent p-4 py-3 rounded-[18px] pr-3  '>
-          <div className='flex w-full flex-col gap-2'>
-            <p className='text-sm  text-[#63635E] dark:text-neutral-400 leading-[1.2] w-full text-start'>
-              Active Users
-            </p>
-            <div className='flex items-center justify-between'>
-              <p className='text-[24px] leading-1 font-medium tracking-[-0.04em] text-[#21201C] dark:text-[#EEEEEC]'>
-                {engagements.activeUsers.value}
-              </p>
-              <span
-                className={cn(
-                  "text-sm font-medium flex items-center gap-1 px-2 py-0.5 rounded-full",
-                  engagements.activeUsers.isPositive
-                    ? "text-trend-positive bg-trend-positive/10"
-                    : "text-trend-negative bg-trend-negative/10"
-                )}
-              >
-                +{engagements.activeUsers.change}%
-              </span>
-            </div>
-          </div>
-        </div>
+        {metrics.map((metric, index) => (
+          <Fragment key={metric.label}>
+            <MetricCard
+              key={metric.label}
+              href='/analytics/engagement'
+              label={metric.label}
+              value={metric.value}
+              change={metric.change}
+              isPositive={metric.isPositive}
+            />
+            {index < metrics.length - 1 && (
+              <div className='h-[1px] bg-[#EBEBE9] dark:bg-[#21201C]' />
+            )}
+          </Fragment>
+        ))}
       </div>
     </AnalyticsSectionWrapper>
   );
