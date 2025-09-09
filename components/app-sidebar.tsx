@@ -95,7 +95,7 @@ export function AppSidebar() {
                 <Link href='/'>
                   <Home
                     className={cn(
-                      "h-4 w-4 ",
+                      "size-4.5 ",
                       pathname === "/" ||
                         (pathname === "/analytics" && "text-[#FDFDFC]") ||
                         (pathname === "/analytics/engagement" &&
@@ -118,7 +118,7 @@ export function AppSidebar() {
                 isActive={pathname === "/notifications"}
               >
                 <Link href='/notifications'>
-                  <Bell className='h-4 w-4' />
+                  <Bell className='size-4.5' />
                   <span>Notifications</span>
                 </Link>
               </SidebarMenuButton>
@@ -144,7 +144,7 @@ export function AppSidebar() {
                         disabled={item.disabled}
                       >
                         <Link href={item.href}>
-                          {Icon && <Icon className='h-4 w-4' />}
+                          {Icon && <Icon className='size-4.5' />}
                           <span>{item.title}</span>
                           {item.badge && (
                             <span className='ml-auto text-xs bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded'>
