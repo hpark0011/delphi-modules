@@ -16,7 +16,7 @@ export function MindScore({ mindScore }: MindScoreProps) {
     <AnalyticsSectionWrapper className='p-0 rounded-[20px] gap-0'>
       <Card className='rounded-[20px] border-none shadow-card-primary dark:shadow-card-secondary bg-gradient-to-tl from-[#863A0B] via-[#BD6224] to-[#FF9F5F] text-white p-4 py-3.5 pb-4'>
         <CardContent className='h-full flex flex-col justify-between p-0'>
-          <div className='mb-10'>
+          <div className='mb-8'>
             <p className='text-sm font-medium opacity-80 mix-blend-hard-light '>
               Mind Score
             </p>
@@ -40,7 +40,7 @@ export function MindScore({ mindScore }: MindScoreProps) {
             <p className='text-sm'>{mindScore.level}</p>
             <p className='text-sm text-[#8D8D86]'>{mindScore.current}</p>
           </div>
-          <ArrowRight className='size-4 text-[#8D8D86]' />
+          <ArrowRight className='size-3.5 text-[#8D8D86]' />
           <div className='text-right'>
             <p className='text-sm text-[#8D8D86]'>Advanced</p>
             <p className='text-sm text-[#8D8D86]'>{mindScore.total}</p>
