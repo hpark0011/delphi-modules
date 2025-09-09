@@ -89,9 +89,9 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Top Section: Training and Mind Score */}
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+      <div className='flex gap-2'>
         {/* Train your Delphi Section */}
-        <div className='space-y-2'>
+        <div className='space-y-2 w-full'>
           <Card className='rounded-[24px] border-none shadow-card-primary dark:shadow-card-secondary bg-white dark:bg-[#1C1C1A]'>
             <CardHeader className='pb-3'>
               <div className='flex items-center justify-between'>
@@ -162,7 +162,7 @@ export default function AnalyticsPage() {
           </Card>
 
           {/* Bottom Section - Next Actions */}
-          <Card className='rounded-[24px] border-none shadow-card-primary dark:shadow-card-secondary bg-white dark:bg-[#1C1C1A] flex flex-row'>
+          <Card className='rounded-[24px] border-none shadow-card-primary dark:shadow-card-secondary bg-white dark:bg-[#1C1C1A] flex flex-row px-4'>
             <h3 className='text-lg font-medium text-[#21201C] dark:text-[#EEEEEC] flex items-center gap-2'>
               <span className='text-[#8D8D86] dark:text-neutral-500'>▶</span>
               Next up
@@ -176,9 +176,9 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Mind Score Card */}
-        <div>
-          <Card className='rounded-[24px] border-none shadow-card-primary dark:shadow-card-secondary bg-gradient-to-br from-orange-400 to-orange-500 text-white'>
-            <CardContent className='p-6 h-full flex flex-col justify-between'>
+        <div className='flex flex-col space-y-2 w-full max-w-[392px]'>
+          <Card className='rounded-[20px] border-none shadow-card-primary dark:shadow-card-secondary bg-gradient-to-br from-orange-400 to-orange-500 text-white p-4'>
+            <CardContent className='h-full flex flex-col justify-between'>
               <div>
                 <p className='text-sm opacity-90 mb-1'>Mind Score</p>
                 <h2 className='text-4xl font-bold mb-4'>{mindScore.level}</h2>
