@@ -145,9 +145,9 @@ export default function AnalyticsPage() {
                       </p>
                     </div>
 
-                    <div className='h-6 px-4 w-fit rounded-full bg-[#F0EEE4] dark:bg-[#363636] flex items-center justify-center'>
+                    <div className='h-[24px] min-h-[24px] px-3 w-fit rounded-full bg-[#F0EEE4] dark:bg-[#363636] flex items-center justify-center'>
                       <span className='text-sm text-[#71624B] dark:text-neutral-400'>
-                        + {card.points}
+                        +{card.points}
                       </span>
                     </div>
                   </div>
