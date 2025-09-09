@@ -10,6 +10,7 @@ import { getInitialDateRange } from "@/lib/analytics-service";
 import { usePathname } from "next/navigation";
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { ArrowLeft } from "lucide-react";
 
 export default function AnalyticsLayout({
   children,
@@ -49,13 +50,22 @@ export default function AnalyticsLayout({
               <div>{children}</div>
             ) : (
               // For detail pages, show header and navigation
-              <div className=''>
-                <div className='flex items-center justify-between mb-6 px-3'>
-                  <h1 className='text-2xl'>Analytics</h1>
-                  <DateRangePicker
-                    dateRange={dateRange}
-                    onDateRangeChange={handleDateRangeChange}
-                  />
+              <div>
+                <div className='flex flex-col w-full'>
+                  <Link
+                    href='/analytics'
+                    className='flex items-center gap-1.5 text-sm px-3 text-[#8D8D86]'
+                  >
+                    <ArrowLeft className='size-3.5' />
+                    Home
+                  </Link>
+                  <div className='flex items-center justify-between mb-6 px-3'>
+                    <h1 className='text-2xl'>Analytics</h1>
+                    <DateRangePicker
+                      dateRange={dateRange}
+                      onDateRangeChange={handleDateRangeChange}
+                    />
+                  </div>
                 </div>
 
                 <nav className='flex-row items-center gap-0.5 p-1 bg-extra-light box-content h-fit rounded-full mx-0.5 inline-flex'>

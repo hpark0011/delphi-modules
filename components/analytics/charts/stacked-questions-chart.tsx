@@ -166,13 +166,13 @@ export function StackedQuestionsChart({
         className
       )}
     >
-      <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0 border-[#F1F0EF] dark:border-[#21201C] border-b'>
+      <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0'>
         <CardTitle className='text-sm font-medium text-muted-foreground'>
           <CustomLegend />
         </CardTitle>
       </CardHeader>
       <CardContent className='p-0 relative pb-4'>
-        <ResponsiveContainer width='100%' height={472}>
+        <ResponsiveContainer width='100%' height={454}>
           <BarChart
             data={data}
             margin={{ top: 10, right: 20, left: -10, bottom: 5 }}

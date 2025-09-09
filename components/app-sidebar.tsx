@@ -147,7 +147,7 @@ export function AppSidebar() {
                           {Icon && <Icon className='size-4.5' />}
                           <span>{item.title}</span>
                           {item.badge && (
-                            <span className='ml-auto text-xs bg-gray-800 text-gray-400 px-1.5 py-0.5 rounded'>
+                            <span className='ml-auto text-xs bg-gray-800 text-gray-400 px-1.5 py-0.5'>
                               {item.badge}
                             </span>
                           )}
