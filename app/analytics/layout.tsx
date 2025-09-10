@@ -54,9 +54,9 @@ export default function AnalyticsLayout({
                 <div className='flex flex-col w-full'>
                   <Link
                     href='/analytics'
-                    className='flex items-center gap-1.5 text-sm px-3 text-[#8D8D86]'
+                    className='flex group w-fit items-center gap-1.5 text-sm mx-3 text-[#8D8D86]'
                   >
-                    <ArrowLeft className='size-3.5' />
+                    <ArrowLeft className='size-3.5 group-hover:-translate-x-0.5 transition-transform' />
                     Home
                   </Link>
                   <div className='flex items-center justify-between mb-6 px-3'>

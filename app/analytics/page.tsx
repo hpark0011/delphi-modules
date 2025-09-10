@@ -3,7 +3,6 @@
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { MindScore } from "@/components/analytics/home/mindscore";
-import { Card, CardContent } from "@/components/ui/card";
 import { Icon } from "@/components/ui/icon";
 import { CircleDashedIcon } from "lucide-react";
 
