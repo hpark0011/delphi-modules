@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { cn } from "@/lib/utils";
 
 const languageData = [
   { country: "US", flag: "🇺🇸", percentage: 44 },
@@ -11,39 +12,207 @@ const languageData = [
   { country: "Korea", flag: "🇰🇷", percentage: 8 },
 ];
 
-const BAR_COLOR = "#F0EEE4";
+// Configuration context for styling
+interface ChartConfig {
+  barColor?: string;
+  labelColor?: string;
+  barLabelColor?: string;
+  barValueColor?: string;
+}
 
-export function LanguageChart() {
+const ChartContext = React.createContext<ChartConfig>({
+  barColor: "#F0EEE4",
+  labelColor: "#63635E",
+  barLabelColor: "#63635E",
+  barValueColor: "#8D8D86",
+});
+
+// Main Chart component
+interface ChartProps extends React.ComponentProps<"div"> {
+  config?: ChartConfig;
+}
+
+function Chart({ className, config, children, ...props }: ChartProps) {
+  const defaultConfig: ChartConfig = {
+    barColor: "#F0EEE4",
+    labelColor: "#63635E",
+    barLabelColor: "#63635E",
+    barValueColor: "#8D8D86",
+  };
+
+  const mergedConfig = { ...defaultConfig, ...config };
+
   return (
-    <div className='flex flex-col space-y-3 w-full'>
-      {languageData.map((item, index) => (
-        <div key={index} className='flex items-center justify-between px-2'>
-          <div className='flex items-center gap-3 flex-1 relative'>
-            <div className='flex items-center gap-2 min-w-[120px] absolute left-2 z-1'>
-              <span className='text-lg'>{item.flag}</span>
-              <span className='text-sm font-medium text-[#63635E]'>
-                {item.country}
-              </span>
-            </div>
-            {/* Bar Graphs */}
-            <div className='flex-1 w-full'>
-              <div className='w-full bg-transparent rounded-full h-6'>
-                <div
-                  className='h-6 rounded-full relative'
-                  style={{ width: `${item.percentage}%` }}
-                >
-                  <div
-                    className={`absolute inset-0 bg-[${BAR_COLOR}] rounded-sm`}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <span className='text-sm text-[#8D8D86] ml-3 min-w-[40px] text-right'>
-            {item.percentage}%
-          </span>
-        </div>
-      ))}
+    <ChartContext.Provider value={mergedConfig}>
+      <div
+        data-slot='chart'
+        className={cn("flex flex-col space-y-3 w-full", className)}
+        {...props}
+      >
+        {children}
+      </div>
+    </ChartContext.Provider>
+  );
+}
+
+// Chart Item component
+interface ChartItemProps extends React.ComponentProps<"div"> {
+  data?: {
+    flag?: string;
+    country?: string;
+    percentage?: number;
+  };
+}
+
+function ChartItem({ className, data, children, ...props }: ChartItemProps) {
+  return (
+    <div
+      data-slot='chart-item'
+      className={cn("flex items-center justify-between px-2", className)}
+      {...props}
+    >
+      {children || (
+        <>
+          <ChartItemContent>
+            <ChartItemLabel flag={data?.flag} country={data?.country} />
+            <ChartItemBar value={data?.percentage} />
+          </ChartItemContent>
+          <ChartItemValue value={data?.percentage} />
+        </>
+      )}
     </div>
   );
 }
+
+// Content wrapper for the chart item
+function ChartItemContent({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot='chart-item-content'
+      className={cn("flex items-center gap-3 flex-1 relative", className)}
+      {...props}
+    />
+  );
+}
+
+// Label component for country and flag
+interface ChartItemLabelProps extends React.ComponentProps<"div"> {
+  flag?: string;
+  country?: string;
+}
+
+function ChartItemLabel({
+  className,
+  flag,
+  country,
+  ...props
+}: ChartItemLabelProps) {
+  const config = React.useContext(ChartContext);
+
+  return (
+    <div
+      data-slot='chart-item-label'
+      className={cn(
+        "flex items-center gap-2 min-w-[120px] absolute left-2 z-[1]",
+        className
+      )}
+      {...props}
+    >
+      {flag && <span className='text-lg'>{flag}</span>}
+      {country && (
+        <span
+          className='text-sm font-medium'
+          style={{ color: config.barLabelColor }}
+        >
+          {country}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// Bar component
+interface ChartItemBarProps extends React.ComponentProps<"div"> {
+  value?: number;
+  maxValue?: number;
+}
+
+function ChartItemBar({
+  className,
+  value = 0,
+  maxValue = 100,
+  ...props
+}: ChartItemBarProps) {
+  const config = React.useContext(ChartContext);
+  const percentage = Math.min((value / maxValue) * 100, 100);
+
+  return (
+    <div
+      data-slot='chart-item-bar'
+      className={cn("flex-1 w-full", className)}
+      {...props}
+    >
+      <div className='w-full bg-transparent rounded-full h-6'>
+        <div
+          className='h-6 rounded-full relative'
+          style={{ width: `${percentage}%` }}
+        >
+          <div
+            className='absolute inset-0 rounded-sm'
+            style={{ backgroundColor: config.barColor }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Value component for percentage display
+interface ChartItemValueProps extends React.ComponentProps<"span"> {
+  value?: number;
+  suffix?: string;
+}
+
+function ChartItemValue({
+  className,
+  value,
+  suffix = "%",
+  ...props
+}: ChartItemValueProps) {
+  const config = React.useContext(ChartContext);
+
+  return (
+    <span
+      data-slot='chart-item-value'
+      className={cn("text-sm ml-3 min-w-[40px] text-right", className)}
+      style={{ color: config.barValueColor }}
+      {...props}
+    >
+      {value !== undefined ? `${value}${suffix}` : null}
+    </span>
+  );
+}
+
+// Main exported component with default implementation
+export function LanguageChart() {
+  return (
+    <Chart>
+      {languageData.map((item, index) => (
+        <ChartItem key={index} data={item} />
+      ))}
+    </Chart>
+  );
+}
+
+// Export all components for flexible usage
+export {
+  Chart,
+  ChartItem,
+  ChartItemContent,
+  ChartItemLabel,
+  ChartItemBar,
+  ChartItemValue,
+};
