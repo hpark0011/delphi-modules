@@ -11,7 +11,7 @@ import {
 import { UserListItem } from "@/components/analytics/user-list-item";
 import { SourceListItem } from "@/components/analytics/source-list-item";
 import { TopicsChart } from "@/components/analytics/charts/topics-chart";
-import { QuestionListItem } from "@/components/analytics/question-list.item";
+import { QuestionListItem } from "@/components/analytics/question-list-item";
 
 const mostActiveUsers = [
   {

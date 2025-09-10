@@ -1,9 +1,75 @@
 "use client";
+import { useState } from "react";
+import { CalendarListItem } from "@/components/analytics/calendar-list-item";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { ModuleCard, ModuleCardHeader } from "@/components/analytics/module-ui";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+const upcomingMeetings = [
+  {
+    date: "Wed Apr 3",
+    meetings: [
+      {
+        title: "Meeting with John Doe",
+        startTime: "10:00AM",
+        endTime: "11:00AM",
+        meetingType: "Text Only",
+      },
+      {
+        title: "Meeting with Jane Doe",
+        startTime: "11:00AM",
+        endTime: "12:00PM",
+        meetingType: "Video Only",
+      },
+      {
+        title: "Meeting with John Doe",
+        startTime: "12:00PM",
+        endTime: "1:00PM",
+        meetingType: "No Clone",
+      },
+      {
+        title: "Meeting with Jane Doe",
+        startTime: "1:00PM",
+        endTime: "2:00PM",
+        meetingType: "No Clone",
+      },
+    ],
+  },
+  {
+    date: "Thu Apr 4",
+    meetings: [
+      {
+        title: "Meeting with Jane Doe",
+        startTime: "11:00AM",
+        endTime: "12:00PM",
+        meetingType: "Text Only",
+      },
+      {
+        title: "Meeting with John Doe",
+        startTime: "12:00PM",
+        endTime: "1:00PM",
+        meetingType: "Video Only",
+      },
+      {
+        title: "Meeting with Jane Doe",
+        startTime: "2:00PM",
+        endTime: "3:00PM",
+        meetingType: "No Clone",
+      },
+      {
+        title: "Meeting with John Doe",
+        startTime: "3:00PM",
+        endTime: "4:00PM",
+        meetingType: "No Clone",
+      },
+    ],
+  },
+];
+
 export function ActionsTab() {
+  const [currentDate, setCurrentDate] = useState<string>(
+    upcomingMeetings[0].date
+  );
   return (
     <AnalyticsSectionWrapper>
       <div className='grid grid-cols-2 gap-2'>
@@ -12,8 +78,15 @@ export function ActionsTab() {
             <span className='font-medium text-[#63635E]'>
               Upcoming Meetings
             </span>
-            <span className='font-normal text-[#8D8D86]'>Wed Apr 3</span>
+            <span className='text-[#8D8D86]'>{currentDate}</span>
           </ModuleCardHeader>
+          <div className='flex flex-col pb-2'>
+            {upcomingMeetings
+              .find((meeting) => meeting.date === currentDate)
+              ?.meetings.map((meeting, index) => (
+                <CalendarListItem key={index} {...meeting} />
+              ))}
+          </div>
         </ModuleCard>
         <ModuleCard className=' w-full rounded-[24px]'>
           <ModuleCardHeader>
