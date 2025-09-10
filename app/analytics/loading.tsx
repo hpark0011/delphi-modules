@@ -35,10 +35,10 @@ export default function AnalyticsLoading() {
 
               {/* Cards */}
               <div className='grid grid-cols-2 gap-2'>
-                {[1, 2, 3, 4].map((i) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                   <div
                     key={i}
-                    className='animate-pulse h-24 bg-light rounded-3xl flex-1'
+                    className='animate-pulse bg-light/50 rounded-[20px] flex-1 h-[144px]'
                   />
                 ))}
               </div>
@@ -57,7 +57,14 @@ export default function AnalyticsLoading() {
           </AnalyticsSectionWrapper>
         </div>
 
-        <div className='flex flex-col space-y-2 w-full max-w-[392px]'></div>
+        <div className='flex flex-col space-y-2 w-full max-w-[392px]'>
+          <AnalyticsSectionWrapper className='p-4 py-3 rounded-[20px] flex gap-3 flex-row items-center justify-between'>
+            <div className='flex w-full h-[222px]' />
+          </AnalyticsSectionWrapper>
+          <AnalyticsSectionWrapper className='p-4 py-3 rounded-[20px] flex gap-3 flex-row items-center justify-between'>
+            <div className='flex w-full h-[166px]' />
+          </AnalyticsSectionWrapper>
+        </div>
       </div>
     </div>
   );
