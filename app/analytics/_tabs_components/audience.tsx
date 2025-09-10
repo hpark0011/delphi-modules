@@ -11,6 +11,7 @@ import {
 import { UserListItem } from "@/components/analytics/user-list-item";
 import { SourceListItem } from "@/components/analytics/source-list-item";
 import { TopicsChart } from "@/components/analytics/charts/topics-chart";
+import { QuestionListItem } from "@/components/analytics/question-list.item";
 
 const mostActiveUsers = [
   {
@@ -84,12 +85,50 @@ const sourceList = [
   },
 ];
 
+const popularQuestions = [
+  {
+    id: 1,
+    question: "What is the capital of France?",
+    conversations: 324,
+  },
+  {
+    id: 2,
+    question: "What elements contribute to an intuitive interface?",
+    conversations: 324,
+  },
+  {
+    id: 3,
+    question: "How can I improve user engagement with AI chatbots?",
+    conversations: 324,
+  },
+  {
+    id: 4,
+    question: "What is the best way to use AI chatbots?",
+    conversations: 324,
+  },
+  {
+    id: 5,
+    question: "How does minimalism influence the overall user experience?",
+    conversations: 324,
+  },
+  {
+    id: 6,
+    question: "In what ways can user testing shape design decisions?",
+    conversations: 324,
+  },
+  {
+    id: 7,
+    question: "What innovative techniques can improve product design?",
+    conversations: 324,
+  },
+];
+
 export function AudienceTab() {
   return (
     <div className='flex flex-col gap-4 w-full'>
       <AnalyticsSectionWrapper>
         <div className='flex items-center justify-between px-4 py-2'>
-          <p className='font-medium'>Audience</p>
+          <p className='font-medium text-[#63635E]'>Audience</p>
         </div>
         <div className='grid grid-cols-2 gap-2'>
           <ModuleCard className='w-full rounded-[24px] pb-0'>
@@ -124,9 +163,10 @@ export function AudienceTab() {
           </ModuleCard>
         </div>
       </AnalyticsSectionWrapper>
+
       <AnalyticsSectionWrapper>
-        <div className='flex items-center justify-between px-4 py-3'>
-          <p className='font-medium'>Trends</p>
+        <div className='flex items-center justify-between px-4 py-2'>
+          <p className='font-medium text-[#63635E]'>Trends</p>
         </div>
         <div className='grid grid-cols-2 gap-2'>
           <ModuleCard className='w-full rounded-[24px]'>
@@ -155,6 +195,27 @@ export function AudienceTab() {
             </ModuleCardHeader>
             <ModuleCardContent className='pt-0 pb-4 px-0 min-h-[224px]'>
               <TopicsChart />
+              <ModuleViewMoreButton>View All</ModuleViewMoreButton>
+            </ModuleCardContent>
+          </ModuleCard>
+        </div>
+        <div className='w-full mt-4'>
+          <ModuleCard className='w-full rounded-[24px]'>
+            <ModuleCardHeader>
+              <span className='font-medium text-[#63635E]'>
+                Popular Questions
+              </span>
+              <span className='font-normal text-[#8D8D86]'>Conversations</span>
+            </ModuleCardHeader>
+            <ModuleCardContent className='py-1 px-0 min-h-[224px]'>
+              {popularQuestions.map((question, index) => (
+                <QuestionListItem
+                  key={question.id}
+                  index={index}
+                  question={question.question}
+                  conversations={question.conversations}
+                />
+              ))}
               <ModuleViewMoreButton>View All</ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
