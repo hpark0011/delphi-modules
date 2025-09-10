@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const languageData = [
@@ -62,9 +63,16 @@ interface ChartItemProps extends React.ComponentProps<"div"> {
     country?: string;
     percentage?: number;
   };
+  index?: number;
 }
 
-function ChartItem({ className, data, children, ...props }: ChartItemProps) {
+function ChartItem({
+  className,
+  data,
+  children,
+  index = 0,
+  ...props
+}: ChartItemProps) {
   return (
     <div
       data-slot='chart-item'
@@ -75,7 +83,7 @@ function ChartItem({ className, data, children, ...props }: ChartItemProps) {
         <>
           <ChartItemContent>
             <ChartItemLabel flag={data?.flag} country={data?.country} />
-            <ChartItemBar value={data?.percentage} />
+            <ChartItemBar value={data?.percentage} delay={index * 0.05} />
           </ChartItemContent>
           <ChartItemValue value={data?.percentage} />
         </>
@@ -138,12 +146,14 @@ function ChartItemLabel({
 interface ChartItemBarProps extends React.ComponentProps<"div"> {
   value?: number;
   maxValue?: number;
+  delay?: number;
 }
 
 function ChartItemBar({
   className,
   value = 0,
   maxValue = 100,
+  delay = 0,
   ...props
 }: ChartItemBarProps) {
   const config = React.useContext(ChartContext);
@@ -156,15 +166,22 @@ function ChartItemBar({
       {...props}
     >
       <div className='w-full bg-transparent rounded-full h-6'>
-        <div
+        <motion.div
           className='h-6 rounded-full relative'
-          style={{ width: `${percentage}%` }}
+          initial={{ width: 0 }}
+          animate={{ width: `${percentage}%` }}
+          transition={{
+            type: "spring",
+            stiffness: 150,
+            damping: 13,
+            delay: delay,
+          }}
         >
           <div
             className='absolute inset-0 rounded-sm'
             style={{ backgroundColor: config.barColor }}
           />
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -201,7 +218,7 @@ export function LanguageChart() {
   return (
     <Chart>
       {languageData.map((item, index) => (
-        <ChartItem key={index} data={item} />
+        <ChartItem key={index} data={item} index={index} />
       ))}
     </Chart>
   );
