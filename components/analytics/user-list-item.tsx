@@ -18,9 +18,9 @@ export function UserListItem({
   isActive = false,
 }: UserListItemProps) {
   return (
-    <div className='flex items-center justify-between p-2 rounded-lg'>
+    <div className='flex items-center justify-between p-2 py-1 rounded-lg hover:bg-[#F6F6F5]'>
       <div className='flex items-center gap-2'>
-        <Avatar className='h-9 w-9 m-auto'>
+        <Avatar className='h-6 w-6 m-auto'>
           <AvatarImage src={avatarUrl} alt={name} />
           <AvatarFallback>
             {name

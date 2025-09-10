@@ -9,6 +9,8 @@ import {
   ModuleViewMoreButton,
 } from "@/components/analytics/module-ui";
 import { UserListItem } from "@/components/analytics/user-list-item";
+import { SourceListItem } from "@/components/analytics/source-list-item";
+import { TopicsChart } from "@/components/analytics/charts/topics-chart";
 
 const mostActiveUsers = [
   {
@@ -58,22 +60,46 @@ const mostActiveUsers = [
   },
 ];
 
+const sourceList = [
+  {
+    id: 1,
+    name: "Influence",
+    citation: 324,
+  },
+  {
+    id: 2,
+    name: "Nature Lover Brown",
+    citation: 324,
+  },
+
+  {
+    id: 3,
+    name: "Nature Lover Brown",
+    citation: 324,
+  },
+  {
+    id: 4,
+    name: "Nature Lover Brown",
+    citation: 324,
+  },
+];
+
 export function AudienceTab() {
   return (
-    <div className='flex flex-col gap-6 w-full'>
+    <div className='flex flex-col gap-4 w-full'>
       <AnalyticsSectionWrapper>
-        <div className='flex items-center justify-between px-4 py-2.5'>
+        <div className='flex items-center justify-between px-4 py-2'>
           <p className='font-medium'>Audience</p>
         </div>
         <div className='grid grid-cols-2 gap-2'>
-          <ModuleCard className='w-full rounded-[24px]'>
+          <ModuleCard className='w-full rounded-[24px] pb-0'>
             <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>
                 Most Active Users
               </span>
               <span className='font-normal text-[#8D8D86]'>Messages</span>
             </ModuleCardHeader>
-            <ModuleCardContent className='pt-0'>
+            <ModuleCardContent className='py-0'>
               {mostActiveUsers.map((user) => (
                 <UserListItem
                   key={user.id}
@@ -88,10 +114,10 @@ export function AudienceTab() {
             </ModuleCardContent>
           </ModuleCard>
           <ModuleCard className='w-full rounded-[24px]'>
-            <ModuleCardHeader className='mb-2'>
+            <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>Languages</span>
             </ModuleCardHeader>
-            <ModuleCardContent className='pt-0 pb-4'>
+            <ModuleCardContent className='pt-0 pb-4 px-0'>
               <LanguageChart />
               <ModuleViewMoreButton>View All</ModuleViewMoreButton>
             </ModuleCardContent>
@@ -102,7 +128,37 @@ export function AudienceTab() {
         <div className='flex items-center justify-between px-4 py-3'>
           <p className='font-medium'>Trends</p>
         </div>
-        <div className='grid grid-cols-2 gap-2'>hello</div>
+        <div className='grid grid-cols-2 gap-2'>
+          <ModuleCard className='w-full rounded-[24px]'>
+            <ModuleCardHeader>
+              <span className='font-medium text-[#63635E]'>
+                Popular Sources
+              </span>
+              <span className='font-normal text-[#8D8D86]'>Citation</span>
+            </ModuleCardHeader>
+            <ModuleCardContent className='pt-0 pb-4 px-2 '>
+              {sourceList.map((source) => (
+                <SourceListItem
+                  key={source.id}
+                  name={source.name}
+                  citation={source.citation}
+                />
+              ))}
+              <ModuleViewMoreButton>View All</ModuleViewMoreButton>
+            </ModuleCardContent>
+          </ModuleCard>
+
+          <ModuleCard className='w-full rounded-[24px]'>
+            <ModuleCardHeader>
+              <span className='font-medium text-[#63635E]'>Popular Topics</span>
+              <span className='font-normal text-[#8D8D86]'>Conversations</span>
+            </ModuleCardHeader>
+            <ModuleCardContent className='pt-0 pb-4 px-0 min-h-[224px]'>
+              <TopicsChart />
+              <ModuleViewMoreButton>View All</ModuleViewMoreButton>
+            </ModuleCardContent>
+          </ModuleCard>
+        </div>
       </AnalyticsSectionWrapper>
     </div>
   );

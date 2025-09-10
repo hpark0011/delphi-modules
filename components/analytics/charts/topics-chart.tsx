@@ -5,12 +5,21 @@ import { motion } from "framer-motion";
 import * as React from "react";
 
 const languageData = [
-  { country: "US", flag: "🇺🇸", percentage: 44 },
-  { country: "Brazil", flag: "🇧🇷", percentage: 23 },
-  { country: "Vietnam", flag: "🇻🇳", percentage: 16 },
-  { country: "France", flag: "🇫🇷", percentage: 16 },
-  { country: "Canada", flag: "🇨🇦", percentage: 12 },
-  { country: "Korea", flag: "🇰🇷", percentage: 9 },
+  { country: "US", percentage: 44 },
+  { country: "Brazil", percentage: 23 },
+  { country: "Vietnam", percentage: 16 },
+  { country: "France", percentage: 16 },
+  { country: "Canada", percentage: 12 },
+  { country: "Korea", percentage: 9 },
+];
+
+const colorList = [
+  "#6E0C14",
+  "#EF5F28",
+  "#FF8D22",
+  "#BD9064",
+  "#D6BA95",
+  "#E7D6C1",
 ];
 
 // Configuration context for styling
@@ -59,7 +68,7 @@ function Chart({ className, config, children, ...props }: ChartProps) {
     <ChartContext.Provider value={contextValue}>
       <div
         data-slot='chart'
-        className={cn("flex flex-col space-y-1 w-full relative", className)}
+        className={cn("flex flex-col w-full relative gap-1.5", className)}
         {...props}
       >
         {children}
@@ -102,12 +111,16 @@ function ChartItem({
       {...props}
     >
       {children || (
-        <div className='hover:bg-gradient-to-r from-[#F6F6F5] via-[#f6f6f5] to-transparent w-full flex items-center justify-between px-4 py-1'>
+        <div className='hover:bg-gradient-to-r from-[#F6F6F5] via-[#f6f6f5] to-transparent w-full flex items-center px-4 py-0.5'>
           <ChartItemContent>
-            <ChartItemLabel flag={data?.flag} country={data?.country} />
-            <ChartItemBar value={data?.percentage} delay={index * 0.05} />
+            <ChartItemLabel country={data?.country} />
+            <ChartItemBar
+              value={data?.percentage}
+              delay={index * 0.05}
+              index={index}
+            />
+            <ChartItemValue value={data?.percentage} />
           </ChartItemContent>
-          <ChartItemValue value={data?.percentage} />
         </div>
       )}
     </div>
@@ -122,7 +135,7 @@ function ChartItemContent({
   return (
     <div
       data-slot='chart-item-content'
-      className={cn("flex items-center gap-3 flex-1 relative", className)}
+      className={cn("flex items-center gap-3 w-full relative ", className)}
       {...props}
     />
   );
@@ -130,28 +143,21 @@ function ChartItemContent({
 
 // Label component for country and flag
 interface ChartItemLabelProps extends React.ComponentProps<"div"> {
-  flag?: string;
   country?: string;
 }
 
-function ChartItemLabel({
-  className,
-  flag,
-  country,
-  ...props
-}: ChartItemLabelProps) {
+function ChartItemLabel({ className, country, ...props }: ChartItemLabelProps) {
   const config = React.useContext(ChartContext);
 
   return (
     <div
       data-slot='chart-item-label'
       className={cn(
-        "flex items-center gap-2 min-w-[120px] absolute left-2 z-[1]",
+        "flex items-center gap-2 min-w-[104px] justify-end",
         className
       )}
       {...props}
     >
-      {flag && <span className='text-lg'>{flag}</span>}
       {country && (
         <span
           className='text-sm font-medium'
@@ -169,6 +175,7 @@ interface ChartItemBarProps extends React.ComponentProps<"div"> {
   value?: number;
   maxValue?: number;
   delay?: number;
+  index?: number;
 }
 
 function ChartItemBar({
@@ -176,6 +183,7 @@ function ChartItemBar({
   value = 0,
   maxValue = 100,
   delay = 0,
+  index = 0,
   ...props
 }: ChartItemBarProps) {
   const config = React.useContext(ChartContext);
@@ -187,7 +195,7 @@ function ChartItemBar({
       className={cn("flex-1 w-full", className)}
       {...props}
     >
-      <div className='w-full bg-transparent rounded-full h-6'>
+      <div className='w-full bg-transparent rounded-full h-4'>
         <motion.div
           className='h-full rounded-full relative'
           initial={{ width: 0 }}
@@ -200,8 +208,8 @@ function ChartItemBar({
           }}
         >
           <div
-            className='absolute inset-0 rounded-sm'
-            style={{ backgroundColor: config.barColor }}
+            className='absolute inset-0 rounded-[4px]'
+            style={{ backgroundColor: colorList[index] }}
           />
         </motion.div>
       </div>
@@ -239,7 +247,7 @@ function ChartItemValue({
 }
 
 // Main exported component with default implementation
-export function LanguageChart() {
+export function TopicsChart() {
   return (
     <Chart>
       {languageData.map((item, index) => (
