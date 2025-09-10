@@ -4,6 +4,7 @@ import { CalendarListItem } from "@/components/analytics/calendar-list-item";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { ModuleCard, ModuleCardHeader } from "@/components/analytics/module-ui";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { PeopleHighlight } from "@/components/analytics/people-highlight";
 
 const upcomingMeetings = [
   {
@@ -25,6 +26,12 @@ const upcomingMeetings = [
         title: "Meeting with John Doe",
         startTime: "12:00PM",
         endTime: "1:00PM",
+        meetingType: "No Clone",
+      },
+      {
+        title: "Meeting with Jane Doe",
+        startTime: "1:00PM",
+        endTime: "2:00PM",
         meetingType: "No Clone",
       },
       {
@@ -94,6 +101,9 @@ export function ActionsTab() {
               People Highlights
             </span>
           </ModuleCardHeader>
+          <div className='flex flex-col px-4'>
+            <PeopleHighlight />
+          </div>
         </ModuleCard>
 
         <ModuleCard className='w-full rounded-[24px]'>

@@ -132,6 +132,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --chart-tooltip-background: var(--chart-tooltip-background);
   --shadow-chart-tooltip: var(--chart-tooltip-shadow);
+  --shadow-card-stacked: var(--shadow-card-stacked);
 }
 
 :root {
@@ -177,6 +178,8 @@
   --sidebar-icon: #8d8d86;
   --shadow-card-primary: 0 0 0 0.5px rgba(0, 0, 0, 0.05),
     0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.05);
+  --shadow-card-stacked: 0 64px 130px 0 rgba(0, 0, 0, 0.04),
+    0 30px 60px 0 rgba(0, 0, 0, 0.08);
 }
 
 .dark {
@@ -221,6 +224,8 @@
   --sidebar-icon: #b4b3ac;
   --shadow-card-primary: 0 0 0 0.5px rgba(0, 0, 0, 0.05),
     0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.05);
+  --shadow-card-stacked: 0 64px 130px 0 rgba(0, 0, 0, 0.04),
+    0 30px 60px 0 rgba(0, 0, 0, 0.08);
 }
 
 @layer base {
