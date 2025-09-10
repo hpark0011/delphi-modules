@@ -9,6 +9,7 @@ import {
   ModuleViewMoreButton,
 } from "@/components/analytics/module-ui";
 import { UserListItem } from "@/components/analytics/user-list-item";
+import { ChartBarLabelCustom } from "@/components/analytics/charts/bar-chart";
 
 const mostActiveUsers = [
   {
@@ -102,7 +103,9 @@ export function AudienceTab() {
         <div className='flex items-center justify-between px-4 py-3'>
           <p className='font-medium'>Trends</p>
         </div>
-        <div className='grid grid-cols-2 gap-2'></div>
+        <div className='grid grid-cols-2 gap-2'>
+          <ChartBarLabelCustom />
+        </div>
       </AnalyticsSectionWrapper>
     </div>
   );
