@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Icon } from "@/components/ui/icon";
+import { Button } from "@/components/ui/button";
 
 export function PeopleHighlight() {
   return (
@@ -21,6 +22,11 @@ export function PeopleHighlight() {
             <div className='text-center text-sm leading-[1.2] text-[#43250E]/50'>
               Founder of Product Hunt. Investor at Weekend Fund.
             </div>
+          </div>
+          <div>
+            <Button size='sm' className='rounded-full px-3 h-7'>
+              Message
+            </Button>
           </div>
         </div>
 
