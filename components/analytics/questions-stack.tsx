@@ -6,6 +6,7 @@ import { AutoResizingTextarea } from "../ui/auto-resizing-textarea";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { ArrowUp } from "lucide-react";
 
 type Question = {
   id: string;
@@ -53,7 +54,7 @@ export function QuestionsStack() {
   return (
     <div className='flex flex-col relative cursor-default transform-none gap-2 justify-center items-center w-full h-[232px] pb-[56px]'>
       <motion.div
-        className={`relative bg-[#E7E4E1]/80 rounded-[20px] p-3 shadow-card-stacked flex items-start w-full gap-2 inset-0 mx-auto h-fit max-h-[160px] overflow-y-auto `}
+        className={`relative bg-[#E7E4E1]/80 rounded-[20px] p-3 shadow-card-stacked flex items-start w-full gap-2 inset-0 mx-auto h-fit`}
       >
         <Avatar className='h-8 w-8 rounded-full overflow-hidden mt-0.5'>
           <AvatarImage src={currentCard.avatar} />
@@ -72,9 +73,9 @@ export function QuestionsStack() {
       </motion.div>
 
       <div className='absolute z-10 rounded-[14px] w-full h-fit bg-white bottom-[4px] p-0.5 shadow-card-primary flex items-center justify-between pr-2'>
-        <AutoResizingTextarea className='w-full focus-visible:ring-0 h-full border-none bg-transparent rounded-[12px]' />
-        <button className='bg-[#F1F0EF] rounded-full flex flex-col items-center justify-center w-fit h-fit p-1 bottom-0'>
-          <Icon name='ArrowUpIcon' className='size-5 text-[#8D8D86]' />
+        <AutoResizingTextarea className='w-full focus-visible:ring-0 h-full border-none bg-transparent rounded-[12px] hover:bg-[#F1F0EF] mr-2' />
+        <button className='bg-[#F1F0EF] rounded-full flex flex-col items-center justify-center w-fit h-fit p-1 bottom-0 hover:opacity-80 cursor-pointer active:scale-95'>
+          <ArrowUp className='size-5 text-[#8D8D86]' />
         </button>
       </div>
     </div>

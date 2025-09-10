@@ -83,6 +83,16 @@ const sourceList = [
     name: "Nature Lover Brown",
     citation: 324,
   },
+  {
+    id: 5,
+    name: "Nature Lover Brown",
+    citation: 324,
+  },
+  {
+    id: 6,
+    name: "Influence",
+    citation: 324,
+  },
 ];
 
 const popularQuestions = [
@@ -173,7 +183,7 @@ export function AudienceTab() {
               </span>
               <span className='font-normal text-[#8D8D86]'>Citation</span>
             </ModuleCardHeader>
-            <ModuleCardContent className='pt-0 pb-4 px-2 '>
+            <ModuleCardContent className='pt-0 pb-4 px-2 gap-0.5'>
               {sourceList.map((source) => (
                 <SourceListItem
                   key={source.id}

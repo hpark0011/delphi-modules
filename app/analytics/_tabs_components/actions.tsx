@@ -131,6 +131,7 @@ export function ActionsTab() {
             <QuestionsStack />
           </div>
         </ModuleCard>
+
         <ModuleCard className=' w-full rounded-[24px]'>
           <ModuleCardHeader>
             <div className='flex items-center gap-1.5'>
@@ -151,6 +152,9 @@ export function ActionsTab() {
               </button>
             </div>
           </ModuleCardHeader>
+          <div className='flex flex-col py-2 px-3'>
+            <QuestionsStack />
+          </div>
         </ModuleCard>
       </div>
       <div className='mt-2'>
