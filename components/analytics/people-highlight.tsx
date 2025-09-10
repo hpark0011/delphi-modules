@@ -80,31 +80,31 @@ export function PeopleHighlight() {
     <div className='relative'>
       <button
         onClick={handlePrevious}
-        className='absolute top-1/2 left-[16px] -translate-y-1/2 rounded-full bg-light p-1 z-50 hover:bg-light/80 transition-colors'
+        className='absolute top-1/2 left-[8px] -translate-y-1/2 rounded-full bg-light p-1 z-50 hover:bg-light/80 transition-colors cursor-pointer active:scale-95'
       >
-        <Icon name='ArrowBackwardIcon' className='size-5' />
+        <Icon name='ArrowBackwardIcon' className='size-5 text-neutral-500' />
       </button>
       <button
         onClick={handleNext}
-        className='absolute top-1/2 right-[16px] -translate-y-1/2 rounded-full bg-light p-1 z-50 hover:bg-light/80 transition-colors'
+        className='absolute top-1/2 right-[8px] -translate-y-1/2 rounded-full bg-light p-1 z-50 hover:bg-light/80 transition-colors cursor-pointer active:scale-95'
       >
-        <Icon name='ArrowForwardIcon' className='size-5' />
+        <Icon name='ArrowForwardIcon' className='size-5 text-neutral-500' />
       </button>
 
-      <div className='flex flex-col relative cursor-default transform-none gap-2 justify-center items-center w-full h-[232px]'>
+      <div className='flex flex-col relative cursor-default transform-none gap-2 justify-center items-center w-full h-[232px] mt-0.5'>
         {cards.slice(0, 4).map((card, i) => {
           const depth = i;
           const scale = 1 - depth * 0.05;
           const translateY = depth * 2;
-          const opacity = 1 - depth * 0.2;
+          const opacity = 1;
 
           return (
             <motion.div
               key={card.id}
-              className={`absolute bg-[#E7E4E1] rounded-[24px] p-6 shadow-card-stacked flex flex-col items-center justify-center max-w-[320px] w-full gap-3 backdrop-blur-lg inset-0 mx-auto h-fit ${
+              className={`absolute bg-[#E7E4E1] rounded-[24px] p-6 pt-5 shadow-card-stacked flex flex-col items-center justify-between max-w-[320px] w-full gap-2 backdrop-blur-lg inset-0 mx-auto mt-2.5 h-[200px] ${
                 depth > 0 ? "pointer-events-none" : ""
               }`}
-              style={{ zIndex: 40 - depth }}
+              style={{ zIndex: 10 - depth }}
               initial={{
                 y: translateY,
                 scale,
@@ -145,12 +145,12 @@ export function PeopleHighlight() {
             >
               <div className='absolute inset-0 -z-10 rounded-[24px]' />
 
-              <Avatar className='h-16 w-16 rounded-full m-auto overflow-hidden'>
+              <Avatar className='h-14 w-14 rounded-full m-auto overflow-hidden'>
                 <AvatarImage src={card.avatar} />
                 <AvatarFallback>{card.initials}</AvatarFallback>
               </Avatar>
 
-              <div className='flex flex-col gap-1'>
+              <div className='flex flex-col mb-1 h-full'>
                 <div className='text-center text-[16px] font-medium'>
                   {card.name}
                 </div>
@@ -159,7 +159,7 @@ export function PeopleHighlight() {
                 </div>
               </div>
               <div>
-                <Button size='sm' className='rounded-full px-3 h-7'>
+                <Button size='sm' className='rounded-full px-3 h-8'>
                   Message
                 </Button>
               </div>
