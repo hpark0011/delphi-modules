@@ -5,6 +5,7 @@ import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { ModuleCard, ModuleCardHeader } from "@/components/analytics/module-ui";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PeopleHighlight } from "@/components/analytics/people-highlight";
+import { QuestionsStack } from "@/components/analytics/questions-stack";
 
 const upcomingMeetings = [
   {
@@ -126,6 +127,9 @@ export function ActionsTab() {
               </button>
             </div>
           </ModuleCardHeader>
+          <div className='flex flex-col py-2 px-3'>
+            <QuestionsStack />
+          </div>
         </ModuleCard>
         <ModuleCard className=' w-full rounded-[24px]'>
           <ModuleCardHeader>

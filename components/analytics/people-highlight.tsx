@@ -110,7 +110,7 @@ export function PeopleHighlight() {
           return (
             <motion.div
               key={card.id}
-              className={`absolute bg-[#E7E4E1] rounded-[24px] p-6 pt-5 shadow-card-stacked flex flex-col items-center justify-between max-w-[320px] w-full gap-2 backdrop-blur-lg inset-0 mx-auto mt-2.5 h-[200px] ${
+              className={`absolute bg-[#E7E4E1] rounded-[24px] p-6 py-5 shadow-card-stacked flex flex-col items-center justify-between max-w-[320px] w-full gap-2 backdrop-blur-lg inset-0 mx-auto mt-2.5 h-[200px] ${
                 depth > 0 ? "pointer-events-none" : ""
               }`}
               style={{
@@ -183,11 +183,12 @@ export function PeopleHighlight() {
                   {card.title}
                 </div>
               </div>
-              <div>
-                <Button size='sm' className='rounded-full px-3 h-8'>
-                  Message
-                </Button>
-              </div>
+              <Button
+                size='sm'
+                className='rounded-full px-3 h-7 leading-[1.2] m-auto flex justify-center items-center'
+              >
+                Message
+              </Button>
             </motion.div>
           );
         })}
