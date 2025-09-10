@@ -80,9 +80,9 @@ export function PeopleHighlight() {
 
   const baseSpring = {
     type: "spring",
-    stiffness: 420,
-    damping: 32,
-    mass: 0.9,
+    stiffness: 200,
+    damping: 30,
+    duration: 0.1,
   } as const;
 
   return (

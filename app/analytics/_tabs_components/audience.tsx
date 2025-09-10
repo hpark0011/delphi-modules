@@ -127,10 +127,12 @@ export function AudienceTab() {
   return (
     <div className='flex flex-col gap-4 w-full'>
       <AnalyticsSectionWrapper>
-        <div className='flex items-center justify-between px-4 py-2'>
-          <p className='font-medium text-[#8D8D86] leading-[1.4]'>Audience</p>
-        </div>
-        <div className='grid grid-cols-2 gap-2'>
+        {/* <div className='flex items-center justify-between px-4 py-3'>
+          <p className='font-medium text-[#8D8D86] leading-[1.4] text-sm'>
+            Audience
+          </p>
+        </div> */}
+        <div className='grid grid-cols-2 gap-2 mb-4'>
           <ModuleCard className='w-full rounded-[24px] pb-0'>
             <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>
@@ -162,13 +164,8 @@ export function AudienceTab() {
             </ModuleCardContent>
           </ModuleCard>
         </div>
-      </AnalyticsSectionWrapper>
 
-      <AnalyticsSectionWrapper>
-        <div className='flex items-center justify-between px-4 py-2'>
-          <p className='font-medium text-[#8D8D86] leading-[1.4]'>Trends</p>
-        </div>
-        <div className='grid grid-cols-2 gap-2'>
+        <div className='grid grid-cols-2 gap-2 mb-4'>
           <ModuleCard className='w-full rounded-[24px]'>
             <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>
@@ -199,7 +196,8 @@ export function AudienceTab() {
             </ModuleCardContent>
           </ModuleCard>
         </div>
-        <div className='w-full mt-4'>
+
+        <div className='w-full'>
           <ModuleCard className='w-full rounded-[24px]'>
             <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>
