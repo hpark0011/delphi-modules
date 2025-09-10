@@ -72,9 +72,9 @@ export function QuestionsStack() {
         </div>
       </motion.div>
 
-      <div className='absolute z-10 rounded-[14px] w-full h-fit bg-white bottom-[4px] p-0.5 shadow-card-primary flex items-center justify-between pr-2'>
-        <AutoResizingTextarea className='w-full focus-visible:ring-0 h-full border-none bg-transparent rounded-[12px] hover:bg-[#F1F0EF] mr-2' />
-        <button className='bg-[#F1F0EF] rounded-full flex flex-col items-center justify-center w-fit h-fit p-1 bottom-0 hover:opacity-80 cursor-pointer active:scale-95'>
+      <div className='absolute z-10 rounded-[14px] w-full h-fit bg-chat-input-background bottom-[4px] p-0.5 shadow-card-primary flex items-center justify-between pr-2'>
+        <AutoResizingTextarea className='w-full focus-visible:ring-0 h-full border-none bg-transparent rounded-[12px] hover:bg-hover-background mr-2' />
+        <button className='hover:bg-light/80 bg-light rounded-full flex flex-col items-center justify-center w-fit h-fit p-1 bottom-0 hover:opacity-80 cursor-pointer active:scale-95'>
           <ArrowUp className='size-5 text-[#8D8D86]' />
         </button>
       </div>

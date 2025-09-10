@@ -125,22 +125,21 @@ interface BarShapeProps {
 }
 
 const TopStackShape = (props: BarShapeProps) => {
-  const { x, y, width, height, fill } = props;
+  const { x, y, width, height } = props;
   // Reduce height by the gap to create space at the bottom
   const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX);
 
   return (
-    <g>
-      <rect
-        x={x}
-        y={y}
-        width={width}
-        height={adjustedHeight}
-        fill={fill}
-        rx={8}
-        ry={8}
-      />
-    </g>
+    <rect
+      x={x}
+      y={y}
+      width={width}
+      height={adjustedHeight}
+      // Force the top stack to use the diagonal stripe pattern
+      fill={"url(#stripes)"}
+      rx={8}
+      ry={8}
+    />
   );
 };
 
@@ -234,7 +233,7 @@ export function StackedQuestionsChart({
               dataKey='unanswered'
               stackId='a'
               fill='url(#stripes)'
-              // shape={TopStackShape}
+              shape={TopStackShape}
               // maxBarSize={48}
               radius={[8, 8, 0, 0]}
             />

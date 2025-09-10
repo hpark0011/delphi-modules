@@ -6,6 +6,7 @@ import { ModuleCard, ModuleCardHeader } from "@/components/analytics/module-ui";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PeopleHighlight } from "@/components/analytics/people-highlight";
 import { QuestionsStack } from "@/components/analytics/questions-stack";
+import { InsightCard } from "@/components/analytics/insight-card";
 
 const upcomingMeetings = [
   {
@@ -71,6 +72,19 @@ const upcomingMeetings = [
         meetingType: "No Clone",
       },
     ],
+  },
+];
+
+const insights = [
+  {
+    insight: "Your audience brings unfiltered emotional honesty when they feel truly seen and non-judged",
+    action: "Design content and programs that explicitly model radical acceptance and non-judgement",
+    icon: "lightbulb" as const,
+  },
+  {
+    insight: "Your audience brings unfiltered emotional honesty when they feel truly seen and non-judged",
+    action: "Design content and programs that explicitly model radical acceptance and non-judgement",
+    icon: "lightbulb" as const,
   },
 ];
 
@@ -163,10 +177,20 @@ export function ActionsTab() {
             <div className='flex items-center gap-1.5'>
               <span className='font-medium text-[#63635E]'>Insights</span>
               <span className='font-semibold text-[#EF5F28] bg-[#EF5F28]/10 rounded-full flex text-center items-center justify-center px-2 py-0.5 w-fit text-xs'>
-                32
+                {insights.length}
               </span>
             </div>
           </ModuleCardHeader>
+          <div className='flex flex-col divide-y divide-[#EBEBE9]'>
+            {insights.map((insight, index) => (
+              <InsightCard
+                key={index}
+                insight={insight.insight}
+                action={insight.action}
+                icon={insight.icon}
+              />
+            ))}
+          </div>
         </ModuleCard>
       </div>
     </AnalyticsSectionWrapper>

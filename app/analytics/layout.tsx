@@ -57,7 +57,7 @@ export default function AnalyticsLayout({
                     className='flex group w-fit items-center gap-1.5 text-sm mx-3 text-[#8D8D86]'
                   >
                     <ArrowLeft className='size-3.5 group-hover:-translate-x-0.5 transition-transform' />
-                    Home
+                    Main
                   </Link>
                   <div className='flex items-center justify-between mb-6 px-3'>
                     <h1 className='text-2xl'>Analytics</h1>
