@@ -27,7 +27,7 @@ export function CalendarListItem({
   const [selectedType, setSelectedType] = useState(meetingType);
 
   return (
-    <div className='flex items-center justify-between p-4 py-1.5 hover:bg-gradient-to-r from-[#F6F6F5] via-[#f6f6f5] to-transparent text-[15px] leading-[1.4] relative'>
+    <div className='flex items-center justify-between p-4 py-1.5 hover:bg-gradient-to-r from-[#F6F6F5] via-[#f6f6f5] to-transparent hover:dark:from-[#21201c] dark:via-[#21201c] dark:to-transparent text-[15px] leading-[1.4] relative'>
       <div className='flex items-center'>
         <div className='h-8 w-[4px] bg-[#EF5F28] rounded-full' />
         <div className='flex flex-col pl-3'>
@@ -44,7 +44,7 @@ export function CalendarListItem({
         >
           <SelectValue placeholder='Select type' />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent side='bottom' align='end'>
           {meetingTypes.map((type) => (
             <SelectItem key={type} value={type}>
               {type}
