@@ -1,8 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Icon } from "@/components/ui/icon";
 
 export function PeopleHighlight() {
   return (
-    <div className='translate-y-[15%]'>
+    <div className='translate-y-[15%] relative'>
+      <button className='absolute top-1/2 left-[16px] -translate-y-1/2 rounded-full bg-light p-1 z-10'>
+        <Icon name='ArrowBackwardIcon' className='size-5' />
+      </button>
+      <button className='absolute top-1/2 right-[16px] -translate-y-1/2 rounded-full bg-light p-1 z-10'>
+        <Icon name='ArrowForwardIcon' className='size-5' />
+      </button>
       <div className='flex flex-col relative cursor-default transform-none gap-2 justify-center items-center w-full'>
         <div className='bg-[#E7E4E1] rounded-[24px] p-6 shadow-card-stacked flex flex-col items-center justify-center max-w-[320px] w-full z-30 gap-2'>
           <Avatar className='h-16 w-16 rounded-full m-auto overflow-hidden'>
@@ -10,8 +17,8 @@ export function PeopleHighlight() {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className='flex flex-col gap-1'>
-            <div className='text-center text-sm'>Name</div>
-            <div className='text-center text-[13px] leading-[1.2] text-[#43250E]/50'>
+            <div className='text-center text-[16px]'>Name</div>
+            <div className='text-center text-sm leading-[1.2] text-[#43250E]/50'>
               Founder of Product Hunt. Investor at Weekend Fund.
             </div>
           </div>
