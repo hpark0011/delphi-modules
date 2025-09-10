@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import * as React from "react";
 
 const languageData = [
   { country: "US", flag: "🇺🇸", percentage: 44 },
@@ -22,11 +22,16 @@ interface ChartConfig {
   barValueColor?: string;
 }
 
-const ChartContext = React.createContext<ChartConfig>({
+interface ChartContextValue extends ChartConfig {
+  itemRefs: React.MutableRefObject<(HTMLDivElement | null)[]>;
+}
+
+const ChartContext = React.createContext<ChartContextValue>({
   barColor: "#F0EEE4",
   labelColor: "#63635E",
   barLabelColor: "#63635E",
   barValueColor: "#8D8D86",
+  itemRefs: { current: [] },
 });
 
 // Main Chart component
@@ -35,6 +40,8 @@ interface ChartProps extends React.ComponentProps<"div"> {
 }
 
 function Chart({ className, config, children, ...props }: ChartProps) {
+  const itemRefs = React.useRef<(HTMLDivElement | null)[]>([]);
+
   const defaultConfig: ChartConfig = {
     barColor: "#F0EEE4",
     labelColor: "#63635E",
@@ -44,11 +51,16 @@ function Chart({ className, config, children, ...props }: ChartProps) {
 
   const mergedConfig = { ...defaultConfig, ...config };
 
+  const contextValue: ChartContextValue = {
+    ...mergedConfig,
+    itemRefs,
+  };
+
   return (
-    <ChartContext.Provider value={mergedConfig}>
+    <ChartContext.Provider value={contextValue}>
       <div
         data-slot='chart'
-        className={cn("flex flex-col space-y-3 w-full", className)}
+        className={cn("flex flex-col space-y-3 w-full relative", className)}
         {...props}
       >
         {children}
@@ -74,8 +86,18 @@ function ChartItem({
   index = 0,
   ...props
 }: ChartItemProps) {
+  const context = React.useContext(ChartContext);
+  const itemRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (itemRef.current && context.itemRefs) {
+      context.itemRefs.current[index] = itemRef.current;
+    }
+  }, [index, context.itemRefs]);
+
   return (
     <div
+      ref={itemRef}
       data-slot='chart-item'
       className={cn("flex items-center justify-between px-2", className)}
       {...props}
@@ -229,8 +251,8 @@ export function LanguageChart() {
 export {
   Chart,
   ChartItem,
+  ChartItemBar,
   ChartItemContent,
   ChartItemLabel,
-  ChartItemBar,
   ChartItemValue,
 };
