@@ -91,7 +91,7 @@ export function AudienceTab() {
             <ModuleCardHeader className='mb-2'>
               <span className='font-medium text-[#63635E]'>Languages</span>
             </ModuleCardHeader>
-            <ModuleCardContent className='pt-0 pb-8'>
+            <ModuleCardContent className='pt-0 pb-4'>
               <LanguageChart />
               <ModuleViewMoreButton>View All</ModuleViewMoreButton>
             </ModuleCardContent>

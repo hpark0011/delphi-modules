@@ -9,8 +9,9 @@ const languageData = [
   { country: "Brazil", flag: "🇧🇷", percentage: 23 },
   { country: "Vietnam", flag: "🇻🇳", percentage: 16 },
   { country: "France", flag: "🇫🇷", percentage: 16 },
-  { country: "Canada", flag: "🇨🇦", percentage: 9 },
-  { country: "Korea", flag: "🇰🇷", percentage: 8 },
+  { country: "Canada", flag: "🇨🇦", percentage: 12 },
+  { country: "Korea", flag: "🇰🇷", percentage: 9 },
+  { country: "Japan", flag: "🇯🇵", percentage: 8 },
 ];
 
 // Configuration context for styling
