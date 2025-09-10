@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
@@ -62,6 +62,10 @@ export function PeopleHighlight() {
     null
   );
 
+  // Motion values for the top card (drag and rotation mapping)
+  const topX = useMotionValue(0);
+  const topRotate = useTransform(topX, [-300, 0, 300], [-18, 0, 18]);
+
   const handleNext = () => {
     if (isSwiping) return;
     setSwipeDirection("right");
@@ -74,7 +78,12 @@ export function PeopleHighlight() {
     setIsSwiping(true);
   };
 
-  const baseSpring = { type: "spring", stiffness: 380, damping: 32 } as const;
+  const baseSpring = {
+    type: "spring",
+    stiffness: 420,
+    damping: 32,
+    mass: 0.9,
+  } as const;
 
   return (
     <div className='relative'>
@@ -94,9 +103,9 @@ export function PeopleHighlight() {
       <div className='flex flex-col relative cursor-default transform-none gap-2 justify-center items-center w-full h-[232px] mt-0.5'>
         {cards.slice(0, 4).map((card, i) => {
           const depth = i;
-          const scale = 1 - depth * 0.05;
-          const translateY = depth * 2;
-          const opacity = 1;
+          const scale = 1 - depth * 0.03;
+          const translateY = depth * 6;
+          const opacity = Math.max(0.88, 1 - depth * 0.04);
 
           return (
             <motion.div
@@ -104,7 +113,11 @@ export function PeopleHighlight() {
               className={`absolute bg-[#E7E4E1] rounded-[24px] p-6 pt-5 shadow-card-stacked flex flex-col items-center justify-between max-w-[320px] w-full gap-2 backdrop-blur-lg inset-0 mx-auto mt-2.5 h-[200px] ${
                 depth > 0 ? "pointer-events-none" : ""
               }`}
-              style={{ zIndex: 10 - depth }}
+              style={{
+                zIndex: 10 - depth,
+                x: depth === 0 ? topX : 0,
+                rotate: depth === 0 ? topRotate : 0,
+              }}
               initial={{
                 y: translateY,
                 scale,
@@ -116,18 +129,29 @@ export function PeopleHighlight() {
                 opacity,
                 x:
                   depth === 0 && isSwiping && swipeDirection === "right"
-                    ? 520
+                    ? 360
                     : depth === 0 && isSwiping && swipeDirection === "left"
-                      ? -520
-                      : 0,
-                rotate:
-                  depth === 0 && isSwiping && swipeDirection === "right"
-                    ? 60
-                    : depth === 0 && isSwiping && swipeDirection === "left"
-                      ? -60
+                      ? -360
                       : 0,
               }}
               transition={baseSpring}
+              drag={depth === 0 ? "x" : false}
+              dragMomentum={false}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (depth !== 0 || isSwiping) return;
+                const velocity = info.velocity.x;
+                const offset = info.offset.x;
+                const passedVelocity = Math.abs(velocity) > 700;
+                const passedDistance = Math.abs(offset) > 120;
+                if (passedVelocity || passedDistance) {
+                  setSwipeDirection(offset > 0 ? "right" : "left");
+                  setIsSwiping(true);
+                } else {
+                  setSwipeDirection(null);
+                  setIsSwiping(false);
+                }
+              }}
               onAnimationComplete={() => {
                 if (depth === 0 && isSwiping) {
                   if (swipeDirection === "right") {
@@ -140,6 +164,7 @@ export function PeopleHighlight() {
                   }
                   setIsSwiping(false);
                   setSwipeDirection(null);
+                  topX.set(0);
                 }
               }}
             >
