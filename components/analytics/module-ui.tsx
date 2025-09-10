@@ -26,7 +26,7 @@ export function ModuleCardHeader({
   return (
     <div
       className={cn(
-        "flex flex-row text-sm leading-[1] text-[#63635E] justify-between p-4 relative",
+        "flex flex-row text-sm leading-[1] text-[#63635E] justify-between p-4 relative h-[46px]",
         className
       )}
       {...props}
