@@ -1,21 +1,25 @@
-import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
+import {
+  AnalyticsSectionWrapper,
+  Divider,
+} from "@/components/analytics/dashboard-ui";
+
 import * as React from "react";
 
 export default function EngagementLoading() {
   return (
-    <AnalyticsSectionWrapper className='h-[320px] bg-red-500'>
+    <AnalyticsSectionWrapper className='h-fit'>
       <div className='animate-pulse'>
-        <div className='flex gap-1 justify-between mb-6'>
+        <div className='flex justify-between mb-4 items-center'>
           {[1, 2, 3, 4].map((i) => (
             <React.Fragment key={i}>
-              <div className='h-24 bg-white/50 rounded-3xl flex-1'></div>
-              {i < 4 && (
-                <div className='w-[3px] h-16 bg-[#EBEBE9] rounded-full self-center' />
-              )}
+              <div className='w-full rounded-3xl h-[94px] bg-light' />
+              {i < 4 && <Divider className='min-w-[3px]' />}
             </React.Fragment>
           ))}
         </div>
-        <div className='h-96 bg-white/50 rounded-3xl'>loading....</div>
+        <div className='h-[536px] bg-light rounded-3xl flex items-center justify-center text-sm text-text-muted'>
+          loading....
+        </div>
       </div>
     </AnalyticsSectionWrapper>
   );

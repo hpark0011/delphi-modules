@@ -94,7 +94,7 @@ export function PeopleHighlightsHorizontal() {
                 <div className='text-center text-sm font-medium'>
                   {card.name}
                 </div>
-                <div className='text-center text-[13px] leading-[1.2] text-[#43250E]/50 dark:text-[#EBE9E7]/50 line-clamp-2'>
+                <div className='text-center text-[13px] leading-[1.2] text-[#43250E]/50 dark:text-[#EBE9E7]/50 line-clamp-2 h-[32px]'>
                   {card.title}
                 </div>
               </div>
