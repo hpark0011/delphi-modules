@@ -27,24 +27,27 @@ const questions: Question[] = [
   },
   {
     id: "2",
-    name: "Question 2",
-    question: "Question 2",
-    avatar: "https://i.pravatar.cc/140?img=15",
-    initials: "Q2",
+    name: "Priya Sharma",
+    question:
+      "How should we treat partial video views in engagement—do 10–15s plays count as separate events or partial views in reporting?",
+    avatar: "https://i.pravatar.cc/140?img=12",
+    initials: "PS",
   },
   {
     id: "3",
-    name: "Question 3",
-    question: "Question 3",
-    avatar: "https://i.pravatar.cc/140?img=15",
-    initials: "Q3",
+    name: "Liam O'Connor",
+    question:
+      "Can Delphi export highlight reels as MP4 with burned-in captions? We need shareable clips for Slack updates.",
+    avatar: "https://i.pravatar.cc/140?img=31",
+    initials: "LO",
   },
   {
     id: "4",
-    name: "Question 4",
-    question: "Question 4",
-    avatar: "https://i.pravatar.cc/140?img=15",
-    initials: "Q4",
+    name: "Aiko Tanaka",
+    question:
+      "What’s the recommended token budgeting for long interviews to avoid truncation without spiking cost? Any rules of thumb?",
+    avatar: "https://i.pravatar.cc/140?img=47",
+    initials: "AT",
   },
 ];
 
