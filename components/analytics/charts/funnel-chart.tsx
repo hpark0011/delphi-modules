@@ -110,7 +110,7 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
           <BarChart
             data={data}
             margin={{ top: 20, right: 20, left: -10, bottom: 20 }}
-            barCategoryGap='15%'
+            barCategoryGap='10%'
           >
             <CartesianGrid
               strokeDasharray='4 4'
