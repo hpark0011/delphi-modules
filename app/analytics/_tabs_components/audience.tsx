@@ -176,14 +176,14 @@ export function AudienceTab() {
         </div>
 
         <div className='grid grid-cols-2 gap-2 mb-4'>
-          <ModuleCard className='w-full rounded-[24px]'>
+          <ModuleCard className='w-full rounded-[24px] h-fit'>
             <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>
                 Popular Sources
               </span>
               <span className='font-normal text-[#8D8D86]'>Citation</span>
             </ModuleCardHeader>
-            <ModuleCardContent className='pt-0 pb-4 px-2 gap-0.5'>
+            <ModuleCardContent className='pt-0 px-2 gap-0.5 pb-4'>
               {sourceList.map((source) => (
                 <SourceListItem
                   key={source.id}
@@ -195,12 +195,12 @@ export function AudienceTab() {
             </ModuleCardContent>
           </ModuleCard>
 
-          <ModuleCard className='w-full rounded-[24px]'>
+          <ModuleCard className='w-full rounded-[24px] h-full'>
             <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>Popular Topics</span>
               <span className='font-normal text-[#8D8D86]'>Conversations</span>
             </ModuleCardHeader>
-            <ModuleCardContent className='pt-0 pb-4 px-0 min-h-[224px]'>
+            <ModuleCardContent className='pt-0 pb-0 px-0 h-full'>
               <TopicsChart />
               <ModuleViewMoreButton>View All</ModuleViewMoreButton>
             </ModuleCardContent>
