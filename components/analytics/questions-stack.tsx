@@ -52,27 +52,34 @@ export function QuestionsStack() {
   const [currentCard, setCurrentCard] = useState<Question>(questions[0]);
 
   return (
-    <div className='flex flex-col relative cursor-default transform-none gap-2 justify-center items-center w-full h-[232px] pb-[64px] px-3 overflow-y-auto'>
-      <motion.div
-        className={`relative bg-card-secondary rounded-[20px] p-3 shadow-card-stacked flex items-start w-full gap-2 inset-0 mx-auto h-fit`}
-      >
-        <Avatar className='h-8 w-8 rounded-full overflow-hidden mt-0.5'>
-          <AvatarImage src={currentCard.avatar} />
-          <AvatarFallback>{currentCard.initials}</AvatarFallback>
-        </Avatar>
+    <div className='flex flex-col gap-2 relative w-full h-full'>
+      <div className='flex flex-col relative cursor-default transform-none gap-4 justify-center items-center w-full h-[232px] px-3 overflow-y-auto py-[104px]'>
+        <motion.div
+          className={`relative bg-card-secondary rounded-[20px] p-3 shadow-card-stacked flex items-start w-full gap-2 inset-0 mx-auto h-fit`}
+        >
+          <Avatar className='h-8 w-8 rounded-full overflow-hidden mt-0.5'>
+            <AvatarImage src={currentCard.avatar} />
+            <AvatarFallback>{currentCard.initials}</AvatarFallback>
+          </Avatar>
 
-        <div className='flex flex-col mb-1 h-full w-full'>
-          <div className='flex items-center justify-between w-full text-sm mb-0.5'>
-            <div className='font-medium'>{currentCard.name}</div>
-            <div className=' text-[#8D8D86]'>6h</div>
+          <div className='flex flex-col mb-1 h-full w-full'>
+            <div className='flex items-center justify-between w-full text-sm mb-0.5'>
+              <div className='font-medium'>{currentCard.name}</div>
+              <div className=' text-[#8D8D86]'>6h</div>
+            </div>
+            <div className=' text-sm leading-[1.3] text-[#43250E]/70 dark:text-[#EBE9E7]/50 line-clamp-6'>
+              {currentCard.question}
+            </div>
           </div>
-          <div className=' text-sm leading-[1.3] text-[#43250E]/70 dark:text-[#EBE9E7]/50 line-clamp-6'>
-            {currentCard.question}
-          </div>
+        </motion.div>
+
+        <div className='rounded-[20px] p-3.5 py-2 shadow-[0_1px_2px_0_rgba(242,107,56,0.5),0_20px_40px_0_rgba(242,107,56,0.2),0_1px_1px_0_rgba(242,107,56,0.05)] bg-[#F26B38] text-[#fff] text-sm leading-[1.4] ml-12 z-10'>
+          Delphi doesn’t offer unlimited pricing for pay-as-you-go. Instead, you
+          can set specific costs per message, voice minute, and video minute. To
+          get started...
         </div>
-      </motion.div>
-
-      <div className='absolute z-10 rounded-[14px] w-[calc(100%-24px)] h-fit bg-chat-input-background bottom-[12px] p-0.5 shadow-card-primary flex items-center justify-between pr-2'>
+      </div>
+      <div className='absolute z-10 rounded-[14px] w-[calc(100%-24px)] h-fit bg-chat-input-background bottom-[12px] p-0.5 shadow-card-primary flex items-center justify-between pr-2 left-3'>
         <AutoResizingTextarea className='w-full focus-visible:ring-0 h-full border-none bg-transparent rounded-[12px] hover:bg-hover-background mr-2' />
         <button className='hover:bg-light/80 bg-light rounded-full flex flex-col items-center justify-center w-fit h-fit p-1 bottom-0 hover:opacity-80 cursor-pointer active:scale-95'>
           <ArrowUp className='size-5 text-[#8D8D86]' />

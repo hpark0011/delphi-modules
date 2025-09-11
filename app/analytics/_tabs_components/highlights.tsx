@@ -214,7 +214,7 @@ export function HighlightsTab() {
       <AnalyticsSectionWrapper>
         <div className='mb-4'>
           <ModuleCard className='rounded-[24px] px-0'>
-            <ModuleCardHeader className='h-[40px] mb-1 pr-3'>
+            <ModuleCardHeader className='border-b border-border-extra-light h-[40px] mb-1 pr-3'>
               <div className='flex items-center gap-1.5'>
                 <span className='font-medium text-[#63635E]'>
                   People Highlights
@@ -230,7 +230,7 @@ export function HighlightsTab() {
                 disabledNext={currentPeopleIndex >= 15} // 20 total - 5 visible = 15 max index
               />
             </ModuleCardHeader>
-            <div className='flex flex-col px-3 py-4 pt-0'>
+            <div className='flex flex-col px-3 py-4 pt-2'>
               <PeopleHighlightsHorizontal
                 currentIndex={currentPeopleIndex}
                 onIndexChange={setCurrentPeopleIndex}
@@ -240,7 +240,7 @@ export function HighlightsTab() {
         </div>
         <div className='grid grid-cols-2 gap-2 gap-y-4'>
           <ModuleCard className='w-full rounded-[24px]'>
-            <ModuleCardHeader className='pr-3'>
+            <ModuleCardHeader className='pr-3 border-b border-border-extra-light'>
               <div className='flex items-center gap-1.5'>
                 <span className='font-medium text-[#63635E]'>
                   Upcoming Meetings
@@ -259,7 +259,7 @@ export function HighlightsTab() {
                 />
               </div>
             </ModuleCardHeader>
-            <div className='flex flex-col pb-2 h-full min-h-[248px]'>
+            <div className='flex flex-col py-1 h-full min-h-[248px]'>
               {meetingError ? (
                 <div className='h-full flex items-center justify-center'>
                   <EmptyModuleState
@@ -297,7 +297,7 @@ export function HighlightsTab() {
           </ModuleCard>
 
           <ModuleCard className='w-full rounded-[24px]'>
-            <ModuleCardHeader className='h-[42px]'>
+            <ModuleCardHeader className='border-b border-border-extra-light'>
               <div className='flex items-center gap-1.5 pt-1'>
                 <span className='font-medium text-[#63635E]'>Insights</span>
                 {insights.length > 0 && (
@@ -316,10 +316,10 @@ export function HighlightsTab() {
               )}
             </ModuleCardHeader>
             <div className='flex flex-col relative'>
-              <div
+              {/* <div
                 aria-hidden='true'
                 className='pointer-events-none absolute top-0 left-0 right-0 h-2 bg-gradient-to-b from-card to-transparent z-20'
-              />
+              /> */}
 
               <div className='flex flex-col px-3 max-h-[250px] h-full overflow-y-auto gap-2 py-2 relative'>
                 {insights.length === 0 ? (
@@ -348,15 +348,15 @@ export function HighlightsTab() {
                 )}
               </div>
 
-              <div
+              {/* <div
                 aria-hidden='true'
                 className='pointer-events-none absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-card to-transparent z-10'
-              />
+              /> */}
             </div>
           </ModuleCard>
 
           <ModuleCard className='w-full rounded-[24px]'>
-            <ModuleCardHeader className='pr-3'>
+            <ModuleCardHeader className='pr-3 border-b border-border-extra-light'>
               <div className='flex items-center gap-1.5'>
                 <span className='font-medium text-[#63635E]'>
                   Unanswered Questions
@@ -373,7 +373,7 @@ export function HighlightsTab() {
           </ModuleCard>
 
           <ModuleCard className=' w-full rounded-[24px]'>
-            <ModuleCardHeader className='pr-3'>
+            <ModuleCardHeader className='pr-3 border-b border-border-extra-light'>
               <div className='flex items-center gap-1.5'>
                 <span className='font-medium text-[#63635E]'>
                   Product Mentions
