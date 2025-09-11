@@ -55,7 +55,7 @@ function FunnelBadgesOverlay({
         return (
           <div
             key={`badge-${index}`}
-            className='absolute -translate-x-1/2 -translate-y-1/2 rounded-xl border border-[#f5f5f4] bg-white shadow-md px-3 py-2 text-center'
+            className='absolute -translate-x-1/2 -translate-y-1/2 rounded-[12px] border border-[#f5f5f4] bg-white shadow-xl px-3 py-0.5 text-center'
             style={{ left: `${xPercent}%`, top: `${yPercent}%` }}
           >
             <div className='text-xs font-semibold text-[#FF713B]'>
