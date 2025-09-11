@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { LanguageChart } from "@/components/analytics/charts/language-chart";
 import {
@@ -12,6 +13,11 @@ import { UserListItem } from "@/components/analytics/user-list-item";
 import { SourceListItem } from "@/components/analytics/source-list-item";
 import { TopicsChart } from "@/components/analytics/charts/topics-chart";
 import { QuestionListItem } from "@/components/analytics/question-list-item";
+import { ActiveUsersDialog } from "@/components/analytics/dialogs/active-users-dialog";
+import { LanguagesDialog } from "@/components/analytics/dialogs/languages-dialog";
+import { SourcesDialog } from "@/components/analytics/dialogs/sources-dialog";
+import { TopicsDialog } from "@/components/analytics/dialogs/topics-dialog";
+import { QuestionsDialog } from "@/components/analytics/dialogs/questions-dialog";
 
 const mostActiveUsers = [
   {
@@ -149,6 +155,12 @@ const popularQuestions = [
 ];
 
 export function AudienceTab() {
+  const [activeUsersOpen, setActiveUsersOpen] = useState(false);
+  const [languagesOpen, setLanguagesOpen] = useState(false);
+  const [sourcesOpen, setSourcesOpen] = useState(false);
+  const [topicsOpen, setTopicsOpen] = useState(false);
+  const [questionsOpen, setQuestionsOpen] = useState(false);
+
   return (
     <div className='flex flex-col gap-6 w-full'>
       <AnalyticsSectionWrapper>
@@ -176,7 +188,7 @@ export function AudienceTab() {
                   messageCount={user.messageCount}
                 />
               ))}
-              <ModuleViewMoreButton>View All</ModuleViewMoreButton>
+              <ModuleViewMoreButton onClick={() => setActiveUsersOpen(true)}>View All</ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
           <ModuleCard className='w-full rounded-[24px]'>
@@ -185,7 +197,7 @@ export function AudienceTab() {
             </ModuleCardHeader>
             <ModuleCardContent className='pt-0 pb-4 px-0'>
               <LanguageChart />
-              <ModuleViewMoreButton>View All</ModuleViewMoreButton>
+              <ModuleViewMoreButton onClick={() => setLanguagesOpen(true)}>View All</ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
         </div>
@@ -206,7 +218,7 @@ export function AudienceTab() {
                   citation={source.citation}
                 />
               ))}
-              <ModuleViewMoreButton>View All</ModuleViewMoreButton>
+              <ModuleViewMoreButton onClick={() => setSourcesOpen(true)}>View All</ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
 
@@ -217,7 +229,7 @@ export function AudienceTab() {
             </ModuleCardHeader>
             <ModuleCardContent className='pt-0 pb-0 px-0 h-full'>
               <TopicsChart />
-              <ModuleViewMoreButton>View All</ModuleViewMoreButton>
+              <ModuleViewMoreButton onClick={() => setTopicsOpen(true)}>View All</ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
         </div>
@@ -241,11 +253,18 @@ export function AudienceTab() {
                   isPositive={question.isPositive}
                 />
               ))}
-              <ModuleViewMoreButton>View All</ModuleViewMoreButton>
+              <ModuleViewMoreButton onClick={() => setQuestionsOpen(true)}>View All</ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
         </div>
       </AnalyticsSectionWrapper>
+
+      {/* Dialogs */}
+      <ActiveUsersDialog open={activeUsersOpen} onOpenChange={setActiveUsersOpen} />
+      <LanguagesDialog open={languagesOpen} onOpenChange={setLanguagesOpen} />
+      <SourcesDialog open={sourcesOpen} onOpenChange={setSourcesOpen} />
+      <TopicsDialog open={topicsOpen} onOpenChange={setTopicsOpen} />
+      <QuestionsDialog open={questionsOpen} onOpenChange={setQuestionsOpen} />
     </div>
   );
 }

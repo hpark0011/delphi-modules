@@ -4,6 +4,7 @@ import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";
 import { MindScore } from "@/components/analytics/home/mindscore";
+import { UpgradeBroadcast } from "@/components/analytics/home/upgrade-broadcast";
 import { Icon } from "@/components/ui/icon";
 import { CircleDashedIcon } from "lucide-react";
 
@@ -209,6 +210,9 @@ export default function AnalyticsPage() {
 
           {/* Highlights Section */}
           <HomeHighlights highlights={highlights} />
+
+          {/* Upgrade Broadcast Section */}
+          <UpgradeBroadcast />
         </div>
       </div>
     </div>
