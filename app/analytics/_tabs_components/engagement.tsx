@@ -42,11 +42,11 @@ export function EngagementTab({
 
   return (
     <AnalyticsSectionWrapper>
-      <Tabs defaultValue='activeUsers' className='w-full'>
-        <TabsList className='flex w-full gap-1 h-auto p-0 justify-between'>
+      <Tabs defaultValue='activeUsers' className='w-full gap-4'>
+        <TabsList className='flex w-full gap-0 h-auto p-0 justify-between'>
           <TabsTrigger
             value='activeUsers'
-            className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
+            className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900 hover:shadow-[0_0_0_2px_#ebebe9]'
           >
             <KPICard
               label='Active Users'
@@ -56,7 +56,7 @@ export function EngagementTab({
           <Divider />
           <TabsTrigger
             value='conversations'
-            className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
+            className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900 hover:shadow-[0_0_0_2px_#ebebe9]'
           >
             <KPICard
               label='Conversations'
@@ -66,7 +66,7 @@ export function EngagementTab({
           <Divider />
           <TabsTrigger
             value='answeredQuestions'
-            className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
+            className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900 hover:shadow-[0_0_0_2px_#ebebe9]'
           >
             <KPICard
               label='Answered Questions'
@@ -76,7 +76,7 @@ export function EngagementTab({
           <Divider />
           <TabsTrigger
             value='timeCreated'
-            className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900'
+            className='p-0 data-[state=active]:bg-white dark:data-[state=active]:bg-card  bg-transparent h-fit rounded-[24px] data-[state=active]:shadow-card-primary hover:bg-[#EBEBE9] dark:hover:bg-neutral-900 hover:shadow-[0_0_0_2px_#ebebe9]'
           >
             <KPICard
               label='Time Created'

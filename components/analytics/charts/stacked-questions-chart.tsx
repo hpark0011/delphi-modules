@@ -171,7 +171,7 @@ export function StackedQuestionsChart({
         </CardTitle>
       </CardHeader>
       <CardContent className='p-0 relative pb-4'>
-        <ResponsiveContainer width='100%' height={454}>
+        <ResponsiveContainer width='100%' height={452}>
           <BarChart
             data={data}
             margin={{ top: 10, right: 20, left: -10, bottom: 5 }}
