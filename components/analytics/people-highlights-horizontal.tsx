@@ -211,7 +211,6 @@ export function PeopleHighlightsHorizontal({
   );
 
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Determine items per page based on screen size
   const getItemsPerPage = () => {
@@ -240,34 +239,8 @@ export function PeopleHighlightsHorizontal({
     return people.slice(start, end);
   }, [currentIndex, itemsPerPage, people]);
 
-  // Handle horizontal mouse wheel scroll
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        e.preventDefault();
-        const direction = e.deltaY > 0 ? 1 : -1;
-        const newIndex = Math.max(
-          0,
-          Math.min(
-            currentIndex + direction * itemsPerPage,
-            people.length - itemsPerPage
-          )
-        );
-        if (newIndex !== currentIndex && onIndexChange) {
-          onIndexChange(newIndex);
-        }
-      }
-    };
-
-    container.addEventListener("wheel", handleWheel, { passive: false });
-    return () => container.removeEventListener("wheel", handleWheel);
-  }, [currentIndex, itemsPerPage, people.length, onIndexChange]);
-
   return (
-    <div className='relative' ref={scrollContainerRef}>
+    <div className='relative'>
       <motion.div
         className='flex flex-row relative cursor-default transform-none gap-2 justify-center items-center w-full px-0 py-0'
         initial={false}

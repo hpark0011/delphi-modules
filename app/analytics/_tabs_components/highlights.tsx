@@ -132,6 +132,7 @@ export function HighlightsTab() {
   const [removingId, setRemovingId] = useState<number | null>(null);
 
   const dates = upcomingMeetings.map((d) => d.date);
+  const currentMeetings = upcomingMeetings.find((meeting) => meeting.date === currentDate)?.meetings || [];
 
   const handleRemoveInsight = (id: number) => {
     setRemovingId(id);
@@ -221,9 +222,16 @@ export function HighlightsTab() {
         <div className='grid grid-cols-2 gap-2 gap-y-4'>
           <ModuleCard className='w-full rounded-[24px]'>
             <ModuleCardHeader className='pr-3'>
-              <span className='font-medium text-[#63635E]'>
-                Upcoming Meetings
-              </span>
+              <div className='flex items-center gap-1.5'>
+                <span className='font-medium text-[#63635E]'>
+                  Upcoming Meetings
+                </span>
+                {currentMeetings.length > 0 && (
+                  <span className='font-semibold text-[#EF5F28] bg-[#EF5F28]/10 rounded-full flex text-center items-center justify-center px-2 py-0.5 w-fit text-xs'>
+                    {currentMeetings.length}
+                  </span>
+                )}
+              </div>
               <div className='flex items-center gap-2'>
                 <span className='text-[#8D8D86]'>{currentDate}</span>
                 <HeaderNavButtons
@@ -233,11 +241,44 @@ export function HighlightsTab() {
               </div>
             </ModuleCardHeader>
             <div className='flex flex-col pb-2 h-full min-h-[248px]'>
-              {upcomingMeetings
-                .find((meeting) => meeting.date === currentDate)
-                ?.meetings.map((meeting, index) => (
+              {currentMeetings.length === 0 ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
+                  className='flex flex-col items-center justify-center py-8 px-4 h-full'
+                >
+                  <div className='flex items-center justify-center mb-2'>
+                    <Icon
+                      name='CalendarFillIcon'
+                      className='w-8 h-8 text-neutral-300'
+                    />
+                  </div>
+                  <div className='flex flex-col items-center justify-center gap-1'>
+                    <p className='text-primary text-sm text-center'>
+                      No meetings scheduled
+                    </p>
+                    <p className='text-[#8D8D86] text-xs mb-6 text-center px-4'>
+                      You have no meetings scheduled for this date. Add meetings to stay organized and track your commitments.
+                    </p>
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      // Add meeting functionality
+                      console.log('Add meeting clicked');
+                    }}
+                    className='px-3 h-7 bg-primary text-primary-foreground rounded-full text-xs font-medium hover:bg-[#3C3C38] transition-colors shadow-xl'
+                  >
+                    Add meetings
+                  </motion.button>
+                </motion.div>
+              ) : (
+                currentMeetings.map((meeting, index) => (
                   <CalendarListItem key={index} {...meeting} />
-                ))}
+                ))
+              )}
             </div>
           </ModuleCard>
 
