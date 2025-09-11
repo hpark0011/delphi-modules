@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface QuestionListItemProps {
@@ -34,8 +34,8 @@ export function QuestionListItem({
         {trendRate !== undefined && (
           <>
             <span className='text-[#8D8D86]'>•</span>
-            <div className={cn("flex items-center gap-0.5", trendColorClass)}>
-              <TrendIcon className='w-3.5 h-3.5' />
+            <div className={cn("flex items-center", trendColorClass)}>
+              <ArrowUp className='w-3.5 h-3.5' />
               <span className=''>{trendRate}%</span>
             </div>
           </>
