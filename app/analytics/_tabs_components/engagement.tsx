@@ -158,13 +158,13 @@ export function EngagementTab({
           <div className='flex flex-row gap-4 items-center'>
             <div className='text-lg'>Summit Last Chance 20% off</div>
             <div className='flex flex-row items-center bg-light rounded-md h-6'>
-              <div className='text-sm px-2'>8/31/25</div>
+              <div className='text-sm px-2.5'>8/31/25</div>
               <div className='h-full w-[1px] bg-neutral-300/50' />
-              <div className='flex flex-row px-0.5'>
-                <button className='hover:bg-extra-light rounded-sm p-1'>
+              <div className='flex flex-row px-0'>
+                <button className='hover:bg-neutral-200 p-1 h-6 w-6'>
                   <ChevronLeft className='size-3.5 text-[#8D8D86]' />
                 </button>
-                <button className='hover:bg-extra-light rounded-sm p-1'>
+                <button className='hover:bg-neutral-200 rounded-r-sm p-1 h-6 w-6'>
                   <ChevronRight className='size-3.5 text-[#8D8D86]' />
                 </button>
               </div>

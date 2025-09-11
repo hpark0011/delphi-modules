@@ -29,6 +29,48 @@ const CHART_COLORS = {
   unsubscribeRate: "#671E0F",
 } as const;
 
+type BadgeDatum = {
+  stage: string;
+  percentage: number;
+  count: number;
+};
+
+const CHART_HEIGHT = 368; // match <ResponsiveContainer height>
+
+function FunnelBadgesOverlay({
+  transformedData,
+}: {
+  transformedData: BadgeDatum[];
+}) {
+  return (
+    <div className='absolute inset-0 pointer-events-none z-10'>
+      {transformedData.map((entry, index) => {
+        const xPercent = ((index + 0.5) / transformedData.length) * 100;
+        const yPx =
+          entry.stage === "Broadcast Sent"
+            ? 35
+            : 350 - entry.percentage * 3.3 - 15;
+        const yPercent = (yPx / CHART_HEIGHT) * 100;
+
+        return (
+          <div
+            key={`badge-${index}`}
+            className='absolute -translate-x-1/2 -translate-y-1/2 rounded-xl border border-[#f5f5f4] bg-white shadow-md px-3 py-2 text-center'
+            style={{ left: `${xPercent}%`, top: `${yPercent}%` }}
+          >
+            <div className='text-xs font-semibold text-[#FF713B]'>
+              {entry.percentage}%
+            </div>
+            <div className='text-xs text-[#8D8D86]'>
+              {formatCompactNumber(entry.count)}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 interface FunnelChartProps {
   data: Array<{
     stage: string;
@@ -221,61 +263,10 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
               })}
             </Bar>
 
-            {/* Floating badge labels */}
-            {transformedData.map((entry, index) => {
-              const xPos = (index + 0.5) * (100 / transformedData.length);
-              const yPos =
-                entry.stage === "Broadcast Sent"
-                  ? 35 // Position at top for 100% bar
-                  : 350 - entry.percentage * 3.3 - 15; // Position above each bar
-
-              const badgeWidth = 60;
-              const badgeHeight = 40;
-              const badgeX = `${xPos}%`;
-
-              return (
-                <g key={`badge-${index}`}>
-                  {/* White background badge */}
-                  <rect
-                    x={badgeX}
-                    y={yPos}
-                    width={badgeWidth}
-                    height={badgeHeight}
-                    rx={12}
-                    ry={12}
-                    stroke='#f5f5f4'
-                    fill='white'
-                    transform={`translate(-${badgeWidth / 2}, -${badgeHeight / 2})`}
-                    filter='drop-shadow(0 4px 8px rgba(0,0,0,0.15))'
-                  />
-
-                  {/* Percentage text */}
-                  <text
-                    x={badgeX}
-                    y={yPos - 3}
-                    fill='#FF713B'
-                    fontSize={12}
-                    fontWeight='600'
-                    textAnchor='middle'
-                  >
-                    {entry.percentage}%
-                  </text>
-
-                  {/* Count text */}
-                  <text
-                    x={badgeX}
-                    y={yPos + 12}
-                    fill='#8D8D86'
-                    fontSize={12}
-                    textAnchor='middle'
-                  >
-                    {formatCompactNumber(entry.count)}
-                  </text>
-                </g>
-              );
-            })}
+            {/* Floating badges are rendered as HTML overlay */}
           </BarChart>
         </ResponsiveContainer>
+        <FunnelBadgesOverlay transformedData={transformedData} />
       </CardContent>
     </Card>
   );
