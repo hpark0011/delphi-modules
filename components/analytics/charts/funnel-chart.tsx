@@ -131,11 +131,11 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
                 y2='1'
               >
                 <stop offset='0%' stopColor='#FF713B' stopOpacity={0.3} />
-                <stop offset='100%' stopColor='#FF713B' stopOpacity={0.05} />
+                <stop offset='100%' stopColor='#FF713B' stopOpacity={0} />
               </linearGradient>
               <linearGradient id='gradientOpen' x1='0' y1='0' x2='0' y2='1'>
                 <stop offset='0%' stopColor='#FF713B' stopOpacity={0.3} />
-                <stop offset='100%' stopColor='#FF713B' stopOpacity={0.05} />
+                <stop offset='100%' stopColor='#FF713B' stopOpacity={0} />
               </linearGradient>
               <linearGradient
                 id='gradientEngagement'
@@ -145,11 +145,11 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
                 y2='1'
               >
                 <stop offset='0%' stopColor='#FF713B' stopOpacity={0.3} />
-                <stop offset='100%' stopColor='#FF713B' stopOpacity={0.05} />
+                <stop offset='100%' stopColor='#FF713B' stopOpacity={0} />
               </linearGradient>
               <linearGradient id='gradientClick' x1='0' y1='0' x2='0' y2='1'>
                 <stop offset='0%' stopColor='#FF713B' stopOpacity={0.3} />
-                <stop offset='100%' stopColor='#FF713B' stopOpacity={0.05} />
+                <stop offset='100%' stopColor='#FF713B' stopOpacity={0} />
               </linearGradient>
               <linearGradient
                 id='gradientUnsubscribe'
@@ -159,7 +159,7 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
                 y2='1'
               >
                 <stop offset='0%' stopColor='#671E0F' stopOpacity={0.3} />
-                <stop offset='100%' stopColor='#671E0F' stopOpacity={0.05} />
+                <stop offset='100%' stopColor='#671E0F' stopOpacity={0} />
               </linearGradient>
             </defs>
 
@@ -171,7 +171,7 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
 
             <XAxis
               dataKey='stage'
-              tick={{ fontSize: 11, fill: "#8D8D86" }}
+              tick={{ fontSize: 12, fill: "#8D8D86" }}
               tickLine={false}
               axisLine={{ stroke: isDark ? "#21201C" : "#F1F0EF" }}
               tickMargin={8}
@@ -241,19 +241,20 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
                     y={yPos}
                     width={badgeWidth}
                     height={badgeHeight}
-                    rx={20}
-                    ry={20}
+                    rx={12}
+                    ry={12}
+                    stroke='#E2E1DE'
                     fill='white'
                     transform={`translate(-${badgeWidth / 2}, -${badgeHeight / 2})`}
-                    filter='drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+                    filter='drop-shadow(0 4px 8px rgba(0,0,0,0.15))'
                   />
 
                   {/* Percentage text */}
                   <text
                     x={badgeX}
-                    y={yPos - 5}
-                    fill='#21201C'
-                    fontSize={13}
+                    y={yPos - 2}
+                    fill='#FF713B'
+                    fontSize={12}
                     fontWeight='600'
                     textAnchor='middle'
                   >
@@ -263,9 +264,9 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
                   {/* Count text */}
                   <text
                     x={badgeX}
-                    y={yPos + 10}
+                    y={yPos + 12}
                     fill='#8D8D86'
-                    fontSize={11}
+                    fontSize={12}
                     textAnchor='middle'
                   >
                     {formatCompactNumber(entry.count)}
