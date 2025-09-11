@@ -47,6 +47,7 @@ interface CustomTooltipProps {
       stage: string;
       percentage: number;
       count: number;
+      remainder?: number;
     };
   }>;
   label?: string;
@@ -75,6 +76,14 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
 export function FunnelChart({ data, className }: FunnelChartProps) {
   const { theme, resolvedTheme } = useTheme();
   const isDark = (resolvedTheme || theme) === "dark";
+
+  // Transform data to include remainder for stacking
+  const transformedData = React.useMemo(() => {
+    return data.map(item => ({
+      ...item,
+      remainder: 100 - item.percentage,
+    }));
+  }, [data]);
 
   const getBarColor = (stage: string) => {
     switch (stage) {
@@ -105,13 +114,37 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
           Broadcast Funnel Rates
         </CardTitle>
       </CardHeader>
-      <CardContent className='p-0 relative pb-4'>
+      <CardContent className='p-0 relative'>
         <ResponsiveContainer width='100%' height={350}>
           <BarChart
-            data={data}
+            data={transformedData}
             margin={{ top: 20, right: 20, left: -10, bottom: 20 }}
-            barCategoryGap='10%'
+            barCategoryGap='8%'
           >
+            <defs>
+              {/* Gradient definitions for each bar */}
+              <linearGradient id="gradientBroadcast" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#FF713B" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#FF713B" stopOpacity={0.05} />
+              </linearGradient>
+              <linearGradient id="gradientOpen" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#FF713B" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#FF713B" stopOpacity={0.05} />
+              </linearGradient>
+              <linearGradient id="gradientEngagement" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#FF713B" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#FF713B" stopOpacity={0.05} />
+              </linearGradient>
+              <linearGradient id="gradientClick" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#FF713B" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#FF713B" stopOpacity={0.05} />
+              </linearGradient>
+              <linearGradient id="gradientUnsubscribe" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#671E0F" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#671E0F" stopOpacity={0.05} />
+              </linearGradient>
+            </defs>
+
             <CartesianGrid
               strokeDasharray='4 4'
               vertical={false}
@@ -141,13 +174,31 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
               cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
             />
 
-            <Bar dataKey='percentage' radius={[12, 12, 0, 0]}>
-              {data.map((entry, index) => (
+            {/* Bottom bar - actual percentage */}
+            <Bar dataKey='percentage' stackId="a" radius={[0, 0, 8, 8]}>
+              {transformedData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={getBarColor(entry.stage)} />
               ))}
             </Bar>
 
-            {data.map((entry, index) => (
+            {/* Top bar - remainder with gradient */}
+            <Bar dataKey='remainder' stackId="a" radius={[8, 8, 0, 0]}>
+              {transformedData.map((entry, index) => {
+                const gradientId = entry.stage === "Unsubscribe Rate" 
+                  ? "gradientUnsubscribe" 
+                  : entry.stage === "Broadcast Sent"
+                  ? "gradientBroadcast"
+                  : entry.stage === "Open Rate"
+                  ? "gradientOpen"
+                  : entry.stage === "Engagement Rate"
+                  ? "gradientEngagement"
+                  : "gradientClick";
+                return <Cell key={`cell-remainder-${index}`} fill={`url(#${gradientId})`} />;
+              })}
+            </Bar>
+
+            {/* Labels on the solid bars */}
+            {transformedData.map((entry, index) => (
               <text
                 key={`label-${index}`}
                 x={0}
@@ -158,13 +209,13 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
                 textAnchor='middle'
               >
                 <tspan
-                  x={`${(index + 0.5) * (100 / data.length)}%`}
+                  x={`${(index + 0.5) * (100 / transformedData.length)}%`}
                   y={350 - entry.percentage * 3.2 - 10}
                 >
                   {entry.percentage}%
                 </tspan>
                 <tspan
-                  x={`${(index + 0.5) * (100 / data.length)}%`}
+                  x={`${(index + 0.5) * (100 / transformedData.length)}%`}
                   y={350 - entry.percentage * 3.2 + 5}
                   fontSize={10}
                   fill='#8D8D86'
