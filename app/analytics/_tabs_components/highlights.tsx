@@ -9,6 +9,7 @@ import { useState } from "react";
 import { PeopleHighlightsHorizontal } from "@/components/analytics/people-highlights-horizontal";
 import { AnimatePresence, motion } from "framer-motion";
 import { Icon } from "@/components/ui/icon";
+import Link from "next/link";
 
 const upcomingMeetings = [
   {
@@ -231,7 +232,7 @@ export function HighlightsTab() {
                 />
               </div>
             </ModuleCardHeader>
-            <div className='flex flex-col pb-2 h-full'>
+            <div className='flex flex-col pb-2 h-full min-h-[248px]'>
               {upcomingMeetings
                 .find((meeting) => meeting.date === currentDate)
                 ?.meetings.map((meeting, index) => (
@@ -250,9 +251,14 @@ export function HighlightsTab() {
                   </span>
                 )}
               </div>
-              <button className='text-[#8D8D86] cursor-pointer hover:opacity-70'>
-                Clear
-              </button>
+              {insights.length > 0 && (
+                <button
+                  onClick={() => setInsights([])}
+                  className='text-[#8D8D86] cursor-pointer hover:opacity-70 transition-opacity'
+                >
+                  Clear
+                </button>
+              )}
             </ModuleCardHeader>
             <div className='flex flex-col relative'>
               <div
@@ -266,22 +272,35 @@ export function HighlightsTab() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: 0.1 }}
-                    className='flex flex-col items-center justify-center py-8 px-4'
+                    className='flex flex-col items-center justify-center py-8 px-4 translate-y-[-16px]'
                   >
-                    <div className='w-10 h-10 rounded-full bg-[#E5E5E0] flex items-center justify-center mb-4'>
+                    <div className='flex items-center justify-center mb-2'>
                       <Icon
                         name='LightbulbFillIcon'
-                        className='w-5 h-5 text-neutral-400'
+                        className='w-8 h-8 text-neutral-300'
                       />
                     </div>
-                    <p className='text-[#8D8D86] text-sm mb-6 text-center'>
-                      All insights are added to the list.
-                    </p>
+                    <div className='flex flex-col items-center justify-center gap-1'>
+                      <p className='text-primary text-sm text-center'>
+                        All insights are added to the list.
+                      </p>
+                      <p className='text-[#8D8D86] text-sm mb-6 text-center'>
+                        Insights are auto-generated suggestions based on trends
+                        and gaps recognized from Delphi’s interaction.{" "}
+                        <Link
+                          href='/'
+                          target='_blank'
+                          className='text-blue-500 hover:opacity-70'
+                        >
+                          Learn More
+                        </Link>
+                      </p>
+                    </div>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setInsights(initialInsights)}
-                      className='px-5 py-2.5 bg-[#2C2C28] text-white rounded-full text-sm font-medium hover:bg-[#3C3C38] transition-colors'
+                      className='px-3 h-7 bg-primary text-primary-foreground rounded-full text-xs font-medium hover:bg-[#3C3C38] transition-colors shadow-xl'
                     >
                       Get more insights
                     </motion.button>
