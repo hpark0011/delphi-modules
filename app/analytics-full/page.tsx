@@ -3,10 +3,11 @@
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";
-import { MindScore } from "@/components/analytics/home/mindscore";
+import { MindScoreFull } from "@/components/analytics/home/mindscore";
 import { UpgradeBroadcast } from "@/components/analytics/home/upgrade-broadcast";
 import { Icon } from "@/components/ui/icon";
 import { CircleDashedIcon } from "lucide-react";
+import { useState } from "react";
 
 export type Engagements = {
   conversations: {
@@ -41,7 +42,7 @@ export default function AnalyticsPage() {
   const mindScore = {
     current: 110,
     total: 200,
-    level: "Beginner",
+    level: "Master",
   };
 
   const engagements: Engagements = {
@@ -203,7 +204,7 @@ export default function AnalyticsPage() {
 
         <div className='flex flex-col space-y-2 w-full max-w-[392px]'>
           {/* Mind Score Card */}
-          <MindScore mindScore={mindScore} />
+          <MindScoreFull mindScore={mindScore} />
 
           {/* Analytics Section */}
           <HomeAnalytics engagements={engagements} />
@@ -212,7 +213,7 @@ export default function AnalyticsPage() {
           <HomeHighlights highlights={highlights} />
 
           {/* Upgrade Broadcast Section */}
-          {/* <UpgradeBroadcast /> */}
+          <UpgradeBroadcast setUpgradeClicked={() => {}} />
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import type { AnalyticsData } from "@/app/analytics/types";
+import { BroadcastMetricCard } from "@/components/analytics/broadcast-metric-card";
 import { AreaChartComponent } from "@/components/analytics/charts/area-chart";
 import { StackedQuestionsChart } from "@/components/analytics/charts/stacked-questions-chart";
 import {
@@ -8,18 +9,14 @@ import {
   Divider,
 } from "@/components/analytics/dashboard-ui";
 import { KPICard } from "@/components/analytics/kpi-card";
-import {
-  ModuleCard,
-  ModuleCardContent,
-  ModuleCardHeader,
-} from "@/components/analytics/module-ui";
+import { ModuleCard } from "@/components/analytics/module-ui";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import EngagementLoading from "../engagement/loading";
-import { BroadcastData } from "../types/broadcast";
-import { BroadcastMetricCard } from "@/components/analytics/broadcast-metric-card";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import EngagementLoading from "../engagement/loading";
+import { BroadcastData } from "../types/broadcast";
+import { UpgradeBroadcast } from "@/components/analytics/home/upgrade-broadcast";
 
 interface EngagementTabProps {
   analyticsData: AnalyticsData | null;
@@ -72,6 +69,7 @@ export function EngagementTab({
 }: EngagementTabProps) {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("activeUsers");
+  const [upgradeClicked, setUpgradeClicked] = useState(false);
 
   useEffect(() => {
     const tab = searchParams.get("tab");
@@ -174,59 +172,66 @@ export function EngagementTab({
         </Tabs>
       </AnalyticsSectionWrapper>
 
-      <AnalyticsSectionWrapper>
-        <div className='p-4 py-3 flex flex-col gap-1 mb-1'>
-          <div className='text-sm font-medium text-[#8D8D86] dark:text-neutral-400'>
-            Latest Broadcast
-          </div>
-          <div className='flex flex-row gap-4 items-center'>
-            <div className='text-lg w-full'>Summit Last Chance 20% off</div>
-            <div className='flex flex-row items-center bg-light rounded-md h-6'>
-              <div className='text-sm px-2.5'>8/31/25</div>
-              <div className='h-full w-[1px] bg-neutral-300/50' />
-              <div className='flex flex-row px-0'>
-                <button className='hover:bg-neutral-200 p-1 h-6 w-6'>
-                  <ChevronLeft className='size-3.5 text-[#8D8D86]' />
-                </button>
-                <button className='hover:bg-neutral-200 rounded-r-sm p-1 h-6 w-6'>
-                  <ChevronRight className='size-3.5 text-[#8D8D86]' />
-                </button>
+      {upgradeClicked ? (
+        <AnalyticsSectionWrapper>
+          <div className='p-4 py-3 flex flex-col gap-1 mb-1'>
+            <div className='text-sm font-medium text-[#8D8D86] dark:text-neutral-400'>
+              Latest Broadcast
+            </div>
+            <div className='flex flex-row gap-4 items-center'>
+              <div className='text-lg w-full'>Summit Last Chance 20% off</div>
+              <div className='flex flex-row items-center bg-light rounded-md h-6'>
+                <div className='text-sm px-2.5'>8/31/25</div>
+                <div className='h-full w-[1px] bg-neutral-300/50' />
+                <div className='flex flex-row px-0'>
+                  <button className='hover:bg-neutral-200 p-1 h-6 w-6'>
+                    <ChevronLeft className='size-3.5 text-[#8D8D86]' />
+                  </button>
+                  <button className='hover:bg-neutral-200 rounded-r-sm p-1 h-6 w-6'>
+                    <ChevronRight className='size-3.5 text-[#8D8D86]' />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <ModuleCard className='rounded-[24px]'>
-          <div className='flex flex-row items-center'>
-            <BroadcastMetricCard
-              label='Open Rate'
-              value={broadcastData.metrics.openRate.value.toString()}
-              change={broadcastData.metrics.openRate.change}
-              changeType={broadcastData.metrics.openRate.changeType}
-            />
-            <Divider />
-            <BroadcastMetricCard
-              label='Engagement Rate'
-              value={broadcastData.metrics.engagementRate.value.toString()}
-              change={broadcastData.metrics.engagementRate.change}
-              changeType={broadcastData.metrics.engagementRate.changeType}
-            />
-            <Divider />
-            <BroadcastMetricCard
-              label='Click Rate'
-              value={broadcastData.metrics.clickRate.value.toString()}
-              change={broadcastData.metrics.clickRate.change}
-              changeType={broadcastData.metrics.clickRate.changeType}
-            />
-            <Divider />
-            <BroadcastMetricCard
-              label='Unsubscribe Rate'
-              value={broadcastData.metrics.unsubscribeRate.value.toString()}
-              change={broadcastData.metrics.unsubscribeRate.change}
-              changeType={broadcastData.metrics.unsubscribeRate.changeType}
-            />
-          </div>
-        </ModuleCard>
-      </AnalyticsSectionWrapper>
+          <ModuleCard className='rounded-[24px]'>
+            <div className='flex flex-row items-center'>
+              <BroadcastMetricCard
+                label='Open Rate'
+                value={broadcastData.metrics.openRate.value.toString()}
+                change={broadcastData.metrics.openRate.change}
+                changeType={broadcastData.metrics.openRate.changeType}
+              />
+              <Divider />
+              <BroadcastMetricCard
+                label='Engagement Rate'
+                value={broadcastData.metrics.engagementRate.value.toString()}
+                change={broadcastData.metrics.engagementRate.change}
+                changeType={broadcastData.metrics.engagementRate.changeType}
+              />
+              <Divider />
+              <BroadcastMetricCard
+                label='Click Rate'
+                value={broadcastData.metrics.clickRate.value.toString()}
+                change={broadcastData.metrics.clickRate.change}
+                changeType={broadcastData.metrics.clickRate.changeType}
+              />
+              <Divider />
+              <BroadcastMetricCard
+                label='Unsubscribe Rate'
+                value={broadcastData.metrics.unsubscribeRate.value.toString()}
+                change={broadcastData.metrics.unsubscribeRate.change}
+                changeType={broadcastData.metrics.unsubscribeRate.changeType}
+              />
+            </div>
+          </ModuleCard>
+        </AnalyticsSectionWrapper>
+      ) : (
+        <UpgradeBroadcast
+          setUpgradeClicked={setUpgradeClicked}
+          variant='full'
+        />
+      )}
     </div>
   );
 }

@@ -24,9 +24,9 @@ import {
 const CHART_COLORS = {
   answered: "#FF713B",
   // Primary fill used for unanswered legend tile and pattern background
-  unanswered: "#671E0F",
+  unanswered: "#FF713B",
   // Stroke used in hatch pattern where applicable
-  unansweredPatternStroke: "#671E0F",
+  unansweredPatternStroke: "#FFB89D",
 } as const;
 
 const STACK_GAP_PX = 0;
