@@ -25,7 +25,7 @@ export const navigation: NavSection[] = [
     items: [
       { title: "Integrations", href: "/integrations", icon: "integrations" },
       { title: "Broadcasts", href: "/broadcasts", icon: "broadcasts" },
-      { title: "Highlights", href: "/highlights", icon: "highlights" },
+      { title: "Actions", href: "/actions", icon: "actions" },
       { title: "Products", href: "/products", icon: "products" },
     ],
   },

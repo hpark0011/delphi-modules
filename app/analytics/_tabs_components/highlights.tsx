@@ -7,9 +7,8 @@ import { QuestionsStack } from "@/components/analytics/questions-stack";
 import { HeaderNavButtons } from "@/components/analytics/header-nav-buttons";
 import { useState } from "react";
 import { PeopleHighlightsHorizontal } from "@/components/analytics/people-highlights-horizontal";
-import { AnimatePresence, motion } from "framer-motion";
-import { Icon } from "@/components/ui/icon";
-import Link from "next/link";
+import { AnimatePresence } from "framer-motion";
+import { EmptyModuleState } from "@/components/analytics/empty-module-state";
 
 const upcomingMeetings = [
   {
@@ -61,6 +60,11 @@ const upcomingMeetings = [
         meetingType: "Text Only",
       },
     ],
+  },
+  {
+    date: "Thu Apr 6",
+    meetings: [],
+    error: "Failed to load meetings",
   },
 ];
 
@@ -244,39 +248,19 @@ export function HighlightsTab() {
             </ModuleCardHeader>
             <div className='flex flex-col pb-2 h-full min-h-[248px]'>
               {currentMeetings.length === 0 ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: 0.1 }}
-                  className='flex flex-col items-center justify-center py-8 px-4 h-full'
-                >
-                  <div className='flex items-center justify-center mb-2'>
-                    <Icon
-                      name='CalendarFillIcon'
-                      className='w-8 h-8 text-neutral-300'
-                    />
-                  </div>
-                  <div className='flex flex-col items-center justify-center gap-1'>
-                    <p className='text-primary text-sm text-center'>
-                      No meetings scheduled
-                    </p>
-                    <p className='text-[#8D8D86] text-xs mb-6 text-center px-4'>
-                      You have no meetings scheduled for this date. Add meetings
-                      to stay organized and track your commitments.
-                    </p>
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => {
+                <div className='h-full flex items-center justify-center'>
+                  <EmptyModuleState
+                    icon='CalendarFillIcon'
+                    title='No meetings scheduled'
+                    description='You have no meetings scheduled for this date. Add meetings to stay organized and track your commitments.'
+                    buttonText='Create Meeting'
+                    onButtonClick={() => {
                       // Add meeting functionality
                       console.log("Add meeting clicked");
                     }}
-                    className='px-3 h-7 bg-primary text-primary-foreground rounded-full text-xs font-medium hover:bg-[#3C3C38] transition-colors shadow-xl'
-                  >
-                    Create Meeting
-                  </motion.button>
-                </motion.div>
+                    learnMoreLink='/'
+                  />
+                </div>
               ) : (
                 currentMeetings.map((meeting, index) => (
                   <CalendarListItem key={index} {...meeting} />
@@ -312,43 +296,14 @@ export function HighlightsTab() {
 
               <div className='flex flex-col px-3 max-h-[250px] h-full overflow-y-auto gap-2 py-2 relative'>
                 {insights.length === 0 ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
-                    className='flex flex-col items-center justify-center py-8 px-4 translate-y-[-16px]'
-                  >
-                    <div className='flex items-center justify-center mb-2'>
-                      <Icon
-                        name='LightbulbFillIcon'
-                        className='w-8 h-8 text-neutral-300'
-                      />
-                    </div>
-                    <div className='flex flex-col items-center justify-center gap-1'>
-                      <p className='text-primary text-sm text-center'>
-                        All insights are added to the list.
-                      </p>
-                      <p className='text-[#8D8D86] text-sm mb-6 text-center'>
-                        Insights are auto-generated suggestions based on trends
-                        and gaps recognized from Delphi’s interaction.{" "}
-                        <Link
-                          href='/'
-                          target='_blank'
-                          className='text-blue-500 hover:opacity-70'
-                        >
-                          Learn More
-                        </Link>
-                      </p>
-                    </div>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => setInsights(initialInsights)}
-                      className='px-3 h-7 bg-primary text-primary-foreground rounded-full text-xs font-medium hover:bg-[#3C3C38] transition-colors shadow-xl'
-                    >
-                      Get more insights
-                    </motion.button>
-                  </motion.div>
+                  <EmptyModuleState
+                    icon='LightbulbFillIcon'
+                    title='All insights are added to the list.'
+                    description="Insights are auto-generated suggestions based on trends and gaps recognized from Delphi's interaction."
+                    learnMoreLink='/'
+                    buttonText='Get more insights'
+                    onButtonClick={() => setInsights(initialInsights)}
+                  />
                 ) : (
                   <AnimatePresence mode='popLayout'>
                     {insights.map((insight, index) => (

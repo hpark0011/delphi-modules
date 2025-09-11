@@ -266,8 +266,8 @@ export function PeopleHighlightsHorizontal({
               onMouseLeave={() => setHoveredId(null)}
             >
               <div className='relative h-full w-full overflow-hidden p-4'>
-                <div className='flex flex-col items-center justify-between h-[96px]'>
-                  <Avatar className='h-10 w-10 rounded-full m-auto'>
+                <div className='flex flex-col items-center justify-between h-[96px] gap-1.5'>
+                  <Avatar className='h-9 w-9 rounded-full m-auto'>
                     <AvatarImage src={card.avatar} />
                     <AvatarFallback>{card.initials}</AvatarFallback>
                   </Avatar>
