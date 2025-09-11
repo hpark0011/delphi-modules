@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Icon } from "@/components/ui/icon";
 
 type Person = {
   id: string;
@@ -127,7 +128,10 @@ export function PeopleHighlightsHorizontal() {
                       }}
                       className='absolute inset-0 z-10 w-full bg-card-secondary flex items-center justify-center px-4 h-full'
                     >
-                      <div className='text-[13px] leading-[1.2] text-[#43250E]/50 dark:text-[#EBE9E7]/50  line-clamp-5 items-center m-auto px-1 '>
+                      <div className='text-[13px] leading-[1.2] text-[#43250E]/50 dark:text-[#EBE9E7]/50 line-clamp-5 m-auto px-1 relative'>
+                        <span className='font-medium inline-flex items-center mr-1  relative top-1 bg-[#43250E]/10 rounded-full'>
+                          <Icon name='SparkleIcon' className='w-4 h-4' />
+                        </span>
                         {card.reason}
                       </div>
                     </motion.div>
