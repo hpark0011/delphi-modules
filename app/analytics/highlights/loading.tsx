@@ -1,4 +1,4 @@
-export default function ActionsLoading() {
+export default function HighlightsLoading() {
   return (
     <div className='animate-pulse space-y-6'>
       {/* Actions Summary Cards */}

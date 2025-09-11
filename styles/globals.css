@@ -126,6 +126,7 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-card-secondary: var(--card-secondary);
   --color-hover-background: var(--hover-background);
   --color-chart-tooltip-background: var(--chart-tooltip-background);
   --color-chat-input-background: var(--chat-input-background);
@@ -146,6 +147,7 @@
   --background: #fdfdfc;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
+  --card-secondary: #ebe9e7;
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: #63635e;
@@ -186,7 +188,8 @@
   --shadow-card-primary: 0 0 0 0.5px rgba(0, 0, 0, 0.05),
     0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.05);
   --shadow-card-stacked: 0 64px 130px 0 rgba(0, 0, 0, 0.03),
-    0 30px 60px 0 rgba(0, 0, 0, 0.02);
+    0 30px 60px 0 rgba(0, 0, 0, 0.06), 0 1px 1px 0px rgba(0, 0, 0, 0.05),
+    0 0.5px rgba(0, 0, 0, 0), 0 10px 20px -5px rgba(0, 0, 0, 0.1);
   --hover-background: #f1f0ef;
   --chat-input-background: #ffffff;
 }
@@ -195,6 +198,7 @@
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
+  --card-secondary: #1e1e1e;
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
@@ -234,8 +238,8 @@
   --sidebar-icon: #b4b3ac;
   --shadow-card-primary: 0 0 0 0.5px rgba(0, 0, 0, 0.05),
     0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.05);
-  --shadow-card-stacked: 0 64px 130px 0 rgba(0, 0, 0, 0.04),
-    0 30px 60px 0 rgba(0, 0, 0, 0.08);
+  --shadow-card-stacked: 0 64px 130px 0 rgba(0, 0, 0, 0.06),
+    0 30px 60px 0 rgba(0, 0, 0, 0.12), 0 14px 28x 0 rgba(0, 0, 0, 0.05);
   --hover-background: #212120;
   --chat-input-background: #2c2c2c;
 }

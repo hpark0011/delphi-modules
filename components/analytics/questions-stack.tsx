@@ -54,7 +54,7 @@ export function QuestionsStack() {
   return (
     <div className='flex flex-col relative cursor-default transform-none gap-2 justify-center items-center w-full h-[232px] pb-[56px]'>
       <motion.div
-        className={`relative bg-[#E7E4E1]/80 rounded-[20px] p-3 shadow-card-stacked flex items-start w-full gap-2 inset-0 mx-auto h-fit`}
+        className={`relative bg-card-secondary rounded-[20px] p-3 shadow-card-stacked flex items-start w-full gap-2 inset-0 mx-auto h-fit`}
       >
         <Avatar className='h-8 w-8 rounded-full overflow-hidden mt-0.5'>
           <AvatarImage src={currentCard.avatar} />
@@ -66,7 +66,7 @@ export function QuestionsStack() {
             <div className='font-medium'>{currentCard.name}</div>
             <div className=' text-[#8D8D86]'>6h</div>
           </div>
-          <div className=' text-sm leading-[1.3] text-[#43250E]/50 line-clamp-6'>
+          <div className=' text-sm leading-[1.3] text-[#43250E]/50 dark:text-[#EBE9E7]/50 line-clamp-6'>
             {currentCard.question}
           </div>
         </div>

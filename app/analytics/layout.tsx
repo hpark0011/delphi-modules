@@ -35,7 +35,7 @@ export default function AnalyticsLayout({
   const navItems = [
     { value: "engagement", label: "Engagement", href: "/analytics/engagement" },
     { value: "audience", label: "Audience", href: "/analytics/audience" },
-    { value: "actions", label: "Actions", href: "/analytics/actions" },
+    { value: "highlights", label: "Highlights", href: "/analytics/highlights" },
     { value: "broadcasts", label: "Broadcasts", href: "/analytics/broadcasts" },
   ];
 
