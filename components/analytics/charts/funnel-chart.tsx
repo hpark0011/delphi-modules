@@ -110,12 +110,12 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
       )}
     >
       <CardHeader className='py-3 px-4 gap-0'>
-        <CardTitle className='text-sm font-medium text-foreground'>
+        <CardTitle className='text-sm font-medium text-muted-foreground'>
           Broadcast Funnel Rates
         </CardTitle>
       </CardHeader>
       <CardContent className='p-0 relative'>
-        <ResponsiveContainer width='100%' height={350}>
+        <ResponsiveContainer width='100%' height={368}>
           <BarChart
             data={transformedData}
             margin={{ top: 20, right: 20, left: -10, bottom: 20 }}
