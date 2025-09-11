@@ -145,6 +145,7 @@ export function HighlightsTab() {
   const [currentPeopleIndex, setCurrentPeopleIndex] = useState(0);
   const [insights, setInsights] = useState(initialInsights);
   const [removingId, setRemovingId] = useState<number | null>(null);
+  const [unansweredQuestionsCount, setUnansweredQuestionsCount] = useState(4); // Initialize with total questions count
 
   const dates = upcomingMeetings.map((d) => d.date);
   const currentMeetingData = upcomingMeetings.find(
@@ -361,14 +362,16 @@ export function HighlightsTab() {
                 <span className='font-medium text-[#63635E]'>
                   Unanswered Questions
                 </span>
-                <span className='font-semibold text-[#EF5F28] bg-[#EF5F28]/10 rounded-full flex text-center items-center justify-center px-2 py-0.5 w-fit text-xs'>
-                  32
-                </span>
+                {unansweredQuestionsCount > 0 && (
+                  <span className='font-semibold text-[#EF5F28] bg-[#EF5F28]/10 rounded-full flex text-center items-center justify-center px-2 py-0.5 w-fit text-xs'>
+                    {unansweredQuestionsCount}
+                  </span>
+                )}
               </div>
               <HeaderNavButtons />
             </ModuleCardHeader>
             <div className='flex flex-col'>
-              <QuestionsStack />
+              <QuestionsStack onUnansweredCountChange={setUnansweredQuestionsCount} />
             </div>
           </ModuleCard>
 

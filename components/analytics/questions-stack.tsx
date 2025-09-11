@@ -50,7 +50,11 @@ const questions: Question[] = [
   },
 ];
 
-export function QuestionsStack() {
+interface QuestionsStackProps {
+  onUnansweredCountChange?: (count: number) => void;
+}
+
+export function QuestionsStack({ onUnansweredCountChange }: QuestionsStackProps = {}) {
   const [currentCard, setCurrentCard] = useState<Question>(questions[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [submittedResponse, setSubmittedResponse] = useState<string | null>(
@@ -63,6 +67,14 @@ export function QuestionsStack() {
   const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const responseRef = useRef<HTMLDivElement>(null);
+  
+  // Calculate unanswered count
+  const unansweredCount = questions.length - answeredQuestions.size;
+  
+  // Notify parent component when unanswered count changes
+  useEffect(() => {
+    onUnansweredCountChange?.(unansweredCount);
+  }, [unansweredCount, onUnansweredCountChange]);
 
   const handleSubmit = () => {
     if (inputValue.trim()) {
