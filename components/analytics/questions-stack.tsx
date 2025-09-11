@@ -1,9 +1,9 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { AutoResizingTextarea } from "../ui/auto-resizing-textarea";
-import { useState } from "react";
+import { useState, KeyboardEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { ArrowUp } from "lucide-react";
@@ -50,6 +50,33 @@ const questions: Question[] = [
 
 export function QuestionsStack() {
   const [currentCard, setCurrentCard] = useState<Question>(questions[0]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [userResponse, setUserResponse] = useState("");
+  const [submittedResponse, setSubmittedResponse] = useState<string | null>(null);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleSubmit = () => {
+    if (inputValue.trim()) {
+      setUserResponse(inputValue);
+      setSubmittedResponse(inputValue);
+      setInputValue("");
+    }
+  };
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+
+  const handleNextQuestion = () => {
+    const nextIndex = (currentIndex + 1) % questions.length;
+    setCurrentIndex(nextIndex);
+    setCurrentCard(questions[nextIndex]);
+    setSubmittedResponse(null);
+    setUserResponse("");
+  };
 
   return (
     <div className='flex flex-col gap-2 relative w-full h-full'>
@@ -73,18 +100,69 @@ export function QuestionsStack() {
           </div>
         </motion.div>
 
-        <div className='rounded-[20px] p-3.5 py-2 shadow-[0_1px_2px_0_rgba(242,107,56,0.5),0_20px_40px_0_rgba(242,107,56,0.2),0_1px_1px_0_rgba(242,107,56,0.05)] bg-[#F26B38] text-[#fff] text-sm leading-[1.4] ml-12 z-10'>
-          Delphi doesn’t offer unlimited pricing for pay-as-you-go. Instead, you
-          can set specific costs per message, voice minute, and video minute. To
-          get started...
-        </div>
+        <AnimatePresence mode="wait">
+          {submittedResponse && (
+            <motion.div 
+              key="response"
+              initial={{ opacity: 0, y: 100, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 300,
+                damping: 25,
+                mass: 0.5
+              }}
+              className='rounded-[20px] p-3.5 py-2 shadow-[0_1px_2px_0_rgba(242,107,56,0.5),0_20px_40px_0_rgba(242,107,56,0.2),0_1px_1px_0_rgba(242,107,56,0.05)] bg-[#F26B38] text-[#fff] text-sm leading-[1.4] ml-12 z-10'
+            >
+              {submittedResponse}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-      <div className='absolute z-10 rounded-[14px] w-[calc(100%-24px)] h-fit bg-chat-input-background bottom-[12px] p-0.5 shadow-card-primary flex items-center justify-between pr-2 left-3'>
-        <AutoResizingTextarea className='w-full focus-visible:ring-0 h-full border-none bg-transparent rounded-[12px] hover:bg-hover-background mr-2' />
-        <button className='hover:bg-light/80 bg-light rounded-full flex flex-col items-center justify-center w-fit h-fit p-1 bottom-0 hover:opacity-80 cursor-pointer active:scale-95'>
-          <ArrowUp className='size-5 text-[#8D8D86]' />
-        </button>
-      </div>
+      
+      <AnimatePresence mode="wait">
+        {submittedResponse ? (
+          <motion.div 
+            key="next-button"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className='absolute rounded-[14px] w-[calc(100%-24px)] h-fit bottom-[12px] p-0.5 flex items-center justify-center pr-2 left-3 z-10 pb-1.5'
+          >
+            <button 
+              onClick={handleNextQuestion}
+              className='text-sm text-primary-foreground text-center bg-primary rounded-[16px] h-8 px-3 shadow-xl'
+            >
+              Next question
+            </button>
+          </motion.div>
+        ) : (
+          <motion.div 
+            key="input"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className='absolute z-10 rounded-[14px] w-[calc(100%-24px)] h-fit bg-chat-input-background bottom-[12px] p-0.5 shadow-card-primary flex items-center justify-between pr-2 left-3'
+          >
+            <AutoResizingTextarea 
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyPress}
+              placeholder="Type your response..."
+              className='w-full focus-visible:ring-0 h-full border-none bg-transparent rounded-[12px] hover:bg-hover-background mr-2' 
+            />
+            <button 
+              onClick={handleSubmit}
+              className='hover:bg-light/80 bg-light rounded-full flex flex-col items-center justify-center w-fit h-fit p-1 bottom-0 hover:opacity-80 cursor-pointer active:scale-95'
+            >
+              <ArrowUp className='size-5 text-[#8D8D86]' />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
