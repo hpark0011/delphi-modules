@@ -192,7 +192,7 @@ export function HighlightsTab() {
     });
   };
   return (
-    <div className='space-y-2'>
+    <div className='space-y-4'>
       {/* <AnalyticsSectionWrapper>
         <ModuleCard className='rounded-[24px]'>
           <ModuleCardHeader className='h-[40px] mb-1'>
@@ -212,7 +212,7 @@ export function HighlightsTab() {
       </AnalyticsSectionWrapper> */}
 
       <AnalyticsSectionWrapper>
-        <div className='mb-4'>
+        <div className='mb-6'>
           <ModuleCard className='rounded-[24px] px-0'>
             <ModuleCardHeader className='border-b border-border-extra-light h-[40px] mb-1 pr-3'>
               <div className='flex items-center gap-1.5'>
@@ -238,7 +238,7 @@ export function HighlightsTab() {
             </div>
           </ModuleCard>
         </div>
-        <div className='grid grid-cols-2 gap-2 gap-y-4'>
+        <div className='grid grid-cols-2 gap-2 gap-y-6'>
           <ModuleCard className='w-full rounded-[24px]'>
             <ModuleCardHeader className='pr-3 border-b border-border-extra-light'>
               <div className='flex items-center gap-1.5'>

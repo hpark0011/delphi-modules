@@ -4,9 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion, AnimatePresence } from "framer-motion";
 import { AutoResizingTextarea } from "../ui/auto-resizing-textarea";
 import { useState, KeyboardEvent, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
 import { ArrowUp } from "lucide-react";
+import { EmptyModuleState } from "./empty-module-state";
 
 type Question = {
   id: string;
@@ -54,19 +53,25 @@ const questions: Question[] = [
 export function QuestionsStack() {
   const [currentCard, setCurrentCard] = useState<Question>(questions[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [userResponse, setUserResponse] = useState("");
   const [submittedResponse, setSubmittedResponse] = useState<string | null>(
     null
   );
   const [inputValue, setInputValue] = useState("");
+  const [answeredQuestions, setAnsweredQuestions] = useState<Set<string>>(
+    new Set()
+  );
+  const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const responseRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = () => {
     if (inputValue.trim()) {
-      setUserResponse(inputValue);
       setSubmittedResponse(inputValue);
       setInputValue("");
+      // Mark current question as answered
+      const newAnsweredQuestions = new Set(answeredQuestions);
+      newAnsweredQuestions.add(currentCard.id);
+      setAnsweredQuestions(newAnsweredQuestions);
     }
   };
 
@@ -108,37 +113,74 @@ export function QuestionsStack() {
   };
 
   const handleNextQuestion = () => {
-    const nextIndex = (currentIndex + 1) % questions.length;
-    setCurrentIndex(nextIndex);
-    setCurrentCard(questions[nextIndex]);
+    // Check if all questions have been answered
+    if (answeredQuestions.size >= questions.length) {
+      setAllQuestionsAnswered(true);
+      return;
+    }
+
+    // Find next unanswered question
+    let nextIndex = (currentIndex + 1) % questions.length;
+    let attempts = 0;
+    
+    while (answeredQuestions.has(questions[nextIndex].id) && attempts < questions.length) {
+      nextIndex = (nextIndex + 1) % questions.length;
+      attempts++;
+    }
+    
+    // If all questions have been answered
+    if (attempts >= questions.length) {
+      setAllQuestionsAnswered(true);
+    } else {
+      setCurrentIndex(nextIndex);
+      setCurrentCard(questions[nextIndex]);
+      setSubmittedResponse(null);
+    }
+  };
+
+  const handleResetQuestions = () => {
+    setAnsweredQuestions(new Set());
+    setAllQuestionsAnswered(false);
+    setCurrentIndex(0);
+    setCurrentCard(questions[0]);
     setSubmittedResponse(null);
-    setUserResponse("");
+    setInputValue("");
   };
 
   return (
     <div className='flex flex-col gap-2 relative w-full h-full'>
-      <div
-        ref={scrollContainerRef}
-        className='flex flex-col relative cursor-default transform-none gap-4 items-center w-full h-[232px] px-3 overflow-y-auto py-[40px] pb-[80px]'
-      >
-        <motion.div
-          className={`relative bg-card-secondary rounded-[20px] p-3 shadow-card-stacked flex items-start w-full gap-2 inset-0 mx-auto h-fit`}
-        >
-          <Avatar className='h-8 w-8 rounded-full overflow-hidden mt-0.5'>
-            <AvatarImage src={currentCard.avatar} />
-            <AvatarFallback>{currentCard.initials}</AvatarFallback>
-          </Avatar>
+      {allQuestionsAnswered ? (
+        <EmptyModuleState
+          icon="CheckCircle2Icon"
+          title="All questions answered"
+          description="Great job! You've responded to all questions. Check back later for new questions."
+          buttonText="Start over"
+          onButtonClick={handleResetQuestions}
+        />
+      ) : (
+        <>
+          <div
+            ref={scrollContainerRef}
+            className='flex flex-col relative cursor-default transform-none gap-4 items-center w-full h-[232px] px-3 overflow-y-auto py-[40px] pb-[80px]'
+          >
+            <motion.div
+              className={`relative bg-card-secondary rounded-[20px] p-3 shadow-card-stacked flex items-start w-full gap-2 inset-0 mx-auto h-fit`}
+            >
+              <Avatar className='h-8 w-8 rounded-full overflow-hidden mt-0.5'>
+                <AvatarImage src={currentCard.avatar} />
+                <AvatarFallback>{currentCard.initials}</AvatarFallback>
+              </Avatar>
 
-          <div className='flex flex-col mb-1 h-full w-full'>
-            <div className='flex items-center justify-between w-full text-sm mb-0.5'>
-              <div className='font-medium'>{currentCard.name}</div>
-              <div className=' text-[#8D8D86]'>6h</div>
-            </div>
-            <div className=' text-sm leading-[1.3] text-[#43250E]/70 dark:text-[#EBE9E7]/50 line-clamp-6'>
-              {currentCard.question}
-            </div>
-          </div>
-        </motion.div>
+              <div className='flex flex-col mb-1 h-full w-full'>
+                <div className='flex items-center justify-between w-full text-sm mb-0.5'>
+                  <div className='font-medium'>{currentCard.name}</div>
+                  <div className=' text-[#8D8D86]'>6h</div>
+                </div>
+                <div className=' text-sm leading-[1.3] text-[#43250E]/70 dark:text-[#EBE9E7]/50 line-clamp-6'>
+                  {currentCard.question}
+                </div>
+              </div>
+            </motion.div>
 
         <AnimatePresence mode='wait'>
           {submittedResponse && (
@@ -160,10 +202,10 @@ export function QuestionsStack() {
               </motion.div>
             </div>
           )}
-        </AnimatePresence>
-      </div>
+            </AnimatePresence>
+          </div>
 
-      <AnimatePresence mode='wait'>
+          <AnimatePresence mode='wait'>
         {submittedResponse ? (
           <motion.div
             key='next-button'
@@ -211,6 +253,8 @@ export function QuestionsStack() {
           </motion.div>
         )}
       </AnimatePresence>
+        </>
+      )}
     </div>
   );
 }

@@ -150,14 +150,14 @@ const popularQuestions = [
 
 export function AudienceTab() {
   return (
-    <div className='flex flex-col gap-4 w-full'>
+    <div className='flex flex-col gap-6 w-full'>
       <AnalyticsSectionWrapper>
         {/* <div className='flex items-center justify-between px-4 py-3'>
           <p className='font-medium text-[#8D8D86] leading-[1.4] text-sm'>
             Audience
           </p>
         </div> */}
-        <div className='grid grid-cols-2 gap-2 mb-4'>
+        <div className='grid grid-cols-2 gap-2 mb-6'>
           <ModuleCard className='w-full rounded-[24px] pb-0'>
             <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>
@@ -190,7 +190,7 @@ export function AudienceTab() {
           </ModuleCard>
         </div>
 
-        <div className='grid grid-cols-2 gap-2 mb-4'>
+        <div className='grid grid-cols-2 gap-2 mb-6'>
           <ModuleCard className='w-full rounded-[24px] h-fit'>
             <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>
