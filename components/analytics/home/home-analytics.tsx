@@ -53,10 +53,12 @@ export function HomeAnalytics({ engagements }: { engagements: Engagements }) {
   const metrics = [
     {
       label: "Active Users",
+      href: "/analytics/engagement?tab=activeUsers",
       ...engagements.activeUsers,
     },
     {
       label: "Conversations",
+      href: "/analytics/engagement?tab=conversations",
       ...engagements.conversations,
     },
   ];
@@ -78,7 +80,7 @@ export function HomeAnalytics({ engagements }: { engagements: Engagements }) {
           <Fragment key={metric.label}>
             <MetricCard
               key={metric.label}
-              href='/analytics/engagement'
+              href={metric.href}
               label={metric.label}
               value={metric.value}
               change={metric.change}

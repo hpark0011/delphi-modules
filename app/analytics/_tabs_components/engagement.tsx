@@ -18,6 +18,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import EngagementLoading from "../engagement/loading";
 import { BroadcastData } from "../types/broadcast";
 import { BroadcastMetricCard } from "@/components/analytics/broadcast-metric-card";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface EngagementTabProps {
   analyticsData: AnalyticsData | null;
@@ -68,6 +70,16 @@ export function EngagementTab({
   analyticsData,
   isLoading,
 }: EngagementTabProps) {
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState('activeUsers');
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab && ['activeUsers', 'conversations', 'answeredQuestions', 'timeCreated'].includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
+
   if (isLoading || !analyticsData) {
     return <EngagementLoading />;
   }
@@ -75,7 +87,7 @@ export function EngagementTab({
   return (
     <div className='flex flex-col w-full gap-4'>
       <AnalyticsSectionWrapper>
-        <Tabs defaultValue='activeUsers' className='w-full gap-4'>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full gap-4'>
           <TabsList className='flex w-full gap-0 h-auto p-0 justify-between'>
             <TabsTrigger
               value='activeUsers'
