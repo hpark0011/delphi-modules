@@ -104,7 +104,7 @@ export function HighlightsTab() {
     upcomingMeetings[0].date
   );
   const [currentPeopleIndex, setCurrentPeopleIndex] = useState(0);
-  
+
   const dates = upcomingMeetings.map((d) => d.date);
   const handlePrevDate = () => {
     const index = dates.indexOf(currentDate);
@@ -119,17 +119,19 @@ export function HighlightsTab() {
 
   // Handlers for people navigation
   const handlePrevPeople = () => {
-    const itemsPerPage = window.innerWidth < 640 ? 2 : window.innerWidth < 1024 ? 3 : 5;
-    setCurrentPeopleIndex(prev => {
+    const itemsPerPage =
+      window.innerWidth < 640 ? 2 : window.innerWidth < 1024 ? 3 : 5;
+    setCurrentPeopleIndex((prev) => {
       const newIndex = Math.max(0, prev - itemsPerPage);
       return newIndex;
     });
   };
 
   const handleNextPeople = () => {
-    const itemsPerPage = window.innerWidth < 640 ? 2 : window.innerWidth < 1024 ? 3 : 5;
+    const itemsPerPage =
+      window.innerWidth < 640 ? 2 : window.innerWidth < 1024 ? 3 : 5;
     const maxPeople = 20; // Total number of people in the component
-    setCurrentPeopleIndex(prev => {
+    setCurrentPeopleIndex((prev) => {
       const newIndex = Math.min(maxPeople - itemsPerPage, prev + itemsPerPage);
       return Math.max(0, newIndex);
     });
@@ -166,7 +168,7 @@ export function HighlightsTab() {
                   {insights.length}
                 </span>
               </div>
-              <HeaderNavButtons 
+              <HeaderNavButtons
                 onPrev={handlePrevPeople}
                 onNext={handleNextPeople}
                 disabledPrev={currentPeopleIndex === 0}
@@ -174,7 +176,7 @@ export function HighlightsTab() {
               />
             </ModuleCardHeader>
             <div className='flex flex-col px-3 py-4 pt-0'>
-              <PeopleHighlightsHorizontal 
+              <PeopleHighlightsHorizontal
                 currentIndex={currentPeopleIndex}
                 onIndexChange={setCurrentPeopleIndex}
               />
@@ -219,7 +221,7 @@ export function HighlightsTab() {
                 className='pointer-events-none absolute top-0 left-0 right-0 h-2 bg-gradient-to-b from-card to-transparent z-20'
               />
 
-              <div className='flex flex-col px-2 max-h-[250px] overflow-y-auto gap-2 py-2 relative'>
+              <div className='flex flex-col px-3 max-h-[250px] overflow-y-auto gap-2 py-2 relative'>
                 {insights.map((insight) => (
                   <InsightCard
                     key={insight.id}
