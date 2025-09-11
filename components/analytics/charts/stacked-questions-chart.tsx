@@ -100,7 +100,7 @@ const CustomLegend = () => {
             >
               <rect width='4' height='4' fill={CHART_COLORS.unanswered} />
               <path
-                d='M-1,5 L5,-1'
+                d='M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2'
                 stroke={CHART_COLORS.unansweredPatternStroke}
                 strokeWidth='1'
                 fill='none'
@@ -187,7 +187,7 @@ export function StackedQuestionsChart({
               >
                 <rect width='4' height='4' fill={CHART_COLORS.unanswered} />
                 <path
-                  d='M-1,5 L5,-1'
+                  d='M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2'
                   stroke={CHART_COLORS.unansweredPatternStroke}
                   strokeWidth='1'
                   fill='none'
