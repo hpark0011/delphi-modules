@@ -40,7 +40,7 @@ export function UserListItem({
           </div>
         </div>
       </div>
-      <span className='text-sm font-normal text-[#8D8D86]'>{messageCount}</span>
+      <span className='text-sm  text-[#8D8D86]'>{messageCount}</span>
     </div>
   );
 }

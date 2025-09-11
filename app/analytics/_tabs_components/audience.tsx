@@ -98,38 +98,53 @@ const sourceList = [
 const popularQuestions = [
   {
     id: 1,
-    question: "What is the capital of France?",
-    conversations: 324,
+    question: "What elements contribute to an intuitive interface?",
+    conversations: 132,
+    trendRate: 32.1,
+    isPositive: true,
   },
   {
     id: 2,
-    question: "What elements contribute to an intuitive interface?",
-    conversations: 324,
+    question: "What innovative techniques can improve product design?",
+    conversations: 99,
+    trendRate: 12.5,
+    isPositive: true,
   },
   {
     id: 3,
-    question: "How can I improve user engagement with AI chatbots?",
-    conversations: 324,
+    question: "In what ways can user testing shape design decisions?",
+    conversations: 87,
+    trendRate: 2.1,
+    isPositive: true,
   },
   {
     id: 4,
-    question: "What is the best way to use AI chatbots?",
-    conversations: 324,
+    question: "How does minimalism influence the overall user experience?",
+    conversations: 67,
+    trendRate: 25.9,
+    isPositive: true,
   },
   {
     id: 5,
-    question: "How does minimalism influence the overall user experience?",
-    conversations: 324,
+    question:
+      "Which software tools are essential for effective design collaboration?",
+    conversations: 45,
+    trendRate: 8.6,
+    isPositive: true,
   },
   {
     id: 6,
-    question: "In what ways can user testing shape design decisions?",
-    conversations: 324,
+    question: "How do you test a design's effectiveness?",
+    conversations: 32,
+    trendRate: 11.4,
+    isPositive: true,
   },
   {
     id: 7,
-    question: "What innovative techniques can improve product design?",
-    conversations: 324,
+    question: "What are the key principles of responsive design?",
+    conversations: 28,
+    trendRate: 10.4,
+    isPositive: true,
   },
 ];
 
@@ -148,7 +163,7 @@ export function AudienceTab() {
               <span className='font-medium text-[#63635E]'>
                 Most Active Users
               </span>
-              <span className='font-normal text-[#8D8D86]'>Messages</span>
+              <span className='text-[#8D8D86]'>Messages</span>
             </ModuleCardHeader>
             <ModuleCardContent className='py-0'>
               {mostActiveUsers.map((user) => (
@@ -181,7 +196,7 @@ export function AudienceTab() {
               <span className='font-medium text-[#63635E]'>
                 Popular Sources
               </span>
-              <span className='font-normal text-[#8D8D86]'>Citation</span>
+              <span className=' text-[#8D8D86]'>Citation</span>
             </ModuleCardHeader>
             <ModuleCardContent className='pt-0 px-2 gap-0.5 pb-4'>
               {sourceList.map((source) => (
@@ -198,7 +213,7 @@ export function AudienceTab() {
           <ModuleCard className='w-full rounded-[24px] h-full'>
             <ModuleCardHeader>
               <span className='font-medium text-[#63635E]'>Popular Topics</span>
-              <span className='font-normal text-[#8D8D86]'>Conversations</span>
+              <span className=' text-[#8D8D86]'>Conversations</span>
             </ModuleCardHeader>
             <ModuleCardContent className='pt-0 pb-0 px-0 h-full'>
               <TopicsChart />
@@ -213,7 +228,7 @@ export function AudienceTab() {
               <span className='font-medium text-[#63635E]'>
                 Popular Questions
               </span>
-              <span className='font-normal text-[#8D8D86]'>Conversations</span>
+              <span className=' text-[#8D8D86]'>Conversations</span>
             </ModuleCardHeader>
             <ModuleCardContent className='py-1 px-0 min-h-[224px]'>
               {popularQuestions.map((question, index) => (
@@ -222,6 +237,8 @@ export function AudienceTab() {
                   index={index}
                   question={question.question}
                   conversations={question.conversations}
+                  trendRate={question.trendRate}
+                  isPositive={question.isPositive}
                 />
               ))}
               <ModuleViewMoreButton>View All</ModuleViewMoreButton>

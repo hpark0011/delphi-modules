@@ -234,10 +234,7 @@ function ChartItemValue({
   return (
     <span
       data-slot='chart-item-value'
-      className={cn(
-        "text-sm ml-3 min-w-[40px] text-right font-normal",
-        className
-      )}
+      className={cn("text-sm ml-3 min-w-[40px] text-right ", className)}
       style={{ color: config.barValueColor }}
       {...props}
     >

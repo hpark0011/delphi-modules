@@ -15,7 +15,7 @@ export function SourceListItem({ name, citation }: SourceListItemProps) {
           <span className='font-medium text-text-primary text-sm'>{name}</span>
         </div>
       </div>
-      <span className='text-sm font-normal text-[#8D8D86]'>{citation}</span>
+      <span className='text-sm text-[#8D8D86]'>{citation}</span>
     </div>
   );
 }
