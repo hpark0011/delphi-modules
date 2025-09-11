@@ -4,13 +4,13 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import * as React from "react";
 
-const languageData = [
-  { country: "US", percentage: 44 },
-  { country: "Brazil", percentage: 23 },
-  { country: "Vietnam", percentage: 16 },
-  { country: "France", percentage: 16 },
-  { country: "Canada", percentage: 12 },
-  { country: "Korea", percentage: 9 },
+const topicsData = [
+  { topic: "User Interface", conversations: 1250, growth: 42.5 },
+  { topic: "User Experience", conversations: 1180, growth: 20.8 },
+  { topic: "Accessibility", conversations: 980, growth: 7.3 },
+  { topic: "Design Systems", conversations: 850, growth: 5.7 },
+  { topic: "Responsive Design", conversations: 720, growth: 2.7 },
+  { topic: "Typography", conversations: 680, growth: 2.0 },
 ];
 
 const colorList = [
@@ -80,8 +80,9 @@ function Chart({ className, config, children, ...props }: ChartProps) {
 // Chart Item component
 interface ChartItemProps extends React.ComponentProps<"div"> {
   data?: {
-    flag?: string;
-    country?: string;
+    topic?: string;
+    conversations?: number;
+    growth?: number;
     percentage?: number;
   };
   index?: number;
@@ -113,13 +114,13 @@ function ChartItem({
       {children || (
         <div className='hover:bg-gradient-to-r from-[#F6F6F5] via-[#f6f6f5] to-transparent w-full flex items-center px-4 py-0.5'>
           <ChartItemContent>
-            <ChartItemLabel country={data?.country} />
+            <ChartItemLabel topic={data?.topic} />
             <ChartItemBar
-              value={data?.percentage}
+              value={data?.growth}
               delay={index * 0.05}
               index={index}
             />
-            <ChartItemValue value={data?.percentage} />
+            <ChartItemValue value={data?.growth} />
           </ChartItemContent>
         </div>
       )}
@@ -143,27 +144,27 @@ function ChartItemContent({
 
 // Label component for country and flag
 interface ChartItemLabelProps extends React.ComponentProps<"div"> {
-  country?: string;
+  topic?: string;
 }
 
-function ChartItemLabel({ className, country, ...props }: ChartItemLabelProps) {
+function ChartItemLabel({ className, topic, ...props }: ChartItemLabelProps) {
   const config = React.useContext(ChartContext);
 
   return (
     <div
       data-slot='chart-item-label'
       className={cn(
-        "flex items-center gap-2 min-w-[104px] justify-end",
+        "flex items-center gap-2 min-w-[104px] max-w-[104px] justify-end",
         className
       )}
       {...props}
     >
-      {country && (
+      {topic && (
         <span
-          className='text-sm font-medium'
+          className='text-sm font-medium truncate'
           style={{ color: config.barLabelColor }}
         >
-          {country}
+          {topic}
         </span>
       )}
     </div>
@@ -245,11 +246,18 @@ function ChartItemValue({
 
 // Main exported component with default implementation
 export function TopicsChart() {
+  const maxConversations = Math.max(...topicsData.map((t) => t.conversations));
   return (
     <Chart>
-      {languageData.map((item, index) => (
-        <ChartItem key={index} data={item} index={index} />
-      ))}
+      {topicsData.map((item, index) => {
+        const percentage =
+          maxConversations > 0
+            ? Math.round((item.conversations / maxConversations) * 100)
+            : 0;
+        return (
+          <ChartItem key={index} data={{ ...item, percentage }} index={index} />
+        );
+      })}
     </Chart>
   );
 }

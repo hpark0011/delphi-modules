@@ -68,37 +68,12 @@ const mostActiveUsers = [
 ];
 
 const sourceList = [
-  {
-    id: 1,
-    name: "Influence",
-    citation: 324,
-  },
-  {
-    id: 2,
-    name: "Nature Lover Brown",
-    citation: 324,
-  },
-
-  {
-    id: 3,
-    name: "Nature Lover Brown",
-    citation: 324,
-  },
-  {
-    id: 4,
-    name: "Nature Lover Brown",
-    citation: 324,
-  },
-  {
-    id: 5,
-    name: "Nature Lover Brown",
-    citation: 324,
-  },
-  {
-    id: 6,
-    name: "Influence",
-    citation: 324,
-  },
+  { id: 1, name: "Influence", citation: 324 },
+  { id: 2, name: "Design Systems Handbook", citation: 298 },
+  { id: 3, name: "User Experience Research", citation: 276 },
+  { id: 4, name: "Material Design Guidelines", citation: 254 },
+  { id: 5, name: "Human Interface Guidelines", citation: 232 },
+  { id: 6, name: "Web Content Accessibility", citation: 210 },
 ];
 
 const popularQuestions = [
@@ -188,7 +163,9 @@ export function AudienceTab() {
                   messageCount={user.messageCount}
                 />
               ))}
-              <ModuleViewMoreButton onClick={() => setActiveUsersOpen(true)}>View All</ModuleViewMoreButton>
+              <ModuleViewMoreButton onClick={() => setActiveUsersOpen(true)}>
+                View All
+              </ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
           <ModuleCard className='w-full rounded-[24px]'>
@@ -197,7 +174,9 @@ export function AudienceTab() {
             </ModuleCardHeader>
             <ModuleCardContent className='pt-0 pb-4 px-0'>
               <LanguageChart />
-              <ModuleViewMoreButton onClick={() => setLanguagesOpen(true)}>View All</ModuleViewMoreButton>
+              <ModuleViewMoreButton onClick={() => setLanguagesOpen(true)}>
+                View All
+              </ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
         </div>
@@ -218,7 +197,9 @@ export function AudienceTab() {
                   citation={source.citation}
                 />
               ))}
-              <ModuleViewMoreButton onClick={() => setSourcesOpen(true)}>View All</ModuleViewMoreButton>
+              <ModuleViewMoreButton onClick={() => setSourcesOpen(true)}>
+                View All
+              </ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
 
@@ -229,7 +210,9 @@ export function AudienceTab() {
             </ModuleCardHeader>
             <ModuleCardContent className='pt-0 pb-0 px-0 h-full'>
               <TopicsChart />
-              <ModuleViewMoreButton onClick={() => setTopicsOpen(true)}>View All</ModuleViewMoreButton>
+              <ModuleViewMoreButton onClick={() => setTopicsOpen(true)}>
+                View All
+              </ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
         </div>
@@ -253,14 +236,19 @@ export function AudienceTab() {
                   isPositive={question.isPositive}
                 />
               ))}
-              <ModuleViewMoreButton onClick={() => setQuestionsOpen(true)}>View All</ModuleViewMoreButton>
+              <ModuleViewMoreButton onClick={() => setQuestionsOpen(true)}>
+                View All
+              </ModuleViewMoreButton>
             </ModuleCardContent>
           </ModuleCard>
         </div>
       </AnalyticsSectionWrapper>
 
       {/* Dialogs */}
-      <ActiveUsersDialog open={activeUsersOpen} onOpenChange={setActiveUsersOpen} />
+      <ActiveUsersDialog
+        open={activeUsersOpen}
+        onOpenChange={setActiveUsersOpen}
+      />
       <LanguagesDialog open={languagesOpen} onOpenChange={setLanguagesOpen} />
       <SourcesDialog open={sourcesOpen} onOpenChange={setSourcesOpen} />
       <TopicsDialog open={topicsOpen} onOpenChange={setTopicsOpen} />
