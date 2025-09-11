@@ -115,16 +115,36 @@ const createBadgeLabel = (items: { count: number; percentage: number }[], isDark
     badgeY = (y ?? 0) + 2;
   }
 
+  // Add padding for shadow (shadow-xl extends ~10-15px)
+  const shadowPadding = 15;
+  const foreignWidth = 80 + (shadowPadding * 2);
+  const foreignHeight = badgeHeight + (shadowPadding * 2);
+  
   return (
     <g transform={`translate(${cx}, ${badgeY})`}>
-      <foreignObject x={-40} y={-badgeHalfHeight} width={80} height={badgeHeight}>
-        <div className={cn(
-          'pointer-events-none rounded-[12px] border px-3 py-0.5 text-center shadow-xl',
-          isDark ? 'border-[#21201C] bg-[#141413]' : 'border-[#f5f5f4] bg-white'
-        )}>
-          <div className='text-xs font-semibold text-[#FF713B]'>{value}%</div>
-          <div className='text-xs text-[#8D8D86]'>
-            {formatCompactNumber(item.count)}
+      <foreignObject 
+        x={-40 - shadowPadding} 
+        y={-badgeHalfHeight - shadowPadding} 
+        width={foreignWidth} 
+        height={foreignHeight}
+        style={{ overflow: 'visible' }}
+      >
+        <div style={{ 
+          padding: `${shadowPadding}px`, 
+          width: foreignWidth + 'px', 
+          height: foreignHeight + 'px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <div className={cn(
+            'pointer-events-none rounded-[12px] border px-3 py-0.5 text-center shadow-xl',
+            isDark ? 'border-[#21201C] bg-[#141413]' : 'border-[#f5f5f4] bg-white'
+          )}>
+            <div className='text-xs font-semibold text-[#FF713B]'>{value}%</div>
+            <div className='text-xs text-[#8D8D86]'>
+              {formatCompactNumber(item.count)}
+            </div>
           </div>
         </div>
       </foreignObject>
