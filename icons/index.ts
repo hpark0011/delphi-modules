@@ -57,6 +57,7 @@ export { default as DocFillIcon } from "@/icons/doc.fill.svg";
 export { default as DocPlainTextFillIcon } from "@/icons/doc.plain.text.fill.svg";
 export { default as EllipsisIcon } from "@/icons/ellipsis.svg";
 export { default as EnvelopeFillIcon } from "@/icons/envelope.fill.svg";
+export { default as ExclamationmarkCircle } from "@/icons/exclamationmark.circle.svg";
 export { default as ExclamationmarkTriangleFillIcon } from "@/icons/exclamationmark.triangle.fill.svg";
 export { default as EyeFillIcon } from "@/icons/eye.fill.svg";
 export { default as EyesInverseIcon } from "@/icons/eyes.inverse.svg";

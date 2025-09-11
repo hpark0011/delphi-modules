@@ -10,7 +10,18 @@ import { PeopleHighlightsHorizontal } from "@/components/analytics/people-highli
 import { AnimatePresence } from "framer-motion";
 import { EmptyModuleState } from "@/components/analytics/empty-module-state";
 
-const upcomingMeetings = [
+type MeetingData = {
+  date: string;
+  meetings: Array<{
+    title: string;
+    startTime: string;
+    endTime: string;
+    meetingType: string;
+  }>;
+  error?: string;
+};
+
+const upcomingMeetings: MeetingData[] = [
   {
     date: "Wed Apr 2",
     meetings: [],
@@ -136,9 +147,11 @@ export function HighlightsTab() {
   const [removingId, setRemovingId] = useState<number | null>(null);
 
   const dates = upcomingMeetings.map((d) => d.date);
-  const currentMeetings =
-    upcomingMeetings.find((meeting) => meeting.date === currentDate)
-      ?.meetings || [];
+  const currentMeetingData = upcomingMeetings.find(
+    (meeting) => meeting.date === currentDate
+  );
+  const currentMeetings = currentMeetingData?.meetings || [];
+  const meetingError = currentMeetingData?.error;
 
   const handleRemoveInsight = (id: number) => {
     setRemovingId(id);
@@ -247,7 +260,21 @@ export function HighlightsTab() {
               </div>
             </ModuleCardHeader>
             <div className='flex flex-col pb-2 h-full min-h-[248px]'>
-              {currentMeetings.length === 0 ? (
+              {meetingError ? (
+                <div className='h-full flex items-center justify-center'>
+                  <EmptyModuleState
+                    icon='ExclamationmarkCircle'
+                    title='There was an error in loading meetings.'
+                    description=''
+                    buttonText='Refresh'
+                    onButtonClick={() => {
+                      // Refresh functionality
+                      window.location.reload();
+                    }}
+                    error
+                  />
+                </div>
+              ) : currentMeetings.length === 0 ? (
                 <div className='h-full flex items-center justify-center'>
                   <EmptyModuleState
                     icon='CalendarFillIcon'
