@@ -2,8 +2,6 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useMemo, useState } from "react";
 
 type Person = {
@@ -12,6 +10,7 @@ type Person = {
   title: string;
   avatar: string;
   initials: string;
+  reason: string;
 };
 
 export function PeopleHighlightsHorizontal() {
@@ -23,6 +22,8 @@ export function PeopleHighlightsHorizontal() {
         title: "Founder of Product Hunt. Investor at Weekend Fund.",
         avatar: "https://i.pravatar.cc/140?img=15",
         initials: "PF",
+        reason:
+          "Huge engagement with your messages, especially your daily update. Might be interested in the AI-powered daily update feature. Huge engagement with your messages, especially your daily update. Might be interested in the AI-powered daily update feature.",
       },
       {
         id: "sarah",
@@ -30,6 +31,8 @@ export function PeopleHighlightsHorizontal() {
         title: "Design lead at Northwind. Ex-IDEO.",
         avatar: "https://i.pravatar.cc/140?img=47",
         initials: "SC",
+        reason:
+          "Huge engagement with your messages, especially your daily update. Might be interested in the AI-powered daily update feature.",
       },
       {
         id: "kai",
@@ -37,6 +40,8 @@ export function PeopleHighlightsHorizontal() {
         title: "Product at Hoshi Labs. Community builder.",
         avatar: "https://i.pravatar.cc/140?img=56",
         initials: "KN",
+        reason:
+          "Huge engagement with your messages, especially your daily update. Might be interested in the AI-powered daily update feature.",
       },
       {
         id: "luna",
@@ -44,6 +49,8 @@ export function PeopleHighlightsHorizontal() {
         title: "Engineer @ Stardust. Open-source maintainer.",
         avatar: "https://i.pravatar.cc/140?img=38",
         initials: "LM",
+        reason:
+          "Huge engagement with your messages, especially your daily update. Might be interested in the AI-powered daily update feature.",
       },
       {
         id: "alex",
@@ -51,12 +58,15 @@ export function PeopleHighlightsHorizontal() {
         title: "Co-founder of DevTools Inc. Angel investor.",
         avatar: "https://i.pravatar.cc/140?img=68",
         initials: "AT",
+        reason:
+          "Huge engagement with your messages, especially your daily update. Might be interested in the AI-powered daily update feature.",
       },
     ],
     []
   );
 
   const [cards, setCards] = useState<Person[]>(people);
+  const [isHovering, setIsHovering] = useState(false);
 
   const handleNext = () => {};
 
@@ -78,30 +88,40 @@ export function PeopleHighlightsHorizontal() {
       </button> */}
 
       <div className='flex flex-row relative cursor-default transform-none gap-2 justify-center items-center w-full px-0 py-0'>
-        {cards.slice(0, 5).map((card, i) => {
+        {cards.slice(0, 5).map((card) => {
           return (
             <div
               key={card.id}
-              className={`relative bg-card-secondary shadow-card-stacked rounded-[24px] p-4 flex flex-col items-center justify-between max-w-full w-full gap-2 mx-auto h-full 
+              className={`relative bg-card-secondary shadow-card-stacked rounded-[24px] p-4 flex flex-col items-center justify-between max-w-full w-full gap-2 mx-auto h-[162px]  
               }`}
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
             >
-              <Avatar className='h-10 w-10 rounded-full m-auto'>
-                <AvatarImage src={card.avatar} />
-                <AvatarFallback>{card.initials}</AvatarFallback>
-              </Avatar>
+              {isHovering ? (
+                <div className='text-[13px] leading-[1.2] text-[#43250E]/50 dark:text-[#EBE9E7]/50 line-clamp-2 h-[96px] flex items-center'>
+                  {card.reason}
+                </div>
+              ) : (
+                <div className='flex flex-col items-center justify-between h-[96px]'>
+                  <Avatar className='h-10 w-10 rounded-full m-auto'>
+                    <AvatarImage src={card.avatar} />
+                    <AvatarFallback>{card.initials}</AvatarFallback>
+                  </Avatar>
 
-              <div className='flex flex-col h-full mb-1'>
-                <div className='text-center text-sm font-medium'>
-                  {card.name}
+                  <div className='flex flex-col h-full mb-1'>
+                    <div className='text-center text-sm font-medium'>
+                      {card.name}
+                    </div>
+                    <div className='text-center text-[13px] leading-[1.2] text-[#43250E]/50 dark:text-[#EBE9E7]/50 line-clamp-2 h-[32px]'>
+                      {card.title}
+                    </div>
+                  </div>
                 </div>
-                <div className='text-center text-[13px] leading-[1.2] text-[#43250E]/50 dark:text-[#EBE9E7]/50 line-clamp-2 h-[32px]'>
-                  {card.title}
-                </div>
-              </div>
+              )}
 
               <Button
                 size='sm'
-                className='rounded-full px-3 py-1 h-full leading-[1.2] m-auto flex justify-center items-center active:scale-95 text-[12px]'
+                className='rounded-full px-3 py-1 h-fit leading-[1.2] m-auto flex justify-center items-center active:scale-95 text-[12px]'
               >
                 Message
               </Button>
