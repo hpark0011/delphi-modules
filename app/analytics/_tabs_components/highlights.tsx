@@ -137,8 +137,8 @@ export function HighlightsTab() {
 
       <AnalyticsSectionWrapper>
         <div className='mb-4'>
-          <ModuleCard className='rounded-[24px]'>
-            <ModuleCardHeader className='h-[40px] mb-1'>
+          <ModuleCard className='rounded-[24px] px-0'>
+            <ModuleCardHeader className='h-[40px] mb-1 pr-3'>
               <div className='flex items-center gap-1.5'>
                 <span className='font-medium text-[#63635E]'>
                   People Highlights
@@ -147,6 +147,7 @@ export function HighlightsTab() {
                   {insights.length}
                 </span>
               </div>
+              <HeaderNavButtons />
             </ModuleCardHeader>
             <div className='flex flex-col px-3 py-4 pt-0'>
               <PeopleHighlightsHorizontal />
