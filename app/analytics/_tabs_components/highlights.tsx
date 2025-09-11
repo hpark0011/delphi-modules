@@ -10,39 +10,8 @@ import { PeopleHighlightsHorizontal } from "@/components/analytics/people-highli
 
 const upcomingMeetings = [
   {
-    date: "Wed Apr 3",
-    meetings: [
-      {
-        title: "Meeting with John Doe",
-        startTime: "10:00AM",
-        endTime: "11:00AM",
-        meetingType: "Text Only",
-      },
-      {
-        title: "Meeting with Jane Doe",
-        startTime: "11:00AM",
-        endTime: "12:00PM",
-        meetingType: "Video Only",
-      },
-      {
-        title: "Meeting with John Doe",
-        startTime: "12:00PM",
-        endTime: "1:00PM",
-        meetingType: "No Clone",
-      },
-      {
-        title: "Meeting with Jane Doe",
-        startTime: "1:00PM",
-        endTime: "2:00PM",
-        meetingType: "No Clone",
-      },
-      {
-        title: "Meeting with Jane Doe",
-        startTime: "1:00PM",
-        endTime: "2:00PM",
-        meetingType: "No Clone",
-      },
-    ],
+    date: "Wed Apr 2",
+    meetings: [],
   },
   {
     date: "Thu Apr 4",
@@ -70,6 +39,23 @@ const upcomingMeetings = [
         startTime: "3:00PM",
         endTime: "4:00PM",
         meetingType: "No Clone",
+      },
+      {
+        title: "Meeting with John Doe",
+        startTime: "4:00PM",
+        endTime: "5:00PM",
+        meetingType: "Video Only",
+      },
+    ],
+  },
+  {
+    date: "Thu Apr 5",
+    meetings: [
+      {
+        title: "Meeting with Jane Doe",
+        startTime: "11:00AM",
+        endTime: "12:00PM",
+        meetingType: "Text Only",
       },
     ],
   },
@@ -101,7 +87,7 @@ const insights = [
 
 export function HighlightsTab() {
   const [currentDate, setCurrentDate] = useState<string>(
-    upcomingMeetings[0].date
+    upcomingMeetings[1].date
   );
   const [currentPeopleIndex, setCurrentPeopleIndex] = useState(0);
 
@@ -197,7 +183,7 @@ export function HighlightsTab() {
                 />
               </div>
             </ModuleCardHeader>
-            <div className='flex flex-col pb-2'>
+            <div className='flex flex-col pb-2 h-full'>
               {upcomingMeetings
                 .find((meeting) => meeting.date === currentDate)
                 ?.meetings.map((meeting, index) => (
@@ -221,7 +207,7 @@ export function HighlightsTab() {
                 className='pointer-events-none absolute top-0 left-0 right-0 h-2 bg-gradient-to-b from-card to-transparent z-20'
               />
 
-              <div className='flex flex-col px-3 max-h-[250px] overflow-y-auto gap-2 py-2 relative'>
+              <div className='flex flex-col px-3 max-h-[250px] h-full overflow-y-auto gap-2 py-2 relative'>
                 {insights.map((insight) => (
                   <InsightCard
                     key={insight.id}
