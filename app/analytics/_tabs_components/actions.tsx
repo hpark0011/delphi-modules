@@ -1,12 +1,12 @@
 "use client";
-import { useState } from "react";
 import { CalendarListItem } from "@/components/analytics/calendar-list-item";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
+import { InsightCard } from "@/components/analytics/insight-card";
 import { ModuleCard, ModuleCardHeader } from "@/components/analytics/module-ui";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PeopleHighlight } from "@/components/analytics/people-highlight";
 import { QuestionsStack } from "@/components/analytics/questions-stack";
-import { InsightCard } from "@/components/analytics/insight-card";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 const upcomingMeetings = [
   {
@@ -77,14 +77,24 @@ const upcomingMeetings = [
 
 const insights = [
   {
-    insight: "Your audience brings unfiltered emotional honesty when they feel truly seen and non-judged",
-    action: "Design content and programs that explicitly model radical acceptance and non-judgement",
-    icon: "lightbulb" as const,
+    id: 1,
+    insight: "Your audience brings unfiltered emotional honesty when they",
+    action:
+      "Design content and programs that explicitly model radical acceptance and non-judgement",
   },
   {
-    insight: "Your audience brings unfiltered emotional honesty when they feel truly seen and non-judged",
-    action: "Design content and programs that explicitly model radical acceptance and non-judgement",
-    icon: "lightbulb" as const,
+    id: 2,
+    insight:
+      "Your audience brings unfiltered emotional honesty when they feel truly seen and non-judged",
+    action:
+      "Design content and programs that explicitly model radical acceptance and non-judgement",
+  },
+  {
+    id: 3,
+    insight:
+      "Your audience brings unfiltered emotional honesty when they feel truly seen and non-judged",
+    action:
+      "Design content and programs that explicitly model radical acceptance and non-judgement",
   },
 ];
 
@@ -171,25 +181,36 @@ export function ActionsTab() {
           </div>
         </ModuleCard>
       </div>
-      <div className='mt-2'>
+      <div className='mt-2 grid grid-cols-2'>
         <ModuleCard className='w-full rounded-[24px]'>
-          <ModuleCardHeader>
-            <div className='flex items-center gap-1.5'>
+          <ModuleCardHeader className='h-[42px]'>
+            <div className='flex items-center gap-1.5 pt-1'>
               <span className='font-medium text-[#63635E]'>Insights</span>
               <span className='font-semibold text-[#EF5F28] bg-[#EF5F28]/10 rounded-full flex text-center items-center justify-center px-2 py-0.5 w-fit text-xs'>
                 {insights.length}
               </span>
             </div>
           </ModuleCardHeader>
-          <div className='flex flex-col divide-y divide-[#EBEBE9]'>
-            {insights.map((insight, index) => (
-              <InsightCard
-                key={index}
-                insight={insight.insight}
-                action={insight.action}
-                icon={insight.icon}
-              />
-            ))}
+          <div className='flex flex-col relative'>
+            <div
+              aria-hidden='true'
+              className='pointer-events-none absolute top-0 left-0 right-0 h-2 bg-gradient-to-b from-card to-transparent z-20'
+            />
+
+            <div className='flex flex-col px-2 max-h-[234px] overflow-y-auto gap-2 py-2 relative'>
+              {insights.map((insight) => (
+                <InsightCard
+                  key={insight.id}
+                  insight={insight.insight}
+                  action={insight.action}
+                />
+              ))}
+            </div>
+
+            <div
+              aria-hidden='true'
+              className='pointer-events-none absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-card to-transparent z-10'
+            />
           </div>
         </ModuleCard>
       </div>

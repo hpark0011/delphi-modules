@@ -233,7 +233,7 @@ export function StackedQuestionsChart({
               dataKey='unanswered'
               stackId='a'
               fill='url(#stripes)'
-              shape={TopStackShape}
+              // shape={TopStackShape}
               // maxBarSize={48}
               radius={[8, 8, 0, 0]}
             />
