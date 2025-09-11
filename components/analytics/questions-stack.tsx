@@ -54,7 +54,9 @@ interface QuestionsStackProps {
   onUnansweredCountChange?: (count: number) => void;
 }
 
-export function QuestionsStack({ onUnansweredCountChange }: QuestionsStackProps = {}) {
+export function QuestionsStack({
+  onUnansweredCountChange,
+}: QuestionsStackProps = {}) {
   const [currentCard, setCurrentCard] = useState<Question>(questions[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [submittedResponse, setSubmittedResponse] = useState<string | null>(
@@ -67,10 +69,10 @@ export function QuestionsStack({ onUnansweredCountChange }: QuestionsStackProps 
   const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const responseRef = useRef<HTMLDivElement>(null);
-  
+
   // Calculate unanswered count
   const unansweredCount = questions.length - answeredQuestions.size;
-  
+
   // Notify parent component when unanswered count changes
   useEffect(() => {
     onUnansweredCountChange?.(unansweredCount);
@@ -134,12 +136,15 @@ export function QuestionsStack({ onUnansweredCountChange }: QuestionsStackProps 
     // Find next unanswered question
     let nextIndex = (currentIndex + 1) % questions.length;
     let attempts = 0;
-    
-    while (answeredQuestions.has(questions[nextIndex].id) && attempts < questions.length) {
+
+    while (
+      answeredQuestions.has(questions[nextIndex].id) &&
+      attempts < questions.length
+    ) {
       nextIndex = (nextIndex + 1) % questions.length;
       attempts++;
     }
-    
+
     // If all questions have been answered
     if (attempts >= questions.length) {
       setAllQuestionsAnswered(true);
@@ -163,10 +168,10 @@ export function QuestionsStack({ onUnansweredCountChange }: QuestionsStackProps 
     <div className='flex flex-col gap-2 relative w-full h-full'>
       {allQuestionsAnswered ? (
         <EmptyModuleState
-          icon="CheckCircle2Icon"
-          title="All questions answered"
-          description="Great job! You've responded to all questions. Check back later for new questions."
-          buttonText="Start over"
+          icon='CheckedCircleFillIcon'
+          title='All questions answered'
+          description="You've responded to all questions. Check back later for new questions."
+          // buttonText='Start over'
           onButtonClick={handleResetQuestions}
         />
       ) : (
@@ -194,77 +199,77 @@ export function QuestionsStack({ onUnansweredCountChange }: QuestionsStackProps 
               </div>
             </motion.div>
 
-        <AnimatePresence mode='wait'>
-          {submittedResponse && (
-            <div ref={responseRef} className='w-full flex justify-end'>
-              <motion.div
-                key='response'
-                initial={{ opacity: 0, y: 100, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 25,
-                  mass: 0.5,
-                }}
-                className='rounded-[20px] w-fit p-3.5 py-2 shadow-[0_1px_2px_0_rgba(242,107,56,0.5),0_20px_40px_0_rgba(242,107,56,0.2),0_1px_1px_0_rgba(242,107,56,0.05)] bg-[#F26B38] text-[#fff] text-sm leading-[1.4] ml-12 z-10 right-0 relative'
-              >
-                {submittedResponse}
-              </motion.div>
-            </div>
-          )}
+            <AnimatePresence mode='wait'>
+              {submittedResponse && (
+                <div ref={responseRef} className='w-full flex justify-end'>
+                  <motion.div
+                    key='response'
+                    initial={{ opacity: 0, y: 100, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25,
+                      mass: 0.5,
+                    }}
+                    className='rounded-[20px] w-fit p-3.5 py-2 shadow-[0_1px_2px_0_rgba(242,107,56,0.5),0_20px_40px_0_rgba(242,107,56,0.2),0_1px_1px_0_rgba(242,107,56,0.05)] bg-[#F26B38] text-[#fff] text-sm leading-[1.4] ml-12 z-10 right-0 relative'
+                  >
+                    {submittedResponse}
+                  </motion.div>
+                </div>
+              )}
             </AnimatePresence>
           </div>
 
           <AnimatePresence mode='wait'>
-        {submittedResponse ? (
-          <motion.div
-            key='next-button'
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.2 }}
-            className='absolute rounded-[14px] w-[calc(100%-24px)] h-fit bottom-[12px] p-0.5 flex items-center justify-center pr-2 left-3 z-10 pb-1.5 flex-row gap-1'
-          >
-            <button
-              onClick={handleNextQuestion}
-              className='text-sm text-primary text-center bg-card rounded-[16px] h-8 px-3 shadow-sm cursor-pointer hover:opacity-70 active:scale-95'
-            >
-              Edit response
-            </button>
-            <button
-              onClick={handleNextQuestion}
-              className='text-sm text-primary-foreground text-center bg-primary rounded-[16px] h-8 px-3 shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_20px_40px_0_rgba(0,0,0,0.2),0_1px_1px_0_rgba(0,0,0,0.2)] cursor-pointer  hover:opacity-70 active:scale-95'
-            >
-              Next question
-            </button>
-          </motion.div>
-        ) : (
-          <motion.div
-            key='input'
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.2 }}
-            className='absolute z-10 rounded-[14px] w-[calc(100%-24px)] h-fit bg-chat-input-background bottom-[12px] p-0.5 shadow-card-primary flex items-center justify-between pr-2 left-3'
-          >
-            <AutoResizingTextarea
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyPress}
-              placeholder='Type your response...'
-              className='w-full focus-visible:ring-0 h-full border-none bg-transparent rounded-[12px] hover:bg-hover-background mr-2'
-            />
-            <button
-              onClick={handleSubmit}
-              className='hover:bg-light/80 bg-light rounded-full flex flex-col items-center justify-center w-fit h-fit p-1 bottom-0 hover:opacity-80 cursor-pointer active:scale-95'
-            >
-              <ArrowUp className='size-5 text-[#8D8D86]' />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {submittedResponse ? (
+              <motion.div
+                key='next-button'
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.2 }}
+                className='absolute rounded-[14px] w-[calc(100%-24px)] h-fit bottom-[12px] p-0.5 flex items-center justify-center pr-2 left-3 z-10 pb-1.5 flex-row gap-1'
+              >
+                <button
+                  onClick={handleNextQuestion}
+                  className='text-sm text-primary text-center bg-card rounded-[16px] h-8 px-3 shadow-sm cursor-pointer hover:opacity-70 active:scale-95'
+                >
+                  Edit response
+                </button>
+                <button
+                  onClick={handleNextQuestion}
+                  className='text-sm text-primary-foreground text-center bg-primary rounded-[16px] h-8 px-3 shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_20px_40px_0_rgba(0,0,0,0.2),0_1px_1px_0_rgba(0,0,0,0.2)] cursor-pointer  hover:opacity-70 active:scale-95'
+                >
+                  Next question
+                </button>
+              </motion.div>
+            ) : (
+              <motion.div
+                key='input'
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.2 }}
+                className='absolute z-10 rounded-[14px] w-[calc(100%-24px)] h-fit bg-chat-input-background bottom-[12px] p-0.5 shadow-card-primary flex items-center justify-between pr-2 left-3'
+              >
+                <AutoResizingTextarea
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder='Type your response...'
+                  className='w-full focus-visible:ring-0 h-full border-none bg-transparent rounded-[12px] hover:bg-hover-background mr-2'
+                />
+                <button
+                  onClick={handleSubmit}
+                  className='hover:bg-light/80 bg-light rounded-full flex flex-col items-center justify-center w-fit h-fit p-1 bottom-0 hover:opacity-80 cursor-pointer active:scale-95'
+                >
+                  <ArrowUp className='size-5 text-[#8D8D86]' />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
     </div>

@@ -370,8 +370,10 @@ export function HighlightsTab() {
               </div>
               <HeaderNavButtons />
             </ModuleCardHeader>
-            <div className='flex flex-col'>
-              <QuestionsStack onUnansweredCountChange={setUnansweredQuestionsCount} />
+            <div className='flex flex-col h-full'>
+              <QuestionsStack
+                onUnansweredCountChange={setUnansweredQuestionsCount}
+              />
             </div>
           </ModuleCard>
 

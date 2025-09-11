@@ -8,7 +8,7 @@ interface EmptyModuleStateProps {
   title: string;
   description: string;
   learnMoreLink?: string;
-  buttonText: string;
+  buttonText?: string;
   onButtonClick: () => void;
   error?: boolean;
 }
@@ -27,7 +27,7 @@ export function EmptyModuleState({
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3, delay: 0.1 }}
-      className='flex flex-col items-center justify-center py-8 px-4 translate-y-[-16px]'
+      className={`flex flex-col items-center justify-center py-8 px-4 h-full ${error ? "translate-y-[-8px]" : ""}`}
     >
       <div className='flex items-center justify-center mb-2'>
         <Icon
@@ -57,18 +57,20 @@ export function EmptyModuleState({
           )}
         </p>
       </div>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={onButtonClick}
-        className={
-          error
-            ? "px-3 h-7 border border-border-light text-text-primary rounded-full text-[13px] font-medium hover:bg-[#F5F5F5] dark:hover:bg-[#2C2C28] transition-colors"
-            : "px-3 h-7 bg-primary text-primary-foreground rounded-full text-[13px] font-medium hover:bg-[#3C3C38] transition-colors shadow-xl"
-        }
-      >
-        {buttonText}
-      </motion.button>
+      {buttonText && (
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={onButtonClick}
+          className={
+            error
+              ? "px-3 h-7 border border-border-light text-text-primary rounded-full text-[13px] font-medium hover:bg-[#F5F5F5] dark:hover:bg-[#2C2C28] transition-colors"
+              : "px-3 h-7 bg-primary text-primary-foreground rounded-full text-[13px] font-medium hover:bg-[#3C3C38] transition-colors shadow-xl"
+          }
+        >
+          {buttonText}
+        </motion.button>
+      )}
     </motion.div>
   );
 }
