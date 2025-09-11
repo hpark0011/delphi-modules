@@ -13,7 +13,8 @@
       "mcp__shadcn__search_items_in_registries",
       "Bash(gh auth refresh:*)",
       "mcp__shadcn__get_item_examples_from_registries",
-      "WebFetch(domain:stackoverflow.com)"
+      "WebFetch(domain:stackoverflow.com)",
+      "mcp__context7__resolve-library-id"
     ],
     "deny": [],
     "ask": []

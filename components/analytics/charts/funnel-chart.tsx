@@ -76,19 +76,52 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   );
 };
 
-// Factory to render a centered badge above each bar using the chart's coordinates
-const createBadgeLabel = (items: { count: number }[]) => (props: any) => {
-  const { x, y, width, value, index } = props;
-  const item = items?.[index] ?? { count: 0 };
+// Factory to render a centered badge aligned with the top of the solid bar
+const createBadgeLabel = (items: { count: number; percentage: number }[], isDark: boolean) => (props: any) => {
+  const { x, y, width, height, value, index, viewBox } = props;
+  const item = items?.[index] ?? { count: 0, percentage: 0 };
   const cx = (x ?? 0) + (width ?? 0) / 2;
   const badgeHeight = 36;
-  const gap = 8; // space between badge and bar top
-  const top = Math.max((y ?? 0) - badgeHeight - gap, 8);
+  const badgeHalfHeight = badgeHeight / 2;
+  
+  // Calculate the bar's position in the chart
+  const chartHeight = viewBox?.height || 368;
+  const marginTop = 20;
+  const marginBottom = 20;
+  const graphHeight = chartHeight - marginTop - marginBottom;
+  
+  // Calculate position based on percentage
+  // y represents the top of the solid bar
+  // For vertical center alignment with top of solid bar
+  let badgeY = (y ?? 0);
+  
+  // Check if badge would go above the chart area
+  if (badgeY - badgeHalfHeight < marginTop) {
+    // Position badge 2px below the top of solid bar
+    badgeY = (y ?? 0) + 2;
+  }
+  
+  // Check if badge would go below the entire bar (for very small percentages)
+  // height is the height of the solid bar part
+  const barBottom = (y ?? 0) + (height ?? 0);
+  if (item.percentage < 5 && badgeY + badgeHalfHeight > barBottom) {
+    // Position badge 2px above the bottom of solid bar
+    badgeY = barBottom - badgeHeight - 2;
+  }
+  
+  // For 100% or near 100%, ensure badge stays within bar
+  if (item.percentage >= 95) {
+    // Position badge 2px below the top of solid bar
+    badgeY = (y ?? 0) + 2;
+  }
 
   return (
-    <g transform={`translate(${cx}, ${top})`}>
-      <foreignObject x={-40} y={-18} width={80} height={36}>
-        <div className='pointer-events-none rounded-[12px] border border-[#f5f5f4] bg-white shadow-xl px-3 py-0.5 text-center'>
+    <g transform={`translate(${cx}, ${badgeY})`}>
+      <foreignObject x={-40} y={-badgeHalfHeight} width={80} height={badgeHeight}>
+        <div className={cn(
+          'pointer-events-none rounded-[12px] border px-3 py-0.5 text-center shadow-xl',
+          isDark ? 'border-[#21201C] bg-[#141413]' : 'border-[#f5f5f4] bg-white'
+        )}>
           <div className='text-xs font-semibold text-[#FF713B]'>{value}%</div>
           <div className='text-xs text-[#8D8D86]'>
             {formatCompactNumber(item.count)}
@@ -225,7 +258,7 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
               ))}
               <LabelList
                 dataKey='percentage'
-                content={createBadgeLabel(transformedData)}
+                content={createBadgeLabel(transformedData, isDark)}
               />
             </Bar>
 
