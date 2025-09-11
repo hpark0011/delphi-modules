@@ -71,11 +71,19 @@ export function EngagementTab({
   isLoading,
 }: EngagementTabProps) {
   const searchParams = useSearchParams();
-  const [activeTab, setActiveTab] = useState('activeUsers');
+  const [activeTab, setActiveTab] = useState("activeUsers");
 
   useEffect(() => {
-    const tab = searchParams.get('tab');
-    if (tab && ['activeUsers', 'conversations', 'answeredQuestions', 'timeCreated'].includes(tab)) {
+    const tab = searchParams.get("tab");
+    if (
+      tab &&
+      [
+        "activeUsers",
+        "conversations",
+        "answeredQuestions",
+        "timeCreated",
+      ].includes(tab)
+    ) {
       setActiveTab(tab);
     }
   }, [searchParams]);
@@ -87,7 +95,11 @@ export function EngagementTab({
   return (
     <div className='flex flex-col w-full gap-4'>
       <AnalyticsSectionWrapper>
-        <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full gap-4'>
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className='w-full gap-4'
+        >
           <TabsList className='flex w-full gap-0 h-auto p-0 justify-between'>
             <TabsTrigger
               value='activeUsers'
@@ -168,7 +180,7 @@ export function EngagementTab({
             Latest Broadcast
           </div>
           <div className='flex flex-row gap-4 items-center'>
-            <div className='text-lg'>Summit Last Chance 20% off</div>
+            <div className='text-lg w-full'>Summit Last Chance 20% off</div>
             <div className='flex flex-row items-center bg-light rounded-md h-6'>
               <div className='text-sm px-2.5'>8/31/25</div>
               <div className='h-full w-[1px] bg-neutral-300/50' />

@@ -61,7 +61,9 @@ export function BroadcastsTab() {
             Latest Broadcast
           </div>
           <div className='flex flex-row gap-4 items-center'>
-            <div className='text-xl'>{broadcastData.latestBroadcast.title}</div>
+            <div className='text-xl w-full'>
+              {broadcastData.latestBroadcast.title}
+            </div>
             <div className='flex flex-row items-center bg-light rounded-md h-6'>
               <div className='text-sm px-2.5'>
                 {broadcastData.latestBroadcast.date}
