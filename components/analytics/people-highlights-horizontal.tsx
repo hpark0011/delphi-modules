@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Person = {
   id: string;
@@ -66,7 +67,7 @@ export function PeopleHighlightsHorizontal() {
   );
 
   const [cards, setCards] = useState<Person[]>(people);
-  const [isHovering, setIsHovering] = useState(false);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const handleNext = () => {};
 
@@ -92,16 +93,11 @@ export function PeopleHighlightsHorizontal() {
           return (
             <div
               key={card.id}
-              className={`relative bg-card-secondary shadow-card-stacked rounded-[24px] p-4 flex flex-col items-center justify-between max-w-full w-full gap-2 mx-auto h-[162px]  
-              }`}
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
+              className='relative bg-card-secondary shadow-xl rounded-[24px] p-0 flex flex-col items-center justify-between max-w-full w-full mx-auto h-[162px] overflow-hidden'
+              onMouseEnter={() => setHoveredId(card.id)}
+              onMouseLeave={() => setHoveredId(null)}
             >
-              {isHovering ? (
-                <div className='text-[13px] leading-[1.2] text-[#43250E]/50 dark:text-[#EBE9E7]/50 line-clamp-2 h-[96px] flex items-center'>
-                  {card.reason}
-                </div>
-              ) : (
+              <div className='relative h-full w-full overflow-hidden p-4'>
                 <div className='flex flex-col items-center justify-between h-[96px]'>
                   <Avatar className='h-10 w-10 rounded-full m-auto'>
                     <AvatarImage src={card.avatar} />
@@ -117,14 +113,36 @@ export function PeopleHighlightsHorizontal() {
                     </div>
                   </div>
                 </div>
-              )}
 
-              <Button
-                size='sm'
-                className='rounded-full px-3 py-1 h-fit leading-[1.2] m-auto flex justify-center items-center active:scale-95 text-[12px]'
-              >
-                Message
-              </Button>
+                <AnimatePresence>
+                  {hoveredId === card.id && (
+                    <motion.div
+                      initial={{ y: "-100%", opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: "-100%", opacity: 0 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30,
+                      }}
+                      className='absolute inset-0 z-10 w-full bg-card-secondary flex items-center justify-center px-4 h-full'
+                    >
+                      <div className='text-[13px] leading-[1.2] text-[#43250E]/50 dark:text-[#EBE9E7]/50  line-clamp-5 items-center m-auto px-1 '>
+                        {card.reason}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className='pt-0 px-4 pb-4 '>
+                <Button
+                  size='sm'
+                  className='rounded-full px-3 py-1 h-fit leading-[1.2] m-auto flex justify-center items-center active:scale-95 text-[12px]'
+                >
+                  Message
+                </Button>
+              </div>
             </div>
           );
         })}
