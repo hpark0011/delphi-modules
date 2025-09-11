@@ -20,6 +20,21 @@ export type Engagements = {
   };
 };
 
+export type Highlights = {
+  unansweredQuestions: {
+    value: number;
+  };
+  productMentions: {
+    value: number;
+  };
+  peopleHighlights: {
+    value: number;
+  };
+  insights: {
+    value: number;
+  };
+};
+
 export default function AnalyticsPage() {
   // Sample data - replace with actual data fetching
   const mindScore = {
@@ -38,6 +53,21 @@ export default function AnalyticsPage() {
       value: 231,
       change: 21,
       isPositive: true,
+    },
+  };
+
+  const highlights: Highlights = {
+    unansweredQuestions: {
+      value: 32,
+    },
+    productMentions: {
+      value: 8,
+    },
+    peopleHighlights: {
+      value: 24,
+    },
+    insights: {
+      value: 16,
     },
   };
 
@@ -178,7 +208,7 @@ export default function AnalyticsPage() {
           <HomeAnalytics engagements={engagements} />
 
           {/* Highlights Section */}
-          {/* <HomeHighlights /> */}
+          <HomeHighlights highlights={highlights} />
         </div>
       </div>
     </div>
