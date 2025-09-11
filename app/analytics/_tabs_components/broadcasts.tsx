@@ -3,7 +3,11 @@
 import type { BroadcastData } from "@/app/analytics/types/broadcast";
 import { BroadcastMetricCard } from "@/components/analytics/broadcast-metric-card";
 import { FunnelChart } from "@/components/analytics/charts/funnel-chart";
-import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
+import {
+  AnalyticsSectionWrapper,
+  Divider,
+} from "@/components/analytics/dashboard-ui";
+import { ModuleCard } from "@/components/analytics/module-ui";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import * as React from "react";
 
@@ -50,67 +54,62 @@ export function BroadcastsTab() {
   };
 
   return (
-    <div className="flex flex-col w-full gap-4">
-      {/* Latest Broadcast Header */}
+    <div className='flex flex-col w-full gap-4'>
       <AnalyticsSectionWrapper>
-        <div className="p-4 flex flex-col gap-2">
-          <div className="text-sm font-medium text-[#8D8D86] dark:text-neutral-400">
+        <div className='p-4 py-3 flex flex-col gap-1 mb-1'>
+          <div className='text-sm font-medium text-[#8D8D86] dark:text-neutral-400'>
             Latest Broadcast
           </div>
-          <div className="flex items-center gap-4">
-            <div className="text-lg font-medium">
-              {broadcastData.latestBroadcast.title}
-            </div>
-            <div className="flex items-center bg-neutral-100 dark:bg-neutral-800 rounded-lg">
-              <div className="text-sm px-2.5 py-1">
+          <div className='flex flex-row gap-4 items-center'>
+            <div className='text-lg'>{broadcastData.latestBroadcast.title}</div>
+            <div className='flex flex-row items-center bg-light rounded-md h-6'>
+              <div className='text-sm px-2'>
                 {broadcastData.latestBroadcast.date}
               </div>
-              <div className="h-5 w-[1px] bg-neutral-300 dark:bg-neutral-600" />
-              <div className="flex">
-                <button className="hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-sm p-1">
-                  <ChevronLeft className="size-3.5" />
+              <div className='h-full w-[1px] bg-neutral-300/50' />
+              <div className='flex flex-row px-0.5'>
+                <button className='hover:bg-extra-light rounded-sm p-1'>
+                  <ChevronLeft className='size-3.5 text-[#8D8D86]' />
                 </button>
-                <button className="hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-sm p-1">
-                  <ChevronRight className="size-3.5" />
+                <button className='hover:bg-extra-light rounded-sm p-1'>
+                  <ChevronRight className='size-3.5 text-[#8D8D86]' />
                 </button>
               </div>
             </div>
           </div>
         </div>
-      </AnalyticsSectionWrapper>
+        <ModuleCard className='rounded-[24px] mb-4'>
+          <div className='flex flex-row items-center'>
+            <BroadcastMetricCard
+              label='Open Rate'
+              value={broadcastData.metrics.openRate.value.toString()}
+              change={broadcastData.metrics.openRate.change}
+              changeType={broadcastData.metrics.openRate.changeType}
+            />
+            <Divider />
+            <BroadcastMetricCard
+              label='Engagement Rate'
+              value={broadcastData.metrics.engagementRate.value.toString()}
+              change={broadcastData.metrics.engagementRate.change}
+              changeType={broadcastData.metrics.engagementRate.changeType}
+            />
+            <Divider />
+            <BroadcastMetricCard
+              label='Click Rate'
+              value={broadcastData.metrics.clickRate.value.toString()}
+              change={broadcastData.metrics.clickRate.change}
+              changeType={broadcastData.metrics.clickRate.changeType}
+            />
+            <Divider />
+            <BroadcastMetricCard
+              label='Unsubscribe Rate'
+              value={broadcastData.metrics.unsubscribeRate.value.toString()}
+              change={broadcastData.metrics.unsubscribeRate.change}
+              changeType={broadcastData.metrics.unsubscribeRate.changeType}
+            />
+          </div>
+        </ModuleCard>
 
-      {/* Metrics Cards */}
-      <AnalyticsSectionWrapper>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-          <BroadcastMetricCard
-            label="Open Rate"
-            value={broadcastData.metrics.openRate.value.toString()}
-            change={broadcastData.metrics.openRate.change}
-            changeType={broadcastData.metrics.openRate.changeType}
-          />
-          <BroadcastMetricCard
-            label="Engagement Rate"
-            value={broadcastData.metrics.engagementRate.value.toString()}
-            change={broadcastData.metrics.engagementRate.change}
-            changeType={broadcastData.metrics.engagementRate.changeType}
-          />
-          <BroadcastMetricCard
-            label="Click Rate"
-            value={broadcastData.metrics.clickRate.value.toString()}
-            change={broadcastData.metrics.clickRate.change}
-            changeType={broadcastData.metrics.clickRate.changeType}
-          />
-          <BroadcastMetricCard
-            label="Unsubscribe Rate"
-            value={broadcastData.metrics.unsubscribeRate.value.toString()}
-            change={broadcastData.metrics.unsubscribeRate.change}
-            changeType={broadcastData.metrics.unsubscribeRate.changeType}
-          />
-        </div>
-      </AnalyticsSectionWrapper>
-
-      {/* Funnel Chart */}
-      <AnalyticsSectionWrapper>
         <FunnelChart data={broadcastData.funnelData} />
       </AnalyticsSectionWrapper>
     </div>

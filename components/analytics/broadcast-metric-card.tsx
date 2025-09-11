@@ -1,8 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ArrowDown, ArrowUp } from "lucide-react";
-import * as React from "react";
 
 interface BroadcastMetricCardProps {
   label: string;
@@ -22,33 +20,36 @@ export function BroadcastMetricCard({
   className,
 }: BroadcastMetricCardProps) {
   const isPositive = changeType === "increase";
-  const Icon = isPositive ? ArrowUp : ArrowDown;
-  
+
+  const trendColor = isPositive
+    ? "text-[var(--color-trend-positive)]"
+    : "text-[var(--color-trend-negative)]";
+
   return (
     <div
       className={cn(
-        "bg-white dark:bg-card rounded-[24px] p-4 shadow-card-primary flex flex-col gap-2",
+        "bg-white dark:bg-card rounded-[24px] p-4 py-3 flex flex-col gap-4 w-full",
         className
       )}
     >
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <div className="flex items-baseline gap-3">
-        <span className="text-3xl font-semibold">
-          {value}{unit}
-        </span>
-        <div
-          className={cn(
-            "flex items-center gap-1 text-sm",
-            isPositive ? "text-green-600" : "text-red-600"
-          )}
-        >
-          <Icon className="w-3 h-3" />
-          <span>{Math.abs(change)}%</span>
-        </div>
-      </div>
-      <p className="text-xs text-muted-foreground">
-        from 2% (last week)
+      <p className='text-sm font-medium text-[#63635E] dark:text-neutral-400 w-full text-start'>
+        {label}
       </p>
+      <div className='flex flex-col gap-0'>
+        <div className='flex items-baseline gap-2'>
+          <span className='text-3xl tracking-[-0.04em] text-text-[#21201C] dark:text-text-[#EEEEEC]'>
+            {value}
+            {unit}
+          </span>
+          <div className={cn("flex items-center gap-1 text-sm", trendColor)}>
+            <span className={cn("text-sm font-medium", trendColor)}>
+              {isPositive ? "+" : "-"}
+              {Math.abs(change)}%
+            </span>
+          </div>
+        </div>
+        <p className='text-sm text-[#8D8D86]'>from 2% (last week)</p>
+      </div>
     </div>
   );
 }

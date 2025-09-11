@@ -14,7 +14,7 @@ export const Divider = ({ className }: { className?: string }) => {
   return (
     <div
       className={cn(
-        "w-[3px] h-12 bg-[#EBEBE9] dark:bg-[#21201C] rounded-full",
+        "w-[3px] h-12 bg-[#EBEBE9] dark:bg-[#21201C] rounded-full min-w-[3px]",
         className
       )}
     />
