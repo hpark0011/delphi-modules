@@ -367,7 +367,7 @@ export function HighlightsTab() {
               </div>
               <HeaderNavButtons />
             </ModuleCardHeader>
-            <div className='flex flex-col py-2 px-3'>
+            <div className='flex flex-col'>
               <QuestionsStack />
             </div>
           </ModuleCard>
@@ -384,7 +384,7 @@ export function HighlightsTab() {
               </div>
               <HeaderNavButtons />
             </ModuleCardHeader>
-            <div className='flex flex-col py-2 px-3'>
+            <div className='flex flex-col'>
               <QuestionsStack />
             </div>
           </ModuleCard>

@@ -52,7 +52,7 @@ export function QuestionsStack() {
   const [currentCard, setCurrentCard] = useState<Question>(questions[0]);
 
   return (
-    <div className='flex flex-col relative cursor-default transform-none gap-2 justify-center items-center w-full h-[232px] pb-[56px]'>
+    <div className='flex flex-col relative cursor-default transform-none gap-2 justify-center items-center w-full h-[232px] pb-[64px] px-3 overflow-y-auto'>
       <motion.div
         className={`relative bg-card-secondary rounded-[20px] p-3 shadow-card-stacked flex items-start w-full gap-2 inset-0 mx-auto h-fit`}
       >
@@ -72,7 +72,7 @@ export function QuestionsStack() {
         </div>
       </motion.div>
 
-      <div className='absolute z-10 rounded-[14px] w-full h-fit bg-chat-input-background bottom-[4px] p-0.5 shadow-card-primary flex items-center justify-between pr-2'>
+      <div className='absolute z-10 rounded-[14px] w-[calc(100%-24px)] h-fit bg-chat-input-background bottom-[12px] p-0.5 shadow-card-primary flex items-center justify-between pr-2'>
         <AutoResizingTextarea className='w-full focus-visible:ring-0 h-full border-none bg-transparent rounded-[12px] hover:bg-hover-background mr-2' />
         <button className='hover:bg-light/80 bg-light rounded-full flex flex-col items-center justify-center w-fit h-fit p-1 bottom-0 hover:opacity-80 cursor-pointer active:scale-95'>
           <ArrowUp className='size-5 text-[#8D8D86]' />
