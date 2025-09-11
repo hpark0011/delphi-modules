@@ -7,7 +7,8 @@ import { QuestionsStack } from "@/components/analytics/questions-stack";
 import { HeaderNavButtons } from "@/components/analytics/header-nav-buttons";
 import { useState } from "react";
 import { PeopleHighlightsHorizontal } from "@/components/analytics/people-highlights-horizontal";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { Icon } from "@/components/ui/icon";
 
 const upcomingMeetings = [
   {
@@ -130,7 +131,7 @@ export function HighlightsTab() {
   const [removingId, setRemovingId] = useState<number | null>(null);
 
   const dates = upcomingMeetings.map((d) => d.date);
-  
+
   const handleRemoveInsight = (id: number) => {
     setRemovingId(id);
     setTimeout(() => {
@@ -138,7 +139,7 @@ export function HighlightsTab() {
       setRemovingId(null);
     }, 500); // Match animation duration
   };
-  
+
   const handlePrevDate = () => {
     const index = dates.indexOf(currentDate);
     const prevIndex = (index - 1 + dates.length) % dates.length;
@@ -243,10 +244,15 @@ export function HighlightsTab() {
             <ModuleCardHeader className='h-[42px]'>
               <div className='flex items-center gap-1.5 pt-1'>
                 <span className='font-medium text-[#63635E]'>Insights</span>
-                <span className='font-semibold text-[#EF5F28] bg-[#EF5F28]/10 rounded-full flex text-center items-center justify-center px-2 py-0.5 w-fit text-xs'>
-                  {insights.length}
-                </span>
+                {insights.length > 0 && (
+                  <span className='font-semibold text-[#EF5F28] bg-[#EF5F28]/10 rounded-full flex text-center items-center justify-center px-2 py-0.5 w-fit text-xs'>
+                    {insights.length}
+                  </span>
+                )}
               </div>
+              <button className='text-[#8D8D86] cursor-pointer hover:opacity-70'>
+                Clear
+              </button>
             </ModuleCardHeader>
             <div className='flex flex-col relative'>
               <div
@@ -255,19 +261,46 @@ export function HighlightsTab() {
               />
 
               <div className='flex flex-col px-3 max-h-[250px] h-full overflow-y-auto gap-2 py-2 relative'>
-                <AnimatePresence mode="popLayout">
-                  {insights.map((insight, index) => (
-                    <InsightCard
-                      key={insight.id}
-                      id={insight.id}
-                      insight={insight.insight}
-                      action={insight.action}
-                      onRemove={handleRemoveInsight}
-                      isRemoving={removingId === insight.id}
-                      index={index}
-                    />
-                  ))}
-                </AnimatePresence>
+                {insights.length === 0 ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                    className='flex flex-col items-center justify-center py-8 px-4'
+                  >
+                    <div className='w-10 h-10 rounded-full bg-[#E5E5E0] flex items-center justify-center mb-4'>
+                      <Icon
+                        name='LightbulbFillIcon'
+                        className='w-5 h-5 text-neutral-400'
+                      />
+                    </div>
+                    <p className='text-[#8D8D86] text-sm mb-6 text-center'>
+                      All insights are added to the list.
+                    </p>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setInsights(initialInsights)}
+                      className='px-5 py-2.5 bg-[#2C2C28] text-white rounded-full text-sm font-medium hover:bg-[#3C3C38] transition-colors'
+                    >
+                      Get more insights
+                    </motion.button>
+                  </motion.div>
+                ) : (
+                  <AnimatePresence mode='popLayout'>
+                    {insights.map((insight, index) => (
+                      <InsightCard
+                        key={insight.id}
+                        id={insight.id}
+                        insight={insight.insight}
+                        action={insight.action}
+                        onRemove={handleRemoveInsight}
+                        isRemoving={removingId === insight.id}
+                        index={index}
+                      />
+                    ))}
+                  </AnimatePresence>
+                )}
               </div>
 
               <div

@@ -13,13 +13,13 @@ interface InsightCardProps {
   index: number;
 }
 
-export function InsightCard({ 
-  id, 
-  insight, 
-  action, 
-  onRemove, 
-  isRemoving, 
-  index 
+export function InsightCard({
+  id,
+  insight,
+  action,
+  onRemove,
+  isRemoving,
+  index,
 }: InsightCardProps) {
   const handleAddToTodo = () => {
     toast.success(`Added to todo list: ${action}`);
@@ -30,23 +30,23 @@ export function InsightCard({
     <motion.div
       layout
       initial={{ opacity: 0, y: 20 }}
-      animate={{ 
-        opacity: isRemoving ? 0 : 1, 
+      animate={{
+        opacity: isRemoving ? 0 : 1,
         y: 0,
         x: isRemoving ? 300 : 0,
         scale: isRemoving ? 0.9 : 1,
       }}
-      exit={{ 
-        opacity: 0, 
+      exit={{
+        opacity: 0,
         x: 300,
-        scale: 0.9,
-        transition: { duration: 0.4 }
+        scale: 0.1,
+        transition: { duration: 0 },
       }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 400, 
+      transition={{
+        type: "spring",
+        stiffness: 300,
         damping: 30,
-        delay: !isRemoving ? index * 0.03 : 0
+        delay: !isRemoving ? index * 0.03 : 0,
       }}
       className='flex flex-col p-1 bg-card-secondary/50 rounded-3xl'
     >
