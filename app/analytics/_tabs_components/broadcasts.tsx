@@ -15,7 +15,7 @@ export function BroadcastsTab() {
   // Mock data - replace with actual API call
   const broadcastData: BroadcastData = {
     latestBroadcast: {
-      title: "Summit Last Chance 20% - 8/31/25",
+      title: "Summit Last Chance",
       date: "8/31/25",
     },
     metrics: {

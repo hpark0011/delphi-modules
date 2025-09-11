@@ -43,8 +43,10 @@ export default function AnalyticsLayout({
     <SidebarProvider defaultOpen={true}>
       <div className='flex h-screen w-full'>
         <AppSidebar />
-        <SidebarInset className='flex-1 overflow-auto md:peer-data-[variant=inset]:shadow-none border-light border'>
-          <DashboardMainWrapper>
+        <SidebarInset className='flex-1 overflow-auto md:peer-data-[variant=inset]:shadow-none border-light border '>
+          <DashboardMainWrapper
+            className={`${isHomePage ? "px-0" : "px-8 w-full max-w-[1136px] mx-auto"}`}
+          >
             {isHomePage ? (
               // For home page, render children directly without header/nav
               <div>{children}</div>
