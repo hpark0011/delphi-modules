@@ -15,13 +15,13 @@ export function InsightCard({ insight, action }: InsightCardProps) {
   };
 
   return (
-    <div className='flex flex-col p-1 bg-extra-light rounded-3xl'>
+    <div className='flex flex-col p-1 bg-card-secondary rounded-3xl'>
       <div className='flex gap-2 py-2 px-2.5'>
         <div className='w-6 h-6 rounded-full bg-[#FF8D28]/15 flex items-center justify-center min-w-6 '>
           <Icon name='LightbulbFillIcon' className='w-5 h-5 text-[#FF8D28]' />
         </div>
         <div
-          className={`text-sm text-text-primary font-medium h-full flex items-center`}
+          className={`text-sm text-[#43250E]/70 font-medium h-full flex items-center leading-[1.4]`}
         >
           {insight}
         </div>
@@ -32,7 +32,7 @@ export function InsightCard({ insight, action }: InsightCardProps) {
           <CircleDashed className='w-4.5 h-4.5 text-[#CFCECA]' />
         </div>
 
-        <p className='text-[14px] text-[#63635E] leading-[1.4]'>{action}</p>
+        <p className='text-[14px] text-text-primary leading-[1.4]'>{action}</p>
         <button
           onClick={handleAddToTodo}
           className='flex items-center gap-1 px-2 pr-3 h-6  hover:opacity-80 active:scale-95 cursor-pointer rounded-full transition-colors ml-3 flex-shrink-0 bg-light'

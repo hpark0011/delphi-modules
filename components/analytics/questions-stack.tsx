@@ -66,7 +66,7 @@ export function QuestionsStack() {
             <div className='font-medium'>{currentCard.name}</div>
             <div className=' text-[#8D8D86]'>6h</div>
           </div>
-          <div className=' text-sm leading-[1.3] text-[#43250E]/50 dark:text-[#EBE9E7]/50 line-clamp-6'>
+          <div className=' text-sm leading-[1.3] text-[#43250E]/70 dark:text-[#EBE9E7]/50 line-clamp-6'>
             {currentCard.question}
           </div>
         </div>

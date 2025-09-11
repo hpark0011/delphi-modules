@@ -3,7 +3,6 @@ import { CalendarListItem } from "@/components/analytics/calendar-list-item";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { InsightCard } from "@/components/analytics/insight-card";
 import { ModuleCard, ModuleCardHeader } from "@/components/analytics/module-ui";
-import { PeopleHighlight } from "@/components/analytics/people-highlight";
 import { QuestionsStack } from "@/components/analytics/questions-stack";
 import { HeaderNavButtons } from "@/components/analytics/header-nav-buttons";
 import { useState } from "react";
@@ -104,6 +103,8 @@ export function HighlightsTab() {
   const [currentDate, setCurrentDate] = useState<string>(
     upcomingMeetings[0].date
   );
+  const [currentPeopleIndex, setCurrentPeopleIndex] = useState(0);
+  
   const dates = upcomingMeetings.map((d) => d.date);
   const handlePrevDate = () => {
     const index = dates.indexOf(currentDate);
@@ -114,6 +115,24 @@ export function HighlightsTab() {
     const index = dates.indexOf(currentDate);
     const nextIndex = (index + 1) % dates.length;
     setCurrentDate(dates[nextIndex]);
+  };
+
+  // Handlers for people navigation
+  const handlePrevPeople = () => {
+    const itemsPerPage = window.innerWidth < 640 ? 2 : window.innerWidth < 1024 ? 3 : 5;
+    setCurrentPeopleIndex(prev => {
+      const newIndex = Math.max(0, prev - itemsPerPage);
+      return newIndex;
+    });
+  };
+
+  const handleNextPeople = () => {
+    const itemsPerPage = window.innerWidth < 640 ? 2 : window.innerWidth < 1024 ? 3 : 5;
+    const maxPeople = 20; // Total number of people in the component
+    setCurrentPeopleIndex(prev => {
+      const newIndex = Math.min(maxPeople - itemsPerPage, prev + itemsPerPage);
+      return Math.max(0, newIndex);
+    });
   };
   return (
     <div className='space-y-2'>
@@ -147,10 +166,18 @@ export function HighlightsTab() {
                   {insights.length}
                 </span>
               </div>
-              <HeaderNavButtons />
+              <HeaderNavButtons 
+                onPrev={handlePrevPeople}
+                onNext={handleNextPeople}
+                disabledPrev={currentPeopleIndex === 0}
+                disabledNext={currentPeopleIndex >= 15} // 20 total - 5 visible = 15 max index
+              />
             </ModuleCardHeader>
             <div className='flex flex-col px-3 py-4 pt-0'>
-              <PeopleHighlightsHorizontal />
+              <PeopleHighlightsHorizontal 
+                currentIndex={currentPeopleIndex}
+                onIndexChange={setCurrentPeopleIndex}
+              />
             </div>
           </ModuleCard>
         </div>

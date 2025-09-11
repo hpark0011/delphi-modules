@@ -9,6 +9,7 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
+  LabelList,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -29,47 +30,7 @@ const CHART_COLORS = {
   unsubscribeRate: "#671E0F",
 } as const;
 
-type BadgeDatum = {
-  stage: string;
-  percentage: number;
-  count: number;
-};
-
-const CHART_HEIGHT = 368; // match <ResponsiveContainer height>
-
-function FunnelBadgesOverlay({
-  transformedData,
-}: {
-  transformedData: BadgeDatum[];
-}) {
-  return (
-    <div className='absolute inset-0 pointer-events-none z-10'>
-      {transformedData.map((entry, index) => {
-        const xPercent = ((index + 0.5) / transformedData.length) * 100;
-        const yPx =
-          entry.stage === "Broadcast Sent"
-            ? 35
-            : 350 - entry.percentage * 3.3 - 15;
-        const yPercent = (yPx / CHART_HEIGHT) * 100;
-
-        return (
-          <div
-            key={`badge-${index}`}
-            className='absolute -translate-x-1/2 -translate-y-1/2 rounded-[12px] border border-[#f5f5f4] bg-white shadow-xl px-3 py-0.5 text-center'
-            style={{ left: `${xPercent}%`, top: `${yPercent}%` }}
-          >
-            <div className='text-xs font-semibold text-[#FF713B]'>
-              {entry.percentage}%
-            </div>
-            <div className='text-xs text-[#8D8D86]'>
-              {formatCompactNumber(entry.count)}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+// Overlay badges will be rendered using Recharts' label system, so no absolute overlay is needed.
 
 interface FunnelChartProps {
   data: Array<{
@@ -112,6 +73,29 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
         <ChartTooltipItem color='#FF5722' label='Count' value={data.count} />
       </ChartTooltipItems>
     </ChartTooltipRoot>
+  );
+};
+
+// Factory to render a centered badge above each bar using the chart's coordinates
+const createBadgeLabel = (items: { count: number }[]) => (props: any) => {
+  const { x, y, width, value, index } = props;
+  const item = items?.[index] ?? { count: 0 };
+  const cx = (x ?? 0) + (width ?? 0) / 2;
+  const badgeHeight = 36;
+  const gap = 8; // space between badge and bar top
+  const top = Math.max((y ?? 0) - badgeHeight - gap, 8);
+
+  return (
+    <g transform={`translate(${cx}, ${top})`}>
+      <foreignObject x={-40} y={-18} width={80} height={36}>
+        <div className='pointer-events-none rounded-[12px] border border-[#f5f5f4] bg-white shadow-xl px-3 py-0.5 text-center'>
+          <div className='text-xs font-semibold text-[#FF713B]'>{value}%</div>
+          <div className='text-xs text-[#8D8D86]'>
+            {formatCompactNumber(item.count)}
+          </div>
+        </div>
+      </foreignObject>
+    </g>
   );
 };
 
@@ -239,6 +223,10 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
               {transformedData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={getBarColor(entry.stage)} />
               ))}
+              <LabelList
+                dataKey='percentage'
+                content={createBadgeLabel(transformedData)}
+              />
             </Bar>
 
             {/* Top bar - remainder with gradient */}
@@ -266,7 +254,6 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
             {/* Floating badges are rendered as HTML overlay */}
           </BarChart>
         </ResponsiveContainer>
-        <FunnelBadgesOverlay transformedData={transformedData} />
       </CardContent>
     </Card>
   );
