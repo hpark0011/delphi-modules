@@ -24,9 +24,9 @@ import {
 const CHART_COLORS = {
   answered: "#FF713B",
   // Primary fill used for unanswered legend tile and pattern background
-  unanswered: "#FF713B",
+  unanswered: "#FFB89D",
   // Stroke used in hatch pattern where applicable
-  unansweredPatternStroke: "#FFB89D",
+  unansweredPatternStroke: "#FF713B",
 } as const;
 
 const STACK_GAP_PX = 0;
@@ -100,11 +100,12 @@ const CustomLegend = () => {
             >
               <rect width='4' height='4' fill={CHART_COLORS.unanswered} />
               <path
-                d='M0,4 L4,0'
+                d='M-1,5 L5,-1'
                 stroke={CHART_COLORS.unansweredPatternStroke}
                 strokeWidth='1'
                 fill='none'
-                strokeLinecap='square'
+                strokeLinecap='butt'
+                shapeRendering='crispEdges'
               />
             </pattern>
           </defs>
@@ -186,11 +187,12 @@ export function StackedQuestionsChart({
               >
                 <rect width='4' height='4' fill={CHART_COLORS.unanswered} />
                 <path
-                  d='M0,4 L4,0'
+                  d='M-1,5 L5,-1'
                   stroke={CHART_COLORS.unansweredPatternStroke}
                   strokeWidth='1'
                   fill='none'
-                  strokeLinecap='square'
+                  strokeLinecap='butt'
+                  shapeRendering='crispEdges'
                 />
               </pattern>
             </defs>
