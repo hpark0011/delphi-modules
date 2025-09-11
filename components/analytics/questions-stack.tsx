@@ -139,22 +139,23 @@ export function QuestionsStack() {
 
         <AnimatePresence mode='wait'>
           {submittedResponse && (
-            <motion.div
-              ref={responseRef}
-              key='response'
-              initial={{ opacity: 0, y: 100, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 25,
-                mass: 0.5,
-              }}
-              className='rounded-[20px] p-3.5 py-2 shadow-[0_1px_2px_0_rgba(242,107,56,0.5),0_20px_40px_0_rgba(242,107,56,0.2),0_1px_1px_0_rgba(242,107,56,0.05)] bg-[#F26B38] text-[#fff] text-sm leading-[1.4] ml-12 z-10 right-0 relative'
-            >
-              {submittedResponse}
-            </motion.div>
+            <div ref={responseRef} className='w-full flex justify-end'>
+              <motion.div
+                key='response'
+                initial={{ opacity: 0, y: 100, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 25,
+                  mass: 0.5,
+                }}
+                className='rounded-[20px] w-fit p-3.5 py-2 shadow-[0_1px_2px_0_rgba(242,107,56,0.5),0_20px_40px_0_rgba(242,107,56,0.2),0_1px_1px_0_rgba(242,107,56,0.05)] bg-[#F26B38] text-[#fff] text-sm leading-[1.4] ml-12 z-10 right-0 relative'
+              >
+                {submittedResponse}
+              </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </div>
@@ -167,11 +168,17 @@ export function QuestionsStack() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.2 }}
-            className='absolute rounded-[14px] w-[calc(100%-24px)] h-fit bottom-[12px] p-0.5 flex items-center justify-center pr-2 left-3 z-10 pb-1.5'
+            className='absolute rounded-[14px] w-[calc(100%-24px)] h-fit bottom-[12px] p-0.5 flex items-center justify-center pr-2 left-3 z-10 pb-1.5 flex-row gap-1'
           >
             <button
               onClick={handleNextQuestion}
-              className='text-sm text-primary-foreground text-center bg-primary rounded-[16px] h-8 px-3 shadow-xl'
+              className='text-sm text-primary text-center bg-card rounded-[16px] h-8 px-3 shadow-sm cursor-pointer hover:opacity-70 active:scale-95'
+            >
+              Edit response
+            </button>
+            <button
+              onClick={handleNextQuestion}
+              className='text-sm text-primary-foreground text-center bg-primary rounded-[16px] h-8 px-3 shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_20px_40px_0_rgba(0,0,0,0.2),0_1px_1px_0_rgba(0,0,0,0.2)] cursor-pointer  hover:opacity-70 active:scale-95'
             >
               Next question
             </button>
