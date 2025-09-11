@@ -132,7 +132,9 @@ export function HighlightsTab() {
   const [removingId, setRemovingId] = useState<number | null>(null);
 
   const dates = upcomingMeetings.map((d) => d.date);
-  const currentMeetings = upcomingMeetings.find((meeting) => meeting.date === currentDate)?.meetings || [];
+  const currentMeetings =
+    upcomingMeetings.find((meeting) => meeting.date === currentDate)
+      ?.meetings || [];
 
   const handleRemoveInsight = (id: number) => {
     setRemovingId(id);
@@ -259,7 +261,8 @@ export function HighlightsTab() {
                       No meetings scheduled
                     </p>
                     <p className='text-[#8D8D86] text-xs mb-6 text-center px-4'>
-                      You have no meetings scheduled for this date. Add meetings to stay organized and track your commitments.
+                      You have no meetings scheduled for this date. Add meetings
+                      to stay organized and track your commitments.
                     </p>
                   </div>
                   <motion.button
@@ -267,11 +270,11 @@ export function HighlightsTab() {
                     whileTap={{ scale: 0.95 }}
                     onClick={() => {
                       // Add meeting functionality
-                      console.log('Add meeting clicked');
+                      console.log("Add meeting clicked");
                     }}
                     className='px-3 h-7 bg-primary text-primary-foreground rounded-full text-xs font-medium hover:bg-[#3C3C38] transition-colors shadow-xl'
                   >
-                    Add meetings
+                    Create Meeting
                   </motion.button>
                 </motion.div>
               ) : (
