@@ -243,7 +243,7 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
                     height={badgeHeight}
                     rx={12}
                     ry={12}
-                    stroke='#E2E1DE'
+                    stroke='#f5f5f4'
                     fill='white'
                     transform={`translate(-${badgeWidth / 2}, -${badgeHeight / 2})`}
                     filter='drop-shadow(0 4px 8px rgba(0,0,0,0.15))'
@@ -252,7 +252,7 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
                   {/* Percentage text */}
                   <text
                     x={badgeX}
-                    y={yPos - 2}
+                    y={yPos - 3}
                     fill='#FF713B'
                     fontSize={12}
                     fontWeight='600'
