@@ -7,6 +7,7 @@ import { QuestionsStack } from "@/components/analytics/questions-stack";
 import { HeaderNavButtons } from "@/components/analytics/header-nav-buttons";
 import { useState } from "react";
 import { PeopleHighlightsHorizontal } from "@/components/analytics/people-highlights-horizontal";
+import { AnimatePresence } from "framer-motion";
 
 const upcomingMeetings = [
   {
@@ -61,27 +62,62 @@ const upcomingMeetings = [
   },
 ];
 
-const insights = [
+const initialInsights = [
   {
     id: 1,
     insight:
-      "Your audience brings unfiltered emotional honesty when they. Your audience brings unfiltered emotional honesty when they feel truly seen and non-judged",
+      "Your audience brings unfiltered emotional honesty when they feel truly seen and non-judged",
     action:
       "Design content and programs that explicitly model radical acceptance and non-judgement",
   },
   {
     id: 2,
     insight:
-      "Your audience brings unfiltered emotional honesty when they feel truly seen and non-judged",
+      "Peak engagement occurs during evening hours between 7-10 PM when users are most receptive to deeper content",
     action:
-      "Design content and programs that explicitly model radical acceptance and non-judgement",
+      "Schedule high-value content releases and live sessions during these prime engagement windows",
   },
   {
     id: 3,
     insight:
-      "Your audience brings unfiltered emotional honesty when they feel truly seen and non-judged",
+      "Community members who interact with 3+ pieces of content weekly show 85% higher retention rates",
     action:
-      "Design content and programs that explicitly model radical acceptance and non-judgement",
+      "Create content series that encourage multiple touchpoints throughout the week",
+  },
+  {
+    id: 4,
+    insight:
+      "Video content with personal stories generates 3x more engagement than educational content alone",
+    action:
+      "Incorporate more personal narratives and vulnerability into your video content strategy",
+  },
+  {
+    id: 5,
+    insight:
+      "Members who join small group discussions are 4x more likely to become long-term community advocates",
+    action:
+      "Facilitate more intimate group sessions with 5-8 participants for deeper connections",
+  },
+  {
+    id: 6,
+    insight:
+      "Questions about mental health and self-care receive the highest engagement in community forums",
+    action:
+      "Develop targeted resources and expert sessions addressing mental wellness topics",
+  },
+  {
+    id: 7,
+    insight:
+      "User-generated content receives 2.5x more shares than branded content across all platforms",
+    action:
+      "Launch a community spotlight program to feature member stories and experiences",
+  },
+  {
+    id: 8,
+    insight:
+      "Mobile users spend 40% more time on the platform but complete fewer actions than desktop users",
+    action:
+      "Optimize mobile UX for consumption-heavy experiences with simplified interaction patterns",
   },
 ];
 
@@ -90,8 +126,19 @@ export function HighlightsTab() {
     upcomingMeetings[1].date
   );
   const [currentPeopleIndex, setCurrentPeopleIndex] = useState(0);
+  const [insights, setInsights] = useState(initialInsights);
+  const [removingId, setRemovingId] = useState<number | null>(null);
 
   const dates = upcomingMeetings.map((d) => d.date);
+  
+  const handleRemoveInsight = (id: number) => {
+    setRemovingId(id);
+    setTimeout(() => {
+      setInsights((prev) => prev.filter((insight) => insight.id !== id));
+      setRemovingId(null);
+    }, 500); // Match animation duration
+  };
+  
   const handlePrevDate = () => {
     const index = dates.indexOf(currentDate);
     const prevIndex = (index - 1 + dates.length) % dates.length;
@@ -208,13 +255,19 @@ export function HighlightsTab() {
               />
 
               <div className='flex flex-col px-3 max-h-[250px] h-full overflow-y-auto gap-2 py-2 relative'>
-                {insights.map((insight) => (
-                  <InsightCard
-                    key={insight.id}
-                    insight={insight.insight}
-                    action={insight.action}
-                  />
-                ))}
+                <AnimatePresence mode="popLayout">
+                  {insights.map((insight, index) => (
+                    <InsightCard
+                      key={insight.id}
+                      id={insight.id}
+                      insight={insight.insight}
+                      action={insight.action}
+                      onRemove={handleRemoveInsight}
+                      isRemoving={removingId === insight.id}
+                      index={index}
+                    />
+                  ))}
+                </AnimatePresence>
               </div>
 
               <div

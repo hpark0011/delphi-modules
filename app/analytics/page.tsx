@@ -2,6 +2,7 @@
 
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
+import { HomeHighlights } from "@/components/analytics/home/home-highlights";
 import { MindScore } from "@/components/analytics/home/mindscore";
 import { Icon } from "@/components/ui/icon";
 import { CircleDashedIcon } from "lucide-react";
@@ -93,6 +94,8 @@ export default function AnalyticsPage() {
     },
   ];
 
+  // const highlights = [];
+
   return (
     <div className='space-y-6 px-13'>
       {/* Header Section */}
@@ -173,6 +176,9 @@ export default function AnalyticsPage() {
 
           {/* Analytics Section */}
           <HomeAnalytics engagements={engagements} />
+
+          {/* Highlights Section */}
+          {/* <HomeHighlights /> */}
         </div>
       </div>
     </div>
