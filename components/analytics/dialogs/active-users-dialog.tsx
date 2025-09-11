@@ -159,24 +159,26 @@ export function ActiveUsersDialog({
 }: ActiveUsersDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh]">
+      <DialogContent className='max-w-2xl max-h-[80vh]'>
         <DialogHeader>
           <DialogTitle>Most Active Users</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="h-[500px] pr-4">
-          <div className="flex flex-col gap-1">
-            {allActiveUsers.map((user) => (
-              <UserListItem
-                key={user.id}
-                name={user.name}
-                status={user.status}
-                isActive={user.isActive}
-                avatarUrl={user.avatarUrl}
-                messageCount={user.messageCount}
-              />
-            ))}
-          </div>
-        </ScrollArea>
+        <div className='px-2 pt-2'>
+          <ScrollArea className='h-[500px] '>
+            <div className='flex flex-col gap-1'>
+              {allActiveUsers.map((user) => (
+                <UserListItem
+                  key={user.id}
+                  name={user.name}
+                  status={user.status}
+                  isActive={user.isActive}
+                  avatarUrl={user.avatarUrl}
+                  messageCount={user.messageCount}
+                />
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
       </DialogContent>
     </Dialog>
   );

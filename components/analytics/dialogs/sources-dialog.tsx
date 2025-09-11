@@ -38,27 +38,26 @@ const allSources = [
   { id: 20, name: "Emotional Design", citation: 42 },
 ];
 
-export function SourcesDialog({
-  open,
-  onOpenChange,
-}: SourcesDialogProps) {
+export function SourcesDialog({ open, onOpenChange }: SourcesDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh]">
+      <DialogContent className='max-w-2xl max-h-[80vh]'>
         <DialogHeader>
           <DialogTitle>Popular Sources</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="h-[500px] pr-4">
-          <div className="flex flex-col gap-0.5">
-            {allSources.map((source) => (
-              <SourceListItem
-                key={source.id}
-                name={source.name}
-                citation={source.citation}
-              />
-            ))}
-          </div>
-        </ScrollArea>
+        <div className='px-2 pt-2'>
+          <ScrollArea className='h-[500px]'>
+            <div className='flex flex-col gap-0.5'>
+              {allSources.map((source) => (
+                <SourceListItem
+                  key={source.id}
+                  name={source.name}
+                  citation={source.citation}
+                />
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
       </DialogContent>
     </Dialog>
   );
