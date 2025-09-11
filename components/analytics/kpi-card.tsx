@@ -64,7 +64,7 @@ export function KPICard({ label, metric, className }: KPICardProps) {
   return (
     <Card
       className={cn(
-        "rounded-[24px] border-none shadow-none bg-transparent py-3.5 pb-3 px-4 w-full dark:bg-transparent",
+        "rounded-[24px] border-none shadow-none bg-transparent py-2.5 px-4 w-full dark:bg-transparent",
         className,
         "flex-1"
       )}
