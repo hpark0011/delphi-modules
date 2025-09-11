@@ -197,33 +197,57 @@ export function FunnelChart({ data, className }: FunnelChartProps) {
               })}
             </Bar>
 
-            {/* Labels on the solid bars */}
-            {transformedData.map((entry, index) => (
-              <text
-                key={`label-${index}`}
-                x={0}
-                y={0}
-                fill='white'
-                fontSize={12}
-                fontWeight='600'
-                textAnchor='middle'
-              >
-                <tspan
-                  x={`${(index + 0.5) * (100 / transformedData.length)}%`}
-                  y={350 - entry.percentage * 3.2 - 10}
-                >
-                  {entry.percentage}%
-                </tspan>
-                <tspan
-                  x={`${(index + 0.5) * (100 / transformedData.length)}%`}
-                  y={350 - entry.percentage * 3.2 + 5}
-                  fontSize={10}
-                  fill='#8D8D86'
-                >
-                  {formatCompactNumber(entry.count)}
-                </tspan>
-              </text>
-            ))}
+            {/* Floating badge labels */}
+            {transformedData.map((entry, index) => {
+              const xPos = (index + 0.5) * (100 / transformedData.length);
+              const yPos = entry.stage === "Broadcast Sent" 
+                ? 35  // Position at top for 100% bar
+                : 350 - (entry.percentage * 3.3) - 15; // Position above each bar
+              
+              const badgeWidth = 60;
+              const badgeHeight = 40;
+              const badgeX = `${xPos}%`;
+              
+              return (
+                <g key={`badge-${index}`}>
+                  {/* White background badge */}
+                  <rect
+                    x={badgeX}
+                    y={yPos}
+                    width={badgeWidth}
+                    height={badgeHeight}
+                    rx={20}
+                    ry={20}
+                    fill="white"
+                    transform={`translate(-${badgeWidth/2}, -${badgeHeight/2})`}
+                    filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"
+                  />
+                  
+                  {/* Percentage text */}
+                  <text
+                    x={badgeX}
+                    y={yPos - 5}
+                    fill="#21201C"
+                    fontSize={13}
+                    fontWeight="600"
+                    textAnchor="middle"
+                  >
+                    {entry.percentage}%
+                  </text>
+                  
+                  {/* Count text */}
+                  <text
+                    x={badgeX}
+                    y={yPos + 10}
+                    fill="#8D8D86"
+                    fontSize={11}
+                    textAnchor="middle"
+                  >
+                    {formatCompactNumber(entry.count)}
+                  </text>
+                </g>
+              );
+            })}
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
