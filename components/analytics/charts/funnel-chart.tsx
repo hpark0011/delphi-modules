@@ -77,80 +77,90 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
 };
 
 // Factory to render a centered badge aligned with the top of the solid bar
-const createBadgeLabel = (items: { count: number; percentage: number }[], isDark: boolean) => (props: any) => {
-  const { x, y, width, height, value, index, viewBox } = props;
-  const item = items?.[index] ?? { count: 0, percentage: 0 };
-  const cx = (x ?? 0) + (width ?? 0) / 2;
-  const badgeHeight = 36;
-  const badgeHalfHeight = badgeHeight / 2;
-  
-  // Calculate the bar's position in the chart
-  const chartHeight = viewBox?.height || 368;
-  const marginTop = 20;
-  const marginBottom = 20;
-  const graphHeight = chartHeight - marginTop - marginBottom;
-  
-  // Calculate position based on percentage
-  // y represents the top of the solid bar
-  // For vertical center alignment with top of solid bar
-  let badgeY = (y ?? 0);
-  
-  // Check if badge would go above the chart area
-  if (badgeY - badgeHalfHeight < marginTop) {
-    // Position badge 2px below the top of solid bar
-    badgeY = (y ?? 0) + 2;
-  }
-  
-  // Check if badge would go below the entire bar (for very small percentages)
-  // height is the height of the solid bar part
-  const barBottom = (y ?? 0) + (height ?? 0);
-  if (item.percentage < 5 && badgeY + badgeHalfHeight > barBottom) {
-    // Position badge 2px above the bottom of solid bar
-    badgeY = barBottom - badgeHeight - 2;
-  }
-  
-  // For 100% or near 100%, ensure badge stays within bar
-  if (item.percentage >= 95) {
-    // Position badge 2px below the top of solid bar
-    badgeY = (y ?? 0) + 2;
-  }
+const createBadgeLabel =
+  (items: { count: number; percentage: number }[], isDark: boolean) =>
+  (props: any) => {
+    const { x, y, width, height, value, index, viewBox } = props;
+    const item = items?.[index] ?? { count: 0, percentage: 0 };
+    const cx = (x ?? 0) + (width ?? 0) / 2;
+    const badgeHeight = 36;
+    const badgeHalfHeight = badgeHeight / 2;
 
-  // Add padding for shadow (shadow-xl extends ~10-15px)
-  const shadowPadding = 15;
-  const foreignWidth = 80 + (shadowPadding * 2);
-  const foreignHeight = badgeHeight + (shadowPadding * 2);
-  
-  return (
-    <g transform={`translate(${cx}, ${badgeY})`}>
-      <foreignObject 
-        x={-40 - shadowPadding} 
-        y={-badgeHalfHeight - shadowPadding} 
-        width={foreignWidth} 
-        height={foreignHeight}
-        style={{ overflow: 'visible' }}
-      >
-        <div style={{ 
-          padding: `${shadowPadding}px`, 
-          width: foreignWidth + 'px', 
-          height: foreignHeight + 'px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
-          <div className={cn(
-            'pointer-events-none rounded-[12px] border px-3 py-0.5 text-center shadow-xl',
-            isDark ? 'border-[#21201C] bg-[#141413]' : 'border-[#f5f5f4] bg-white'
-          )}>
-            <div className='text-xs font-semibold text-[#FF713B]'>{value}%</div>
-            <div className='text-xs text-[#8D8D86]'>
-              {formatCompactNumber(item.count)}
+    // Calculate the bar's position in the chart
+    const chartHeight = viewBox?.height || 368;
+    const marginTop = 20;
+    const marginBottom = 20;
+    const graphHeight = chartHeight - marginTop - marginBottom;
+
+    // Calculate position based on percentage
+    // y represents the top of the solid bar
+    // For vertical center alignment with top of solid bar
+    let badgeY = y ?? 0;
+
+    // Check if badge would go above the chart area
+    if (badgeY - badgeHalfHeight < marginTop) {
+      // Position badge 2px below the top of solid bar
+      badgeY = (y ?? 0) + 2;
+    }
+
+    // Check if badge would go below the entire bar (for very small percentages)
+    // height is the height of the solid bar part
+    const barBottom = (y ?? 0) + (height ?? 0);
+    if (item.percentage < 5 && badgeY + badgeHalfHeight > barBottom) {
+      // Position badge 2px above the bottom of solid bar
+      badgeY = barBottom - badgeHeight - 2;
+    }
+
+    // For 100% or near 100%, ensure badge stays within bar
+    if (item.percentage >= 95) {
+      // Position badge 2px below the top of solid bar
+      badgeY = (y ?? 0) + 2;
+    }
+
+    // Add padding for shadow (shadow-xl extends ~10-15px)
+    const shadowPadding = 15;
+    const foreignWidth = 80 + shadowPadding * 2;
+    const foreignHeight = badgeHeight + shadowPadding * 2;
+
+    return (
+      <g transform={`translate(${cx}, ${badgeY})`}>
+        <foreignObject
+          x={-40 - shadowPadding}
+          y={-badgeHalfHeight - shadowPadding}
+          width={foreignWidth}
+          height={foreignHeight}
+          style={{ overflow: "visible" }}
+        >
+          <div
+            style={{
+              padding: `${shadowPadding}px`,
+              width: foreignWidth + "px",
+              height: foreignHeight + "px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              className={cn(
+                "pointer-events-none rounded-[12px] border px-3 py-0.5 text-center shadow-xl",
+                isDark
+                  ? "border-[#21201C] bg-[#141413]"
+                  : "border-[#f5f5f4] bg-white"
+              )}
+            >
+              <div className='text-xs font-semibold text-[#FF713B]'>
+                {value}%
+              </div>
+              <div className='text-xs text-[#8D8D86]'>
+                {formatCompactNumber(item.count)}
+              </div>
             </div>
           </div>
-        </div>
-      </foreignObject>
-    </g>
-  );
-};
+        </foreignObject>
+      </g>
+    );
+  };
 
 export function FunnelChart({ data, className }: FunnelChartProps) {
   const { theme, resolvedTheme } = useTheme();

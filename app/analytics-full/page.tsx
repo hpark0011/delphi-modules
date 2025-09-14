@@ -7,7 +7,6 @@ import { MindScoreFull } from "@/components/analytics/home/mindscore";
 import { UpgradeBroadcast } from "@/components/analytics/home/upgrade-broadcast";
 import { Icon } from "@/components/ui/icon";
 import { CircleDashedIcon } from "lucide-react";
-import { useState } from "react";
 
 export type Engagements = {
   conversations: {
