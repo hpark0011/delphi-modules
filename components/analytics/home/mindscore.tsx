@@ -42,7 +42,7 @@ export function MindScore({ mindScore }: MindScoreProps) {
           </div>
           <ArrowRight className='size-3.5 text-[#8D8D86]' />
           <div className='text-right'>
-            <p className='text-sm text-[#8D8D86]'>Advanced</p>
+            <p className='text-sm text-[#8D8D86]'>Legend</p>
             <p className='text-sm text-[#8D8D86]'>{mindScore.total}</p>
           </div>
         </div>

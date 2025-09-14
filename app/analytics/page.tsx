@@ -41,7 +41,7 @@ export default function AnalyticsPage() {
   const mindScore = {
     current: 110,
     total: 200,
-    level: "Beginner",
+    level: "Master",
   };
 
   const engagements: Engagements = {
