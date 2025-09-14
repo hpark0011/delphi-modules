@@ -53,10 +53,12 @@ export function HomeAnalytics({ engagements }: { engagements: Engagements }) {
   const metrics = [
     {
       label: "Active Users",
+      href: "/analytics/engagement?tab=activeUsers",
       ...engagements.activeUsers,
     },
     {
       label: "Conversations",
+      href: "/analytics/engagement?tab=conversations",
       ...engagements.conversations,
     },
   ];
@@ -67,7 +69,7 @@ export function HomeAnalytics({ engagements }: { engagements: Engagements }) {
         href='/analytics/engagement'
         className='flex items-center justify-between group hover:opacity-80 transition-opacity py-2 pr-2 pl-3'
       >
-        <p className='text-sm font-medium text-[#63635E] dark:text-neutral-400'>
+        <p className='text-sm font-medium text-[#8D8D86] dark:text-neutral-400'>
           Analytics this week
         </p>
         <ChevronRight className='size-4 text-[#8D8D86] dark:text-neutral-500 group-hover:translate-x-1 transition-transform' />
@@ -78,7 +80,7 @@ export function HomeAnalytics({ engagements }: { engagements: Engagements }) {
           <Fragment key={metric.label}>
             <MetricCard
               key={metric.label}
-              href='/analytics/engagement'
+              href={metric.href}
               label={metric.label}
               value={metric.value}
               change={metric.change}

@@ -23,7 +23,7 @@ export default function AnalyticsLayout({
   const pathname = usePathname();
 
   // Check if we're on the analytics home page or a detail page
-  const isHomePage = pathname === "/analytics";
+  const isHomePage = pathname === "/analytics-full";
 
   // Determine current tab based on pathname
   const currentTab = pathname.split("/").pop() || "engagement";

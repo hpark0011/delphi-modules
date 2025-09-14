@@ -26,10 +26,10 @@ const CHART_COLORS = {
   // Primary fill used for unanswered legend tile and pattern background
   unanswered: "#FFB89D",
   // Stroke used in hatch pattern where applicable
-  unansweredPatternStroke: "#FFB89D",
+  unansweredPatternStroke: "#FF713B",
 } as const;
 
-const STACK_GAP_PX = 0;
+// const STACK_GAP_PX = 0; // Unused variable
 
 interface StackedQuestionsChartProps {
   data: Array<{
@@ -100,11 +100,12 @@ const CustomLegend = () => {
             >
               <rect width='4' height='4' fill={CHART_COLORS.unanswered} />
               <path
-                d='M0,4 L4,0'
+                d='M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2'
                 stroke={CHART_COLORS.unansweredPatternStroke}
                 strokeWidth='1'
                 fill='none'
-                strokeLinecap='square'
+                strokeLinecap='butt'
+                shapeRendering='crispEdges'
               />
             </pattern>
           </defs>
@@ -116,41 +117,43 @@ const CustomLegend = () => {
   );
 };
 
-interface BarShapeProps {
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  fill?: string;
-}
+// Unused interface - keeping for potential future use
+// interface BarShapeProps {
+//   x?: number;
+//   y?: number;
+//   width?: number;
+//   height?: number;
+//   fill?: string;
+// }
 
-const TopStackShape = (props: BarShapeProps) => {
-  const { x, y, width, height, fill } = props;
-  // Reduce height by the gap to create space at the bottom
-  const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX);
+// Unused component - keeping for potential future use
+// const TopStackShape = (props: BarShapeProps) => {
+//   const { x, y, width, height } = props;
+//   // Reduce height by the gap to create space at the bottom
+//   const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX);
+//
+//   return (
+//     <rect
+//       x={x}
+//       y={y}
+//       width={width}
+//       height={adjustedHeight}
+//       // Force the top stack to use the diagonal stripe pattern
+//       fill={"url(#stripes)"}
+//       rx={8}
+//       ry={8}
+//     />
+//   );
+// };
 
-  return (
-    <g>
-      <rect
-        x={x}
-        y={y}
-        width={width}
-        height={adjustedHeight}
-        fill={fill}
-        rx={8}
-        ry={8}
-      />
-    </g>
-  );
-};
-
-const BottomStackShape = (props: BarShapeProps) => {
-  const { x, y, width, height, fill } = props;
-  // No adjustment needed for bottom bar
-  return (
-    <rect x={x} y={y} width={width} height={height} fill={fill} rx={8} ry={8} />
-  );
-};
+// Unused component - keeping for potential future use
+// const BottomStackShape = (props: BarShapeProps) => {
+//   const { x, y, width, height, fill } = props;
+//   // No adjustment needed for bottom bar
+//   return (
+//     <rect x={x} y={y} width={width} height={height} fill={fill} rx={8} ry={8} />
+//   );
+// };
 
 export function StackedQuestionsChart({
   data,
@@ -166,13 +169,13 @@ export function StackedQuestionsChart({
         className
       )}
     >
-      <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0 border-[#F1F0EF] dark:border-[#21201C] border-b'>
+      <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0'>
         <CardTitle className='text-sm font-medium text-muted-foreground'>
           <CustomLegend />
         </CardTitle>
       </CardHeader>
       <CardContent className='p-0 relative pb-4'>
-        <ResponsiveContainer width='100%' height={472}>
+        <ResponsiveContainer width='100%' height={452}>
           <BarChart
             data={data}
             margin={{ top: 10, right: 20, left: -10, bottom: 5 }}
@@ -187,11 +190,12 @@ export function StackedQuestionsChart({
               >
                 <rect width='4' height='4' fill={CHART_COLORS.unanswered} />
                 <path
-                  d='M0,4 L4,0'
+                  d='M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2'
                   stroke={CHART_COLORS.unansweredPatternStroke}
                   strokeWidth='1'
                   fill='none'
-                  strokeLinecap='square'
+                  strokeLinecap='butt'
+                  shapeRendering='crispEdges'
                 />
               </pattern>
             </defs>

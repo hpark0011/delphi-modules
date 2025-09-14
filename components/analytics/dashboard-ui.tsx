@@ -10,9 +10,14 @@ export const DashboardMainWrapper = ({
   return <div className={cn("p-7", className)}>{children}</div>;
 };
 
-export const Divider = () => {
+export const Divider = ({ className }: { className?: string }) => {
   return (
-    <div className='w-[3px] h-16 bg-[#EBEBE9] dark:bg-[#21201C] rounded-full' />
+    <div
+      className={cn(
+        "w-[3px] h-12 bg-[#EBEBE9] dark:bg-[#21201C] rounded-full min-w-[3px]",
+        className
+      )}
+    />
   );
 };
 

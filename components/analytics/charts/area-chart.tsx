@@ -30,6 +30,11 @@ interface AreaChartProps {
   color?: string;
   className?: string;
   yAxisDomain?: [number, number];
+  // Animation controls for the Area series
+  isAnimationActive?: boolean;
+  animationDuration?: number;
+  animationEasing?: "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
+  animationBegin?: number;
 }
 
 // Custom tooltip is defined inside the component to access the series data
@@ -40,6 +45,10 @@ export function AreaChartComponent({
   color = "#ea580c",
   className,
   yAxisDomain,
+  isAnimationActive = true,
+  animationDuration = 400,
+  animationEasing = "ease-in-out",
+  animationBegin = 0,
 }: AreaChartProps) {
   const gradientId = React.useId();
   const { theme, resolvedTheme } = useTheme();
@@ -83,13 +92,13 @@ export function AreaChartComponent({
 
   return (
     <Card className={cn("rounded-[24px] border-none p-0", className)}>
-      <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0 border-[#F1F0EF] dark:border-[#21201C] border-b'>
+      <CardHeader className='py-3 px-4 [.border-b]:pb-3 gap-0'>
         <CardTitle className='text-sm font-medium text-muted-foreground p-0'>
           {title}
         </CardTitle>
       </CardHeader>
       <CardContent className='p-0 pr-4 pb-4'>
-        <ResponsiveContainer width='100%' height={472}>
+        <ResponsiveContainer width='100%' height={452}>
           <AreaChart
             data={data}
             margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
@@ -141,6 +150,10 @@ export function AreaChartComponent({
               strokeWidth={2}
               fill={`url(#${gradientId})`}
               fillOpacity={1}
+              isAnimationActive={isAnimationActive}
+              animationDuration={animationDuration}
+              animationEasing={animationEasing}
+              animationBegin={animationBegin}
             />
           </AreaChart>
         </ResponsiveContainer>

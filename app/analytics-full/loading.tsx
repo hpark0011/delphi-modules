@@ -2,7 +2,7 @@
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { Icon } from "@/components/ui/icon";
 import { usePathname } from "next/navigation";
-import EngagementLoading from "./engagement/loading";
+import EngagementLoading from "@/app/analytics/engagement/loading";
 
 export default function AnalyticsLoading() {
   const pathname = usePathname();

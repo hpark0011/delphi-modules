@@ -1,7 +1,7 @@
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import * as React from "react";
 
-export default function AudienceLoading() {
+export default function HighlightsLoading() {
   return (
     <AnalyticsSectionWrapper className='h-fit'>
       <div className='animate-pulse'>

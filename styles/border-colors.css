@@ -1,6 +1,6 @@
 :root {
   --color-border-extra-light: var(--color-dq-gray-25);
-  --color-border-light: var(--color-dq-gray-150);
+  --color-border-light: #e2e1de;
   --color-border-medium: var(--color-dq-gray-200);
   --color-border-dark: var(--color-dq-gray-300);
   --color-border-extra-dark: var(--color-dq-gray-400);

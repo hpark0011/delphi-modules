@@ -112,6 +112,7 @@
   --color-border-light: var(--border-light);
   --color-input: var(--color-gray-200);
   --color-border: var(--border);
+  --color-border-extra-light: var(--border-extra-light);
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
@@ -125,12 +126,21 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-card-secondary: var(--card-secondary);
+  --color-hover-background: var(--hover-background);
+  --color-chart-tooltip-background: var(--chart-tooltip-background);
+  --color-chat-input-background: var(--chat-input-background);
+
+  /* Radius */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --chart-tooltip-background: var(--chart-tooltip-background);
+
+  /* Shadows */
   --shadow-chart-tooltip: var(--chart-tooltip-shadow);
+  --shadow-card-stacked: var(--shadow-card-stacked);
+  --shadow-card-people-highlights: var(--shadow-card-people-highlights);
 }
 
 :root {
@@ -138,9 +148,10 @@
   --background: #fdfdfc;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
+  --card-secondary: #ebe9e7;
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover-foreground: #63635e;
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
@@ -151,8 +162,10 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --border: #e2e1de;
-  --border-light: #f1f0ef;
+  --border-extra-light: #f5f5f4;
+  --border-light: #e2e1de;
   --input: var(--color-gray-300);
+  --input-secondary: var(--color-gray-200);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -175,12 +188,20 @@
   --sidebar-icon: #8d8d86;
   --shadow-card-primary: 0 0 0 0.5px rgba(0, 0, 0, 0.05),
     0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.05);
+  --shadow-card-stacked: 0 60px 120px 0 rgba(0, 0, 0, 0.03),
+    0 30px 60px 0 rgba(0, 0, 0, 0.06), 0 1px 1px 0px rgba(0, 0, 0, 0.05),
+    0 0.5px 0px 0px rgba(0, 0, 0, 0), 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+  --shadow-card-people-highlights: 0 16px 32px 0 rgba(0, 0, 0, 0.1),
+    0 1px 1px 0px rgba(0, 0, 0, 0.05);
+  --hover-background: #f1f0ef;
+  --chat-input-background: #ffffff;
 }
 
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
+  --card-secondary: #1e1e1e;
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
@@ -195,7 +216,9 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: #222221;
   --border-light: #21201c;
+  --border-extra-light: #21201c;
   --input: oklch(1 0 0 / 15%);
+  --input-secondary: oklch(0.269 0 0);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
@@ -218,6 +241,10 @@
   --sidebar-icon: #b4b3ac;
   --shadow-card-primary: 0 0 0 0.5px rgba(0, 0, 0, 0.05),
     0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.05);
+  --shadow-card-stacked: 0 64px 130px 0 rgba(0, 0, 0, 0.06),
+    0 30px 60px 0 rgba(0, 0, 0, 0.12), 0 14px 28x 0 rgba(0, 0, 0, 0.05);
+  --hover-background: #212120;
+  --chat-input-background: #2c2c2c;
 }
 
 @layer base {
