@@ -29,7 +29,7 @@ const CHART_COLORS = {
   unansweredPatternStroke: "#FF713B",
 } as const;
 
-const STACK_GAP_PX = 0;
+// const STACK_GAP_PX = 0; // Unused variable
 
 interface StackedQuestionsChartProps {
   data: Array<{
@@ -117,40 +117,43 @@ const CustomLegend = () => {
   );
 };
 
-interface BarShapeProps {
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  fill?: string;
-}
+// Unused interface - keeping for potential future use
+// interface BarShapeProps {
+//   x?: number;
+//   y?: number;
+//   width?: number;
+//   height?: number;
+//   fill?: string;
+// }
 
-const TopStackShape = (props: BarShapeProps) => {
-  const { x, y, width, height } = props;
-  // Reduce height by the gap to create space at the bottom
-  const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX);
+// Unused component - keeping for potential future use
+// const TopStackShape = (props: BarShapeProps) => {
+//   const { x, y, width, height } = props;
+//   // Reduce height by the gap to create space at the bottom
+//   const adjustedHeight = Math.max(0, (height ?? 0) - STACK_GAP_PX);
+//
+//   return (
+//     <rect
+//       x={x}
+//       y={y}
+//       width={width}
+//       height={adjustedHeight}
+//       // Force the top stack to use the diagonal stripe pattern
+//       fill={"url(#stripes)"}
+//       rx={8}
+//       ry={8}
+//     />
+//   );
+// };
 
-  return (
-    <rect
-      x={x}
-      y={y}
-      width={width}
-      height={adjustedHeight}
-      // Force the top stack to use the diagonal stripe pattern
-      fill={"url(#stripes)"}
-      rx={8}
-      ry={8}
-    />
-  );
-};
-
-const BottomStackShape = (props: BarShapeProps) => {
-  const { x, y, width, height, fill } = props;
-  // No adjustment needed for bottom bar
-  return (
-    <rect x={x} y={y} width={width} height={height} fill={fill} rx={8} ry={8} />
-  );
-};
+// Unused component - keeping for potential future use
+// const BottomStackShape = (props: BarShapeProps) => {
+//   const { x, y, width, height, fill } = props;
+//   // No adjustment needed for bottom bar
+//   return (
+//     <rect x={x} y={y} width={width} height={height} fill={fill} rx={8} ry={8} />
+//   );
+// };
 
 export function StackedQuestionsChart({
   data,

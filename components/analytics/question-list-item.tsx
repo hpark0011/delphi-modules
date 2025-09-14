@@ -1,4 +1,8 @@
-import { TrendingUp, TrendingDown, ArrowUp } from "lucide-react";
+import { 
+  // TrendingUp, // Unused import
+  // TrendingDown, // Unused import
+  ArrowUp 
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface QuestionListItemProps {
@@ -16,7 +20,7 @@ export function QuestionListItem({
   trendRate,
   isPositive = true,
 }: QuestionListItemProps) {
-  const TrendIcon = isPositive ? TrendingUp : TrendingDown;
+  // const TrendIcon = isPositive ? TrendingUp : TrendingDown; // Unused variable
   const trendColorClass = isPositive
     ? "text-trend-positive"
     : "text-trend-negative";

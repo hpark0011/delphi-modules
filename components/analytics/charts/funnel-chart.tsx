@@ -78,34 +78,39 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
 
 // Factory to render a centered badge aligned with the top of the solid bar
 const createBadgeLabel =
-  (items: { count: number; percentage: number }[], isDark: boolean) =>
-  (props: any) => {
-    const { x, y, width, height, value, index, viewBox } = props;
-    const item = items?.[index] ?? { count: 0, percentage: 0 };
-    const cx = (x ?? 0) + (width ?? 0) / 2;
+  (items: { count: number; percentage: number }[], isDark: boolean) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const BadgeLabel = (props: any) => {
+    const { x, y, width, height, value, index } = props;
+    const numX = typeof x === 'string' ? parseFloat(x) : (x ?? 0);
+    const numY = typeof y === 'string' ? parseFloat(y) : (y ?? 0);
+    const numWidth = typeof width === 'string' ? parseFloat(width) : (width ?? 0);
+    const numHeight = typeof height === 'string' ? parseFloat(height) : (height ?? 0);
+    const item = (index !== undefined ? items?.[index] : undefined) ?? { count: 0, percentage: 0 };
+    const cx = numX + numWidth / 2;
     const badgeHeight = 36;
     const badgeHalfHeight = badgeHeight / 2;
 
     // Calculate the bar's position in the chart
-    const chartHeight = viewBox?.height || 368;
+    // const chartHeight = viewBox?.height || 368; // Unused variable
     const marginTop = 20;
-    const marginBottom = 20;
-    const graphHeight = chartHeight - marginTop - marginBottom;
+    // const marginBottom = 20; // Unused variable
+    // const graphHeight = chartHeight - marginTop - marginBottom; // Unused variable
 
     // Calculate position based on percentage
     // y represents the top of the solid bar
     // For vertical center alignment with top of solid bar
-    let badgeY = y ?? 0;
+    let badgeY = numY;
 
     // Check if badge would go above the chart area
     if (badgeY - badgeHalfHeight < marginTop) {
       // Position badge 2px below the top of solid bar
-      badgeY = (y ?? 0) + 2;
+      badgeY = numY + 2;
     }
 
     // Check if badge would go below the entire bar (for very small percentages)
     // height is the height of the solid bar part
-    const barBottom = (y ?? 0) + (height ?? 0);
+    const barBottom = numY + numHeight;
     if (item.percentage < 5 && badgeY + badgeHalfHeight > barBottom) {
       // Position badge 2px above the bottom of solid bar
       badgeY = barBottom - badgeHeight - 2;
@@ -114,7 +119,7 @@ const createBadgeLabel =
     // For 100% or near 100%, ensure badge stays within bar
     if (item.percentage >= 95) {
       // Position badge 2px below the top of solid bar
-      badgeY = (y ?? 0) + 2;
+      badgeY = numY + 2;
     }
 
     // Add padding for shadow (shadow-xl extends ~10-15px)
@@ -161,6 +166,9 @@ const createBadgeLabel =
       </g>
     );
   };
+  BadgeLabel.displayName = 'BadgeLabel';
+  return BadgeLabel;
+};
 
 export function FunnelChart({ data, className }: FunnelChartProps) {
   const { theme, resolvedTheme } = useTheme();

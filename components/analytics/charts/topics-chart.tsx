@@ -187,7 +187,7 @@ function ChartItemBar({
   index = 0,
   ...props
 }: ChartItemBarProps) {
-  const config = React.useContext(ChartContext);
+  // const config = React.useContext(ChartContext); // Unused variable
   const percentage = Math.min((value / maxValue) * 100, 100);
 
   return (

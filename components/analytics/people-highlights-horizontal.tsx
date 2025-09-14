@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useMemo, useState, useRef, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Icon } from "@/components/ui/icon";
 
@@ -22,7 +22,7 @@ type PeopleHighlightsHorizontalProps = {
 
 export function PeopleHighlightsHorizontal({
   currentIndex = 0,
-  onIndexChange,
+  // onIndexChange, // Unused parameter
 }: PeopleHighlightsHorizontalProps) {
   const people: Person[] = useMemo(
     () => [
