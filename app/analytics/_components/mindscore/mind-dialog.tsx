@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { createContext, useContext, useState } from "react";
 import { KnowledgeTab } from "./knowledge-tab";
 import { TrainingStatusTab } from "./training-status-tab";
+import { Button } from "@/components/ui/button";
 
 interface MindDialogContextType {
   setActiveTab: (tab: "training-status" | "knowledge") => void;
@@ -55,18 +56,24 @@ export function MindDialog({
         <DialogContent
           showCloseButton
           className={`p-3 sm:max-w-[calc(100%-2rem)] ${
-            activeTab === "knowledge" ? "w-6xl" : "w-3xl"
-          } rounded-xl max-h-[80vh] overflow-y-auto h-full`}
+            activeTab === "knowledge" ? "w-6xl" : "w-4xl"
+          } rounded-xl max-h-[80vh] h-full flex flex-col overflow-hidden`}
         >
-          <DialogTitle className='p-1 mb-2 px-2'>Mind</DialogTitle>
-          <div className='flex flex-col'>
-            <Tabs
-              value={activeTab}
-              onValueChange={(value) =>
-                setActiveTab(value as "training-status" | "knowledge")
-              }
-              className='w-full'
-            >
+          <Tabs
+            value={activeTab}
+            onValueChange={(value) =>
+              setActiveTab(value as "training-status" | "knowledge")
+            }
+            className='w-full flex flex-col h-full min-h-0'
+          >
+            {/* Fixed Header Section */}
+            <div className='flex-shrink-0 flex flex-col gap-4 pb-4'>
+              <div className='flex justify-between items-center'>
+                <DialogTitle className='p-1 px-2'>Mind</DialogTitle>
+                <Button size='sm' className='h-7'>
+                  Preivew
+                </Button>
+              </div>
               <div className='flex justify-start'>
                 <TabsList>
                   <TabsTrigger value='training-status'>
@@ -75,14 +82,18 @@ export function MindDialog({
                   <TabsTrigger value='knowledge'>Knowledge</TabsTrigger>
                 </TabsList>
               </div>
-              <TabsContent value='training-status'>
+            </div>
+
+            {/* Scrollable Content Section */}
+            <div className='flex-1 overflow-y-auto min-h-0'>
+              <TabsContent value='training-status' className='mt-0'>
                 <TrainingStatusTab />
               </TabsContent>
-              <TabsContent value='knowledge'>
+              <TabsContent value='knowledge' className='mt-0'>
                 <KnowledgeTab />
               </TabsContent>
-            </Tabs>
-          </div>
+            </div>
+          </Tabs>
         </DialogContent>
       </Dialog>
     </MindDialogContext.Provider>

@@ -1,6 +1,21 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -14,11 +29,6 @@ export interface TrainingItem {
   type: string;
   trainedAt: string; // ISO date string
   status: TrainingStatus;
-}
-
-interface GroupedTrainingItems {
-  date: string;
-  items: TrainingItem[];
 }
 
 // Mock data - replace with actual data fetching
@@ -39,30 +49,114 @@ const mockTrainingItems: TrainingItem[] = [
   },
   {
     id: "3",
+    name: "Sales Training Manual.pdf",
+    type: "PDF",
+    trainedAt: new Date().toISOString(),
+    status: "completed",
+  },
+  {
+    id: "4",
+    name: "Onboarding Guide.md",
+    type: "Markdown",
+    trainedAt: new Date().toISOString(),
+    status: "queued",
+  },
+  {
+    id: "5",
     name: "API Reference.md",
     type: "Markdown",
     trainedAt: new Date(Date.now() - 86400000).toISOString(),
     status: "failed",
   },
   {
-    id: "4",
+    id: "6",
     name: "User Guide.pdf",
     type: "PDF",
     trainedAt: new Date(Date.now() - 86400000).toISOString(),
     status: "completed",
   },
   {
-    id: "5",
+    id: "7",
+    name: "Technical Specifications.docx",
+    type: "Document",
+    trainedAt: new Date(Date.now() - 86400000).toISOString(),
+    status: "completed",
+  },
+  {
+    id: "8",
+    name: "Customer Support FAQ.txt",
+    type: "Text",
+    trainedAt: new Date(Date.now() - 86400000).toISOString(),
+    status: "training",
+  },
+  {
+    id: "9",
     name: "Training Materials.zip",
     type: "Archive",
     trainedAt: new Date(Date.now() - 172800000).toISOString(),
     status: "queued",
   },
   {
-    id: "6",
+    id: "10",
     name: "Knowledge Base.txt",
     type: "Text",
     trainedAt: new Date(Date.now() - 172800000).toISOString(),
+    status: "completed",
+  },
+  {
+    id: "11",
+    name: "Developer Guide.pdf",
+    type: "PDF",
+    trainedAt: new Date(Date.now() - 172800000).toISOString(),
+    status: "completed",
+  },
+  {
+    id: "12",
+    name: "Release Notes.md",
+    type: "Markdown",
+    trainedAt: new Date(Date.now() - 172800000).toISOString(),
+    status: "failed",
+  },
+  {
+    id: "13",
+    name: "Security Policy.pdf",
+    type: "PDF",
+    trainedAt: new Date(Date.now() - 259200000).toISOString(),
+    status: "completed",
+  },
+  {
+    id: "14",
+    name: "Code of Conduct.docx",
+    type: "Document",
+    trainedAt: new Date(Date.now() - 259200000).toISOString(),
+    status: "completed",
+  },
+  {
+    id: "15",
+    name: "Best Practices Guide.md",
+    type: "Markdown",
+    trainedAt: new Date(Date.now() - 259200000).toISOString(),
+    status: "training",
+  },
+  {
+    id: "16",
+    name: "Architecture Diagrams.zip",
+    type: "Archive",
+    trainedAt: new Date(Date.now() - 345600000).toISOString(),
+    status: "completed",
+  },
+  {
+    id: "17",
+    name: "Database Schema.txt",
+    type: "Text",
+    trainedAt: new Date(Date.now() - 345600000).toISOString(),
+    status: "queued",
+  },
+  {
+    id: "18",
+    name: "Integration Guide.pdf",
+    type: "PDF",
+    trainedAt: new Date(Date.now() - 345600000).toISOString(),
     status: "completed",
   },
 ];
@@ -108,44 +202,92 @@ function getStatusBadgeVariant(status: TrainingStatus): {
   }
 }
 
-function TrainingItemRow({ item }: { item: TrainingItem }) {
-  const statusBadge = getStatusBadgeVariant(item.status);
-  const formattedDate = format(parseISO(item.trainedAt), "MMM dd, yyyy");
+function DateGroupTable({
+  dateKey,
+  items,
+  columns,
+  showHeader = false,
+}: {
+  dateKey: string;
+  items: TrainingItem[];
+  columns: ColumnDef<TrainingItem>[];
+  showHeader?: boolean;
+}) {
+  const table = useReactTable({
+    data: items,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  });
 
   return (
-    <div className='flex items-center justify-between px-1.5 hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A] transition-colors'>
-      <div className='flex items-center gap-3 flex-1 min-w-0'>
-        <div className='flex flex-col flex-1 min-w-0'>
-          <div className='flex items-center gap-2'>
-            <span className='font-medium text-text-primary text-sm truncate'>
-              {item.name}
-            </span>
-            <Badge
-              variant={statusBadge.variant}
-              className={cn(
-                "text-xs font-medium shrink-0",
-                statusBadge.className
-              )}
-            >
-              {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
-            </Badge>
-          </div>
-          <div className='flex items-center gap-2 mt-0.5'>
-            <span className='text-[13px] text-[#8D8D86] dark:text-neutral-500'>
-              {item.type}
-            </span>
-          </div>
-        </div>
-      </div>
-      {item.status === "failed" && (
-        <Button
-          variant='ghost'
-          size='sm'
-          className='ml-2 text-[13px] text-[#8D8D86] hover:text-text-primary shrink-0'
-        >
-          See detail
-        </Button>
-      )}
+    <div className='flex flex-col gap-1.5'>
+      <h3 className='text-sm font-medium text-text-secondary dark:text-neutral-500 px-2'>
+        {formatDateLabel(dateKey)}
+      </h3>
+      <Table className='table-fixed w-full'>
+        {showHeader && (
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className={cn(
+                      "h-10 px-2 text-left align-middle font-medium text-sm text-[#8D8D86] dark:text-neutral-500",
+                      header.id === "name" && "w-[40%]",
+                      header.id === "type" && "w-[15%]",
+                      header.id === "status" && "w-[15%]",
+                      header.id === "trainedAt" && "w-[20%]",
+                      header.id === "actions" && "w-[10%] text-right"
+                    )}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+        )}
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+                className='hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A] border-b-transparent '
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className={cn(
+                      "px-2 py-1 align-middle",
+                      cell.column.id === "name" && "w-[40%]",
+                      cell.column.id === "type" && "w-[15%]",
+                      cell.column.id === "status" && "w-[15%]",
+                      cell.column.id === "trainedAt" && "w-[20%]",
+                      cell.column.id === "actions" && "w-[10%] text-right"
+                    )}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className='h-24 text-center'>
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
     </div>
   );
 }
@@ -155,43 +297,126 @@ export function TrainingStatusTab() {
     "all"
   );
 
-  // Group items by date
-  const groupedItems = useMemo(() => {
-    const filtered =
-      selectedStatus === "all"
-        ? mockTrainingItems
-        : mockTrainingItems.filter((item) => item.status === selectedStatus);
+  // Filter data based on selected status
+  const filteredData = useMemo(() => {
+    if (selectedStatus === "all") {
+      return mockTrainingItems;
+    }
+    return mockTrainingItems.filter((item) => item.status === selectedStatus);
+  }, [selectedStatus]);
 
-    // Group by date (same day)
-    const grouped: GroupedTrainingItems[] = [];
-    const dateMap = new Map<string, TrainingItem[]>();
+  // Group data by date for display
+  const groupedData = useMemo(() => {
+    const groups = new Map<string, TrainingItem[]>();
 
-    filtered.forEach((item) => {
+    filteredData.forEach((item) => {
       const dateKey = format(parseISO(item.trainedAt), "yyyy-MM-dd");
-      if (!dateMap.has(dateKey)) {
-        dateMap.set(dateKey, []);
+      if (!groups.has(dateKey)) {
+        groups.set(dateKey, []);
       }
-      dateMap.get(dateKey)!.push(item);
+      groups.get(dateKey)!.push(item);
     });
 
-    // Convert to array and sort by date (newest first)
-    dateMap.forEach((items, dateKey) => {
-      grouped.push({
-        date: dateKey,
-        items: items.sort(
-          (a, b) =>
-            parseISO(b.trainedAt).getTime() - parseISO(a.trainedAt).getTime()
-        ),
-      });
+    // Sort items within each group
+    groups.forEach((items) => {
+      items.sort(
+        (a, b) =>
+          parseISO(b.trainedAt).getTime() - parseISO(a.trainedAt).getTime()
+      );
     });
 
-    // Sort groups by date (newest first)
-    grouped.sort(
-      (a, b) => parseISO(b.date).getTime() - parseISO(a.date).getTime()
+    // Convert to array and sort groups by date (newest first)
+    const sortedGroups = Array.from(groups.entries()).sort(
+      (a, b) => parseISO(b[0]).getTime() - parseISO(a[0]).getTime()
     );
 
-    return grouped;
-  }, [selectedStatus]);
+    return sortedGroups;
+  }, [filteredData]);
+
+  // Define columns
+  const columns = useMemo<ColumnDef<TrainingItem>[]>(
+    () => [
+      {
+        accessorKey: "trainedAt",
+        header: "Trained At",
+        cell: ({ row }) => {
+          const item = row.original;
+          const date = parseISO(item.trainedAt);
+          return (
+            <span className='text-sm text-[#8D8D86] dark:text-neutral-500'>
+              {format(date, "MMM d, h:mm a")}
+            </span>
+          );
+        },
+      },
+      {
+        accessorKey: "name",
+        header: "Name",
+        cell: ({ row }) => {
+          const item = row.original;
+          return (
+            <span className='font-medium text-text-primary text-sm'>
+              {item.name}
+            </span>
+          );
+        },
+      },
+      {
+        accessorKey: "type",
+        header: "Type",
+        cell: ({ row }) => {
+          const item = row.original;
+          return (
+            <span className='text-sm text-[#8D8D86] dark:text-neutral-500'>
+              {item.type}
+            </span>
+          );
+        },
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ row }) => {
+          const item = row.original;
+          const statusBadge = getStatusBadgeVariant(item.status);
+          return (
+            <Badge
+              variant={statusBadge.variant}
+              className={cn(
+                "text-[11px] font-medium shrink-0 rounded-sm px-1.5 py-0.5",
+                statusBadge.className
+              )}
+            >
+              {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+            </Badge>
+          );
+        },
+      },
+
+      {
+        id: "actions",
+        header: "",
+        cell: ({ row }) => {
+          const item = row.original;
+          if (item.status === "failed") {
+            return (
+              <div className='flex justify-end'>
+                <Button
+                  variant='secondary'
+                  size='sm'
+                  className='text-[12px] hover:text-text-primary shrink-0 h-6 px-2'
+                >
+                  See detail
+                </Button>
+              </div>
+            );
+          }
+          return null;
+        },
+      },
+    ],
+    []
+  );
 
   const statusFilters: Array<{ value: TrainingStatus | "all"; label: string }> =
     [
@@ -205,7 +430,7 @@ export function TrainingStatusTab() {
   return (
     <div className='flex flex-col gap-4'>
       {/* Filter Section */}
-      <div className='flex items-center gap-2 flex-wrap'>
+      <div className='flex items-center gap-1 flex-wrap px-2'>
         {statusFilters.map((filter) => (
           <Button
             key={filter.value}
@@ -213,7 +438,7 @@ export function TrainingStatusTab() {
             size='sm'
             onClick={() => setSelectedStatus(filter.value)}
             className={cn(
-              "h-8 px-3 text-[13px] rounded-full",
+              "h-6 px-2 text-[12px] rounded-sm",
               selectedStatus === filter.value &&
                 "bg-primary text-primary-foreground"
             )}
@@ -223,26 +448,21 @@ export function TrainingStatusTab() {
         ))}
       </div>
 
-      {/* Training Items List */}
+      {/* Data Table grouped by date */}
       <div className='flex flex-col gap-6'>
-        {groupedItems.length === 0 ? (
+        {groupedData.length === 0 ? (
           <div className='flex items-center justify-center py-12 text-[#8D8D86] dark:text-neutral-500'>
             <p className='text-sm'>No training items found</p>
           </div>
         ) : (
-          groupedItems.map((group) => (
-            <div key={group.date} className='flex flex-col gap-2'>
-              <h3 className='text-sm font-medium text-[#8D8D86] dark:text-neutral-500 px-1'>
-                {formatDateLabel(group.date)}
-              </h3>
-              <div className='flex flex-col overflow-hidden'>
-                {group.items.map((item, index) => (
-                  <React.Fragment key={item.id}>
-                    <TrainingItemRow item={item} />
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
+          groupedData.map(([dateKey, items], index) => (
+            <DateGroupTable
+              key={dateKey}
+              dateKey={dateKey}
+              items={items}
+              columns={columns}
+              showHeader={false}
+            />
           ))
         )}
       </div>
