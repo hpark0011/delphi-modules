@@ -4,6 +4,7 @@ import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";
 import { MindScore } from "@/components/analytics/home/mindscore";
+import { NewMindscore } from "@/app/analytics/_components/mindscore/new-mindscore";
 import { Icon } from "@/components/ui/icon";
 import { CircleDashedIcon } from "lucide-react";
 
@@ -202,7 +203,8 @@ export default function AnalyticsPage() {
 
         <div className='flex flex-col space-y-2 w-full max-w-[392px]'>
           {/* Mind Score Card */}
-          <MindScore mindScore={mindScore} />
+          {/* <MindScore mindScore={mindScore} /> */}
+          <NewMindscore mindScore={mindScore} />
 
           {/* Analytics Section */}
           <HomeAnalytics engagements={engagements} />
