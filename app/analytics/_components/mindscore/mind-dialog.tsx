@@ -54,7 +54,7 @@ export function MindDialog({
       <Dialog open={open} onOpenChange={handleOpenChange}>
         {children}
         <DialogContent
-          showCloseButton
+          // showCloseButton
           className={`p-3 sm:max-w-[calc(100%-2rem)] ${
             activeTab === "knowledge" ? "w-6xl" : "w-4xl"
           } rounded-xl max-h-[80vh] h-full flex flex-col overflow-hidden`}

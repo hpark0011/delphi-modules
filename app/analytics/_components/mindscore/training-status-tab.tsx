@@ -45,21 +45,21 @@ const mockTrainingItems: TrainingItem[] = [
     name: "Company Handbook.docx",
     type: "Document",
     trainedAt: new Date().toISOString(),
-    status: "training",
+    status: "failed",
   },
   {
     id: "3",
     name: "Sales Training Manual.pdf",
     type: "PDF",
     trainedAt: new Date().toISOString(),
-    status: "completed",
+    status: "failed",
   },
   {
     id: "4",
     name: "Onboarding Guide.md",
     type: "Markdown",
     trainedAt: new Date().toISOString(),
-    status: "queued",
+    status: "completed",
   },
   {
     id: "5",
@@ -87,7 +87,7 @@ const mockTrainingItems: TrainingItem[] = [
     name: "Customer Support FAQ.txt",
     type: "Text",
     trainedAt: new Date(Date.now() - 86400000).toISOString(),
-    status: "training",
+    status: "completed",
   },
   {
     id: "9",
@@ -136,7 +136,7 @@ const mockTrainingItems: TrainingItem[] = [
     name: "Best Practices Guide.md",
     type: "Markdown",
     trainedAt: new Date(Date.now() - 259200000).toISOString(),
-    status: "training",
+    status: "completed",
   },
   {
     id: "16",
@@ -150,7 +150,7 @@ const mockTrainingItems: TrainingItem[] = [
     name: "Database Schema.txt",
     type: "Text",
     trainedAt: new Date(Date.now() - 345600000).toISOString(),
-    status: "queued",
+    status: "failed",
   },
   {
     id: "18",
@@ -427,8 +427,95 @@ export function TrainingStatusTab() {
       { value: "failed", label: "Failed" },
     ];
 
+  // Calculate summary statistics
+  const summaryStats = useMemo(() => {
+    const completed = mockTrainingItems.filter(
+      (item) => item.status === "completed"
+    ).length;
+    const failed = mockTrainingItems.filter(
+      (item) => item.status === "failed"
+    ).length;
+
+    // Items trained in past 24 hours
+    const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000;
+    const trainedLast24Hours = mockTrainingItems.filter(
+      (item) => parseISO(item.trainedAt).getTime() >= twentyFourHoursAgo
+    ).length;
+
+    // Types of questions mind can answer (based on completed items)
+    const completedTypes = new Set(
+      mockTrainingItems
+        .filter((item) => item.status === "completed")
+        .map((item) => item.type)
+    );
+    const questionTypes = Array.from(completedTypes).join(", ");
+
+    // Words left to train (mock: assume each completed item = ~500K words)
+    const totalWords = 12000000; // 12M words
+    const wordsTrained = completed * 500000; // Mock calculation
+    const wordsLeft = Math.max(0, totalWords - wordsTrained);
+
+    return {
+      completed,
+      failed,
+      trainedLast24Hours,
+      questionTypes: questionTypes || "None yet",
+      wordsLeft,
+      totalWords,
+    };
+  }, []);
+
   return (
     <div className='flex flex-col gap-4'>
+      {/* Training Summary */}
+      <div className='bg-light dark:bg-[#1A1A1A] rounded-md px-4 py-3 mb-4'>
+        <div className='text-sm font-medium text-text-secondary dark:text-neutral-500 mb-3'>
+          Latest training summary
+        </div>
+        <div className='grid grid-cols-2 gap-4'>
+          {/* Question Types */}
+          <div className='flex flex-col gap-1'>
+            <div className='text-xs text-[#8D8D86] dark:text-neutral-500'>
+              Questions mind can answer
+            </div>
+            <div className='text-sm font-medium text-text-primary'>
+              "Why did you decide to work on AI?"
+            </div>
+          </div>
+
+          {/* Completed & Failed */}
+          <div className='flex flex-col gap-1'>
+            <div className='text-xs text-[#8D8D86] dark:text-neutral-500'>
+              Completed / Failed
+            </div>
+            <div className='text-sm font-medium'>
+              <span className='text-[#09CE6B]'>{summaryStats.completed}</span> /{" "}
+              <span className='text-destructive'>{summaryStats.failed}</span>
+            </div>
+          </div>
+
+          {/* Trained in 24 hours */}
+          <div className='flex flex-col gap-1'>
+            <div className='text-xs text-[#8D8D86] dark:text-neutral-500'>
+              Trained in past 24 hours
+            </div>
+            <div className='text-sm font-medium text-text-primary'>
+              {summaryStats.trainedLast24Hours} items
+            </div>
+          </div>
+
+          {/* Words Left */}
+          <div className='flex flex-col gap-1'>
+            <div className='text-xs text-[#8D8D86] dark:text-neutral-500'>
+              Words left to train
+            </div>
+            <div className='text-sm font-medium text-text-primary'>
+              {summaryStats.wordsLeft.toLocaleString()} /{" "}
+              {summaryStats.totalWords.toLocaleString()}
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Filter Section */}
       <div className='flex items-center gap-1 flex-wrap px-2'>
         {statusFilters.map((filter) => (
