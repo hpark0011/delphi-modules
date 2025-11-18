@@ -12,7 +12,12 @@ export interface QueueItem {
 
 const TRAINING_DURATION = 5000; // 5 seconds per item
 
-export function useTrainingQueue() {
+interface UseTrainingQueueOptions {
+  onItemCompleted?: (points?: number) => void;
+}
+
+export function useTrainingQueue(options?: UseTrainingQueueOptions) {
+  const { onItemCompleted } = options || {};
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const processingRef = useRef(false);
   const intervalRefs = useRef<Map<string, NodeJS.Timeout>>(new Map());
@@ -66,13 +71,18 @@ export function useTrainingQueue() {
             q.id === item.id ? { ...q, status: "completed", progress: 100 } : q
           )
         );
+
+        // Notify parent that item completed
+        if (onItemCompleted) {
+          onItemCompleted(1); // Default: 1 point per item
+        }
       }
 
       processingRef.current = false;
     };
 
     processQueue();
-  }, [queue]);
+  }, [queue, onItemCompleted]);
 
   const addToQueue = useCallback(
     (items: Omit<QueueItem, "id" | "status" | "progress">[]) => {

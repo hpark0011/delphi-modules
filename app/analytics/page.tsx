@@ -37,12 +37,6 @@ export type Highlights = {
 
 export default function AnalyticsPage() {
   // Sample data - replace with actual data fetching
-  const mindScore = {
-    current: 110,
-    total: 200,
-    level: "Master",
-  };
-
   const engagements: Engagements = {
     conversations: {
       value: 418,
@@ -155,7 +149,7 @@ export default function AnalyticsPage() {
                 <div className='flex items-end text-xs text-[#8D8D86] dark:text-neutral-400 flex-col mr-4'>
                   <span>Reach 200 Mind Score</span>
                   <span className='text-[#21201C] dark:text-[#EEEEEC]'>
-                    {mindScore.current} / {mindScore.total}
+                    110 / 200
                   </span>
                 </div>
               </div>
@@ -203,7 +197,7 @@ export default function AnalyticsPage() {
         <div className='flex flex-col space-y-2 w-full max-w-[360px]'>
           {/* Mind Score Card */}
           {/* <MindScore mindScore={mindScore} /> */}
-          <NewMindscore mindScore={mindScore} />
+          <NewMindscore />
 
           {/* Analytics Section */}
           <HomeAnalytics engagements={engagements} />

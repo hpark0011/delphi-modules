@@ -13,6 +13,7 @@ import {
 } from "./mind-dialog-config";
 import { MindProgressBar } from "./mind-progress-bar";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useMindScore } from "./mind-score-context";
 
 // Re-export for convenience
 export type { MindDialogTabId } from "./mind-dialog-config";
@@ -38,10 +39,12 @@ interface MindDialogProps {
 }
 
 function MindDialogHeader() {
+  const { current, total, level } = useMindScore();
+
   return (
     <div className='flex-shrink-0 flex flex-col rounded-[16px] m-1 mb-0 shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87  dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
       <div className='absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[400px]'>
-        <MindProgressBar current={110} total={200} />
+        <MindProgressBar current={current} total={total} />
       </div>
       <div className='flex justify-end items-center'>
         <VisuallyHidden>
@@ -54,9 +57,12 @@ function MindDialogHeader() {
 
       <div className='flex flex-col items-center justify-center mb-6 gap-1'>
         <div className='text-5xl text-white tracking-tighter font-medium w-full text-center'>
-          110
+          {/* Mind Score */}
+          {current}
         </div>
-        <div className='text-sm text-text-muted w-full text-center'>Master</div>
+        <div className='text-sm text-text-muted w-full text-center'>
+          {level}
+        </div>
       </div>
 
       <div className='flex justify-center'>

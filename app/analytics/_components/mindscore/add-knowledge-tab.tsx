@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { TrainingQueueToast } from "./training-queue-toast";
+import { useMindScore } from "./mind-score-context";
 
 type ContentCategory =
   | "Popular"
@@ -94,6 +95,7 @@ function ContentCard({
         "bg-card p-4 px-5 pr-4 shadow-card-primary rounded-2xl group hover:bg-extra-light/50 cursor-pointer",
         className
       )}
+      onClick={onAdd}
     >
       <div className='flex items-end justify-between h-full'>
         <div className='flex flex-col gap-0.5 '>
@@ -111,10 +113,7 @@ function ContentCard({
             </p>
           )}
         </div>
-        <button
-          onClick={onAdd}
-          className='bg-transparent border border-light rounded-full p-2 group-hover:bg-light transition-colors'
-        >
+        <button className='bg-transparent border border-light rounded-full p-2 group-hover:bg-light transition-colors'>
           <Icon name='PlusIcon' className='size-5 text-icon-medium' />
         </button>
       </div>
@@ -127,7 +126,12 @@ ContentCard.displayName = "ContentCard";
 export function AddKnowledgeTab() {
   const [selectedCategory, setSelectedCategory] =
     useState<ContentCategory>("Popular");
-  const { queue, addToQueue, clearQueue } = useTrainingQueue();
+  const { incrementScore } = useMindScore();
+  const { queue, addToQueue, clearQueue } = useTrainingQueue({
+    onItemCompleted: (points = 1) => {
+      incrementScore(points);
+    },
+  });
   const toastIdRef = useRef<string | number | null>(null);
 
   // Show or update toast when queue changes
@@ -161,7 +165,6 @@ export function AddKnowledgeTab() {
   }, [queue, clearQueue]);
 
   const handleAddContent = (itemName?: string) => {
-    console.log("itemString::::::", itemName);
     let itemsToAdd: Array<{ name: string }> = [];
 
     if (itemName === "Interview mode") {
