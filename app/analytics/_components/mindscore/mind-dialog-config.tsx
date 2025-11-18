@@ -7,7 +7,7 @@ export interface MindDialogTabConfig {
   id: string;
   label: string;
   component: React.ComponentType;
-  widthClass: "w-4xl" | "w-6xl";
+  widthClass: "w-4xl" | "w-6xl" | "w-3xl";
 }
 
 export const MIND_DIALOG_TABS: MindDialogTabConfig[] = [
@@ -27,7 +27,7 @@ export const MIND_DIALOG_TABS: MindDialogTabConfig[] = [
     id: "add-knowledge",
     label: "Add Knowledge",
     component: AddKnowledgeTab,
-    widthClass: "w-6xl",
+    widthClass: "w-3xl",
   },
 ] as const;
 
@@ -51,6 +51,6 @@ export function getMindDialogTabConfig(
 // Helper function to get width class for a tab
 export function getMindDialogWidthClass(
   tabId: MindDialogTabId
-): "w-4xl" | "w-6xl" {
+): "w-4xl" | "w-6xl" | "w-3xl" {
   return getMindDialogTabConfig(tabId).widthClass;
 }
