@@ -92,6 +92,7 @@ export { default as LogoIcon } from "@/icons/logo.svg";
 export { default as MagnifyingGlassIcon } from "@/icons/magnifying.glass.svg";
 export { default as MicFillIcon } from "@/icons/mic.fill.svg";
 export { default as MicSlashFillIcon } from "@/icons/mic.slash.fill.svg";
+export { default as MindBubbleFillIcon } from "@/icons/mind.bubble.fill.svg";
 export { default as MinusSquareFillIcon } from "@/icons/minus.square.fill.svg";
 export { default as MoonFillIcon } from "@/icons/moon.fill.svg";
 export { default as MoonStarsFillIcon } from "@/icons/moon.stars.fill.svg";

@@ -68,7 +68,7 @@ export default function AnalyticsLoading() {
             </AnalyticsSectionWrapper>
           </div>
 
-          <div className='flex flex-col space-y-2 w-full max-w-[392px]'>
+          <div className='flex flex-col space-y-2 w-full max-w-[360px]'>
             <AnalyticsSectionWrapper className='p-4 py-3 rounded-[20px] flex gap-3 flex-row items-center justify-between'>
               <div className='flex w-full h-[222px]' />
             </AnalyticsSectionWrapper>

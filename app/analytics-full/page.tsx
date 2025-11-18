@@ -201,7 +201,7 @@ export default function AnalyticsPage() {
           </AnalyticsSectionWrapper>
         </div>
 
-        <div className='flex flex-col space-y-2 w-full max-w-[392px]'>
+        <div className='flex flex-col space-y-2 w-full max-w-[360px]'>
           {/* Mind Score Card */}
           <MindScoreFull mindScore={mindScore} />
 

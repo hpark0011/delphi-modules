@@ -2,14 +2,21 @@
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React, { createContext, useContext, useState } from "react";
-import { KnowledgeTab } from "./knowledge-tab";
-import { TrainingStatusTab } from "./training-status-tab";
+import React, { createContext, useContext, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  MIND_DIALOG_TABS,
+  DEFAULT_MIND_DIALOG_TAB,
+  MindDialogTabId,
+  getMindDialogWidthClass,
+} from "./mind-dialog-config";
+
+// Re-export for convenience
+export type { MindDialogTabId } from "./mind-dialog-config";
 
 interface MindDialogContextType {
-  setActiveTab: (tab: "training-status" | "knowledge") => void;
-  openWithTab: (tab: "training-status" | "knowledge") => void;
+  setActiveTab: (tab: MindDialogTabId) => void;
+  openWithTab: (tab: MindDialogTabId) => void;
 }
 
 const MindDialogContext = createContext<MindDialogContextType | null>(null);
@@ -24,17 +31,15 @@ export function useMindDialog() {
 
 interface MindDialogProps {
   children: React.ReactNode;
-  defaultTab?: "training-status" | "knowledge";
+  defaultTab?: MindDialogTabId;
 }
 
 export function MindDialog({
   children,
-  defaultTab = "training-status",
+  defaultTab = DEFAULT_MIND_DIALOG_TAB,
 }: MindDialogProps) {
   const [open, setOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<"training-status" | "knowledge">(
-    defaultTab
-  );
+  const [activeTab, setActiveTab] = useState<MindDialogTabId>(defaultTab);
 
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
@@ -44,10 +49,16 @@ export function MindDialog({
     }
   };
 
-  const openWithTab = (tab: "training-status" | "knowledge") => {
+  const openWithTab = (tab: MindDialogTabId) => {
     setActiveTab(tab);
     setOpen(true);
   };
+
+  // Get width class for current tab
+  const dialogWidthClass = useMemo(
+    () => getMindDialogWidthClass(activeTab),
+    [activeTab]
+  );
 
   return (
     <MindDialogContext.Provider value={{ setActiveTab, openWithTab }}>
@@ -55,15 +66,11 @@ export function MindDialog({
         {children}
         <DialogContent
           // showCloseButton
-          className={`p-3 sm:max-w-[calc(100%-2rem)] ${
-            activeTab === "knowledge" ? "w-6xl" : "w-4xl"
-          } rounded-xl max-h-[80vh] h-full flex flex-col overflow-hidden`}
+          className={`p-3 sm:max-w-[calc(100%-2rem)] ${dialogWidthClass} rounded-xl max-h-[80vh] h-full flex flex-col overflow-hidden`}
         >
           <Tabs
             value={activeTab}
-            onValueChange={(value) =>
-              setActiveTab(value as "training-status" | "knowledge")
-            }
+            onValueChange={(value) => setActiveTab(value as MindDialogTabId)}
             className='w-full flex flex-col h-full min-h-0'
           >
             {/* Fixed Header Section */}
@@ -76,22 +83,25 @@ export function MindDialog({
               </div>
               <div className='flex justify-start'>
                 <TabsList>
-                  <TabsTrigger value='training-status'>
-                    Training Status
-                  </TabsTrigger>
-                  <TabsTrigger value='knowledge'>Knowledge</TabsTrigger>
+                  {MIND_DIALOG_TABS.map((tab) => (
+                    <TabsTrigger key={tab.id} value={tab.id}>
+                      {tab.label}
+                    </TabsTrigger>
+                  ))}
                 </TabsList>
               </div>
             </div>
 
             {/* Scrollable Content Section */}
             <div className='flex-1 overflow-y-auto min-h-0'>
-              <TabsContent value='training-status' className='mt-0'>
-                <TrainingStatusTab />
-              </TabsContent>
-              <TabsContent value='knowledge' className='mt-0'>
-                <KnowledgeTab />
-              </TabsContent>
+              {MIND_DIALOG_TABS.map((tab) => {
+                const TabComponent = tab.component;
+                return (
+                  <TabsContent key={tab.id} value={tab.id} className='mt-0'>
+                    <TabComponent />
+                  </TabsContent>
+                );
+              })}
             </div>
           </Tabs>
         </DialogContent>

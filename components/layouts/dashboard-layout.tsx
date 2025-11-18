@@ -65,27 +65,27 @@ export function DashboardLayout({
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="flex h-screen w-full">
+      <div className='flex h-screen w-full'>
         <AppSidebar />
-        <SidebarInset className="flex-1 overflow-auto md:peer-data-[variant=inset]:shadow-none border-light border ">
+        <SidebarInset className='flex-1 overflow-auto md:peer-data-[variant=inset]:shadow-none border-light border '>
           <DashboardMainWrapper
             className={`${isFullWidth ? "px-0" : "px-8 w-full max-w-[1136px] mx-auto"}`}
           >
             {showHeader || showTabs ? (
               <div>
                 {showHeader && (
-                  <div className="flex flex-col w-full">
+                  <div className='flex flex-col w-full'>
                     {showBackButton && (
                       <Link
                         href={backButtonHref}
-                        className="flex group w-fit items-center gap-1.5 text-sm mx-3 text-[#8D8D86]"
+                        className='flex group w-fit items-center gap-1.5 text-sm mx-3 text-[#8D8D86]'
                       >
-                        <ArrowLeft className="size-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                        <ArrowLeft className='size-3.5 group-hover:-translate-x-0.5 transition-transform' />
                         {backButtonLabel}
                       </Link>
                     )}
-                    <div className="flex items-center justify-between mb-6 px-3">
-                      <h1 className="text-2xl">{headerTitle}</h1>
+                    <div className='flex items-center justify-between mb-6 px-3'>
+                      <h1 className='text-2xl'>{headerTitle}</h1>
                       {showDatePicker && (
                         <DateRangePicker
                           dateRange={dateRange}
@@ -97,7 +97,7 @@ export function DashboardLayout({
                 )}
 
                 {showTabs && tabs.length > 0 && (
-                  <nav className="flex-row items-center gap-0.5 p-1 bg-extra-light box-content h-fit rounded-full mx-0.5 inline-flex">
+                  <nav className='flex-row items-center gap-0.5 p-1 bg-extra-light box-content h-fit rounded-full mx-0.5 inline-flex'>
                     {tabs.map((item) => (
                       <Link
                         key={item.value}
