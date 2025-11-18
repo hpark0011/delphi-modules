@@ -4,6 +4,7 @@ import React from "react";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { Icon } from "@/components/ui/icon";
 import { MindDialog, useMindDialog } from "./mind-dialog";
+import { MindProgressBar } from "./mind-progress-bar";
 
 interface MindScoreProps {
   mindScore: {
@@ -34,24 +35,7 @@ function MindScoreTrigger({
       }}
     >
       {/* Progress Bar */}
-      <div className='w-full flex flex-col items-center gap-1 absolute top-0 left-0 z-10'>
-        {/* Gauge */}
-        <div className='w-[calc(100%-32px)] bg-[#fff]/20 rounded-b-[10px] h-[4px]'>
-          <div
-            className='bg-[#fff]/60 rounded-b-[10px] h-[4px] transition-all'
-            style={{
-              width: `${(mindScore.current / mindScore.total) * 100}%`,
-            }}
-          />
-        </div>
-        {/* Gauge Label */}
-        <div className='w-full h-full flex items-center justify-between px-4 text-white/50 relative'>
-          <div className='relative left-[-4px] opacity-0'>
-            <Icon name='MindBubbleFillIcon' className='size-5 text-white' />
-          </div>
-          <p className='text-xs font-medium'>/ {mindScore.total}</p>
-        </div>
-      </div>
+      <MindProgressBar current={mindScore.current} total={mindScore.total} />
 
       {/* Mind Score Value */}
       <div className='flex flex-col gap-2 w-full justify-center items-center relative z-10'>
@@ -59,7 +43,9 @@ function MindScoreTrigger({
           <p className='font-medium text-center text-6xl tracking-tighter'>
             {mindScore.current}
           </p>
-          <p className='text-sm font-medium text-center'>{mindScore.level}</p>
+          <p className='text-sm font-medium text-center text-text-muted'>
+            {mindScore.level}
+          </p>
         </div>
       </div>
     </div>
@@ -71,7 +57,7 @@ function LastTrainedTrigger() {
 
   return (
     <div
-      className='w-full items-center flex justify-center p-2 gap-1 text-text-muted hover:text-blue-500 cursor-pointer'
+      className='w-full items-center flex justify-center p-2 gap-1 text-text-muted hover:text-blue-400 cursor-pointer'
       onClick={() => openWithTab("training-status")}
       role='button'
       tabIndex={0}

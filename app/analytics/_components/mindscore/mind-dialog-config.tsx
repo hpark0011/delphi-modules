@@ -1,4 +1,5 @@
 import React from "react";
+import type { IconName } from "@/components/ui/icon";
 import { TrainingStatusTab } from "./training-status-tab";
 import { KnowledgeTab } from "./knowledge-tab";
 import { AddKnowledgeTab } from "./add-knowledge-tab";
@@ -8,6 +9,7 @@ export interface MindDialogTabConfig {
   label: string;
   component: React.ComponentType;
   widthClass: "w-4xl" | "w-6xl" | "w-3xl";
+  icon: IconName;
 }
 
 export const MIND_DIALOG_TABS: MindDialogTabConfig[] = [
@@ -16,18 +18,21 @@ export const MIND_DIALOG_TABS: MindDialogTabConfig[] = [
     label: "Training Status",
     component: TrainingStatusTab,
     widthClass: "w-4xl",
+    icon: "ChartBarFillIcon",
   },
   {
     id: "knowledge",
     label: "Knowledge",
     component: KnowledgeTab,
     widthClass: "w-6xl",
+    icon: "SquareStackFillIcon",
   },
   {
     id: "add-knowledge",
     label: "Add Knowledge",
     component: AddKnowledgeTab,
     widthClass: "w-3xl",
+    icon: "PlusIcon",
   },
 ] as const;
 
