@@ -76,11 +76,22 @@ interface ContentCardProps {
   title: string;
   description?: string;
   onAdd?: () => void;
+  className?: string;
 }
 
-function ContentCard({ title, description, onAdd }: ContentCardProps) {
+function ContentCard({
+  title,
+  description,
+  onAdd,
+  className,
+}: ContentCardProps) {
   return (
-    <div className='bg-card p-4 px-5 pr-4 h-[182px] shadow-card-primary rounded-2xl group hover:bg-extra-light/50 cursor-pointer'>
+    <div
+      className={cn(
+        "bg-card p-4 px-5 pr-4 shadow-card-primary rounded-2xl group hover:bg-extra-light/50 cursor-pointer",
+        className
+      )}
+    >
       <div className='flex items-end justify-between h-full'>
         <div className='flex flex-col gap-0.5 '>
           <h1
@@ -141,6 +152,7 @@ export function AddKnowledgeTab() {
             title='Interview mode'
             description='Train your Delphi by answering questions relevant to you.'
             onAdd={() => handleAddContent("Interview mode")}
+            className='h-[240px]'
           />
           {/* 2x2 Grid */}
           <div className='flex-1 min-h-0 grid grid-cols-2 gap-2'>
@@ -149,6 +161,7 @@ export function AddKnowledgeTab() {
                 key={item}
                 title={item}
                 onAdd={() => handleAddContent(item)}
+                className='h-[152px]'
               />
             ))}
           </div>

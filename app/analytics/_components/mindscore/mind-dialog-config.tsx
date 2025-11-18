@@ -8,7 +8,7 @@ export interface MindDialogTabConfig {
   id: string;
   label: string;
   component: React.ComponentType;
-  widthClass: "w-4xl" | "w-6xl" | "w-3xl";
+  widthClass: "w-4xl" | "w-6xl" | "w-3xl" | "w-5xl" | "w-2xl";
   icon: IconName;
 }
 
@@ -17,14 +17,14 @@ export const MIND_DIALOG_TABS: MindDialogTabConfig[] = [
     id: "training-status",
     label: "Training Status",
     component: TrainingStatusTab,
-    widthClass: "w-4xl",
+    widthClass: "w-2xl",
     icon: "ChartBarFillIcon",
   },
   {
     id: "knowledge",
     label: "Knowledge",
     component: KnowledgeTab,
-    widthClass: "w-6xl",
+    widthClass: "w-5xl",
     icon: "SquareStackFillIcon",
   },
   {
@@ -56,6 +56,6 @@ export function getMindDialogTabConfig(
 // Helper function to get width class for a tab
 export function getMindDialogWidthClass(
   tabId: MindDialogTabId
-): "w-4xl" | "w-6xl" | "w-3xl" {
+): "w-4xl" | "w-6xl" | "w-3xl" | "w-5xl" | "w-2xl" {
   return getMindDialogTabConfig(tabId).widthClass;
 }

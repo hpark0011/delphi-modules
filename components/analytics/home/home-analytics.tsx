@@ -27,7 +27,7 @@ function MetricCard({
     >
       <div className='flex w-full flex-col gap-2'>
         <p className='text-[13px] text-[#63635E] dark:text-neutral-400 leading-[1.2] w-full text-start'>
-          {label}lll
+          {label}
         </p>
         <div className='flex items-center justify-between'>
           <p className='text-[24px] leading-1 font-medium tracking-[-0.04em] text-[#21201C] dark:text-[#EEEEEC]'>

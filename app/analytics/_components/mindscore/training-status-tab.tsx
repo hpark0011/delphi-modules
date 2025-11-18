@@ -235,10 +235,8 @@ function DateGroupTable({
                     key={header.id}
                     className={cn(
                       "h-10 px-2 text-left align-middle font-medium text-sm text-[#8D8D86] dark:text-neutral-500",
-                      header.id === "name" && "w-[40%]",
-                      header.id === "type" && "w-[15%]",
-                      header.id === "status" && "w-[15%]",
-                      header.id === "trainedAt" && "w-[20%]",
+                      header.id === "name" && "w-[70%]",
+                      header.id === "status" && "w-[20%]",
                       header.id === "actions" && "w-[10%] text-right"
                     )}
                   >
@@ -267,10 +265,8 @@ function DateGroupTable({
                     key={cell.id}
                     className={cn(
                       "px-2 py-1 align-middle",
-                      cell.column.id === "name" && "w-[40%]",
-                      cell.column.id === "type" && "w-[15%]",
-                      cell.column.id === "status" && "w-[15%]",
-                      cell.column.id === "trainedAt" && "w-[20%]",
+                      cell.column.id === "name" && "w-[70%]",
+                      cell.column.id === "status" && "w-[20%]",
                       cell.column.id === "actions" && "w-[10%] text-right"
                     )}
                   >
@@ -337,19 +333,6 @@ export function TrainingStatusTab() {
   const columns = useMemo<ColumnDef<TrainingItem>[]>(
     () => [
       {
-        accessorKey: "trainedAt",
-        header: "Trained At",
-        cell: ({ row }) => {
-          const item = row.original;
-          const date = parseISO(item.trainedAt);
-          return (
-            <span className='text-sm text-[#8D8D86] dark:text-neutral-500'>
-              {format(date, "MMM d, h:mm a")}
-            </span>
-          );
-        },
-      },
-      {
         accessorKey: "name",
         header: "Name",
         cell: ({ row }) => {
@@ -357,18 +340,6 @@ export function TrainingStatusTab() {
           return (
             <span className='font-medium text-text-primary text-sm'>
               {item.name}
-            </span>
-          );
-        },
-      },
-      {
-        accessorKey: "type",
-        header: "Type",
-        cell: ({ row }) => {
-          const item = row.original;
-          return (
-            <span className='text-sm text-[#8D8D86] dark:text-neutral-500'>
-              {item.type}
             </span>
           );
         },
@@ -468,50 +439,24 @@ export function TrainingStatusTab() {
   return (
     <div className='flex flex-col gap-4'>
       {/* Training Summary */}
-      <div className='bg-light dark:bg-[#1A1A1A] rounded-md px-4 py-3 mb-4'>
-        <div className='text-sm font-medium text-text-secondary dark:text-neutral-500 mb-3'>
+
+      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 pb-4 mb-4'>
+        <div className='text-sm font-medium text-text-muted dark:text-neutral-500 mb-3 border-b border-border-light dark:border-dark pb-2 px-4'>
           Latest training summary
         </div>
-        <div className='grid grid-cols-2 gap-4'>
-          {/* Question Types */}
+        <div className='flex flex-col gap-2 px-3'>
+          <h1 className='text-start  text-text-primary px-1'>
+            Your mind can answer 5 new questions!
+          </h1>
           <div className='flex flex-col gap-1'>
-            <div className='text-xs text-[#8D8D86] dark:text-neutral-500'>
-              Questions mind can answer
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
+              Q: "What is your latest hobby?"
             </div>
-            <div className='text-sm font-medium text-text-primary'>
-              "Why did you decide to work on AI?"
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
+              Q: "How did you get into product design?"
             </div>
-          </div>
-
-          {/* Completed & Failed */}
-          <div className='flex flex-col gap-1'>
-            <div className='text-xs text-[#8D8D86] dark:text-neutral-500'>
-              Completed / Failed
-            </div>
-            <div className='text-sm font-medium'>
-              <span className='text-[#09CE6B]'>{summaryStats.completed}</span> /{" "}
-              <span className='text-destructive'>{summaryStats.failed}</span>
-            </div>
-          </div>
-
-          {/* Trained in 24 hours */}
-          <div className='flex flex-col gap-1'>
-            <div className='text-xs text-[#8D8D86] dark:text-neutral-500'>
-              Trained in past 24 hours
-            </div>
-            <div className='text-sm font-medium text-text-primary'>
-              {summaryStats.trainedLast24Hours} items
-            </div>
-          </div>
-
-          {/* Words Left */}
-          <div className='flex flex-col gap-1'>
-            <div className='text-xs text-[#8D8D86] dark:text-neutral-500'>
-              Words left to train
-            </div>
-            <div className='text-sm font-medium text-text-primary'>
-              {summaryStats.wordsLeft.toLocaleString()} /{" "}
-              {summaryStats.totalWords.toLocaleString()}
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
+              Q: "What is your favorite AI tool?"
             </div>
           </div>
         </div>
