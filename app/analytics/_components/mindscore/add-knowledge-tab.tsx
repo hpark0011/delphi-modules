@@ -3,7 +3,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { toast } from "sonner";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { TrainingQueueToast } from "./training-queue-toast";
 
 type ContentCategory =
   | "Popular"
@@ -124,10 +127,63 @@ ContentCard.displayName = "ContentCard";
 export function AddKnowledgeTab() {
   const [selectedCategory, setSelectedCategory] =
     useState<ContentCategory>("Popular");
+  const { queue, addToQueue, clearQueue } = useTrainingQueue();
+  const toastIdRef = useRef<string | number | null>(null);
+
+  // Show or update toast when queue changes
+  useEffect(() => {
+    if (queue.length === 0) {
+      if (toastIdRef.current) {
+        toast.dismiss(toastIdRef.current);
+        toastIdRef.current = null;
+      }
+      return;
+    }
+
+    // Create or update toast with stable ID
+    const toastId = "training-queue";
+    toastIdRef.current = toast.custom(
+      (t) => (
+        <TrainingQueueToast
+          queue={queue}
+          onClose={() => {
+            toast.dismiss(t);
+            toastIdRef.current = null;
+            clearQueue();
+          }}
+        />
+      ),
+      {
+        duration: Infinity,
+        id: toastId,
+      }
+    );
+  }, [queue, clearQueue]);
 
   const handleAddContent = (itemName?: string) => {
-    // Placeholder for add content functionality
-    console.log("Add content for category:", selectedCategory, itemName);
+    console.log("itemString::::::", itemName);
+    let itemsToAdd: Array<{ name: string }> = [];
+
+    if (itemName === "Interview mode") {
+      itemsToAdd = [
+        { name: "Interview Question 1" },
+        { name: "Interview Question 2" },
+        { name: "Interview Question 3" },
+      ];
+    } else if (itemName === "Youtube") {
+      itemsToAdd = [
+        { name: "YouTube Video 1" },
+        { name: "YouTube Video 2" },
+        { name: "YouTube Video 3" },
+        { name: "YouTube Video 4" },
+      ];
+    } else if (itemName === "X") {
+      itemsToAdd = [{ name: "X Post 1" }];
+    }
+
+    if (itemsToAdd.length > 0) {
+      addToQueue(itemsToAdd);
+    }
   };
 
   return (

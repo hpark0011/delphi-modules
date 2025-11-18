@@ -444,19 +444,30 @@ export function TrainingStatusTab() {
         <div className='text-sm font-medium text-text-muted dark:text-neutral-500 mb-3 border-b border-border-light dark:border-dark pb-2 px-4'>
           Latest training summary
         </div>
-        <div className='flex flex-col gap-2 px-3'>
+        <div className='flex flex-col gap-2 px-3 mb-0'>
+          <div className='flex flex-col gap-2'>
+            <h1 className='text-start  text-text-primary px-1'>
+              Here is what happend from your last training:
+            </h1>
+          </div>
           <h1 className='text-start  text-text-primary px-1'>
             Your mind can answer 5 new questions!
           </h1>
-          <div className='flex flex-col gap-1'>
+          <div className='flex flex-wrap gap-1'>
             <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
-              Q: "What is your latest hobby?"
+              "What is your latest hobby?"
             </div>
             <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
-              Q: "How did you get into product design?"
+              "How did you get into product design?"
             </div>
             <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
-              Q: "What is your favorite AI tool?"
+              "What is your favorite AI tool?"
+            </div>
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
+              "What are you working on right now?"
+            </div>
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
+              "What is next for you?"
             </div>
           </div>
         </div>
