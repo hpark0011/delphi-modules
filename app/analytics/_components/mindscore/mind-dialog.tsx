@@ -39,7 +39,7 @@ interface MindDialogProps {
 
 function MindDialogHeader() {
   return (
-    <div className='flex-shrink-0 flex flex-col rounded-[16px] m-1 shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border-[0.5px] border-white/20 dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
+    <div className='flex-shrink-0 flex flex-col rounded-[16px] m-1 mb-0 shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87  dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
       <div className='absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[400px]'>
         <MindProgressBar current={110} total={200} />
       </div>
@@ -58,6 +58,7 @@ function MindDialogHeader() {
         </div>
         <div className='text-sm text-text-muted w-full text-center'>Master</div>
       </div>
+
       <div className='flex justify-center'>
         <TabsList className='gap-0.5'>
           {MIND_DIALOG_TABS.map((tab) => (
@@ -108,12 +109,12 @@ export function MindDialog({
         {children}
         <DialogContent
           // showCloseButton
-          className={`p-0 sm:max-w-[calc(100%-2rem)] ${dialogWidthClass} rounded-2xl max-h-[90vh] h-full flex flex-col overflow-hidden`}
+          className={`p-0 sm:max-w-[calc(100%-2rem)] ${dialogWidthClass} rounded-2xl max-h-[90vh] h-full flex flex-col overflow-hidden bg-extra-light`}
         >
           <Tabs
             value={activeTab}
             onValueChange={(value) => setActiveTab(value as MindDialogTabId)}
-            className='w-full flex flex-col h-full min-h-0'
+            className='w-full flex flex-col h-full min-h-0 gap-0'
           >
             {/* Fixed Header Section */}
             <MindDialogHeader />

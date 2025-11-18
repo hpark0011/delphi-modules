@@ -31,7 +31,7 @@ export const MIND_DIALOG_TABS: MindDialogTabConfig[] = [
     id: "add-knowledge",
     label: "Add Knowledge",
     component: AddKnowledgeTab,
-    widthClass: "w-3xl",
+    widthClass: "w-4xl",
     icon: "PlusIcon",
   },
 ] as const;

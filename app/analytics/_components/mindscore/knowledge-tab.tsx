@@ -39,25 +39,6 @@ type ContentCategory =
   | "Notes Apps"
   | "Messaging Apps";
 
-// Map training item types to categories
-function getCategoryFromType(type: string): ContentCategory {
-  const typeLower = type.toLowerCase();
-  if (typeLower.includes("website") || typeLower === "website") {
-    return "Websites";
-  }
-  if (
-    typeLower === "pdf" ||
-    typeLower === "document" ||
-    typeLower === "markdown" ||
-    typeLower === "text" ||
-    typeLower === "archive"
-  ) {
-    return "Files";
-  }
-  // Default to Files for unknown types
-  return "Files";
-}
-
 // Mock data - filter completed items from training status and convert to knowledge items
 const mockKnowledgeItems: KnowledgeItem[] = [
   {
@@ -214,11 +195,6 @@ function KnowledgeItemRow({
           </span>
         </div>
       </TableCell>
-      <TableCell className='px-2 py-3 align-middle w-[20%]'>
-        <span className='text-sm text-[#8D8D86] dark:text-neutral-500'>
-          {item.type}
-        </span>
-      </TableCell>
       <TableCell className='px-2 py-3 align-middle w-[30%]'>
         <span className='text-sm text-[#8D8D86] dark:text-neutral-500'>
           {formattedDate}
@@ -332,9 +308,6 @@ export function KnowledgeTab() {
               <TableRow>
                 <TableHead className='h-10 px-2 text-left align-middle font-medium text-sm text-[#8D8D86] dark:text-neutral-500 w-[40%]'>
                   Name
-                </TableHead>
-                <TableHead className='h-10 px-2 text-left align-middle font-medium text-sm text-[#8D8D86] dark:text-neutral-500 w-[20%]'>
-                  Type
                 </TableHead>
                 <TableHead className='h-10 px-2 text-left align-middle font-medium text-sm text-[#8D8D86] dark:text-neutral-500 w-[30%]'>
                   Updated
