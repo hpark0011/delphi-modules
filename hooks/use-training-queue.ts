@@ -1,7 +1,6 @@
 "use client";
 
 import { useTrainingQueueContext } from "@/app/analytics/_components/mindscore/training-queue-context";
-import type { QueueItem } from "@/app/analytics/_components/mindscore/training-queue-context";
 
 // Re-export QueueItem for backward compatibility
 export type { QueueItem } from "@/app/analytics/_components/mindscore/training-queue-context";

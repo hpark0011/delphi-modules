@@ -20,13 +20,13 @@ export const MIND_DIALOG_TABS: MindDialogTabConfig[] = [
     widthClass: "w-2xl",
     icon: "ChartBarFillIcon",
   },
-  {
-    id: "knowledge",
-    label: "Knowledge",
-    component: KnowledgeTab,
-    widthClass: "w-5xl",
-    icon: "SquareStackFillIcon",
-  },
+  // {
+  //   id: "knowledge",
+  //   label: "Knowledge",
+  //   component: KnowledgeTab,
+  //   widthClass: "w-5xl",
+  //   icon: "SquareStackFillIcon",
+  // },
   {
     id: "add-knowledge",
     label: "Add Knowledge",

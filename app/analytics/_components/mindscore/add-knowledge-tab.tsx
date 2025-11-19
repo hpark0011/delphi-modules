@@ -5,6 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { useMindDialog } from "./mind-dialog";
 
 type ContentCategory =
   | "Popular"
@@ -124,6 +125,7 @@ export function AddKnowledgeTab() {
   const [selectedCategory, setSelectedCategory] =
     useState<ContentCategory>("Popular");
   const { addToQueue } = useTrainingQueue();
+  const { close } = useMindDialog();
 
   const handleAddContent = (itemName?: string) => {
     let itemsToAdd: Array<{ name: string }> = [];
@@ -147,6 +149,7 @@ export function AddKnowledgeTab() {
 
     if (itemsToAdd.length > 0) {
       addToQueue(itemsToAdd);
+      close();
     }
   };
 

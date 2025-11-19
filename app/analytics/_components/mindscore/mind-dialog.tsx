@@ -21,6 +21,7 @@ export type { MindDialogTabId } from "./mind-dialog-config";
 interface MindDialogContextType {
   setActiveTab: (tab: MindDialogTabId) => void;
   openWithTab: (tab: MindDialogTabId) => void;
+  close: () => void;
 }
 
 const MindDialogContext = createContext<MindDialogContextType | null>(null);
@@ -115,6 +116,10 @@ export function MindDialog({
     setOpen(true);
   };
 
+  const closeDialog = () => {
+    setOpen(false);
+  };
+
   // Get width class for current tab
   const dialogWidthClass = useMemo(
     () => getMindDialogWidthClass(activeTab),
@@ -122,7 +127,9 @@ export function MindDialog({
   );
 
   return (
-    <MindDialogContext.Provider value={{ setActiveTab, openWithTab }}>
+    <MindDialogContext.Provider
+      value={{ setActiveTab, openWithTab, close: closeDialog }}
+    >
       <Dialog open={open} onOpenChange={handleOpenChange}>
         {children}
         <DialogContent

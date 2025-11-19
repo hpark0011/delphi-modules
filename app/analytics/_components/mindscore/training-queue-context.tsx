@@ -20,7 +20,7 @@ export interface QueueItem {
   progress: number; // 0-100
 }
 
-const TRAINING_DURATION = 4000; // 4 seconds per item
+const TRAINING_DURATION = 3500; // 3.5 seconds per item
 
 interface TrainingQueueContextType {
   queue: QueueItem[];
@@ -67,10 +67,7 @@ export function TrainingQueueProvider({
         const startTime = Date.now();
         const interval = setInterval(() => {
           const elapsed = Date.now() - startTime;
-          const progress = Math.min(
-            (elapsed / TRAINING_DURATION) * 100,
-            100
-          );
+          const progress = Math.min((elapsed / TRAINING_DURATION) * 100, 100);
 
           setQueue((prev) =>
             prev.map((q) => (q.id === item.id ? { ...q, progress } : q))
@@ -190,4 +187,3 @@ export function useTrainingQueueContext() {
   }
   return context;
 }
-

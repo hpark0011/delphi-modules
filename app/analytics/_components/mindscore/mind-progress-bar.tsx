@@ -1,7 +1,5 @@
 "use client";
 
-import { Icon } from "@/components/ui/icon";
-import React from "react";
 import { ScoreIncrementAnimation } from "./score-increment-animation";
 
 interface MindProgressBarProps {
