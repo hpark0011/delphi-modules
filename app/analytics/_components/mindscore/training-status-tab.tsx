@@ -21,6 +21,13 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { format, isToday, isYesterday, parseISO } from "date-fns";
 import { Icon } from "@/components/ui/icon";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export type TrainingStatus = "queued" | "training" | "failed" | "completed";
 
@@ -444,7 +451,7 @@ export function TrainingStatusTab() {
     <div className='flex flex-col gap-4'>
       {/* Training Summary */}
 
-      <div className='flex flex-col gap-2'>
+      <div className='flex flex-col gap-2 mt-4'>
         <div className='text-sm font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tighter'>
           <Icon
             name='SquareTextSquareFillIcon'
@@ -461,7 +468,7 @@ export function TrainingStatusTab() {
               <h1 className='text-start  text-text-primary px-1 text-sm'>
                 Here is what happend from your last training:
               </h1>
-              <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-0.5'>
+              <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-1'>
                 <div className='flex items-center gap-0.5'>
                   <Icon
                     name='MindBubbleFillIcon'
@@ -539,23 +546,23 @@ export function TrainingStatusTab() {
           </div>
           {/* Filter Section */}
           <div className='flex items-center gap-1 flex-wrap px-2'>
-            {statusFilters.map((filter) => (
-              <Button
-                key={filter.value}
-                variant={
-                  selectedStatus === filter.value ? "default" : "outline"
-                }
-                size='sm'
-                onClick={() => setSelectedStatus(filter.value)}
-                className={cn(
-                  "h-6 px-2 text-[12px] rounded-sm",
-                  selectedStatus === filter.value &&
-                    "bg-primary text-primary-foreground"
-                )}
-              >
-                {filter.label}
-              </Button>
-            ))}
+            <Select
+              value={selectedStatus}
+              onValueChange={(value) =>
+                setSelectedStatus(value as TrainingStatus | "all")
+              }
+            >
+              <SelectTrigger size='sm' className='h-6 px-2 text-[12px] w-fit'>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {statusFilters.map((filter) => (
+                  <SelectItem key={filter.value} value={filter.value}>
+                    {filter.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <div className='flex flex-col gap-6 bg-light py-2 rounded-xl px-2'>
