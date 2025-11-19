@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { Icon } from "@/components/ui/icon";
 import { MindDialog, useMindDialog } from "./mind-dialog";
@@ -65,6 +65,8 @@ function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
   const { openWithTab } = useMindDialog();
   const [isExpanded, setIsExpanded] = useState(true);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const previousQueueLengthRef = useRef(queue.length);
 
   // Calculate processed items (completed + training)
   const processed = queue.filter(
@@ -75,6 +77,22 @@ function ActiveTrainingStatus() {
   const handleToggle = () => {
     setIsExpanded((prev) => !prev);
   };
+
+  // Auto-scroll to bottom when new items are added
+  useEffect(() => {
+    if (
+      isExpanded &&
+      queue.length > previousQueueLengthRef.current &&
+      scrollContainerRef.current
+    ) {
+      const container = scrollContainerRef.current;
+      // Use setTimeout to ensure DOM has updated
+      setTimeout(() => {
+        container.scrollTop = container.scrollHeight;
+      }, 0);
+    }
+    previousQueueLengthRef.current = queue.length;
+  }, [queue.length, isExpanded]);
 
   return (
     <div className='w-full relative'>
@@ -118,6 +136,7 @@ function ActiveTrainingStatus() {
           >
             <div className='h-2.5 w-full bg-gradient-to-b from-extra-light to-transparent absolute top-0 left-0' />
             <div
+              ref={scrollContainerRef}
               className={cn("overflow-hidden", "max-h-[104px] overflow-y-auto")}
             >
               <AnimatePresence mode='popLayout'>
