@@ -7,6 +7,8 @@ import { MindDialog, useMindDialog } from "./mind-dialog";
 import { MindProgressBar } from "./mind-progress-bar";
 import { MindScoreProvider, useMindScore } from "./mind-score-context";
 import { TrainingQueueProvider } from "./training-queue-context";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { ChevronDown } from "lucide-react";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
@@ -58,6 +60,17 @@ function MindScoreTrigger() {
 
 function LastTrainedTrigger() {
   const { openWithTab } = useMindDialog();
+  const { queue } = useTrainingQueue();
+
+  // Calculate processed items (completed + training)
+  const processed = queue.filter(
+    (item) => item.status === "completed" || item.status === "training"
+  ).length;
+  const total = queue.length;
+  // Only show "Learning" status if there are items still being processed (queued or training)
+  const hasActiveItems = queue.some(
+    (item) => item.status === "queued" || item.status === "training"
+  );
 
   return (
     <div
@@ -72,8 +85,23 @@ function LastTrainedTrigger() {
         }
       }}
     >
-      <div className='text-[13px]'>Last trained at Nov 17, 2025</div>
-      <Icon name='ArrowUpRightIcon' className='size-4' />
+      {/* Training status */}
+      {hasActiveItems ? (
+        <>
+          <Icon name='LoaderCircleIcon' className='size-4 animate-spin' />
+          <div className='text-[13px]'>
+            Learning {processed}
+            <span className='mx-0.5'>/</span>
+            {total}
+          </div>
+          <ChevronDown className='size-3.5' />
+        </>
+      ) : (
+        <>
+          <div className='text-[13px]'>Last trained at Nov 17, 2025</div>
+          <Icon name='ArrowUpRightIcon' className='size-4' />
+        </>
+      )}
     </div>
   );
 }

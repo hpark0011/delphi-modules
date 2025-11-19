@@ -88,6 +88,7 @@ export { default as LineUpTrendIcon } from "@/icons/line.uptrend.svg";
 export { default as LinkIcon } from "@/icons/link.svg";
 export { default as ListBulletIcon } from "@/icons/list.bullet.svg";
 export { default as ListNumberIcon } from "@/icons/list.number.svg";
+export { default as LoaderCircleIcon } from "@/icons/loader.circle.svg";
 export { default as LogoIcon } from "@/icons/logo.svg";
 export { default as MagnifyingGlassIcon } from "@/icons/magnifying.glass.svg";
 export { default as MicFillIcon } from "@/icons/mic.fill.svg";

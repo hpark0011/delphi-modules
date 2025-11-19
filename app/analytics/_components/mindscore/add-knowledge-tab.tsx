@@ -60,10 +60,10 @@ function SidebarItem({
       key={category}
       onClick={() => setSelectedCategory(category)}
       className={cn(
-        "text-left px-3 py-1.5 rounded-md text-sm transition-colors justify-between flex items-baseline",
+        "text-left px-3 py-1.5 rounded-md text-sm transition-colors justify-between flex items-baseline ",
         selectedCategory === category
-          ? "bg-[#F6F6F5] dark:bg-[#2C2C2A] text-text-primary font-medium"
-          : "text-[#8D8D86] dark:text-neutral-500 hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A]"
+          ? "bg-white dark:bg-[#2C2C2A] text-text-primary font-medium"
+          : "text-[#8D8D86] dark:text-neutral-500 hover:bg-white dark:hover:bg-[#2C2C2A]"
       )}
     >
       {category}
