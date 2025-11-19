@@ -37,18 +37,17 @@ export function MindProgressBar({
       </div>
       {/* Gauge Label */}
       <div className='w-full h-full flex items-center justify-between px-4 text-white/50 relative'>
-        <div className='relative left-[-4px] opacity-0'>
-          <Icon name='MindBubbleFillIcon' className='size-5 text-white' />
+        <div className='relative'>
+          {/* Score Increment Animation */}
+          <ScoreIncrementAnimation
+            points={lastIncrement || 0}
+            isVisible={lastIncrement !== null}
+          />
         </div>
         <p className='text-xs font-medium'>
           / {nextLevelThreshold.toLocaleString()}
         </p>
       </div>
-      {/* Score Increment Animation */}
-      <ScoreIncrementAnimation
-        points={lastIncrement || 0}
-        isVisible={lastIncrement !== null}
-      />
     </div>
   );
 }

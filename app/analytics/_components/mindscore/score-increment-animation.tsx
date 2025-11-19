@@ -16,16 +16,17 @@ export function ScoreIncrementAnimation({
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: +20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
+          exit={{ opacity: 0, y: -20 }}
           transition={{
-            opacity: { duration: 0.3 },
-            y: { duration: 0.3 },
+            type: "spring",
+            stiffness: 300,
+            damping: 25,
           }}
           className={cn(
-            "absolute left-1/2 -translate-x-1/2",
-            "text-white text-sm font-medium",
+            // "absolute left-1/2 -translate-x-1/2",
+            "text-white text-xs tracking-tighter font-medium",
             "whitespace-nowrap",
             "drop-shadow-[0_0_4px_rgba(0,0,0,0.5)]"
           )}
@@ -39,4 +40,3 @@ export function ScoreIncrementAnimation({
     </AnimatePresence>
   );
 }
-

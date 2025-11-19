@@ -10,7 +10,7 @@ export interface QueueItem {
   progress: number; // 0-100
 }
 
-const TRAINING_DURATION = 5000; // 5 seconds per item
+const TRAINING_DURATION = 4000; // 2 seconds per item
 
 interface UseTrainingQueueOptions {
   onItemCompleted?: (points?: number) => void;
