@@ -16,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { format, isToday, isYesterday, parseISO } from "date-fns";
@@ -180,33 +179,18 @@ function formatDateLabel(dateString: string): string {
   return format(date, "MMM dd, yyyy");
 }
 
-function getStatusBadgeVariant(status: TrainingStatus): {
-  variant: "default" | "secondary" | "destructive" | "outline";
-  className?: string;
-} {
+function getStatusIcon(status: TrainingStatus) {
   switch (status) {
     case "completed":
-      return {
-        variant: "default",
-        className: "bg-[#09CE6B]/15 text-[#09CE6B] border-[#09CE6B]/30",
-      };
+      return "CheckedCircleFillIcon";
     case "training":
-      return {
-        variant: "default",
-        className: "bg-blue-500/15 text-blue-600 border-blue-500/30",
-      };
-    case "failed":
-      return {
-        variant: "destructive",
-        className: "bg-destructive/15 text-destructive border-destructive/30",
-      };
+      return "LoaderCircleIcon";
     case "queued":
-      return {
-        variant: "secondary",
-        className: "bg-[#8D8D86]/15 text-[#8D8D86] border-[#8D8D86]/30",
-      };
+      return "CircleDashedIcon";
+    case "failed":
+      return "ExclamationmarkTriangleFillIcon";
     default:
-      return { variant: "outline" };
+      return "CircleDashedIcon";
   }
 }
 
@@ -230,7 +214,7 @@ function DateGroupTable({
 
   return (
     <div className='flex flex-col gap-1.5'>
-      <h3 className='text-sm font-medium text-text-muted dark:text-neutral-500 px-2'>
+      <h3 className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-2'>
         {formatDateLabel(dateKey)}
       </h3>
       <Table className='table-fixed w-full'>
@@ -263,25 +247,30 @@ function DateGroupTable({
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                className='hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A] border-b-transparent rounded-xl '
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className={cn(
-                      "px-2 py-1 align-middle",
-                      cell.column.id === "name" && "w-[70%]",
-                      cell.column.id === "status" && "w-[20%]",
-                      cell.column.id === "actions" && "w-[10%] text-right"
-                    )}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
+              <div className='rounded-sm w-ful overflow-hidden hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A]'>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className='hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A] border-b-transparent'
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        "px-2 py-1 align-middle",
+                        cell.column.id === "name" && "w-[70%]",
+                        cell.column.id === "status" && "w-[20%]",
+                        cell.column.id === "actions" && "w-[10%] text-right"
+                      )}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </div>
             ))
           ) : (
             <TableRow>
@@ -346,9 +335,15 @@ export function TrainingStatusTab() {
         cell: ({ row }) => {
           const item = row.original;
           return (
-            <span className='font-medium text-text-primary text-sm'>
-              {item.name}
-            </span>
+            <div className='flex items-center gap-2'>
+              <Icon
+                name='DocFillIcon'
+                className='size-5 flex-shrink-0 text-text-muted'
+              />
+              <span className='font-medium text-text-primary text-sm'>
+                {item.name}
+              </span>
+            </div>
           );
         },
       },
@@ -357,17 +352,18 @@ export function TrainingStatusTab() {
         header: "Status",
         cell: ({ row }) => {
           const item = row.original;
-          const statusBadge = getStatusBadgeVariant(item.status);
           return (
-            <Badge
-              variant={statusBadge.variant}
+            <Icon
+              name={getStatusIcon(item.status) as any}
               className={cn(
-                "text-[11px] font-medium shrink-0 rounded-sm px-1.5 py-0.5",
-                statusBadge.className
+                "size-5",
+                item.status === "completed"
+                  ? "text-[#09CE6B]"
+                  : item.status === "failed"
+                    ? "text-destructive"
+                    : "text-[#8D8D86]"
               )}
-            >
-              {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
-            </Badge>
+            />
           );
         },
       },
@@ -381,9 +377,9 @@ export function TrainingStatusTab() {
             return (
               <div className='flex justify-end'>
                 <Button
-                  variant='secondary'
+                  variant='outline'
                   size='sm'
-                  className='text-[12px] hover:text-text-primary shrink-0 h-6 px-2'
+                  className='text-[12px] shadow-none hover:text-text-primary shrink-0 h-6 px-2'
                 >
                   See detail
                 </Button>
