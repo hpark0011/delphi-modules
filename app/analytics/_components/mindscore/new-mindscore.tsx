@@ -12,6 +12,11 @@ import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TrainingQueueItem } from "./training-queue-item";
 import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
@@ -231,16 +236,30 @@ function TrainingCompletedStatus({
         {/* <Icon name='CheckedCircleFillIcon' className='size-5 text-[#09CE6B]' /> */}
         <div className='text-[13px] font-medium'>Learning completed!</div>
       </div>
-      <div className='text-xs bg-white shadow-card-primary dark:bg-black rounded-full text-text-muted flex items-center'>
+      <div className='text-xs bg-white hover:bg-extra-light shadow-card-primary dark:bg-black rounded-full text-text-muted flex items-center'>
         {/* Completed items */}
-        <div className='text-green-600 min-w-[16px] text-center pl-1'>
-          {completedCount}
-        </div>{" "}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className='text-green-600 min-w-[16px] text-center pl-1 cursor-default'>
+              {completedCount}
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
+            completed
+          </TooltipContent>
+        </Tooltip>{" "}
         <div className='w-[1px] mx-0.5 self-stretch bg-extra-light' />
         {/* Failed items */}
-        <div className='text-orange-500 min-w-[16px] text-center pr-1'>
-          {failedCount}
-        </div>{" "}
+        <Tooltip>
+          <TooltipTrigger asChild className='shadow-2xl'>
+            <div className='text-orange-500 min-w-[16px] text-center pr-1 cursor-default'>
+              {failedCount}
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
+            failed
+          </TooltipContent>
+        </Tooltip>{" "}
       </div>
       <Icon
         name='ArrowUpRightIcon'
