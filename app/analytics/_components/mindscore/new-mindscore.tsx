@@ -233,22 +233,25 @@ function TrainingCompletedStatus({
       }}
     >
       <div className='flex items-center gap-0.5 relative py-0.5 px-2 w-full'>
-        {/* <Icon name='CheckedCircleFillIcon' className='size-5 text-[#09CE6B]' /> */}
         <div className='text-[13px] font-[500] w-full'>Learning completed!</div>
       </div>
       <div className='text-xs hover:bg-extra-light dark:bg-black rounded-full text-text-muted flex items-center gap-1 mr-1'>
         {/* Completed items */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div className='text-green-500 min-w-[18px] text-center  cursor-default flex items-center'>
-              <Icon name='CheckedCircleFillIcon' className='size-4.5' />
-              <span className='text-[12px] font-medium'>{completedCount}</span>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
-            completed
-          </TooltipContent>
-        </Tooltip>{" "}
+        {completedCount > 0 && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className='text-green-500 min-w-[18px] text-center  cursor-default flex items-center'>
+                <Icon name='CheckedCircleFillIcon' className='size-4.5' />
+                <span className='text-[12px] font-medium'>
+                  {completedCount}
+                </span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
+              completed
+            </TooltipContent>
+          </Tooltip>
+        )}
         {/* Failed items */}
         {failedCount > 0 && (
           <Tooltip>
