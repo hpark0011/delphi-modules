@@ -74,7 +74,7 @@ export function useTrainingQueue(options?: UseTrainingQueueOptions) {
 
         // Notify parent that item completed
         if (onItemCompleted) {
-          onItemCompleted(1); // Default: 1 point per item
+          onItemCompleted(15); // 15 points per item
         }
       }
 

@@ -9,7 +9,14 @@ import { MindScoreProvider, useMindScore } from "./mind-score-context";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
-  const { current, total, level } = useMindScore();
+  const {
+    current,
+    level,
+    progressToNextLevel,
+    nextLevelThreshold,
+    progressCap,
+    lastIncrement,
+  } = useMindScore();
 
   return (
     <div
@@ -25,7 +32,12 @@ function MindScoreTrigger() {
       }}
     >
       {/* Progress Bar */}
-      <MindProgressBar current={current} total={total} />
+      <MindProgressBar
+        progressToNextLevel={progressToNextLevel}
+        nextLevelThreshold={nextLevelThreshold}
+        progressCap={progressCap}
+        lastIncrement={lastIncrement}
+      />
 
       {/* Mind Score Value */}
       <div className='flex flex-col gap-2 w-full justify-center items-center relative z-10'>

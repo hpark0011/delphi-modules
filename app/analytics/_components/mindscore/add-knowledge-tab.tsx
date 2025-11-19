@@ -128,7 +128,7 @@ export function AddKnowledgeTab() {
     useState<ContentCategory>("Popular");
   const { incrementScore } = useMindScore();
   const { queue, addToQueue, clearQueue } = useTrainingQueue({
-    onItemCompleted: (points = 1) => {
+    onItemCompleted: (points = 15) => {
       incrementScore(points);
     },
   });

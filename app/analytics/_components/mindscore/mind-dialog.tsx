@@ -39,12 +39,24 @@ interface MindDialogProps {
 }
 
 function MindDialogHeader() {
-  const { current, total, level } = useMindScore();
+  const {
+    current,
+    level,
+    progressToNextLevel,
+    nextLevelThreshold,
+    progressCap,
+    lastIncrement,
+  } = useMindScore();
 
   return (
     <div className='flex-shrink-0 flex flex-col rounded-[16px] m-1 mb-0 shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87  dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
       <div className='absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[400px]'>
-        <MindProgressBar current={current} total={total} />
+        <MindProgressBar
+          progressToNextLevel={progressToNextLevel}
+          nextLevelThreshold={nextLevelThreshold}
+          progressCap={progressCap}
+          lastIncrement={lastIncrement}
+        />
       </div>
       <div className='flex justify-end items-center'>
         <VisuallyHidden>

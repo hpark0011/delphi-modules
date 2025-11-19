@@ -2,20 +2,27 @@
 
 import { Icon } from "@/components/ui/icon";
 import React from "react";
+import { ScoreIncrementAnimation } from "./score-increment-animation";
 
 interface MindProgressBarProps {
-  current: number;
-  total: number;
+  progressToNextLevel: number;
+  nextLevelThreshold: number;
+  progressCap: number;
+  lastIncrement: number | null;
   className?: string;
 }
 
 export function MindProgressBar({
-  current,
-  total,
+  progressToNextLevel,
+  nextLevelThreshold,
+  progressCap,
+  lastIncrement,
   className = "",
 }: MindProgressBarProps) {
   const percentage =
-    total > 0 ? Math.min(100, Math.max(0, (current / total) * 100)) : 0;
+    progressCap > 0
+      ? Math.min(100, Math.max(0, (progressToNextLevel / progressCap) * 100))
+      : 0;
 
   return (
     <div
@@ -33,8 +40,15 @@ export function MindProgressBar({
         <div className='relative left-[-4px] opacity-0'>
           <Icon name='MindBubbleFillIcon' className='size-5 text-white' />
         </div>
-        <p className='text-xs font-medium'>/ {total}</p>
+        <p className='text-xs font-medium'>
+          / {nextLevelThreshold.toLocaleString()}
+        </p>
       </div>
+      {/* Score Increment Animation */}
+      <ScoreIncrementAnimation
+        points={lastIncrement || 0}
+        isVisible={lastIncrement !== null}
+      />
     </div>
   );
 }
