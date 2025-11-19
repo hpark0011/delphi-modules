@@ -11,13 +11,14 @@ import React, {
 import { toast } from "sonner";
 import type { TrainingStatus } from "./training-status-tab";
 import { useMindScore } from "./mind-score-context";
-import { TrainingQueueToast } from "./training-queue-toast";
+// import { TrainingQueueToast } from "./training-queue-toast";
 
 export interface QueueItem {
   id: string;
   name: string;
   status: TrainingStatus;
   progress: number; // 0-100
+  shouldFail?: boolean; // If true, item will fail after training completes
 }
 
 const TRAINING_DURATION = 3500; // 4 seconds per item
@@ -89,15 +90,18 @@ export function TrainingQueueProvider({
           timeoutRefs.current.push(timeout);
         });
 
-        // Update status to completed
+        // Update status based on shouldFail flag
+        const finalStatus = item.shouldFail ? "failed" : "completed";
         setQueue((prev) =>
           prev.map((q) =>
-            q.id === item.id ? { ...q, status: "completed", progress: 100 } : q
+            q.id === item.id ? { ...q, status: finalStatus, progress: 100 } : q
           )
         );
 
-        // Increment mind score when item completes
-        incrementScore(15); // 15 points per item
+        // Increment mind score only when item completes successfully
+        if (!item.shouldFail) {
+          incrementScore(25); // 15 points per item
+        }
       }
 
       processingRef.current = false;
@@ -113,6 +117,7 @@ export function TrainingQueueProvider({
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         status: "queued" as TrainingStatus,
         progress: 0,
+        shouldFail: item.shouldFail ?? false,
       }));
 
       setQueue((prev) => [...prev, ...newItems]);

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { useMindDialog } from "./mind-dialog";
+import { useMindScore } from "./mind-score-context";
 
 type ContentCategory =
   | "Popular"
@@ -126,9 +127,10 @@ export function AddKnowledgeTab() {
     useState<ContentCategory>("Popular");
   const { addToQueue } = useTrainingQueue();
   const { close } = useMindDialog();
+  const { incrementScore } = useMindScore();
 
   const handleAddContent = (itemName?: string) => {
-    let itemsToAdd: Array<{ name: string }> = [];
+    let itemsToAdd: Array<{ name: string; shouldFail?: boolean }> = [];
 
     if (itemName === "Interview mode") {
       itemsToAdd = [
@@ -145,6 +147,16 @@ export function AddKnowledgeTab() {
       ];
     } else if (itemName === "X") {
       itemsToAdd = [{ name: "X Post 1" }];
+    } else if (itemName === "Website") {
+      itemsToAdd = [
+        { name: "Website 1", shouldFail: true },
+        { name: "Website 2", shouldFail: true },
+      ];
+    } else if (itemName === "Podcast") {
+      // Directly increment score without adding to queue
+      incrementScore(200);
+      close();
+      return;
     }
 
     if (itemsToAdd.length > 0) {

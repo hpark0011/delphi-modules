@@ -199,10 +199,14 @@ function LastTrainedDate() {
 
 interface TrainingCompletedStatusProps {
   setShowCompletedStatus: (show: boolean) => void;
+  completedCount: number;
+  failedCount: number;
 }
 
 function TrainingCompletedStatus({
   setShowCompletedStatus,
+  completedCount,
+  failedCount,
 }: TrainingCompletedStatusProps) {
   const { openWithTab } = useMindDialog();
 
@@ -228,10 +232,15 @@ function TrainingCompletedStatus({
         <div className='text-[13px] font-medium'>Learning completed!</div>
       </div>
       <div className='text-xs bg-white shadow-card-primary dark:bg-black rounded-full text-text-muted flex items-center'>
-        <div className='text-green-600 min-w-[16px] text-center pl-1'>5</div>{" "}
+        {/* Completed items */}
+        <div className='text-green-600 min-w-[16px] text-center pl-1'>
+          {completedCount}
+        </div>{" "}
         <div className='w-[1px] mx-0.5 self-stretch bg-extra-light' />
-        {/* <span className='mx-[1px] bottom-[1px] relative text-black/10'>/</span>{" "} */}
-        <div className='text-orange-500 min-w-[16px] text-center pr-1'>1</div>{" "}
+        {/* Failed items */}
+        <div className='text-orange-500 min-w-[16px] text-center pr-1'>
+          {failedCount}
+        </div>{" "}
       </div>
       <Icon
         name='ArrowUpRightIcon'
@@ -244,11 +253,15 @@ function TrainingCompletedStatus({
 interface TrainingStatusTriggerProps {
   showCompletedStatus: boolean;
   setShowCompletedStatus: (show: boolean) => void;
+  completedCount: number;
+  failedCount: number;
 }
 
 function TrainingStatusTrigger({
   showCompletedStatus,
   setShowCompletedStatus,
+  completedCount,
+  failedCount,
 }: TrainingStatusTriggerProps) {
   const { queue } = useTrainingQueue();
 
@@ -261,6 +274,8 @@ function TrainingStatusTrigger({
     return (
       <TrainingCompletedStatus
         setShowCompletedStatus={setShowCompletedStatus}
+        completedCount={completedCount}
+        failedCount={failedCount}
       />
     );
   }
@@ -271,6 +286,8 @@ function TrainingStatusTrigger({
 function MindScoreContent() {
   const { queue, clearQueue } = useTrainingQueue();
   const [showCompletedStatus, setShowCompletedStatus] = useState(false);
+  const [completedCount, setCompletedCount] = useState(0);
+  const [failedCount, setFailedCount] = useState(0);
 
   // Only show "Learning" status if there are items still being processed (queued or training)
   const hasActiveItems = queue.some(
@@ -279,11 +296,22 @@ function MindScoreContent() {
 
   // Detect completion and handle queue clearing
   useEffect(() => {
-    const allCompleted =
-      queue.length > 0 && queue.every((item) => item.status === "completed");
+    // Check if all items are done processing (either completed or failed)
+    const allDone =
+      queue.length > 0 &&
+      queue.every(
+        (item) => item.status === "completed" || item.status === "failed"
+      );
 
-    // Completion Detection: When all items are completed and no active items
-    if (allCompleted && !hasActiveItems) {
+    // Completion Detection: When all items are done (completed or failed) and no active items
+    if (allDone && !hasActiveItems) {
+      // Capture counts before clearing queue
+      const completed = queue.filter(
+        (item) => item.status === "completed"
+      ).length;
+      const failed = queue.filter((item) => item.status === "failed").length;
+      setCompletedCount(completed);
+      setFailedCount(failed);
       setShowCompletedStatus(true);
       // Clear queue after a short delay to ensure state update
       const timer = setTimeout(() => {
@@ -295,6 +323,8 @@ function MindScoreContent() {
     // Reset on New Items: When new items are added (queue has items and active items)
     if (queue.length > 0 && showCompletedStatus && hasActiveItems) {
       setShowCompletedStatus(false);
+      setCompletedCount(0);
+      setFailedCount(0);
     }
   }, [queue, hasActiveItems, showCompletedStatus, clearQueue]);
 
@@ -307,6 +337,8 @@ function MindScoreContent() {
         <TrainingStatusTrigger
           showCompletedStatus={showCompletedStatus}
           setShowCompletedStatus={setShowCompletedStatus}
+          completedCount={completedCount}
+          failedCount={failedCount}
         />
       </MindDialog>
     </AnalyticsSectionWrapper>

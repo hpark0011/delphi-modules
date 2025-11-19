@@ -407,6 +407,8 @@ export function TrainingStatusTab() {
     const failed = mockTrainingItems.filter(
       (item) => item.status === "failed"
     ).length;
+    // Total trained items (completed + failed, excluding queued/training)
+    const totalTrained = completed + failed;
 
     // Items trained in past 24 hours
     const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000;
@@ -428,6 +430,7 @@ export function TrainingStatusTab() {
     const wordsLeft = Math.max(0, totalWords - wordsTrained);
 
     return {
+      totalTrained,
       completed,
       failed,
       trainedLast24Hours,
@@ -456,21 +459,39 @@ export function TrainingStatusTab() {
                   name='MindBubbleFillIcon'
                   className='size-5 text-orange-400'
                 />
-                5 items were trained.
+                <span className='text-text-secondary font-semibold'>
+                  {summaryStats.totalTrained}
+                </span>{" "}
+                items were trained.
               </div>
+              <div className='flex items-center gap-0.5'>
+                <Icon
+                  name='ArrowshapeUpFillIcon'
+                  className='size-5 text-blue-600'
+                />
+                <span className='text-text-secondary font-semibold'>130</span>{" "}
+                mind score has increased.
+              </div>
+
               <div className='flex items-center gap-0.5'>
                 <Icon
                   name='CheckedCircleFillIcon'
                   className='size-5 text-green-600'
                 />
-                3 items completed.
+                <span className='text-text-secondary font-semibold'>
+                  {summaryStats.completed}
+                </span>{" "}
+                items completed.
               </div>
               <div className='flex items-center gap-0.5'>
                 <Icon
                   name='ExclamationmarkTriangleFillIcon'
-                  className='size-5 text-yellow-500'
+                  className='size-5 text-red-600'
                 />
-                2 items failed and needs actions.
+                <span className='text-text-secondary font-semibold'>
+                  {summaryStats.failed}
+                </span>{" "}
+                items failed and needs actions.
               </div>
             </div>
           </div>
