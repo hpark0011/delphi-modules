@@ -103,7 +103,7 @@ function ActiveTrainingStatus() {
     <div className='w-full relative'>
       {/* Status / Trigger */}
       <div
-        className='w-full items-center flex justify-center p-2 gap-1 text-text-muted hover:text-blue-400 cursor-pointer'
+        className='w-full items-center flex justify-start py-2 px-2.5 pr-3 gap-1.5 text-text-muted hover:text-blue-400 cursor-pointer'
         onClick={handleToggle}
         role='button'
         tabIndex={0}
@@ -115,7 +115,7 @@ function ActiveTrainingStatus() {
         }}
       >
         <Icon name='LoaderCircleIcon' className='size-4 animate-spin' />
-        <div className='text-[13px]'>
+        <div className='text-[13px] w-full'>
           Learning {processed}
           <span className='mx-0.5'>/</span>
           {total}
@@ -217,7 +217,7 @@ function TrainingCompletedStatus({
 
   return (
     <div
-      className='w-full items-center flex justify-center p-2 py-1.5 gap-1 text-text-secondary hover:text-blue-400 cursor-pointer rounded-full group'
+      className='w-full items-center flex justify-center p-2 py-1.5 pr-3 gap-1 text-text-tertiary hover:text-blue-400 cursor-pointer rounded-full group'
       onClick={() => {
         setShowCompletedStatus(false);
         openWithTab("training-status");
@@ -232,38 +232,45 @@ function TrainingCompletedStatus({
         }
       }}
     >
-      <div className='flex items-center gap-0.5 relative py-0.5'>
+      <div className='flex items-center gap-0.5 relative py-0.5 px-2 w-full'>
         {/* <Icon name='CheckedCircleFillIcon' className='size-5 text-[#09CE6B]' /> */}
-        <div className='text-[13px] font-medium'>Learning completed!</div>
+        <div className='text-[13px] font-[500] w-full'>Learning completed!</div>
       </div>
-      <div className='text-xs bg-white hover:bg-extra-light shadow-card-primary dark:bg-black rounded-full text-text-muted flex items-center'>
+      <div className='text-xs hover:bg-extra-light dark:bg-black rounded-full text-text-muted flex items-center'>
         {/* Completed items */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className='text-green-600 min-w-[16px] text-center pl-1 cursor-default'>
-              {completedCount}
+            <div className='text-green-500 min-w-[18px] text-center px-1 cursor-default flex items-center'>
+              <Icon name='CheckedCircleFillIcon' className='size-4.5' />
+              <span className='text-[12px] font-medium'>{completedCount}</span>
             </div>
           </TooltipTrigger>
           <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
             completed
           </TooltipContent>
         </Tooltip>{" "}
-        <div className='w-[1px] mx-0.5 self-stretch bg-extra-light' />
         {/* Failed items */}
-        <Tooltip>
-          <TooltipTrigger asChild className='shadow-2xl'>
-            <div className='text-orange-500 min-w-[16px] text-center pr-1 cursor-default'>
-              {failedCount}
-            </div>
-          </TooltipTrigger>
-          <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
-            failed
-          </TooltipContent>
-        </Tooltip>{" "}
+        {failedCount > 0 && (
+          <Tooltip>
+            <TooltipTrigger asChild className='shadow-2xl'>
+              <div className='text-orange-500 min-w-[18px] text-center px-1 cursor-default flex items-center'>
+                <Icon
+                  name='ExclamationmarkTriangleFillIcon'
+                  className='size-4'
+                />
+                <span className='text-[12px] font-medium'>{failedCount}</span>
+                {failedCount}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
+              failed
+            </TooltipContent>
+          </Tooltip>
+        )}
       </div>
       <Icon
         name='ArrowUpRightIcon'
-        className='size-4 text-text-muted group-hover:text-blue-400'
+        className='size-4.5 text-text-muted group-hover:text-blue-400'
       />
     </div>
   );
@@ -299,7 +306,11 @@ function TrainingStatusTrigger({
     );
   }
 
-  return <>{hasActiveItems ? <ActiveTrainingStatus /> : <LastTrainedDate />}</>;
+  if (hasActiveItems) {
+    return <ActiveTrainingStatus />;
+  }
+
+  return <LastTrainedDate />;
 }
 
 function MindScoreContent() {
