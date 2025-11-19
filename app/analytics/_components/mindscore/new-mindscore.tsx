@@ -63,6 +63,7 @@ function MindScoreTrigger() {
 
 function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
+  const { openWithTab } = useMindDialog();
   const [isExpanded, setIsExpanded] = useState(true);
 
   // Calculate processed items (completed + training)
@@ -113,11 +114,11 @@ function ActiveTrainingStatus() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className='overflow-hidden w-full relative rounded-b-2xl bg-extra-light pb-1 '
+            className='overflow-hidden w-full relative rounded-b-2xl bg-transparent'
           >
             <div className='h-2.5 w-full bg-gradient-to-b from-extra-light to-transparent absolute top-0 left-0' />
             <div
-              className={cn("overflow-hidden", "max-h-[112px] overflow-y-auto")}
+              className={cn("overflow-hidden", "max-h-[104px] overflow-y-auto")}
             >
               <AnimatePresence mode='popLayout'>
                 {queue.map((item) => (
@@ -132,6 +133,21 @@ function ActiveTrainingStatus() {
                   </motion.div>
                 ))}
               </AnimatePresence>
+              <div
+                className='text-[13px] flex items-center justify-start gap-0.5 py-1 pb-1.5 text-text-muted cursor-pointer hover:text-blue-400 bg-gradient-to-t from-extra-light to-transparent px-3 w-full text-center'
+                onClick={() => openWithTab("training-status")}
+                role='button'
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openWithTab("training-status");
+                  }
+                }}
+              >
+                <span className='pb-0.5'>View all</span>
+                <Icon name='ArrowUpRightIcon' className='size-4' />
+              </div>
             </div>
           </motion.div>
         )}
@@ -170,8 +186,7 @@ function LastTrainedTrigger() {
     (item) => item.status === "queued" || item.status === "training"
   );
 
-  // return <>{hasActiveItems ? <ActiveTrainingStatus /> : <LastTrainedDate />}</>;
-  return <ActiveTrainingStatus />;
+  return <>{hasActiveItems ? <ActiveTrainingStatus /> : <LastTrainedDate />}</>;
 }
 
 export function NewMindscore() {
