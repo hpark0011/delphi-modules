@@ -96,7 +96,7 @@ function ActiveTrainingStatus() {
 
   return (
     <div className='w-full relative'>
-      {/* Trigger */}
+      {/* Status / Trigger */}
       <div
         className='w-full items-center flex justify-center p-2 gap-1 text-text-muted hover:text-blue-400 cursor-pointer'
         onClick={handleToggle}
@@ -197,13 +197,75 @@ function LastTrainedDate() {
   );
 }
 
-function LastTrainedTrigger() {
-  const { queue } = useTrainingQueue();
+interface TrainingCompletedStatusProps {
+  setShowCompletedStatus: (show: boolean) => void;
+}
+
+function TrainingCompletedStatus({
+  setShowCompletedStatus,
+}: TrainingCompletedStatusProps) {
+  const { openWithTab } = useMindDialog();
+
+  return (
+    <div
+      className='w-full items-center flex justify-center p-2 gap-1 text-text-muted hover:text-blue-400 cursor-pointer'
+      onClick={() => {
+        setShowCompletedStatus(false);
+        openWithTab("training-status");
+      }}
+      role='button'
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setShowCompletedStatus(false);
+          openWithTab("training-status");
+        }
+      }}
+    >
+      <div className='text-[13px]'>Training completed</div>
+      <Icon name='ArrowUpRightIcon' className='size-4' />
+    </div>
+  );
+}
+
+function TrainingStatusTrigger() {
+  const { queue, clearQueue } = useTrainingQueue();
+  const [showCompletedStatus, setShowCompletedStatus] = useState(false);
 
   // Only show "Learning" status if there are items still being processed (queued or training)
   const hasActiveItems = queue.some(
     (item) => item.status === "queued" || item.status === "training"
   );
+
+  // Detect completion and handle queue clearing
+  useEffect(() => {
+    const allCompleted =
+      queue.length > 0 && queue.every((item) => item.status === "completed");
+
+    // Completion Detection: When all items are completed and no active items
+    if (allCompleted && !hasActiveItems) {
+      setShowCompletedStatus(true);
+      // Clear queue after a short delay to ensure state update
+      const timer = setTimeout(() => {
+        clearQueue();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+
+    // Reset on New Items: When new items are added (queue has items and active items)
+    if (queue.length > 0 && showCompletedStatus && hasActiveItems) {
+      setShowCompletedStatus(false);
+    }
+  }, [queue, hasActiveItems, showCompletedStatus, clearQueue]);
+
+  if (showCompletedStatus && queue.length === 0) {
+    return (
+      <TrainingCompletedStatus
+        setShowCompletedStatus={setShowCompletedStatus}
+      />
+    );
+  }
 
   return <>{hasActiveItems ? <ActiveTrainingStatus /> : <LastTrainedDate />}</>;
 }
@@ -215,7 +277,7 @@ export function NewMindscore() {
         <AnalyticsSectionWrapper className='w-full p-0.5 rounded-[20px] flex flex-col items-center'>
           <MindDialog defaultTab='training-status'>
             <MindScoreTrigger />
-            <LastTrainedTrigger />
+            <TrainingStatusTrigger />
           </MindDialog>
         </AnalyticsSectionWrapper>
       </TrainingQueueProvider>
