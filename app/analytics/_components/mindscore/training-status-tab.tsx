@@ -451,15 +451,15 @@ export function TrainingStatusTab() {
     <div className='flex flex-col gap-4'>
       {/* Training Summary */}
 
-      <div className='flex flex-col gap-2 mt-4'>
-        <div className='text-sm font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tighter'>
+      <div className='flex flex-col gap-3 mt-4'>
+        <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
           <Icon
             name='SquareTextSquareFillIcon'
             className='size-4.5 text-icon-light'
           />
           Summary
         </div>
-        <div className='bg-light dark:bg-[#1A1A1A] rounded-2xl py-3 pb-4 mb-4'>
+        <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3 pb-4 mb-4'>
           {/* <div className='text-sm font-medium text-text-muted dark:text-neutral-500 mb-3 border-b border-border-light dark:border-dark pb-2 px-4 text-center'>
           Last training summary - Nov 17, 2025
         </div> */}
@@ -536,13 +536,13 @@ export function TrainingStatusTab() {
 
       {/* Data Table grouped by date */}
       <div className='flex flex-col gap-2'>
-        <div className='flex gap-2 items-center justify-between'>
-          <div className='text-sm font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tighter'>
+        <div className='flex gap-4 items-center justify-between mb-1'>
+          <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
             <Icon
               name='SquareTextSquareFillIcon'
               className='size-4.5 text-icon-light'
             />
-            Learning History
+            Training History
           </div>
           {/* Filter Section */}
           <div className='flex items-center gap-1 flex-wrap px-2'>
@@ -552,8 +552,13 @@ export function TrainingStatusTab() {
                 setSelectedStatus(value as TrainingStatus | "all")
               }
             >
-              <SelectTrigger size='sm' className='h-6 px-2 text-[12px] w-fit'>
-                <SelectValue />
+              <SelectTrigger
+                size='sm'
+                className='data-[size=sm]:h-6 bg-transparent px-2 text-[12px] w-fit rounded-sm hover:bg-light gap-1.5'
+              >
+                <div className='flex items-center gap-2 pb-[1px]'>
+                  <SelectValue />
+                </div>
               </SelectTrigger>
               <SelectContent>
                 {statusFilters.map((filter) => (

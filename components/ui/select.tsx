@@ -19,9 +19,16 @@ function SelectGroup({
 }
 
 function SelectValue({
+  className,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Value>) {
-  return <SelectPrimitive.Value data-slot='select-value' {...props} />;
+  return (
+    <SelectPrimitive.Value
+      data-slot='select-value'
+      className={cn(className)}
+      {...props}
+    />
+  );
 }
 
 function SelectTrigger({
@@ -37,15 +44,15 @@ function SelectTrigger({
       data-slot='select-trigger'
       data-size={size}
       className={cn(
-        "border-transparent bg-light data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/10 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-3 rounded-md border px-2 pr-[5px] py-1.5 text-[13px] whitespace-nowrap transition-[color,box-shadow] outline-none focus-visible:ring-[2px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-7 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-extra-light relative cursor-pointer",
+        "border-transparent bg-light data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/10 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-3 rounded-md border px-2 pr-[5px] py-1.5 text-[13px] whitespace-nowrap transition-[color,box-shadow] outline-none focus-visible:ring-[2px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-7 data-[size=sm]:h-7 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-extra-light relative cursor-pointer",
         className
       )}
       {...props}
     >
       {children}
-      <div className='absolute right-[26px] self-stretch h-full top-0 w-[1px] bg-border-light' />
+      {/* <div className='absolute right-[26px] self-stretch h-full top-0 w-[1px] bg-border-light' /> */}
       <SelectPrimitive.Icon asChild>
-        <ChevronDownIcon className='size-4 opacity-50' />
+        <ChevronDownIcon className='size-3 opacity-50' />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
