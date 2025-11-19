@@ -357,7 +357,7 @@ export function TrainingStatusTab() {
                   item.status === "completed"
                     ? "text-[#09CE6B]"
                     : item.status === "failed"
-                      ? "text-destructive"
+                      ? "text-orange-500"
                       : "text-[#8D8D86]"
                 )}
               />
@@ -495,7 +495,7 @@ export function TrainingStatusTab() {
                 <div className='flex items-center gap-0.5'>
                   <Icon
                     name='ExclamationmarkTriangleFillIcon'
-                    className='size-5 text-red-600'
+                    className='size-5 text-orange-500'
                   />
                   <span className='text-text-secondary font-semibold'>
                     {summaryStats.failed}
