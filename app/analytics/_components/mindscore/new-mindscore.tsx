@@ -103,7 +103,7 @@ function ActiveTrainingStatus() {
     <div className='w-full relative'>
       {/* Status / Trigger */}
       <div
-        className='w-full items-center flex justify-start py-2 px-2.5 pr-3 gap-1.5 text-text-muted hover:text-blue-400 cursor-pointer'
+        className='w-full items-center flex justify-start py-2 px-[11px] pr-3 gap-1.5 text-text-muted hover:text-blue-400 cursor-pointer'
         onClick={handleToggle}
         role='button'
         tabIndex={0}
@@ -236,11 +236,11 @@ function TrainingCompletedStatus({
         {/* <Icon name='CheckedCircleFillIcon' className='size-5 text-[#09CE6B]' /> */}
         <div className='text-[13px] font-[500] w-full'>Learning completed!</div>
       </div>
-      <div className='text-xs hover:bg-extra-light dark:bg-black rounded-full text-text-muted flex items-center'>
+      <div className='text-xs hover:bg-extra-light dark:bg-black rounded-full text-text-muted flex items-center gap-1 mr-1'>
         {/* Completed items */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className='text-green-500 min-w-[18px] text-center px-1 cursor-default flex items-center'>
+            <div className='text-green-500 min-w-[18px] text-center  cursor-default flex items-center'>
               <Icon name='CheckedCircleFillIcon' className='size-4.5' />
               <span className='text-[12px] font-medium'>{completedCount}</span>
             </div>
@@ -253,13 +253,12 @@ function TrainingCompletedStatus({
         {failedCount > 0 && (
           <Tooltip>
             <TooltipTrigger asChild className='shadow-2xl'>
-              <div className='text-orange-500 min-w-[18px] text-center px-1 cursor-default flex items-center'>
+              <div className='text-orange-500 min-w-[18px] text-center cursor-default flex items-center'>
                 <Icon
                   name='ExclamationmarkTriangleFillIcon'
-                  className='size-4'
+                  className='size-4.5'
                 />
                 <span className='text-[12px] font-medium'>{failedCount}</span>
-                {failedCount}
               </div>
             </TooltipTrigger>
             <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
