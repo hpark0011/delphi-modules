@@ -442,15 +442,15 @@ export function TrainingStatusTab() {
       {/* Training Summary */}
 
       <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 pb-4 mb-4'>
-        <div className='text-sm font-medium text-text-muted dark:text-neutral-500 mb-3 border-b border-border-light dark:border-dark pb-2 px-4'>
-          Latest training summary
+        <div className='text-sm font-medium text-text-muted dark:text-neutral-500 mb-3 border-b border-border-light dark:border-dark pb-2 px-4 text-center'>
+          Last training summary - Nov 17, 2025
         </div>
         <div className='flex flex-col gap-2 px-3 mb-0'>
-          <div className='flex flex-col gap-2 mb-2'>
+          <div className='flex flex-col gap-2 mb-4'>
             <h1 className='text-start  text-text-primary px-1'>
               Here is what happend from your last training:
             </h1>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-full'>
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-full'>
               <div className='flex items-center gap-0.5'>
                 <Icon
                   name='MindBubbleFillIcon'
@@ -475,22 +475,22 @@ export function TrainingStatusTab() {
             </div>
           </div>
           <h1 className='text-start  text-text-primary px-1'>
-            Your mind can answer 5 new questions!
+            Your mind can now answer 5 new questions!
           </h1>
           <div className='flex flex-wrap gap-1'>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
               "What is your latest hobby?"
             </div>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-2px] transition-all duration-100 ease-in'>
               "How did you get into product design?"
             </div>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
               "What is your favorite AI tool?"
             </div>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
               "What are you working on right now?"
             </div>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit'>
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
               "What is next for you?"
             </div>
           </div>
