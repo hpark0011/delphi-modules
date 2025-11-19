@@ -208,7 +208,7 @@ function TrainingCompletedStatus({
 
   return (
     <div
-      className='w-full items-center flex justify-center p-2 gap-1 text-text-muted hover:text-blue-400 cursor-pointer'
+      className='w-full items-center flex justify-center p-2 py-1.5 gap-1 text-text-secondary hover:text-blue-400 cursor-pointer rounded-full group'
       onClick={() => {
         setShowCompletedStatus(false);
         openWithTab("training-status");
@@ -223,13 +223,52 @@ function TrainingCompletedStatus({
         }
       }}
     >
-      <div className='text-[13px]'>Training completed</div>
-      <Icon name='ArrowUpRightIcon' className='size-4' />
+      <div className='flex items-center gap-0.5 relative py-0.5'>
+        {/* <Icon name='CheckedCircleFillIcon' className='size-5 text-[#09CE6B]' /> */}
+        <div className='text-[13px] font-medium'>Learning completed!</div>
+      </div>
+      <div className='text-xs bg-white shadow-card-primary dark:bg-black rounded-full text-text-muted flex items-center'>
+        <div className='text-green-600 min-w-[16px] text-center pl-1'>5</div>{" "}
+        <div className='w-[1px] mx-0.5 self-stretch bg-extra-light' />
+        {/* <span className='mx-[1px] bottom-[1px] relative text-black/10'>/</span>{" "} */}
+        <div className='text-orange-500 min-w-[16px] text-center pr-1'>1</div>{" "}
+      </div>
+      <Icon
+        name='ArrowUpRightIcon'
+        className='size-4 text-text-muted group-hover:text-blue-400'
+      />
     </div>
   );
 }
 
-function TrainingStatusTrigger() {
+interface TrainingStatusTriggerProps {
+  showCompletedStatus: boolean;
+  setShowCompletedStatus: (show: boolean) => void;
+}
+
+function TrainingStatusTrigger({
+  showCompletedStatus,
+  setShowCompletedStatus,
+}: TrainingStatusTriggerProps) {
+  const { queue } = useTrainingQueue();
+
+  // Only show "Learning" status if there are items still being processed (queued or training)
+  const hasActiveItems = queue.some(
+    (item) => item.status === "queued" || item.status === "training"
+  );
+
+  if (showCompletedStatus && queue.length === 0) {
+    return (
+      <TrainingCompletedStatus
+        setShowCompletedStatus={setShowCompletedStatus}
+      />
+    );
+  }
+
+  return <>{hasActiveItems ? <ActiveTrainingStatus /> : <LastTrainedDate />}</>;
+}
+
+function MindScoreContent() {
   const { queue, clearQueue } = useTrainingQueue();
   const [showCompletedStatus, setShowCompletedStatus] = useState(false);
 
@@ -259,27 +298,26 @@ function TrainingStatusTrigger() {
     }
   }, [queue, hasActiveItems, showCompletedStatus, clearQueue]);
 
-  if (showCompletedStatus && queue.length === 0) {
-    return (
-      <TrainingCompletedStatus
-        setShowCompletedStatus={setShowCompletedStatus}
-      />
-    );
-  }
-
-  return <>{hasActiveItems ? <ActiveTrainingStatus /> : <LastTrainedDate />}</>;
+  return (
+    <AnalyticsSectionWrapper
+      className={cn("w-full p-0.5 rounded-[20px] flex flex-col items-center")}
+    >
+      <MindDialog defaultTab='training-status'>
+        <MindScoreTrigger />
+        <TrainingStatusTrigger
+          showCompletedStatus={showCompletedStatus}
+          setShowCompletedStatus={setShowCompletedStatus}
+        />
+      </MindDialog>
+    </AnalyticsSectionWrapper>
+  );
 }
 
 export function NewMindscore() {
   return (
     <MindScoreProvider>
       <TrainingQueueProvider>
-        <AnalyticsSectionWrapper className='w-full p-0.5 rounded-[20px] flex flex-col items-center'>
-          <MindDialog defaultTab='training-status'>
-            <MindScoreTrigger />
-            <TrainingStatusTrigger />
-          </MindDialog>
-        </AnalyticsSectionWrapper>
+        <MindScoreContent />
       </TrainingQueueProvider>
     </MindScoreProvider>
   );
