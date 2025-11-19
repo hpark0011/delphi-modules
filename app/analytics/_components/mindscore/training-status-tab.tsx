@@ -230,7 +230,7 @@ function DateGroupTable({
 
   return (
     <div className='flex flex-col gap-1.5'>
-      <h3 className='text-sm font-medium text-text-secondary dark:text-neutral-500 px-2'>
+      <h3 className='text-sm font-medium text-text-muted dark:text-neutral-500 px-2'>
         {formatDateLabel(dateKey)}
       </h3>
       <Table className='table-fixed w-full'>
@@ -266,7 +266,7 @@ function DateGroupTable({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className='hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A] border-b-transparent '
+                className='hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A] border-b-transparent rounded-xl '
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell
@@ -570,9 +570,11 @@ export function TrainingStatusTab() {
             </Select>
           </div>
         </div>
-        <div className='flex flex-col gap-6 bg-light py-2 rounded-xl px-2'>
+
+        {/* Training History Table */}
+        <div className='flex flex-col gap-8 bg-light py-4 rounded-xl px-2'>
           {groupedData.length === 0 ? (
-            <div className='flex items-center justify-center py-12 text-[#8D8D86] dark:text-neutral-500'>
+            <div className='flex items-center justify-center py-12 text-[#8D8D86] dark:text-neutral-500 px-2'>
               <p className='text-sm'>No training items found</p>
             </div>
           ) : (
