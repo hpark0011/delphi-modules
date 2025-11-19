@@ -247,30 +247,26 @@ function DateGroupTable({
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <div className='rounded-sm w-ful overflow-hidden hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A]'>
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className='hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A] border-b-transparent'
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        "px-2 py-1 align-middle",
-                        cell.column.id === "name" && "w-[70%]",
-                        cell.column.id === "status" && "w-[20%]",
-                        cell.column.id === "actions" && "w-[10%] text-right"
-                      )}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </div>
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+                className='hover:bg-[#F6F6F5] dark:hover:bg-[#2C2C2A] border-b-transparent'
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className={cn(
+                      "px-2 py-1 align-middle",
+                      cell.column.id === "name" && "w-[70%] rounded-l-sm",
+                      cell.column.id === "status" && "w-[20%]",
+                      cell.column.id === "actions" &&
+                        "w-[10%] text-right rounded-r-sm"
+                    )}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
             ))
           ) : (
             <TableRow>
@@ -338,7 +334,7 @@ export function TrainingStatusTab() {
             <div className='flex items-center gap-2'>
               <Icon
                 name='DocFillIcon'
-                className='size-5 flex-shrink-0 text-text-muted'
+                className='size-5 flex-shrink-0 text-icon-light'
               />
               <span className='font-medium text-text-primary text-sm'>
                 {item.name}
@@ -353,17 +349,19 @@ export function TrainingStatusTab() {
         cell: ({ row }) => {
           const item = row.original;
           return (
-            <Icon
-              name={getStatusIcon(item.status) as any}
-              className={cn(
-                "size-5",
-                item.status === "completed"
-                  ? "text-[#09CE6B]"
-                  : item.status === "failed"
-                    ? "text-destructive"
-                    : "text-[#8D8D86]"
-              )}
-            />
+            <div className='flex items-center justify-center w-full'>
+              <Icon
+                name={getStatusIcon(item.status) as any}
+                className={cn(
+                  "size-5",
+                  item.status === "completed"
+                    ? "text-[#09CE6B]"
+                    : item.status === "failed"
+                      ? "text-destructive"
+                      : "text-[#8D8D86]"
+                )}
+              />
+            </div>
           );
         },
       },
@@ -510,21 +508,20 @@ export function TrainingStatusTab() {
               Your mind can now answer 5 new questions!
             </h1>
             <div className='flex flex-wrap gap-1'>
-              <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
-                "What is your latest hobby?"
-              </div>
-              <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-2px] transition-all duration-100 ease-in'>
-                "How did you get into product design?"
-              </div>
-              <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
-                "What is your favorite AI tool?"
-              </div>
-              <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
-                "What are you working on right now?"
-              </div>
-              <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
-                "What is next for you?"
-              </div>
+              {[
+                "What is your latest hobby?",
+                "How did you get into product design?",
+                "What is your favorite AI tool?",
+                "What are you working on right now?",
+                "What is next for you?",
+              ].map((question) => (
+                <div
+                  key={question}
+                  className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'
+                >
+                  "{question}"
+                </div>
+              ))}
             </div>
           </div>
         </div>
