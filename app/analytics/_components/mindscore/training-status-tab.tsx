@@ -444,115 +444,137 @@ export function TrainingStatusTab() {
     <div className='flex flex-col gap-4'>
       {/* Training Summary */}
 
-      <div className='bg-light dark:bg-[#1A1A1A] rounded-2xl py-2 pb-4 mb-4'>
-        <div className='text-sm font-medium text-text-muted dark:text-neutral-500 mb-3 border-b border-border-light dark:border-dark pb-2 px-4 text-center'>
+      <div className='flex flex-col gap-2'>
+        <div className='text-sm font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tighter'>
+          <Icon
+            name='SquareTextSquareFillIcon'
+            className='size-4.5 text-icon-light'
+          />
+          Summary
+        </div>
+        <div className='bg-light dark:bg-[#1A1A1A] rounded-2xl py-3 pb-4 mb-4'>
+          {/* <div className='text-sm font-medium text-text-muted dark:text-neutral-500 mb-3 border-b border-border-light dark:border-dark pb-2 px-4 text-center'>
           Last training summary - Nov 17, 2025
-        </div>
-        <div className='flex flex-col gap-2 px-3 mb-0'>
-          <div className='flex flex-col gap-2 mb-4'>
-            <h1 className='text-start  text-text-primary px-1'>
-              Here is what happend from your last training:
-            </h1>
-            <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col'>
-              <div className='flex items-center gap-0.5'>
-                <Icon
-                  name='MindBubbleFillIcon'
-                  className='size-5 text-orange-400'
-                />
-                <span className='text-text-secondary font-semibold'>
-                  {summaryStats.totalTrained}
-                </span>{" "}
-                items were trained.
-              </div>
-              <div className='flex items-center gap-0.5'>
-                <Icon
-                  name='ArrowshapeUpFillIcon'
-                  className='size-5 text-blue-600'
-                />
-                <span className='text-text-secondary font-semibold'>130</span>{" "}
-                mind score has increased.
-              </div>
+        </div> */}
+          <div className='flex flex-col gap-2 px-3 mb-0'>
+            <div className='flex flex-col gap-2 mb-4'>
+              <h1 className='text-start  text-text-primary px-1 text-sm'>
+                Here is what happend from your last training:
+              </h1>
+              <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-0.5'>
+                <div className='flex items-center gap-0.5'>
+                  <Icon
+                    name='MindBubbleFillIcon'
+                    className='size-5 text-orange-400'
+                  />
+                  <span className='text-text-secondary font-semibold'>
+                    {summaryStats.totalTrained}
+                  </span>{" "}
+                  items were trained.
+                </div>
+                <div className='flex items-center gap-0.5'>
+                  <Icon
+                    name='ArrowshapeUpFillIcon'
+                    className='size-5 text-blue-600'
+                  />
+                  <span className='text-text-secondary font-semibold'>130</span>{" "}
+                  mind score has increased.
+                </div>
 
-              <div className='flex items-center gap-0.5'>
-                <Icon
-                  name='CheckedCircleFillIcon'
-                  className='size-5 text-green-600'
-                />
-                <span className='text-text-secondary font-semibold'>
-                  {summaryStats.completed}
-                </span>{" "}
-                items completed.
+                <div className='flex items-center gap-0.5'>
+                  <Icon
+                    name='CheckedCircleFillIcon'
+                    className='size-5 text-green-600'
+                  />
+                  <span className='text-text-secondary font-semibold'>
+                    {summaryStats.completed}
+                  </span>{" "}
+                  items completed.
+                </div>
+                <div className='flex items-center gap-0.5'>
+                  <Icon
+                    name='ExclamationmarkTriangleFillIcon'
+                    className='size-5 text-red-600'
+                  />
+                  <span className='text-text-secondary font-semibold'>
+                    {summaryStats.failed}
+                  </span>{" "}
+                  items failed and needs actions.
+                </div>
               </div>
-              <div className='flex items-center gap-0.5'>
-                <Icon
-                  name='ExclamationmarkTriangleFillIcon'
-                  className='size-5 text-red-600'
-                />
-                <span className='text-text-secondary font-semibold'>
-                  {summaryStats.failed}
-                </span>{" "}
-                items failed and needs actions.
+            </div>
+            <h1 className='text-start  text-text-primary px-1 text-sm'>
+              Your mind can now answer 5 new questions!
+            </h1>
+            <div className='flex flex-wrap gap-1'>
+              <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
+                "What is your latest hobby?"
               </div>
-            </div>
-          </div>
-          <h1 className='text-start  text-text-primary px-1'>
-            Your mind can now answer 5 new questions!
-          </h1>
-          <div className='flex flex-wrap gap-1'>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
-              "What is your latest hobby?"
-            </div>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-2px] transition-all duration-100 ease-in'>
-              "How did you get into product design?"
-            </div>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
-              "What is your favorite AI tool?"
-            </div>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
-              "What are you working on right now?"
-            </div>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
-              "What is next for you?"
+              <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-2px] transition-all duration-100 ease-in'>
+                "How did you get into product design?"
+              </div>
+              <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
+                "What is your favorite AI tool?"
+              </div>
+              <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
+                "What are you working on right now?"
+              </div>
+              <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'>
+                "What is next for you?"
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      {/* Filter Section */}
-      <div className='flex items-center gap-1 flex-wrap px-2'>
-        {statusFilters.map((filter) => (
-          <Button
-            key={filter.value}
-            variant={selectedStatus === filter.value ? "default" : "outline"}
-            size='sm'
-            onClick={() => setSelectedStatus(filter.value)}
-            className={cn(
-              "h-6 px-2 text-[12px] rounded-sm",
-              selectedStatus === filter.value &&
-                "bg-primary text-primary-foreground"
-            )}
-          >
-            {filter.label}
-          </Button>
-        ))}
       </div>
 
       {/* Data Table grouped by date */}
-      <div className='flex flex-col gap-6 bg-light py-2 rounded-xl px-2'>
-        {groupedData.length === 0 ? (
-          <div className='flex items-center justify-center py-12 text-[#8D8D86] dark:text-neutral-500'>
-            <p className='text-sm'>No training items found</p>
-          </div>
-        ) : (
-          groupedData.map(([dateKey, items], index) => (
-            <DateGroupTable
-              key={dateKey}
-              dateKey={dateKey}
-              items={items}
-              columns={columns}
-              showHeader={false}
+      <div className='flex flex-col gap-2'>
+        <div className='flex gap-2 items-center justify-between'>
+          <div className='text-sm font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tighter'>
+            <Icon
+              name='SquareTextSquareFillIcon'
+              className='size-4.5 text-icon-light'
             />
-          ))
-        )}
+            Learning History
+          </div>
+          {/* Filter Section */}
+          <div className='flex items-center gap-1 flex-wrap px-2'>
+            {statusFilters.map((filter) => (
+              <Button
+                key={filter.value}
+                variant={
+                  selectedStatus === filter.value ? "default" : "outline"
+                }
+                size='sm'
+                onClick={() => setSelectedStatus(filter.value)}
+                className={cn(
+                  "h-6 px-2 text-[12px] rounded-sm",
+                  selectedStatus === filter.value &&
+                    "bg-primary text-primary-foreground"
+                )}
+              >
+                {filter.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+        <div className='flex flex-col gap-6 bg-light py-2 rounded-xl px-2'>
+          {groupedData.length === 0 ? (
+            <div className='flex items-center justify-center py-12 text-[#8D8D86] dark:text-neutral-500'>
+              <p className='text-sm'>No training items found</p>
+            </div>
+          ) : (
+            groupedData.map(([dateKey, items], index) => (
+              <DateGroupTable
+                key={dateKey}
+                dateKey={dateKey}
+                items={items}
+                columns={columns}
+                showHeader={false}
+              />
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
