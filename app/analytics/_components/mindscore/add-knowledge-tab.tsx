@@ -3,11 +3,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
-import { useState, useRef, useEffect } from "react";
-import { toast } from "sonner";
+import { useState } from "react";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
-import { TrainingQueueToast } from "./training-queue-toast";
-import { useMindScore } from "./mind-score-context";
 
 type ContentCategory =
   | "Popular"
@@ -126,43 +123,7 @@ ContentCard.displayName = "ContentCard";
 export function AddKnowledgeTab() {
   const [selectedCategory, setSelectedCategory] =
     useState<ContentCategory>("Popular");
-  const { incrementScore } = useMindScore();
-  const { queue, addToQueue, clearQueue } = useTrainingQueue({
-    onItemCompleted: (points = 15) => {
-      incrementScore(points);
-    },
-  });
-  const toastIdRef = useRef<string | number | null>(null);
-
-  // Show or update toast when queue changes
-  useEffect(() => {
-    if (queue.length === 0) {
-      if (toastIdRef.current) {
-        toast.dismiss(toastIdRef.current);
-        toastIdRef.current = null;
-      }
-      return;
-    }
-
-    // Create or update toast with stable ID
-    const toastId = "training-queue";
-    toastIdRef.current = toast.custom(
-      (t) => (
-        <TrainingQueueToast
-          queue={queue}
-          onClose={() => {
-            toast.dismiss(t);
-            toastIdRef.current = null;
-            clearQueue();
-          }}
-        />
-      ),
-      {
-        duration: Infinity,
-        id: toastId,
-      }
-    );
-  }, [queue, clearQueue]);
+  const { addToQueue } = useTrainingQueue();
 
   const handleAddContent = (itemName?: string) => {
     let itemsToAdd: Array<{ name: string }> = [];

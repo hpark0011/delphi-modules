@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { format, isToday, isYesterday, parseISO } from "date-fns";
+import { Icon } from "@/components/ui/icon";
 
 export type TrainingStatus = "queued" | "training" | "failed" | "completed";
 
@@ -445,10 +446,33 @@ export function TrainingStatusTab() {
           Latest training summary
         </div>
         <div className='flex flex-col gap-2 px-3 mb-0'>
-          <div className='flex flex-col gap-2'>
+          <div className='flex flex-col gap-2 mb-2'>
             <h1 className='text-start  text-text-primary px-1'>
               Here is what happend from your last training:
             </h1>
+            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-md w-full'>
+              <div className='flex items-center gap-0.5'>
+                <Icon
+                  name='MindBubbleFillIcon'
+                  className='size-5 text-orange-400'
+                />
+                5 items were trained.
+              </div>
+              <div className='flex items-center gap-0.5'>
+                <Icon
+                  name='CheckedCircleFillIcon'
+                  className='size-5 text-green-600'
+                />
+                3 items completed.
+              </div>
+              <div className='flex items-center gap-0.5'>
+                <Icon
+                  name='ExclamationmarkTriangleFillIcon'
+                  className='size-5 text-yellow-500'
+                />
+                2 items failed and needs actions.
+              </div>
+            </div>
           </div>
           <h1 className='text-start  text-text-primary px-1'>
             Your mind can answer 5 new questions!

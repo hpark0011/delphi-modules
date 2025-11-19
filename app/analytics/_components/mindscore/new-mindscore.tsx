@@ -6,6 +6,7 @@ import { Icon } from "@/components/ui/icon";
 import { MindDialog, useMindDialog } from "./mind-dialog";
 import { MindProgressBar } from "./mind-progress-bar";
 import { MindScoreProvider, useMindScore } from "./mind-score-context";
+import { TrainingQueueProvider } from "./training-queue-context";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
@@ -80,12 +81,14 @@ function LastTrainedTrigger() {
 export function NewMindscore() {
   return (
     <MindScoreProvider>
-      <AnalyticsSectionWrapper className='w-full p-0.5 rounded-[20px] flex flex-col items-center overflow-hidden'>
-        <MindDialog defaultTab='training-status'>
-          <MindScoreTrigger />
-          <LastTrainedTrigger />
-        </MindDialog>
-      </AnalyticsSectionWrapper>
+      <TrainingQueueProvider>
+        <AnalyticsSectionWrapper className='w-full p-0.5 rounded-[20px] flex flex-col items-center overflow-hidden'>
+          <MindDialog defaultTab='training-status'>
+            <MindScoreTrigger />
+            <LastTrainedTrigger />
+          </MindDialog>
+        </AnalyticsSectionWrapper>
+      </TrainingQueueProvider>
     </MindScoreProvider>
   );
 }
