@@ -441,7 +441,7 @@ export function TrainingStatusTab() {
     <div className='flex flex-col gap-4'>
       {/* Training Summary */}
 
-      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 pb-4 mb-4'>
+      <div className='bg-light dark:bg-[#1A1A1A] rounded-2xl py-2 pb-4 mb-4'>
         <div className='text-sm font-medium text-text-muted dark:text-neutral-500 mb-3 border-b border-border-light dark:border-dark pb-2 px-4 text-center'>
           Last training summary - Nov 17, 2025
         </div>
@@ -450,7 +450,7 @@ export function TrainingStatusTab() {
             <h1 className='text-start  text-text-primary px-1'>
               Here is what happend from your last training:
             </h1>
-            <div className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-full'>
+            <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col'>
               <div className='flex items-center gap-0.5'>
                 <Icon
                   name='MindBubbleFillIcon'
@@ -516,7 +516,7 @@ export function TrainingStatusTab() {
       </div>
 
       {/* Data Table grouped by date */}
-      <div className='flex flex-col gap-6'>
+      <div className='flex flex-col gap-6 bg-light py-2 rounded-xl px-2'>
         {groupedData.length === 0 ? (
           <div className='flex items-center justify-center py-12 text-[#8D8D86] dark:text-neutral-500'>
             <p className='text-sm'>No training items found</p>

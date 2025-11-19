@@ -1,7 +1,7 @@
 import React from "react";
 import type { IconName } from "@/components/ui/icon";
 import { TrainingStatusTab } from "./training-status-tab";
-import { KnowledgeTab } from "./knowledge-tab";
+// import { KnowledgeTab } from "./knowledge-tab";
 import { AddKnowledgeTab } from "./add-knowledge-tab";
 
 export interface MindDialogTabConfig {

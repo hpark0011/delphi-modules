@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { Icon } from "@/components/ui/icon";
 import { MindDialog, useMindDialog } from "./mind-dialog";
@@ -9,6 +9,9 @@ import { MindScoreProvider, useMindScore } from "./mind-score-context";
 import { TrainingQueueProvider } from "./training-queue-context";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { TrainingQueueItem } from "./training-queue-item";
+import { cn } from "@/lib/utils";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
@@ -58,19 +61,88 @@ function MindScoreTrigger() {
   );
 }
 
-function LastTrainedTrigger() {
-  const { openWithTab } = useMindDialog();
+function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // Calculate processed items (completed + training)
   const processed = queue.filter(
     (item) => item.status === "completed" || item.status === "training"
   ).length;
   const total = queue.length;
-  // Only show "Learning" status if there are items still being processed (queued or training)
-  const hasActiveItems = queue.some(
-    (item) => item.status === "queued" || item.status === "training"
+
+  const handleToggle = () => {
+    setIsExpanded((prev) => !prev);
+  };
+
+  return (
+    <div className='w-full'>
+      {/* Trigger */}
+      <div
+        className='w-full items-center flex justify-center p-2 gap-1 text-text-muted hover:text-blue-400 cursor-pointer'
+        onClick={handleToggle}
+        role='button'
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleToggle();
+          }
+        }}
+      >
+        <Icon name='LoaderCircleIcon' className='size-4 animate-spin' />
+        <div className='text-[13px]'>
+          Learning {processed}
+          <span className='mx-0.5'>/</span>
+          {total}
+        </div>
+        <motion.div
+          animate={{ rotate: isExpanded ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ChevronDown className='size-3.5' />
+        </motion.div>
+      </div>
+
+      {/* Expanded Queue List */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className='overflow-hidden'
+          >
+            <div
+              className={cn(
+                "bg-card border border-border rounded-lg shadow-lg overflow-hidden",
+                "max-h-[400px] overflow-y-auto"
+              )}
+            >
+              <AnimatePresence mode='popLayout'>
+                {queue.map((item) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <TrainingQueueItem item={item} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
+}
+
+function LastTrainedDate() {
+  const { openWithTab } = useMindDialog();
 
   return (
     <div
@@ -85,25 +157,21 @@ function LastTrainedTrigger() {
         }
       }}
     >
-      {/* Training status */}
-      {hasActiveItems ? (
-        <>
-          <Icon name='LoaderCircleIcon' className='size-4 animate-spin' />
-          <div className='text-[13px]'>
-            Learning {processed}
-            <span className='mx-0.5'>/</span>
-            {total}
-          </div>
-          <ChevronDown className='size-3.5' />
-        </>
-      ) : (
-        <>
-          <div className='text-[13px]'>Last trained at Nov 17, 2025</div>
-          <Icon name='ArrowUpRightIcon' className='size-4' />
-        </>
-      )}
+      <div className='text-[13px]'>Last trained at Nov 17, 2025</div>
+      <Icon name='ArrowUpRightIcon' className='size-4' />
     </div>
   );
+}
+
+function LastTrainedTrigger() {
+  const { queue } = useTrainingQueue();
+
+  // Only show "Learning" status if there are items still being processed (queued or training)
+  const hasActiveItems = queue.some(
+    (item) => item.status === "queued" || item.status === "training"
+  );
+
+  return <>{hasActiveItems ? <ActiveTrainingStatus /> : <LastTrainedDate />}</>;
 }
 
 export function NewMindscore() {
