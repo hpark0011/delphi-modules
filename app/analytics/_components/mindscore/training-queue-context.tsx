@@ -20,7 +20,7 @@ export interface QueueItem {
   progress: number; // 0-100
 }
 
-const TRAINING_DURATION = 3500; // 3.5 seconds per item
+const TRAINING_DURATION = 3500; // 4 seconds per item
 
 interface TrainingQueueContextType {
   queue: QueueItem[];
@@ -142,21 +142,21 @@ export function TrainingQueueProvider({
     }
 
     // Create or update toast with stable ID
-    toast.custom(
-      (t) => (
-        <TrainingQueueToast
-          queue={queue}
-          onClose={() => {
-            toast.dismiss(t);
-            clearQueue();
-          }}
-        />
-      ),
-      {
-        duration: Infinity,
-        id: toastId,
-      }
-    );
+    // toast.custom(
+    //   (t) => (
+    //     <TrainingQueueToast
+    //       queue={queue}
+    //       onClose={() => {
+    //         toast.dismiss(t);
+    //         clearQueue();
+    //       }}
+    //     />
+    //   ),
+    //   {
+    //     duration: Infinity,
+    //     id: toastId,
+    //   }
+    // );
   }, [queue, clearQueue]);
 
   // Note: No cleanup on unmount - we want the queue to persist

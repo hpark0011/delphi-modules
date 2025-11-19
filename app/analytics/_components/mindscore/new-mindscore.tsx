@@ -63,7 +63,7 @@ function MindScoreTrigger() {
 
 function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   // Calculate processed items (completed + training)
   const processed = queue.filter(
@@ -76,7 +76,7 @@ function ActiveTrainingStatus() {
   };
 
   return (
-    <div className='w-full'>
+    <div className='w-full relative'>
       {/* Trigger */}
       <div
         className='w-full items-center flex justify-center p-2 gap-1 text-text-muted hover:text-blue-400 cursor-pointer'
@@ -99,6 +99,7 @@ function ActiveTrainingStatus() {
         <motion.div
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={{ duration: 0.2 }}
+          className='ml-1'
         >
           <ChevronDown className='size-3.5' />
         </motion.div>
@@ -112,13 +113,11 @@ function ActiveTrainingStatus() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className='overflow-hidden'
+            className='overflow-hidden w-full relative rounded-b-2xl bg-extra-light pb-1 '
           >
+            <div className='h-2.5 w-full bg-gradient-to-b from-extra-light to-transparent absolute top-0 left-0' />
             <div
-              className={cn(
-                "bg-card border border-border rounded-lg shadow-lg overflow-hidden",
-                "max-h-[400px] overflow-y-auto"
-              )}
+              className={cn("overflow-hidden", "max-h-[112px] overflow-y-auto")}
             >
               <AnimatePresence mode='popLayout'>
                 {queue.map((item) => (
@@ -171,14 +170,15 @@ function LastTrainedTrigger() {
     (item) => item.status === "queued" || item.status === "training"
   );
 
-  return <>{hasActiveItems ? <ActiveTrainingStatus /> : <LastTrainedDate />}</>;
+  // return <>{hasActiveItems ? <ActiveTrainingStatus /> : <LastTrainedDate />}</>;
+  return <ActiveTrainingStatus />;
 }
 
 export function NewMindscore() {
   return (
     <MindScoreProvider>
       <TrainingQueueProvider>
-        <AnalyticsSectionWrapper className='w-full p-0.5 rounded-[20px] flex flex-col items-center overflow-hidden'>
+        <AnalyticsSectionWrapper className='w-full p-0.5 rounded-[20px] flex flex-col items-center'>
           <MindDialog defaultTab='training-status'>
             <MindScoreTrigger />
             <LastTrainedTrigger />

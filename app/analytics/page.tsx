@@ -121,10 +121,10 @@ export default function AnalyticsPage() {
   // const highlights = [];
 
   return (
-    <div className='space-y-6 px-13'>
+    <div className='space-y-4 px-13'>
       {/* Header Section */}
       <div>
-        <h1 className='text-[28px] leading-[1.2] font-medium mb-2 text-[#21201C] dark:text-[#EEEEEC] px-3'>
+        <h1 className='text-[24px] leading-[1.2] font-medium mb-2 text-[#21201C] dark:text-[#EEEEEC] px-3'>
           Good Afternoon, John!
         </h1>
       </div>
