@@ -149,7 +149,7 @@ export function TrainingStatusTab() {
   const [completedCount, setCompletedCount] = useState(0);
   const [failedCount, setFailedCount] = useState(0);
   const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
-
+  const { finishedCount, totalCount } = useTrainingStatus();
   // Detect completion and handle state transitions
   useEffect(() => {
     // Check if all items are done processing (either completed, failed, or deleting)
@@ -270,7 +270,7 @@ export function TrainingStatusTab() {
                 <Button
                   variant='outline'
                   size='sm'
-                  className='text-[12px] shadow-none hover:text-text-primary shrink-0 h-6 px-2'
+                  className='text-[12px] shadow-none hover:text-text-primary shrink-0 h-6 px-2 rounded-sm'
                 >
                   See detail
                 </Button>
@@ -343,30 +343,38 @@ export function TrainingStatusTab() {
           <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center justify-between gap-0.5 tracking-tight'>
             <div className='flex items-center gap-0.5'>
               <Icon
-                name={showCompletedStatus ? "CheckedCircleFillIcon" : "LoaderCircleIcon"}
+                name={
+                  showCompletedStatus
+                    ? "CheckedCircleFillIcon"
+                    : "LoaderCircleIcon"
+                }
                 className={cn(
-                  "size-4.5 text-icon-light",
+                  "size-4.5",
+                  showCompletedStatus ? "text-green-500" : "text-icon-light",
                   !showCompletedStatus && "animate-spin"
                 )}
               />
-              {showCompletedStatus
-                ? `Training ${completedCount} has completed`
-                : "Active Training"}
+              <span className={cn(showCompletedStatus && "text-text-primary")}>
+                {showCompletedStatus
+                  ? `Training completed!`
+                  : `Learning ${finishedCount} / ${totalCount}`}
+              </span>
             </div>
             {showCompletedStatus && (
               <Button
-                variant='outline'
+                variant='glossy'
                 size='sm'
                 onClick={() => setShowCompletedStatus(false)}
-                className='text-[12px] shadow-none hover:text-text-primary shrink-0 h-6 px-2'
+                className='text-[12px] shadow-md shrink-0 h-7 has-[>svg]:px-2.5 has-[>svg]:pr-1.5 gap-1 rounded-md'
               >
-                See summary
+                <span className='text-[12px]'>View summary</span>
+                <Icon name='ArrowForwardIcon' className='size-4 text-white' />
               </Button>
             )}
           </div>
 
           {/* Active Training Queue List */}
-          <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 mb-4'>
+          <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 mb-4 px-2'>
             {(showCompletedStatus ? queueSnapshot : queue).map((item) => (
               <TrainingQueueItem key={item.id} item={item} />
             ))}
@@ -377,83 +385,85 @@ export function TrainingStatusTab() {
       {/* Training Summary - Only show when idle (not training and not showing completion) */}
       {!hasActiveItems && !showCompletedStatus && (
         <div className='flex flex-col gap-3 mt-4'>
-        <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
-          <Icon
-            name='SquareTextSquareFillIcon'
-            className='size-4.5 text-icon-light'
-          />
-          Summary
-        </div>
-        <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3.5 pb-4 mb-4'>
-          <div className='flex flex-col gap-2 px-3 mb-0'>
-            <div className='flex flex-col gap-2 mb-5'>
-              <h1 className='text-start  text-text-primary px-1 text-sm'>
-                Here is what happend from your last training at{" "}
-                <span className='font-semibold'>Nov 17, 2025</span>:
-              </h1>
-              <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-1.5'>
-                <div className='flex items-center gap-0.5'>
-                  <Icon
-                    name='MindBubbleFillIcon'
-                    className='size-5 text-orange-400'
-                  />
-                  <span className='text-text-secondary font-semibold'>
-                    {summaryStats.totalTrained}
-                  </span>{" "}
-                  items were trained.
-                </div>
-                <div className='flex items-center gap-0.5'>
-                  <Icon
-                    name='ArrowshapeUpFillIcon'
-                    className='size-5 text-neutral-400'
-                  />
-                  <span className='text-text-secondary font-semibold'>130</span>{" "}
-                  mind score has increased.
-                </div>
+          <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
+            <Icon
+              name='SquareTextSquareFillIcon'
+              className='size-4.5 text-icon-light'
+            />
+            Summary
+          </div>
+          <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3.5 pb-4 mb-4'>
+            <div className='flex flex-col gap-2 px-3 mb-0'>
+              <div className='flex flex-col gap-2 mb-5'>
+                <h1 className='text-start  text-text-primary px-1 text-sm'>
+                  Here is what happend from your last training at{" "}
+                  <span className='font-semibold'>Nov 17, 2025</span>:
+                </h1>
+                <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-1.5'>
+                  <div className='flex items-center gap-0.5'>
+                    <Icon
+                      name='MindBubbleFillIcon'
+                      className='size-5 text-orange-400'
+                    />
+                    <span className='text-text-secondary font-semibold'>
+                      {summaryStats.totalTrained}
+                    </span>{" "}
+                    items were trained.
+                  </div>
+                  <div className='flex items-center gap-0.5'>
+                    <Icon
+                      name='ArrowshapeUpFillIcon'
+                      className='size-5 text-neutral-400'
+                    />
+                    <span className='text-text-secondary font-semibold'>
+                      130
+                    </span>{" "}
+                    mind score has increased.
+                  </div>
 
-                <div className='flex items-center gap-0.5'>
-                  <Icon
-                    name='CheckedCircleFillIcon'
-                    className='size-5 text-green-600'
-                  />
-                  <span className='text-text-secondary font-semibold'>
-                    {summaryStats.completed}
-                  </span>{" "}
-                  items completed.
-                </div>
-                <div className='flex items-center gap-0.5'>
-                  <Icon
-                    name='ExclamationmarkTriangleFillIcon'
-                    className='size-5 text-orange-500'
-                  />
-                  <span className='text-text-secondary font-semibold'>
-                    {summaryStats.failed}
-                  </span>{" "}
-                  items failed and needs actions.
+                  <div className='flex items-center gap-0.5'>
+                    <Icon
+                      name='CheckedCircleFillIcon'
+                      className='size-5 text-green-600'
+                    />
+                    <span className='text-text-secondary font-semibold'>
+                      {summaryStats.completed}
+                    </span>{" "}
+                    items completed.
+                  </div>
+                  <div className='flex items-center gap-0.5'>
+                    <Icon
+                      name='ExclamationmarkTriangleFillIcon'
+                      className='size-5 text-orange-500'
+                    />
+                    <span className='text-text-secondary font-semibold'>
+                      {summaryStats.failed}
+                    </span>{" "}
+                    items failed and needs actions.
+                  </div>
                 </div>
               </div>
-            </div>
-            <h1 className='text-start  text-text-primary px-1 text-sm'>
-              Your mind can now answer 5 new questions!
-            </h1>
-            <div className='flex flex-wrap gap-1'>
-              {[
-                "What is your latest hobby?",
-                "How did you get into product design?",
-                "What is your favorite AI tool?",
-                "What are you working on right now?",
-                "What is next for you?",
-              ].map((question) => (
-                <div
-                  key={question}
-                  className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'
-                >
-                  &quot;{question}&quot;
-                </div>
-              ))}
+              <h1 className='text-start  text-text-primary px-1 text-sm'>
+                Your mind can now answer 5 new questions!
+              </h1>
+              <div className='flex flex-wrap gap-1'>
+                {[
+                  "What is your latest hobby?",
+                  "How did you get into product design?",
+                  "What is your favorite AI tool?",
+                  "What are you working on right now?",
+                  "What is next for you?",
+                ].map((question) => (
+                  <div
+                    key={question}
+                    className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'
+                  >
+                    &quot;{question}&quot;
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
         </div>
       )}
 
@@ -474,7 +484,7 @@ export function TrainingStatusTab() {
             >
               <SelectTrigger
                 size='sm'
-                className='data-[size=sm]:h-6 bg-transparent px-2 text-[12px] w-fit rounded-sm hover:bg-light gap-1.5'
+                className='data-[size=sm]:h-6 bg-transparent px-2 text-[12px] w-fit rounded-sm hover:bg-base gap-1.5'
               >
                 <div className='flex items-center gap-2 pb-[1px]'>
                   <SelectValue />
