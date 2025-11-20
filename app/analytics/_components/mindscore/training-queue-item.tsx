@@ -46,14 +46,24 @@ function getDocTypeIcon(itemName: string): IconName | null {
 interface TrainingQueueItemProps {
   item: QueueItem;
   className?: string;
+  docIconSize?: string;
+  fontSize?: string;
+  containerClassName?: string;
 }
 
-export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
+export function TrainingQueueItem({
+  item,
+  className,
+  docIconSize = "size-4",
+  fontSize = "text-sm",
+  containerClassName,
+}: TrainingQueueItemProps) {
   return (
     <div
       className={cn(
         "px-2 py-0.5",
         "hover:bg-extra-light/50 transition-colors",
+        containerClassName,
         className
       )}
     >
@@ -103,15 +113,18 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
             {getDocTypeIcon(item.name) && (
               <Icon
                 name={getDocTypeIcon(item.name)!}
-                className='size-4 text-icon-light flex-shrink-0'
+                className={cn(docIconSize, "text-icon-light flex-shrink-0")}
               />
             )}
             {item.status === "training" ? (
               <motion.span
-                className='text-sm font-medium text-text-primary truncate inline-block'
+                className={cn(
+                  fontSize,
+                  "font-medium text-text-primary truncate inline-block"
+                )}
                 style={{
                   background:
-                    "linear-gradient(90deg, var(--color-text-muted) 0%, rgba(59, 130, 246, 0.9) 50%, var(--color-text-muted) 100%)",
+                    "linear-gradient(90deg, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.9) 50%, rgba(59, 130, 246, 0.3) 100%)",
                   backgroundSize: "200% 100%",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
@@ -123,13 +136,18 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
                 transition={{
                   duration: 2,
                   repeat: Infinity,
-                  ease: "easeInOut",
+                  ease: "linear",
                 }}
               >
                 {item.name}
               </motion.span>
             ) : (
-              <p className='text-sm font-medium text-text-primary truncate'>
+              <p
+                className={cn(
+                  fontSize,
+                  "font-medium text-text-primary truncate"
+                )}
+              >
                 {item.name}
               </p>
             )}

@@ -14,6 +14,9 @@ import {
 import { MindProgressBar } from "./mind-progress-bar";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useMindScore } from "./mind-score-context";
+import { useTrainingStatus } from "@/hooks/use-training-status";
+import type { IconName } from "@/components/ui/icon";
+import { cn } from "@/lib/utils";
 
 // Re-export for convenience
 export type { MindDialogTabId } from "./mind-dialog-config";
@@ -49,6 +52,7 @@ function MindDialogHeader() {
     lastIncrement,
     lastDecrement,
   } = useMindScore();
+  const { hasActiveItems, finishedCount, totalCount } = useTrainingStatus();
 
   return (
     <div className='flex-shrink-0 flex flex-col rounded-[16px] m-1 mb-0 shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87  dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
@@ -82,20 +86,51 @@ function MindDialogHeader() {
 
       <div className='flex justify-center'>
         <TabsList className='gap-0.5'>
-          {MIND_DIALOG_TABS.map((tab) => (
-            <TabsTrigger
-              key={tab.id}
-              value={tab.id}
-              className='text-[13px] h-7 rounded-md px-2 tracking-tight text-text-muted hover:bg-white/10 data-[state=active]:bg-white/10 data-[state=active]:text-white gap-1 pl-1.5'
-            >
-              <Icon
-                name={tab.icon}
-                className='size-4 text-current'
-                aria-hidden='true'
-              />
-              {tab.label}
-            </TabsTrigger>
-          ))}
+          {MIND_DIALOG_TABS.map((tab) => {
+            // Dynamic config for training-status tab when items are being processed
+            const isTrainingTab = tab.id === "training-status";
+            const isActiveTraining = isTrainingTab && hasActiveItems;
+            const icon: IconName = isActiveTraining
+              ? "LoaderCircleIcon"
+              : tab.icon;
+            const label = isActiveTraining ? (
+              <>
+                Learning {finishedCount}
+                <span className='mx-[2px]'>/</span>
+                {totalCount}
+              </>
+            ) : (
+              tab.label
+            );
+            const iconClassName = isActiveTraining
+              ? "size-4 text-current animate-spin"
+              : "size-4 text-current";
+
+            return (
+              <TabsTrigger
+                key={tab.id}
+                value={tab.id}
+                className={cn(
+                  "text-[13px] h-7 rounded-md px-2 tracking-tight text-text-muted hover:bg-white/10 data-[state=active]:bg-white/10 data-[state=active]:text-white gap-1 pl-1.5",
+                  isActiveTraining && "gap-0.5"
+                )}
+              >
+                <Icon
+                  name={icon}
+                  className={iconClassName}
+                  aria-hidden='true'
+                />
+                <span
+                  className={cn(
+                    "whitespace-nowrap",
+                    isActiveTraining && "ml-0.5"
+                  )}
+                >
+                  {label}
+                </span>
+              </TabsTrigger>
+            );
+          })}
         </TabsList>
       </div>
     </div>

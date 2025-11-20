@@ -58,7 +58,7 @@ export function TrainingCompletedStatus({
             Learning completed!
           </div>
         </div>
-        <div className='text-xs hover:bg-extra-light dark:bg-black rounded-full text-text-muted flex items-center gap-1 mr-1'>
+        <div className='text-xs dark:bg-black text-text-muted flex items-center gap-1 mr-1'>
           {/* Completed items */}
           {completedCount > 0 && (
             <Tooltip>
@@ -105,7 +105,7 @@ export function TrainingCompletedStatus({
             >
               <Icon
                 name='DocPlainTextFillIcon'
-                className='size-4 text-icon-light group-hover:text-blue-400'
+                className='size-4 text-icon-light group-hover:text-blue-500'
               />
             </div>
           </TooltipTrigger>

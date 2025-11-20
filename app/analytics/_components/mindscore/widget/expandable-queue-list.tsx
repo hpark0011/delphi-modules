@@ -69,7 +69,7 @@ export function ExpandableQueueList({
               ))}
             </AnimatePresence>
             <div
-              className='text-[13px] flex items-center justify-start gap-0.5 py-1 pb-1.5 text-text-muted cursor-pointer hover:text-blue-400 bg-gradient-to-t from-extra-light to-transparent px-3 w-full text-center'
+              className='text-[13px] flex items-center justify-start gap-0.5 py-1 pb-1.5 text-text-muted cursor-pointer hover:text-blue-500 bg-gradient-to-t from-extra-light to-transparent px-3 w-full text-center'
               onClick={() => openWithTab("training-status")}
               role='button'
               tabIndex={0}

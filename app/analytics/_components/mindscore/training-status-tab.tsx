@@ -1,13 +1,28 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import { mockTrainingItems } from "@/app/analytics/_lib/mock-training-items";
 import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+  formatDateLabel,
+  getStatusIcon,
+} from "@/app/analytics/_utils/mind-dialog.utils";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
+import { TrainingQueueItem } from "./training-queue-item";
+import { isFinishedStatus } from "./training-status-utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -16,17 +31,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { format, isToday, isYesterday, parseISO } from "date-fns";
-import { Icon, type IconName } from "@/components/ui/icon";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { format, parseISO } from "date-fns";
+import { useEffect, useMemo, useState } from "react";
 
 export type TrainingStatus =
   | "queued"
@@ -41,164 +55,6 @@ export interface TrainingItem {
   type: string;
   trainedAt: string; // ISO date string
   status: TrainingStatus;
-}
-
-// Mock data - replace with actual data fetching
-const mockTrainingItems: TrainingItem[] = [
-  {
-    id: "1",
-    name: "Product Documentation.pdf",
-    type: "PDF",
-    trainedAt: new Date().toISOString(),
-    status: "completed",
-  },
-  {
-    id: "2",
-    name: "Company Handbook.docx",
-    type: "Document",
-    trainedAt: new Date().toISOString(),
-    status: "failed",
-  },
-  {
-    id: "3",
-    name: "Sales Training Manual.pdf",
-    type: "PDF",
-    trainedAt: new Date().toISOString(),
-    status: "failed",
-  },
-  {
-    id: "4",
-    name: "Onboarding Guide.md",
-    type: "Markdown",
-    trainedAt: new Date().toISOString(),
-    status: "completed",
-  },
-  {
-    id: "5",
-    name: "API Reference.md",
-    type: "Markdown",
-    trainedAt: new Date(Date.now() - 86400000).toISOString(),
-    status: "failed",
-  },
-  {
-    id: "6",
-    name: "User Guide.pdf",
-    type: "PDF",
-    trainedAt: new Date(Date.now() - 86400000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "7",
-    name: "Technical Specifications.docx",
-    type: "Document",
-    trainedAt: new Date(Date.now() - 86400000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "8",
-    name: "Customer Support FAQ.txt",
-    type: "Text",
-    trainedAt: new Date(Date.now() - 86400000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "9",
-    name: "Training Materials.zip",
-    type: "Archive",
-    trainedAt: new Date(Date.now() - 172800000).toISOString(),
-    status: "queued",
-  },
-  {
-    id: "10",
-    name: "Knowledge Base.txt",
-    type: "Text",
-    trainedAt: new Date(Date.now() - 172800000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "11",
-    name: "Developer Guide.pdf",
-    type: "PDF",
-    trainedAt: new Date(Date.now() - 172800000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "12",
-    name: "Release Notes.md",
-    type: "Markdown",
-    trainedAt: new Date(Date.now() - 172800000).toISOString(),
-    status: "failed",
-  },
-  {
-    id: "13",
-    name: "Security Policy.pdf",
-    type: "PDF",
-    trainedAt: new Date(Date.now() - 259200000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "14",
-    name: "Code of Conduct.docx",
-    type: "Document",
-    trainedAt: new Date(Date.now() - 259200000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "15",
-    name: "Best Practices Guide.md",
-    type: "Markdown",
-    trainedAt: new Date(Date.now() - 259200000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "16",
-    name: "Architecture Diagrams.zip",
-    type: "Archive",
-    trainedAt: new Date(Date.now() - 345600000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "17",
-    name: "Database Schema.txt",
-    type: "Text",
-    trainedAt: new Date(Date.now() - 345600000).toISOString(),
-    status: "failed",
-  },
-  {
-    id: "18",
-    name: "Integration Guide.pdf",
-    type: "PDF",
-    trainedAt: new Date(Date.now() - 345600000).toISOString(),
-    status: "completed",
-  },
-];
-
-function formatDateLabel(dateString: string): string {
-  const date = parseISO(dateString);
-  if (isToday(date)) {
-    return "Today";
-  }
-  if (isYesterday(date)) {
-    return "Yesterday";
-  }
-  return format(date, "MMM dd, yyyy");
-}
-
-function getStatusIcon(status: TrainingStatus): IconName {
-  switch (status) {
-    case "completed":
-      return "CheckedCircleFillIcon";
-    case "training":
-      return "LoaderCircleIcon";
-    case "queued":
-      return "CircleDashedIcon";
-    case "failed":
-      return "ExclamationmarkTriangleFillIcon";
-    case "deleting":
-      return "TrashFillIcon";
-    default:
-      return "CircleDashedIcon";
-  }
 }
 
 function DateGroupTable({
@@ -289,9 +145,44 @@ function DateGroupTable({
 }
 
 export function TrainingStatusTab() {
+  const { queue } = useTrainingQueue();
+  const { hasActiveItems } = useTrainingStatus();
   const [selectedStatus, setSelectedStatus] = useState<TrainingStatus | "all">(
     "all"
   );
+  const [showCompletedStatus, setShowCompletedStatus] = useState(false);
+  const [completedCount, setCompletedCount] = useState(0);
+  const [failedCount, setFailedCount] = useState(0);
+  const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
+  const { finishedCount, totalCount } = useTrainingStatus();
+  // Detect completion and handle state transitions
+  useEffect(() => {
+    // Check if all items are done processing (either completed, failed, or deleting)
+    const allDone =
+      queue.length > 0 && queue.every((item) => isFinishedStatus(item.status));
+
+    // Completion Detection: When all items are done and no active items
+    if (allDone && !hasActiveItems) {
+      // Capture counts and snapshot before queue clears
+      const completed = queue.filter(
+        (item) => item.status === "completed"
+      ).length;
+      const failed = queue.filter((item) => item.status === "failed").length;
+      setCompletedCount(completed);
+      setFailedCount(failed);
+      // Capture queue snapshot (all items with final states: completed, failed, deleting)
+      setQueueSnapshot([...queue]);
+      setShowCompletedStatus(true);
+    }
+
+    // Reset on New Items: When new items are added during completion state
+    if (queue.length > 0 && showCompletedStatus && hasActiveItems) {
+      setShowCompletedStatus(false);
+      setCompletedCount(0);
+      setFailedCount(0);
+      setQueueSnapshot([]);
+    }
+  }, [queue, hasActiveItems, showCompletedStatus]);
 
   // Filter data based on selected status
   const filteredData = useMemo(() => {
@@ -384,7 +275,7 @@ export function TrainingStatusTab() {
                 <Button
                   variant='outline'
                   size='sm'
-                  className='text-[12px] shadow-none hover:text-text-primary shrink-0 h-6 px-2'
+                  className='text-[12px] shadow-none hover:text-text-primary shrink-0 h-6 px-2 rounded-sm'
                 >
                   See detail
                 </Button>
@@ -450,98 +341,161 @@ export function TrainingStatusTab() {
 
   return (
     <div className='flex flex-col gap-4'>
-      {/* Training Summary */}
-
-      <div className='flex flex-col gap-3 mt-4'>
-        <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
-          <Icon
-            name='SquareTextSquareFillIcon'
-            className='size-4.5 text-icon-light'
-          />
-          Summary
-        </div>
-        <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3.5 pb-4 mb-4'>
-          {/* <div className='text-sm font-medium text-text-muted dark:text-neutral-500 mb-3 border-b border-border-light dark:border-dark pb-2 px-4 text-center'>
-          Last training summary - Nov 17, 2025
-        </div> */}
-          <div className='flex flex-col gap-2 px-3 mb-0'>
-            <div className='flex flex-col gap-2 mb-5'>
-              <h1 className='text-start  text-text-primary px-1 text-sm'>
-                Here is what happend from your last training:
-              </h1>
-              <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-1'>
-                <div className='flex items-center gap-0.5'>
-                  <Icon
-                    name='MindBubbleFillIcon'
-                    className='size-5 text-orange-400'
-                  />
-                  <span className='text-text-secondary font-semibold'>
-                    {summaryStats.totalTrained}
-                  </span>{" "}
-                  items were trained.
-                </div>
-                <div className='flex items-center gap-0.5'>
-                  <Icon
-                    name='ArrowshapeUpFillIcon'
-                    className='size-5 text-blue-600'
-                  />
-                  <span className='text-text-secondary font-semibold'>130</span>{" "}
-                  mind score has increased.
-                </div>
-
-                <div className='flex items-center gap-0.5'>
-                  <Icon
-                    name='CheckedCircleFillIcon'
-                    className='size-5 text-green-600'
-                  />
-                  <span className='text-text-secondary font-semibold'>
-                    {summaryStats.completed}
-                  </span>{" "}
-                  items completed.
-                </div>
-                <div className='flex items-center gap-0.5'>
-                  <Icon
-                    name='ExclamationmarkTriangleFillIcon'
-                    className='size-5 text-orange-500'
-                  />
-                  <span className='text-text-secondary font-semibold'>
-                    {summaryStats.failed}
-                  </span>{" "}
-                  items failed and needs actions.
-                </div>
-              </div>
-            </div>
-            <h1 className='text-start  text-text-primary px-1 text-sm'>
-              Your mind can now answer 5 new questions!
-            </h1>
-            <div className='flex flex-wrap gap-1'>
-              {[
-                "What is your latest hobby?",
-                "How did you get into product design?",
-                "What is your favorite AI tool?",
-                "What are you working on right now?",
-                "What is next for you?",
-              ].map((question) => (
-                <div
-                  key={question}
-                  className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'
+      {/* Active training queue */}
+      {(hasActiveItems || showCompletedStatus) && (
+        <div className='flex flex-col gap-3 mt-4'>
+          {/* Active Training Queue Header */}
+          <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center justify-between gap-0.5 tracking-tight'>
+            <div className='flex items-center gap-2 w-full justify-between'>
+              <div className='flex items-center gap-0.5'>
+                <Icon
+                  name={
+                    showCompletedStatus
+                      ? "GaugeWithDotsNeedle67PercentIcon"
+                      : "LoaderCircleIcon"
+                  }
+                  className={cn(
+                    "size-4.5",
+                    showCompletedStatus
+                      ? "text-neutral-400"
+                      : "text-icon-light mr-0.5",
+                    !showCompletedStatus && "animate-spin"
+                  )}
+                />
+                <span
+                  className={cn(showCompletedStatus && "text-text-primary")}
                 >
-                  &quot;{question}&quot;
-                </div>
+                  {showCompletedStatus
+                    ? `Training completed!`
+                    : `Learning ${finishedCount} / ${totalCount}`}
+                </span>
+              </div>
+              {showCompletedStatus && (
+                <>
+                  <Button
+                    variant='glossy'
+                    size='sm'
+                    onClick={() => setShowCompletedStatus(false)}
+                    className='text-[12px] shadow-md shrink-0 h-7 has-[>svg]:px-2.5 has-[>svg]:pr-1.5 gap-1 rounded-md'
+                  >
+                    <span className='text-[12px]'>View summary</span>
+                    <Icon
+                      name='ArrowForwardIcon'
+                      className='size-4 text-white'
+                    />
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Active Training Queue List */}
+          <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3 mb-4 px-2'>
+            <div className='flex flex-col gap-0.5 w-full'>
+              {(showCompletedStatus ? queueSnapshot : queue).map((item) => (
+                <TrainingQueueItem
+                  key={item.id}
+                  item={item}
+                  docIconSize='size-5'
+                  fontSize='text-[14px]'
+                  containerClassName='hover:bg-extra-light/100 rounded-md py-1'
+                />
               ))}
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Data Table grouped by date */}
-      <div className='flex flex-col gap-2'>
-        <div className='flex gap-4 items-center justify-between mb-1'>
+      {/* Training Summary - Only show when idle (not training and not showing completion) */}
+      {!hasActiveItems && !showCompletedStatus && (
+        <div className='flex flex-col gap-3 mt-4'>
           <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
             <Icon
               name='SquareTextSquareFillIcon'
               className='size-4.5 text-icon-light'
             />
+            Summary
+          </div>
+          <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3.5 pb-4 mb-4'>
+            <div className='flex flex-col gap-2 px-3 mb-0'>
+              <div className='flex flex-col gap-2 mb-5'>
+                <h1 className='text-start  text-text-primary px-1 text-sm'>
+                  Here is what happend from your last training at{" "}
+                  <span className='font-semibold'>Nov 17, 2025</span>:
+                </h1>
+                <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-1.5'>
+                  <div className='flex items-center gap-0.5'>
+                    <Icon
+                      name='MindBubbleFillIcon'
+                      className='size-5 text-orange-400'
+                    />
+                    <span className='text-text-secondary font-semibold'>
+                      {summaryStats.totalTrained}
+                    </span>{" "}
+                    items were trained.
+                  </div>
+                  <div className='flex items-center gap-0.5'>
+                    <Icon
+                      name='ArrowshapeUpFillIcon'
+                      className='size-5 text-neutral-400'
+                    />
+                    <span className='text-text-secondary font-semibold'>
+                      130
+                    </span>{" "}
+                    mind score has increased.
+                  </div>
+
+                  <div className='flex items-center gap-0.5'>
+                    <Icon
+                      name='CheckedCircleFillIcon'
+                      className='size-5 text-green-600'
+                    />
+                    <span className='text-text-secondary font-semibold'>
+                      {summaryStats.completed}
+                    </span>{" "}
+                    items completed.
+                  </div>
+                  <div className='flex items-center gap-0.5'>
+                    <Icon
+                      name='ExclamationmarkTriangleFillIcon'
+                      className='size-5 text-orange-500'
+                    />
+                    <span className='text-text-secondary font-semibold'>
+                      {summaryStats.failed}
+                    </span>{" "}
+                    items failed and needs actions.
+                  </div>
+                </div>
+              </div>
+              <h1 className='text-start  text-text-primary px-1 text-sm'>
+                Your mind can now answer 5 new questions!
+              </h1>
+              <div className='flex flex-wrap gap-1'>
+                {[
+                  "What is your latest hobby?",
+                  "How did you get into product design?",
+                  "What is your favorite AI tool?",
+                  "What are you working on right now?",
+                  "What is next for you?",
+                ].map((question) => (
+                  <div
+                    key={question}
+                    className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'
+                  >
+                    &quot;{question}&quot;
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Data Table grouped by date */}
+      <div className='flex flex-col gap-2'>
+        <div className='flex gap-4 items-center justify-between mb-1'>
+          <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
+            <Icon name='ClockFillIcon' className='size-4.5 text-icon-light' />
             Training History
           </div>
           {/* Filter Section */}
@@ -554,7 +508,7 @@ export function TrainingStatusTab() {
             >
               <SelectTrigger
                 size='sm'
-                className='data-[size=sm]:h-6 bg-transparent px-2 text-[12px] w-fit rounded-sm hover:bg-light gap-1.5'
+                className='data-[size=sm]:h-6 bg-transparent px-2 text-[12px] w-fit rounded-sm hover:bg-base gap-1.5'
               >
                 <div className='flex items-center gap-2 pb-[1px]'>
                   <SelectValue />

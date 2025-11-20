@@ -27,7 +27,7 @@ export function UpgradeBroadcast({
           <p className='text-sm text-[#8D8D86] leading-[1.3] px-1'>
             Your engagement is dropping. Try out broadcast to boost your
             engagement.{" "}
-            <span className='text-blue-400 hover:opacity-70 transition-opacity cursor-pointer'>
+            <span className='text-blue-500 hover:opacity-70 transition-opacity cursor-pointer'>
               Learn more
             </span>
           </p>
