@@ -42,7 +42,7 @@ export function MindProgressBar({
             isVisible={lastIncrement !== null}
           />
         </div>
-        <p className='text-xs font-medium'>
+        <p className='text-[13px] font-medium'>
           / {nextLevelThreshold.toLocaleString()}
         </p>
       </div>

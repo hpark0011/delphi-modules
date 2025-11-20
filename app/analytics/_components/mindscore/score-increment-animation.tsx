@@ -26,7 +26,7 @@ export function ScoreIncrementAnimation({
           }}
           className={cn(
             // "absolute left-1/2 -translate-x-1/2",
-            "text-white text-xs tracking-tighter font-medium",
+            "text-white text-[13px] tracking-tighter font-medium",
             "whitespace-nowrap",
             "drop-shadow-[0_0_4px_rgba(0,0,0,0.5)]"
           )}

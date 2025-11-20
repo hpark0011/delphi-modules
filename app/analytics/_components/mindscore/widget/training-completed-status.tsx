@@ -23,22 +23,7 @@ export function TrainingCompletedStatus({
   const { openWithTab } = useMindDialog();
 
   return (
-    <div
-      className='w-full items-center flex justify-center p-2 py-1.5 pr-3 gap-1 text-text-tertiary hover:text-blue-400 cursor-pointer rounded-full group'
-      onClick={() => {
-        setShowCompletedStatus(false);
-        openWithTab("training-status");
-      }}
-      role='button'
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          setShowCompletedStatus(false);
-          openWithTab("training-status");
-        }
-      }}
-    >
+    <div className='w-full items-center flex justify-center p-2 py-1.5 pr-3 gap-1 text-text-tertiary cursor-pointer rounded-full'>
       <div className='flex items-center gap-0.5 relative py-0.5 px-2 w-full pl-1'>
         <ChevronRightIcon className='size-3.5 text-icon-light' />
         <div className='text-[13px] font-[500] w-full'>Learning completed!</div>
@@ -80,7 +65,14 @@ export function TrainingCompletedStatus({
       </div>
       <Tooltip>
         <TooltipTrigger asChild className='shadow-2xl'>
-          <div className='mr-1 flex items-center gap-0.5'>
+          <div
+            className='mr-1 flex items-center gap-0.5 cursor-pointer group'
+            onClick={() => {
+              setShowCompletedStatus(false);
+              openWithTab("training-status");
+            }}
+            role='button'
+          >
             <Icon
               name='DocPlainTextFillIcon'
               className='size-4 text-icon-light group-hover:text-blue-400'
