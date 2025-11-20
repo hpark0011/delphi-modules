@@ -1,13 +1,19 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import { mockTrainingItems } from "@/app/analytics/_lib/mock-training-items";
 import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+  formatDateLabel,
+  getStatusIcon,
+} from "@/app/analytics/_utils/mind-dialog";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -16,17 +22,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { format, isToday, isYesterday, parseISO } from "date-fns";
-import { Icon, type IconName } from "@/components/ui/icon";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { format, parseISO } from "date-fns";
+import { useMemo, useState } from "react";
 
 export type TrainingStatus =
   | "queued"
@@ -41,164 +46,6 @@ export interface TrainingItem {
   type: string;
   trainedAt: string; // ISO date string
   status: TrainingStatus;
-}
-
-// Mock data - replace with actual data fetching
-const mockTrainingItems: TrainingItem[] = [
-  {
-    id: "1",
-    name: "Product Documentation.pdf",
-    type: "PDF",
-    trainedAt: new Date().toISOString(),
-    status: "completed",
-  },
-  {
-    id: "2",
-    name: "Company Handbook.docx",
-    type: "Document",
-    trainedAt: new Date().toISOString(),
-    status: "failed",
-  },
-  {
-    id: "3",
-    name: "Sales Training Manual.pdf",
-    type: "PDF",
-    trainedAt: new Date().toISOString(),
-    status: "failed",
-  },
-  {
-    id: "4",
-    name: "Onboarding Guide.md",
-    type: "Markdown",
-    trainedAt: new Date().toISOString(),
-    status: "completed",
-  },
-  {
-    id: "5",
-    name: "API Reference.md",
-    type: "Markdown",
-    trainedAt: new Date(Date.now() - 86400000).toISOString(),
-    status: "failed",
-  },
-  {
-    id: "6",
-    name: "User Guide.pdf",
-    type: "PDF",
-    trainedAt: new Date(Date.now() - 86400000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "7",
-    name: "Technical Specifications.docx",
-    type: "Document",
-    trainedAt: new Date(Date.now() - 86400000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "8",
-    name: "Customer Support FAQ.txt",
-    type: "Text",
-    trainedAt: new Date(Date.now() - 86400000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "9",
-    name: "Training Materials.zip",
-    type: "Archive",
-    trainedAt: new Date(Date.now() - 172800000).toISOString(),
-    status: "queued",
-  },
-  {
-    id: "10",
-    name: "Knowledge Base.txt",
-    type: "Text",
-    trainedAt: new Date(Date.now() - 172800000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "11",
-    name: "Developer Guide.pdf",
-    type: "PDF",
-    trainedAt: new Date(Date.now() - 172800000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "12",
-    name: "Release Notes.md",
-    type: "Markdown",
-    trainedAt: new Date(Date.now() - 172800000).toISOString(),
-    status: "failed",
-  },
-  {
-    id: "13",
-    name: "Security Policy.pdf",
-    type: "PDF",
-    trainedAt: new Date(Date.now() - 259200000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "14",
-    name: "Code of Conduct.docx",
-    type: "Document",
-    trainedAt: new Date(Date.now() - 259200000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "15",
-    name: "Best Practices Guide.md",
-    type: "Markdown",
-    trainedAt: new Date(Date.now() - 259200000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "16",
-    name: "Architecture Diagrams.zip",
-    type: "Archive",
-    trainedAt: new Date(Date.now() - 345600000).toISOString(),
-    status: "completed",
-  },
-  {
-    id: "17",
-    name: "Database Schema.txt",
-    type: "Text",
-    trainedAt: new Date(Date.now() - 345600000).toISOString(),
-    status: "failed",
-  },
-  {
-    id: "18",
-    name: "Integration Guide.pdf",
-    type: "PDF",
-    trainedAt: new Date(Date.now() - 345600000).toISOString(),
-    status: "completed",
-  },
-];
-
-function formatDateLabel(dateString: string): string {
-  const date = parseISO(dateString);
-  if (isToday(date)) {
-    return "Today";
-  }
-  if (isYesterday(date)) {
-    return "Yesterday";
-  }
-  return format(date, "MMM dd, yyyy");
-}
-
-function getStatusIcon(status: TrainingStatus): IconName {
-  switch (status) {
-    case "completed":
-      return "CheckedCircleFillIcon";
-    case "training":
-      return "LoaderCircleIcon";
-    case "queued":
-      return "CircleDashedIcon";
-    case "failed":
-      return "ExclamationmarkTriangleFillIcon";
-    case "deleting":
-      return "TrashFillIcon";
-    default:
-      return "CircleDashedIcon";
-  }
 }
 
 function DateGroupTable({

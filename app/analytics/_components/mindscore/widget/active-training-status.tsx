@@ -6,15 +6,14 @@ import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { ExpandableQueueList } from "./expandable-queue-list";
+import { isFinishedStatus } from "../training-status-utils";
 
 export function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
   const [isExpanded, setIsExpanded] = useState(true);
 
-  // Calculate processed items (completed + training)
-  const processed = queue.filter(
-    (item) => item.status === "completed" || item.status === "training"
-  ).length;
+  // Calculate finished items (completed, failed, or deleting)
+  const finished = queue.filter((item) => isFinishedStatus(item.status)).length;
   const total = queue.length;
 
   const handleToggle = () => {
@@ -38,7 +37,7 @@ export function ActiveTrainingStatus() {
       >
         <Icon name='LoaderCircleIcon' className='size-4 animate-spin' />
         <div className='text-[13px] w-full'>
-          Learning {processed}
+          Learning {finished}
           <span className='mx-0.5'>/</span>
           {total}
         </div>
