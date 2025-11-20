@@ -3,6 +3,7 @@
 import { Icon, type IconName } from "@/components/ui/icon";
 import type { QueueItem } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 import { RingPercentage } from "./ring-percentage";
 import type { TrainingStatus } from "./training-status-tab";
 
@@ -38,15 +39,20 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
       <div className='flex items-center gap-1'>
         {/* Icon or Ring Percentage */}
         <div className='flex-shrink-0'>
-          {item.status === "training" || item.status === "queued" ? (
+          {item.status === "training" ? (
+            <div className='size-5 flex items-center justify-center'>
+              <Icon
+                name='ArrowRightCircleFillIcon'
+                className='size-5 text-[#3b82f6]'
+              />
+            </div>
+          ) : item.status === "queued" ? (
             <div className='size-5 flex items-center justify-center'>
               <RingPercentage
                 value={item.progress}
                 size={14}
                 strokeWidth={2}
-                progressColor={
-                  item.status === "training" ? "#3b82f6" : "#8D8D86"
-                }
+                progressColor='#8D8D86'
                 trackColor='var(--color-neutral-200)'
                 showLabel={false}
                 animate={true}
@@ -71,9 +77,33 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
         {/* Content */}
         <div className='flex-1 min-w-0'>
           <div className='flex items-center gap-2'>
-            <p className='text-sm font-medium text-text-primary truncate'>
-              {item.name}
-            </p>
+            {item.status === "training" ? (
+              <motion.span
+                className='text-sm font-medium text-text-primary truncate inline-block'
+                style={{
+                  background:
+                    "linear-gradient(90deg, var(--color-text-muted) 0%, rgba(59, 130, 246, 0.9) 50%, var(--color-text-muted) 100%)",
+                  backgroundSize: "200% 100%",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+                animate={{
+                  backgroundPosition: ["200% 0", "-200% 0"],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              >
+                {item.name}
+              </motion.span>
+            ) : (
+              <p className='text-sm font-medium text-text-primary truncate'>
+                {item.name}
+              </p>
+            )}
           </div>
         </div>
       </div>
