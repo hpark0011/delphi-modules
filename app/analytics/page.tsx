@@ -1,9 +1,9 @@
 "use client";
 
+import { NewMindscore } from "@/app/analytics/_components/mindscore/new-mindscore";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";
-import { MindScore } from "@/components/analytics/home/mindscore";
 import { Icon } from "@/components/ui/icon";
 import { CircleDashedIcon } from "lucide-react";
 
@@ -37,12 +37,6 @@ export type Highlights = {
 
 export default function AnalyticsPage() {
   // Sample data - replace with actual data fetching
-  const mindScore = {
-    current: 110,
-    total: 200,
-    level: "Master",
-  };
-
   const engagements: Engagements = {
     conversations: {
       value: 418,
@@ -127,10 +121,10 @@ export default function AnalyticsPage() {
   // const highlights = [];
 
   return (
-    <div className='space-y-6 px-13'>
+    <div className='space-y-4 px-13'>
       {/* Header Section */}
       <div>
-        <h1 className='text-[28px] leading-[1.2] font-medium mb-2 text-[#21201C] dark:text-[#EEEEEC] px-3'>
+        <h1 className='text-[24px] leading-[1.2] font-medium mb-2 text-[#21201C] dark:text-[#EEEEEC] px-3'>
           Good Afternoon, John!
         </h1>
       </div>
@@ -155,7 +149,7 @@ export default function AnalyticsPage() {
                 <div className='flex items-end text-xs text-[#8D8D86] dark:text-neutral-400 flex-col mr-4'>
                   <span>Reach 200 Mind Score</span>
                   <span className='text-[#21201C] dark:text-[#EEEEEC]'>
-                    {mindScore.current} / {mindScore.total}
+                    110 / 200
                   </span>
                 </div>
               </div>
@@ -200,9 +194,10 @@ export default function AnalyticsPage() {
           </AnalyticsSectionWrapper>
         </div>
 
-        <div className='flex flex-col space-y-2 w-full max-w-[392px]'>
+        <div className='flex flex-col space-y-2 w-full max-w-[360px]'>
           {/* Mind Score Card */}
-          <MindScore mindScore={mindScore} />
+          {/* <MindScore mindScore={mindScore} /> */}
+          <NewMindscore />
 
           {/* Analytics Section */}
           <HomeAnalytics engagements={engagements} />
