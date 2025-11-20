@@ -7,6 +7,9 @@ import {
 } from "@/app/analytics/_utils/mind-dialog.utils";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
+import { TrainingQueueItem } from "./training-queue-item";
 import {
   Select,
   SelectContent,
@@ -136,6 +139,8 @@ function DateGroupTable({
 }
 
 export function TrainingStatusTab() {
+  const { queue } = useTrainingQueue();
+  const { hasActiveItems } = useTrainingStatus();
   const [selectedStatus, setSelectedStatus] = useState<TrainingStatus | "all">(
     "all"
   );
@@ -297,8 +302,25 @@ export function TrainingStatusTab() {
 
   return (
     <div className='flex flex-col gap-4'>
-      {/* Training Summary */}
+      {/* Active training queue */}
+      {hasActiveItems && (
+        <div className='flex flex-col gap-3 mt-4'>
+          <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
+            <Icon
+              name='LoaderCircleIcon'
+              className='size-4.5 text-icon-light animate-spin'
+            />
+            Active Training
+          </div>
+          <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 mb-4'>
+            {queue.map((item) => (
+              <TrainingQueueItem key={item.id} item={item} />
+            ))}
+          </div>
+        </div>
+      )}
 
+      {/* Training Summary */}
       <div className='flex flex-col gap-3 mt-4'>
         <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
           <Icon
