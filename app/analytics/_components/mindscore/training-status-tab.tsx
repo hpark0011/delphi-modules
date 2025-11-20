@@ -305,6 +305,7 @@ export function TrainingStatusTab() {
       {/* Active training queue */}
       {hasActiveItems && (
         <div className='flex flex-col gap-3 mt-4'>
+          {/* Active Training Queue Header */}
           <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
             <Icon
               name='LoaderCircleIcon'
@@ -312,6 +313,8 @@ export function TrainingStatusTab() {
             />
             Active Training
           </div>
+
+          {/* Active Training Queue List */}
           <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 mb-4'>
             {queue.map((item) => (
               <TrainingQueueItem key={item.id} item={item} />
