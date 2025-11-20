@@ -65,6 +65,7 @@ export { default as EyeFillIcon } from "@/icons/eye.fill.svg";
 export { default as EyesInverseIcon } from "@/icons/eyes.inverse.svg";
 export { default as EyesIcon } from "@/icons/eyes.svg";
 export { default as FaceSmilingInverseIcon } from "@/icons/face.smiling.inverse.svg";
+export { default as GaugeWithDotsNeedle67PercentIcon } from "@/icons/gauge.with.dots.needle.67percent.svg";
 export { default as GearIcon } from "@/icons/gear.svg";
 export { default as GlobeFillIcon } from "@/icons/globe.fill.svg";
 export { default as GlobeIcon } from "@/icons/globe.svg";

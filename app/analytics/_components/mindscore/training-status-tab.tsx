@@ -7,6 +7,11 @@ import {
 } from "@/app/analytics/_utils/mind-dialog.utils";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { TrainingQueueItem } from "./training-queue-item";
@@ -341,43 +346,62 @@ export function TrainingStatusTab() {
         <div className='flex flex-col gap-3 mt-4'>
           {/* Active Training Queue Header */}
           <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center justify-between gap-0.5 tracking-tight'>
-            <div className='flex items-center gap-0.5'>
-              <Icon
-                name={
-                  showCompletedStatus
-                    ? "CheckedCircleFillIcon"
-                    : "LoaderCircleIcon"
-                }
-                className={cn(
-                  "size-4.5",
-                  showCompletedStatus ? "text-green-500" : "text-icon-light",
-                  !showCompletedStatus && "animate-spin"
-                )}
-              />
-              <span className={cn(showCompletedStatus && "text-text-primary")}>
-                {showCompletedStatus
-                  ? `Training completed!`
-                  : `Learning ${finishedCount} / ${totalCount}`}
-              </span>
+            <div className='flex items-center gap-2 w-full justify-between'>
+              <div className='flex items-center gap-0.5'>
+                <Icon
+                  name={
+                    showCompletedStatus
+                      ? "GaugeWithDotsNeedle67PercentIcon"
+                      : "LoaderCircleIcon"
+                  }
+                  className={cn(
+                    "size-4.5",
+                    showCompletedStatus
+                      ? "text-neutral-400"
+                      : "text-icon-light",
+                    !showCompletedStatus && "animate-spin"
+                  )}
+                />
+                <span
+                  className={cn(showCompletedStatus && "text-text-primary")}
+                >
+                  {showCompletedStatus
+                    ? `Training completed!`
+                    : `Learning ${finishedCount} / ${totalCount}`}
+                </span>
+              </div>
+              {showCompletedStatus && (
+                <>
+                  <Button
+                    variant='glossy'
+                    size='sm'
+                    onClick={() => setShowCompletedStatus(false)}
+                    className='text-[12px] shadow-md shrink-0 h-7 has-[>svg]:px-2.5 has-[>svg]:pr-1.5 gap-1 rounded-md'
+                  >
+                    <span className='text-[12px]'>View summary</span>
+                    <Icon
+                      name='ArrowForwardIcon'
+                      className='size-4 text-white'
+                    />
+                  </Button>
+                </>
+              )}
             </div>
-            {showCompletedStatus && (
-              <Button
-                variant='glossy'
-                size='sm'
-                onClick={() => setShowCompletedStatus(false)}
-                className='text-[12px] shadow-md shrink-0 h-7 has-[>svg]:px-2.5 has-[>svg]:pr-1.5 gap-1 rounded-md'
-              >
-                <span className='text-[12px]'>View summary</span>
-                <Icon name='ArrowForwardIcon' className='size-4 text-white' />
-              </Button>
-            )}
           </div>
 
           {/* Active Training Queue List */}
-          <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 mb-4 px-2'>
-            {(showCompletedStatus ? queueSnapshot : queue).map((item) => (
-              <TrainingQueueItem key={item.id} item={item} />
-            ))}
+          <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3 mb-4 px-2'>
+            <div className='flex flex-col gap-0.5 w-full'>
+              {(showCompletedStatus ? queueSnapshot : queue).map((item) => (
+                <TrainingQueueItem
+                  key={item.id}
+                  item={item}
+                  docIconSize='size-5'
+                  fontSize='text-[14px]'
+                  containerClassName='hover:bg-extra-light/100 rounded-md py-1'
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}
