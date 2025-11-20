@@ -7,7 +7,7 @@ import { MindDialog, useMindDialog } from "../mind-dialog";
 import { MindProgressBar } from "../mind-progress-bar";
 import { MindScoreProvider, useMindScore } from "../mind-score-context";
 import { TrainingQueueProvider } from "../training-queue-context";
-import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { ActiveTrainingStatus } from "./active-training-status";
 import { LastTrainedDate } from "./last-trained-date";
@@ -71,6 +71,7 @@ interface TrainingStatusTriggerProps {
   setShowCompletedStatus: (show: boolean) => void;
   completedCount: number;
   failedCount: number;
+  queueSnapshot?: QueueItem[];
 }
 
 function TrainingStatusTrigger({
@@ -78,6 +79,7 @@ function TrainingStatusTrigger({
   setShowCompletedStatus,
   completedCount,
   failedCount,
+  queueSnapshot,
 }: TrainingStatusTriggerProps) {
   const { queue } = useTrainingQueue();
 
@@ -94,6 +96,7 @@ function TrainingStatusTrigger({
         setShowCompletedStatus={setShowCompletedStatus}
         completedCount={completedCount}
         failedCount={failedCount}
+        queueSnapshot={queueSnapshot}
       />
     );
   }
@@ -110,6 +113,7 @@ function MindScoreContent() {
   const [showCompletedStatus, setShowCompletedStatus] = useState(false);
   const [completedCount, setCompletedCount] = useState(0);
   const [failedCount, setFailedCount] = useState(0);
+  const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
 
   // Only show "Learning" status if there are items still being processed (queued or training)
   const hasActiveItems = queue.some(
@@ -133,13 +137,15 @@ function MindScoreContent() {
 
     // Completion Detection: When all items are done (completed or failed) and no active items
     if (allDone && !hasActiveItems) {
-      // Capture counts before clearing queue
+      // Capture counts and snapshot before clearing queue
       const completed = queue.filter(
         (item) => item.status === "completed"
       ).length;
       const failed = queue.filter((item) => item.status === "failed").length;
       setCompletedCount(completed);
       setFailedCount(failed);
+      // Capture queue snapshot (all items with final states: completed, failed, deleting)
+      setQueueSnapshot([...queue]);
       setShowCompletedStatus(true);
       // Clear queue after a short delay to ensure state update
       const timer = setTimeout(() => {
@@ -153,6 +159,7 @@ function MindScoreContent() {
       setShowCompletedStatus(false);
       setCompletedCount(0);
       setFailedCount(0);
+      setQueueSnapshot([]);
     }
   }, [queue, hasActiveItems, showCompletedStatus, clearQueue]);
 
@@ -167,6 +174,7 @@ function MindScoreContent() {
           setShowCompletedStatus={setShowCompletedStatus}
           completedCount={completedCount}
           failedCount={failedCount}
+          queueSnapshot={queueSnapshot}
         />
       </MindDialog>
     </AnalyticsSectionWrapper>
