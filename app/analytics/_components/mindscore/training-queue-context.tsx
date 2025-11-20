@@ -19,6 +19,7 @@ export interface QueueItem {
   status: TrainingStatus;
   progress: number; // 0-100
   shouldFail?: boolean; // If true, item will fail after training completes
+  shouldDelete?: boolean; // If true, item will enter deleting state after training completes
 }
 
 const TRAINING_DURATION = 3500; // 4 seconds per item
@@ -42,7 +43,7 @@ interface TrainingQueueProviderProps {
 export function TrainingQueueProvider({
   children,
 }: TrainingQueueProviderProps) {
-  const { incrementScore } = useMindScore();
+  const { incrementScore, decrementScore } = useMindScore();
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const processingRef = useRef(false);
   const intervalRefs = useRef<Map<string, NodeJS.Timeout>>(new Map());
@@ -55,7 +56,9 @@ export function TrainingQueueProvider({
     const processQueue = async () => {
       processingRef.current = true;
       const itemsToProcess = queue.filter((item) => item.status === "queued");
+      const itemsToDelete = queue.filter((item) => item.status === "deleting");
 
+      // Process queued items (training)
       for (const item of itemsToProcess) {
         // Update status to training
         setQueue((prev) =>
@@ -90,25 +93,69 @@ export function TrainingQueueProvider({
           timeoutRefs.current.push(timeout);
         });
 
-        // Update status based on shouldFail flag
-        const finalStatus = item.shouldFail ? "failed" : "completed";
-        setQueue((prev) =>
-          prev.map((q) =>
-            q.id === item.id ? { ...q, status: finalStatus, progress: 100 } : q
-          )
-        );
+        // Update status based on shouldFail and shouldDelete flags
+        if (item.shouldDelete) {
+          // Transition to deleting state
+          setQueue((prev) =>
+            prev.map((q) =>
+              q.id === item.id ? { ...q, status: "deleting", progress: 0 } : q
+            )
+          );
+        } else {
+          const finalStatus = item.shouldFail ? "failed" : "completed";
+          setQueue((prev) =>
+            prev.map((q) =>
+              q.id === item.id
+                ? { ...q, status: finalStatus, progress: 100 }
+                : q
+            )
+          );
 
-        // Increment mind score only when item completes successfully
-        if (!item.shouldFail) {
-          incrementScore(25); // 15 points per item
+          // Increment mind score only when item completes successfully
+          if (!item.shouldFail) {
+            incrementScore(25); // 25 points per item
+          }
         }
+      }
+
+      // Process deleting items
+      for (const item of itemsToDelete) {
+        // Simulate deletion progress
+        const startTime = Date.now();
+        const interval = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min((elapsed / TRAINING_DURATION) * 100, 100);
+
+          setQueue((prev) =>
+            prev.map((q) => (q.id === item.id ? { ...q, progress } : q))
+          );
+        }, 50);
+
+        intervalRefs.current.set(item.id, interval);
+
+        // Wait for deletion to complete
+        await new Promise((resolve) => {
+          const timeout = setTimeout(() => {
+            const intervalToClear = intervalRefs.current.get(item.id);
+            if (intervalToClear) {
+              clearInterval(intervalToClear);
+              intervalRefs.current.delete(item.id);
+            }
+            resolve(null);
+          }, TRAINING_DURATION);
+          timeoutRefs.current.push(timeout);
+        });
+
+        // Decrement score and remove item from queue
+        decrementScore(25);
+        setQueue((prev) => prev.filter((q) => q.id !== item.id));
       }
 
       processingRef.current = false;
     };
 
     processQueue();
-  }, [queue, incrementScore]);
+  }, [queue, incrementScore, decrementScore]);
 
   const addToQueue = useCallback(
     (items: Omit<QueueItem, "id" | "status" | "progress">[]) => {
@@ -118,6 +165,7 @@ export function TrainingQueueProvider({
         status: "queued" as TrainingStatus,
         progress: 0,
         shouldFail: item.shouldFail ?? false,
+        shouldDelete: item.shouldDelete ?? false,
       }));
 
       setQueue((prev) => [...prev, ...newItems]);

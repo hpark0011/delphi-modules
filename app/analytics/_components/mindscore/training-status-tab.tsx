@@ -28,7 +28,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export type TrainingStatus = "queued" | "training" | "failed" | "completed";
+export type TrainingStatus =
+  | "queued"
+  | "training"
+  | "failed"
+  | "completed"
+  | "deleting";
 
 export interface TrainingItem {
   id: string;

@@ -17,6 +17,8 @@ function getStatusIcon(status: TrainingStatus): IconName {
       return "CircleDashedIcon";
     case "failed":
       return "ExclamationmarkTriangleFillIcon";
+    case "deleting":
+      return "TrashFillIcon";
     default:
       return "CircleDashedIcon";
   }
@@ -76,6 +78,19 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
                 showLabel={false}
                 animate={true}
                 ariaLabel={`${item.name} progress`}
+              />
+            </div>
+          ) : item.status === "deleting" ? (
+            <div className='size-5 flex items-center justify-center'>
+              <RingPercentage
+                value={item.progress}
+                size={14}
+                strokeWidth={2}
+                progressColor='#e5484d'
+                trackColor='var(--color-neutral-200)'
+                showLabel={false}
+                animate={true}
+                ariaLabel={`${item.name} deletion progress`}
               />
             </div>
           ) : (

@@ -130,7 +130,11 @@ export function AddKnowledgeTab() {
   const { incrementScore } = useMindScore();
 
   const handleAddContent = (itemName?: string) => {
-    let itemsToAdd: Array<{ name: string; shouldFail?: boolean }> = [];
+    let itemsToAdd: Array<{
+      name: string;
+      shouldFail?: boolean;
+      shouldDelete?: boolean;
+    }> = [];
 
     if (itemName === "Interview mode") {
       itemsToAdd = [
@@ -153,10 +157,7 @@ export function AddKnowledgeTab() {
         { name: "Website 2", shouldFail: true },
       ];
     } else if (itemName === "Podcast") {
-      // Directly increment score without adding to queue
-      incrementScore(200);
-      close();
-      return;
+      itemsToAdd = [{ name: "Podcast 1", shouldDelete: true }];
     }
 
     if (itemsToAdd.length > 0) {
