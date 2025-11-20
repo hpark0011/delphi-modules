@@ -308,13 +308,11 @@ export function TrainingStatusTab() {
           Summary
         </div>
         <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3.5 pb-4 mb-4'>
-          {/* <div className='text-sm font-medium text-text-muted dark:text-neutral-500 mb-3 border-b border-border-light dark:border-dark pb-2 px-4 text-center'>
-          Last training summary - Nov 17, 2025
-        </div> */}
           <div className='flex flex-col gap-2 px-3 mb-0'>
             <div className='flex flex-col gap-2 mb-5'>
               <h1 className='text-start  text-text-primary px-1 text-sm'>
-                Here is what happend from your last training:
+                Here is what happend from your last training at{" "}
+                <span className='font-semibold'>Nov 17, 2025</span>:
               </h1>
               <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-1'>
                 <div className='flex items-center gap-0.5'>
