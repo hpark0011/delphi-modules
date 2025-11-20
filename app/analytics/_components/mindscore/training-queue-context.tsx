@@ -146,9 +146,15 @@ export function TrainingQueueProvider({
           timeoutRefs.current.push(timeout);
         });
 
-        // Decrement score and remove item from queue
+        // Decrement score immediately after deletion completes
         decrementScore(25);
-        setQueue((prev) => prev.filter((q) => q.id !== item.id));
+
+        // Keep item in queue for history (similar to completed/failed items)
+        setQueue((prev) =>
+          prev.map((q) =>
+            q.id === item.id ? { ...q, status: "deleting", progress: 100 } : q
+          )
+        );
       }
 
       processingRef.current = false;
