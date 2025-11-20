@@ -194,6 +194,8 @@ function getStatusIcon(status: TrainingStatus): IconName {
       return "CircleDashedIcon";
     case "failed":
       return "ExclamationmarkTriangleFillIcon";
+    case "deleting":
+      return "TrashFillIcon";
     default:
       return "CircleDashedIcon";
   }

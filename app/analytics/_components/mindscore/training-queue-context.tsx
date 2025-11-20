@@ -43,7 +43,7 @@ interface TrainingQueueProviderProps {
 export function TrainingQueueProvider({
   children,
 }: TrainingQueueProviderProps) {
-  const { incrementScore, decrementScore } = useMindScore();
+  const { incrementScore } = useMindScore();
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const processingRef = useRef(false);
   const intervalRefs = useRef<Map<string, NodeJS.Timeout>>(new Map());
@@ -146,9 +146,6 @@ export function TrainingQueueProvider({
           timeoutRefs.current.push(timeout);
         });
 
-        // Decrement score immediately after deletion completes
-        decrementScore(25);
-
         // Keep item in queue for history (similar to completed/failed items)
         setQueue((prev) =>
           prev.map((q) =>
@@ -161,7 +158,7 @@ export function TrainingQueueProvider({
     };
 
     processQueue();
-  }, [queue, incrementScore, decrementScore]);
+  }, [queue, incrementScore]);
 
   const addToQueue = useCallback(
     (items: Omit<QueueItem, "id" | "status" | "progress">[]) => {
