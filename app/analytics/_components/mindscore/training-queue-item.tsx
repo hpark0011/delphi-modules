@@ -90,7 +90,7 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
                   : item.status === "failed"
                     ? "text-orange-500"
                     : item.status === "deleting"
-                      ? "text-[#e5484d]"
+                      ? "text-red-400"
                       : "text-[#8D8D86]"
               )}
             />
