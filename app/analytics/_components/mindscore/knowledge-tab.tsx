@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
+import { Icon, type IconName } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 import { format, parseISO } from "date-fns";
 
@@ -153,7 +153,7 @@ const categories: ContentCategory[] = [
   "Messaging Apps",
 ];
 
-function getIconForType(type: string) {
+function getIconForType(type: string): IconName {
   const typeLower = type.toLowerCase();
   if (typeLower === "website") {
     return "GlobeIcon";
@@ -187,7 +187,7 @@ function KnowledgeItemRow({
       <TableCell className='px-2 py-3 align-middle w-[40%]'>
         <div className='flex items-center gap-2'>
           <Icon
-            name={iconName as any}
+            name={iconName}
             className='w-5 h-5 text-[#8D8D86] dark:text-neutral-500'
           />
           <span className='font-medium text-text-primary text-sm truncate'>

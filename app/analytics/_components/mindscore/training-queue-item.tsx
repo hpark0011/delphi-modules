@@ -1,12 +1,12 @@
 "use client";
 
-import { Icon } from "@/components/ui/icon";
+import { Icon, type IconName } from "@/components/ui/icon";
 import type { QueueItem } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { RingPercentage } from "./ring-percentage";
 import type { TrainingStatus } from "./training-status-tab";
 
-function getStatusIcon(status: TrainingStatus) {
+function getStatusIcon(status: TrainingStatus): IconName {
   switch (status) {
     case "completed":
       return "CheckedCircleFillIcon";
@@ -55,7 +55,7 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
             </div>
           ) : (
             <Icon
-              name={getStatusIcon(item.status) as any}
+              name={getStatusIcon(item.status)}
               className={cn(
                 "size-5",
                 item.status === "completed"

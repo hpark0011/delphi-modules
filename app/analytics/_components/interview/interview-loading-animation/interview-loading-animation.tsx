@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 
 // import { OnboardingProgressBar } from "@delphi/ui";
 
@@ -8,7 +8,7 @@ import { InterviewLoadingImg } from "./interview-loading-img";
 import LoadingText from "./interview-loading-text";
 
 export function InterviewLoadingAnimation() {
-  const fromOnboarding = useSearchParams().get("fromOnboarding") === "true";
+  // const fromOnboarding = useSearchParams().get("fromOnboarding") === "true";
 
   return (
     <div className='absolute inset-0 z-50 flex items-center justify-center overflow-hidden bg-sand-1'>

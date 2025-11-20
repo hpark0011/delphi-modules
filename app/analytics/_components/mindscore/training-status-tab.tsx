@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { format, isToday, isYesterday, parseISO } from "date-fns";
-import { Icon } from "@/components/ui/icon";
+import { Icon, type IconName } from "@/components/ui/icon";
 import {
   Select,
   SelectContent,
@@ -179,7 +179,7 @@ function formatDateLabel(dateString: string): string {
   return format(date, "MMM dd, yyyy");
 }
 
-function getStatusIcon(status: TrainingStatus) {
+function getStatusIcon(status: TrainingStatus): IconName {
   switch (status) {
     case "completed":
       return "CheckedCircleFillIcon";
@@ -351,7 +351,7 @@ export function TrainingStatusTab() {
           return (
             <div className='flex items-center justify-center w-full'>
               <Icon
-                name={getStatusIcon(item.status) as any}
+                name={getStatusIcon(item.status)}
                 className={cn(
                   "size-5",
                   item.status === "completed"
@@ -519,7 +519,7 @@ export function TrainingStatusTab() {
                   key={question}
                   className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'
                 >
-                  "{question}"
+                  &quot;{question}&quot;
                 </div>
               ))}
             </div>
@@ -571,7 +571,7 @@ export function TrainingStatusTab() {
               <p className='text-sm'>No training items found</p>
             </div>
           ) : (
-            groupedData.map(([dateKey, items], index) => (
+            groupedData.map(([dateKey, items]) => (
               <DateGroupTable
                 key={dateKey}
                 dateKey={dateKey}
