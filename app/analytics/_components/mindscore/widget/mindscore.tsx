@@ -25,6 +25,7 @@ function MindScoreTrigger() {
     nextLevelThreshold,
     progressCap,
     lastIncrement,
+    lastDecrement,
   } = useMindScore();
 
   return (
@@ -46,6 +47,7 @@ function MindScoreTrigger() {
         nextLevelThreshold={nextLevelThreshold}
         progressCap={progressCap}
         lastIncrement={lastIncrement}
+        lastDecrement={lastDecrement}
       />
 
       {/* Mind Score Value */}

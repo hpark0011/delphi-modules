@@ -80,19 +80,6 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
                 ariaLabel={`${item.name} progress`}
               />
             </div>
-          ) : item.status === "deleting" ? (
-            <div className='size-5 flex items-center justify-center'>
-              <RingPercentage
-                value={item.progress}
-                size={14}
-                strokeWidth={2}
-                progressColor='#e5484d'
-                trackColor='var(--color-neutral-200)'
-                showLabel={false}
-                animate={true}
-                ariaLabel={`${item.name} deletion progress`}
-              />
-            </div>
           ) : (
             <Icon
               name={getStatusIcon(item.status)}
@@ -102,7 +89,9 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
                   ? "text-[#09CE6B]"
                   : item.status === "failed"
                     ? "text-orange-500"
-                    : "text-[#8D8D86]"
+                    : item.status === "deleting"
+                      ? "text-[#e5484d]"
+                      : "text-[#8D8D86]"
               )}
             />
           )}
