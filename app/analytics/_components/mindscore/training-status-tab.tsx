@@ -314,7 +314,7 @@ export function TrainingStatusTab() {
                 Here is what happend from your last training at{" "}
                 <span className='font-semibold'>Nov 17, 2025</span>:
               </h1>
-              <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-1'>
+              <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-1.5'>
                 <div className='flex items-center gap-0.5'>
                   <Icon
                     name='MindBubbleFillIcon'
@@ -328,7 +328,7 @@ export function TrainingStatusTab() {
                 <div className='flex items-center gap-0.5'>
                   <Icon
                     name='ArrowshapeUpFillIcon'
-                    className='size-5 text-blue-600'
+                    className='size-5 text-neutral-400'
                   />
                   <span className='text-text-secondary font-semibold'>130</span>{" "}
                   mind score has increased.

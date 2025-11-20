@@ -105,7 +105,7 @@ export function TrainingCompletedStatus({
             >
               <Icon
                 name='DocPlainTextFillIcon'
-                className='size-4 text-icon-light group-hover:text-blue-400'
+                className='size-4 text-icon-light group-hover:text-blue-500'
               />
             </div>
           </TooltipTrigger>
