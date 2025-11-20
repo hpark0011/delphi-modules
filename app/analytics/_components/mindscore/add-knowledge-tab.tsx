@@ -2,9 +2,9 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { useMindDialog } from "./mind-dialog";
 import { useMindScore } from "./mind-score-context";
 
@@ -127,7 +127,6 @@ export function AddKnowledgeTab() {
     useState<ContentCategory>("Popular");
   const { addToQueue } = useTrainingQueue();
   const { close } = useMindDialog();
-  const { incrementScore } = useMindScore();
 
   const handleAddContent = (itemName?: string) => {
     let itemsToAdd: Array<{

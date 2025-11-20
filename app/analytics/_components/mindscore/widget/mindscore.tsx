@@ -1,20 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
-import { Icon } from "@/components/ui/icon";
+import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import { MindDialog, useMindDialog } from "../mind-dialog";
 import { MindProgressBar } from "../mind-progress-bar";
 import { MindScoreProvider, useMindScore } from "../mind-score-context";
 import { TrainingQueueProvider } from "../training-queue-context";
-import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
-import { cn } from "@/lib/utils";
 import { ActiveTrainingStatus } from "./active-training-status";
 import { LastTrainedDate } from "./last-trained-date";
-import {
-  TrainingCompletedStatus,
-  type TrainingCompletedStatusProps,
-} from "./training-completed-status";
+import { TrainingCompletedStatus } from "./training-completed-status";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
