@@ -86,7 +86,9 @@ function TrainingStatusTrigger({
     (item) => item.status === "queued" || item.status === "training"
   );
 
-  if (showCompletedStatus && queue.length === 0) {
+  // Show completed status if flag is set and there are no active items
+  // (queue may still contain completed/failed/deleting items for history)
+  if (showCompletedStatus && !hasActiveItems) {
     return (
       <TrainingCompletedStatus
         setShowCompletedStatus={setShowCompletedStatus}
@@ -116,12 +118,18 @@ function MindScoreContent() {
 
   // Detect completion and handle queue clearing
   useEffect(() => {
-    // Check if all items are done processing (either completed or failed)
+    // Check if all items are done processing (either completed, failed, or deleting)
     const allDone =
       queue.length > 0 &&
       queue.every(
-        (item) => item.status === "completed" || item.status === "failed"
+        (item) =>
+          item.status === "completed" ||
+          item.status === "failed" ||
+          item.status === "deleting"
       );
+
+    console.log("queue", queue);
+    console.log("allDone", allDone);
 
     // Completion Detection: When all items are done (completed or failed) and no active items
     if (allDone && !hasActiveItems) {
