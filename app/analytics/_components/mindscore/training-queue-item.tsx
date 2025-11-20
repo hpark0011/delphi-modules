@@ -111,7 +111,7 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
                 className='text-sm font-medium text-text-primary truncate inline-block'
                 style={{
                   background:
-                    "linear-gradient(90deg, var(--color-text-muted) 0%, rgba(59, 130, 246, 0.9) 50%, var(--color-text-muted) 100%)",
+                    "linear-gradient(90deg, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.9) 50%, rgba(59, 130, 246, 0.3) 100%)",
                   backgroundSize: "200% 100%",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
@@ -123,7 +123,7 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
                 transition={{
                   duration: 2,
                   repeat: Infinity,
-                  ease: "easeInOut",
+                  ease: "linear",
                 }}
               >
                 {item.name}

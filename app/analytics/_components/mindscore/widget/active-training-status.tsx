@@ -24,7 +24,7 @@ export function ActiveTrainingStatus() {
     <div className='w-full relative'>
       {/* Status / Trigger */}
       <div
-        className='w-full items-center flex justify-start py-2 px-[11px] pr-3 gap-1.5 text-text-muted hover:text-blue-400 cursor-pointer'
+        className='w-full items-center flex justify-start py-2 px-[11px] pr-3 gap-1.5 text-text-muted hover:text-blue-500 cursor-pointer'
         onClick={handleToggle}
         role='button'
         tabIndex={0}
