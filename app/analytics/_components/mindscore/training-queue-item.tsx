@@ -94,7 +94,7 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
                 transition={{
                   duration: 2,
                   repeat: Infinity,
-                  ease: "linear",
+                  ease: "easeInOut",
                 }}
               >
                 {item.name}
