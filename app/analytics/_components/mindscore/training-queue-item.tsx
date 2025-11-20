@@ -22,6 +22,25 @@ function getStatusIcon(status: TrainingStatus): IconName {
   }
 }
 
+function getDocTypeIcon(itemName: string): IconName | null {
+  if (itemName.startsWith("Interview Question")) {
+    return "MicFillIcon";
+  }
+  if (itemName.startsWith("YouTube Video")) {
+    return "YoutubeIcon";
+  }
+  if (itemName.startsWith("X Post")) {
+    return "XIcon";
+  }
+  if (itemName.startsWith("Website")) {
+    return "GlobeIcon";
+  }
+  if (itemName.startsWith("Podcast")) {
+    return "DocFillIcon";
+  }
+  return "DocFillIcon";
+}
+
 interface TrainingQueueItemProps {
   item: QueueItem;
   className?: string;
@@ -76,7 +95,13 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
 
         {/* Content */}
         <div className='flex-1 min-w-0'>
-          <div className='flex items-center gap-2'>
+          <div className='flex items-center gap-1.5'>
+            {getDocTypeIcon(item.name) && (
+              <Icon
+                name={getDocTypeIcon(item.name)!}
+                className='size-4 text-text-tertiary flex-shrink-0'
+              />
+            )}
             {item.status === "training" ? (
               <motion.span
                 className='text-sm font-medium text-text-primary truncate inline-block'
