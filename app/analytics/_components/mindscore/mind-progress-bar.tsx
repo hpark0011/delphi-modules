@@ -7,6 +7,7 @@ interface MindProgressBarProps {
   nextLevelThreshold: number;
   progressCap: number;
   lastIncrement: number | null;
+  lastDecrement: number | null;
   className?: string;
 }
 
@@ -15,6 +16,7 @@ export function MindProgressBar({
   nextLevelThreshold,
   progressCap,
   lastIncrement,
+  lastDecrement,
   className = "",
 }: MindProgressBarProps) {
   const percentage =
@@ -41,8 +43,13 @@ export function MindProgressBar({
             points={lastIncrement || 0}
             isVisible={lastIncrement !== null}
           />
+          {/* Score Decrement Animation */}
+          <ScoreIncrementAnimation
+            points={-(lastDecrement || 0)}
+            isVisible={lastDecrement !== null}
+          />
         </div>
-        <p className='text-xs font-medium'>
+        <p className='text-[13px] font-medium'>
           / {nextLevelThreshold.toLocaleString()}
         </p>
       </div>

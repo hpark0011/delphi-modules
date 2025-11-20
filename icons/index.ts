@@ -16,6 +16,8 @@ export { default as ArrowForwardIcon } from "@/icons/arrow.forward.svg";
 export { default as ArrowLeftCircleFillIcon } from "@/icons/arrow.left.circle.fill.svg";
 export { default as ArrowLeftLineIcon } from "@/icons/arrow.left.line.svg";
 export { default as ArrowLeftUpAndRightDownIcon } from "@/icons/arrow.left.up.and.right.down.svg";
+export { default as ArrowRightCircleFillIcon } from "@/icons/arrow.right.circle.fill.svg";
+export { default as ArrowRightCircleIcon } from "@/icons/arrow.right.circle.svg";
 export { default as ArrowTriangleLeftFillIcon } from "@/icons/arrow.triangle.left.fill.svg";
 export { default as ArrowTriangleRightFillIcon } from "@/icons/arrow.triangle.right.fill.svg";
 export { default as ArrowTurnDownLeftIcon } from "@/icons/arrow.turn.down.left.svg";
@@ -121,6 +123,8 @@ export { default as RectanglePortraitAndArrowRightIcon } from "@/icons/rectangle
 export { default as RectangleTrailingHalfFilledIcon } from "@/icons/rectangle.trailinghalf.filled.svg";
 export { default as RoundBubbleLeftIcon } from "@/icons/round.bubble.left.svg";
 export { default as ScreenShareFillIcon } from "@/icons/screen.share.fill.svg";
+export { default as XIcon } from "@/icons/social/x.svg";
+export { default as YoutubeIcon } from "@/icons/social/youtube.svg";
 export { default as SparkleIcon } from "@/icons/sparkle.svg";
 export { default as SquareAndArrowUpIcon } from "@/icons/square.and.arrow.up.svg";
 export { default as SquareAndPencilIcon } from "@/icons/square.and.pencil.svg";

@@ -47,6 +47,7 @@ function MindDialogHeader() {
     nextLevelThreshold,
     progressCap,
     lastIncrement,
+    lastDecrement,
   } = useMindScore();
 
   return (
@@ -57,6 +58,7 @@ function MindDialogHeader() {
           nextLevelThreshold={nextLevelThreshold}
           progressCap={progressCap}
           lastIncrement={lastIncrement}
+          lastDecrement={lastDecrement}
         />
       </div>
       <div className='flex justify-end items-center'>

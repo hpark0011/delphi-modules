@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useState, useMemo, useCallback, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+} from "react";
 
 const LEVEL_THRESHOLDS = [
   { name: "Novice", min: 0 },
@@ -19,7 +26,9 @@ interface MindScoreContextType {
   nextLevelThreshold: number;
   progressCap: number;
   lastIncrement: number | null;
+  lastDecrement: number | null;
   incrementScore: (points: number) => void;
+  decrementScore: (points: number) => void;
 }
 
 const MindScoreContext = createContext<MindScoreContextType | null>(null);
@@ -47,12 +56,12 @@ function getNextLevelThreshold(score: number): number {
   const currentIndex = LEVEL_THRESHOLDS.findIndex(
     (level) => level.min === currentThreshold
   );
-  
+
   // If at max level, return current threshold (no next level)
   if (currentIndex === LEVEL_THRESHOLDS.length - 1) {
     return currentThreshold;
   }
-  
+
   return LEVEL_THRESHOLDS[currentIndex + 1].min;
 }
 
@@ -78,10 +87,16 @@ export function MindScoreProvider({
 }: MindScoreProviderProps) {
   const [current, setCurrent] = useState(initialScore);
   const [lastIncrement, setLastIncrement] = useState<number | null>(null);
+  const [lastDecrement, setLastDecrement] = useState<number | null>(null);
 
   const incrementScore = useCallback((points: number) => {
     setCurrent((prev) => prev + points);
     setLastIncrement(points);
+  }, []);
+
+  const decrementScore = useCallback((points: number) => {
+    setCurrent((prev) => Math.max(0, prev - points));
+    setLastDecrement(points);
   }, []);
 
   // Clear increment indicator after 3 seconds
@@ -93,6 +108,16 @@ export function MindScoreProvider({
       return () => clearTimeout(timer);
     }
   }, [lastIncrement]);
+
+  // Clear decrement indicator after 3 seconds
+  useEffect(() => {
+    if (lastDecrement !== null) {
+      const timer = setTimeout(() => {
+        setLastDecrement(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [lastDecrement]);
 
   const level = useMemo(() => calculateLevel(current), [current]);
   const nextLevelThreshold = useMemo(
@@ -113,7 +138,9 @@ export function MindScoreProvider({
       nextLevelThreshold,
       progressCap,
       lastIncrement,
+      lastDecrement,
       incrementScore,
+      decrementScore,
     }),
     [
       current,
@@ -122,7 +149,9 @@ export function MindScoreProvider({
       nextLevelThreshold,
       progressCap,
       lastIncrement,
+      lastDecrement,
       incrementScore,
+      decrementScore,
     ]
   );
 
@@ -140,4 +169,3 @@ export function useMindScore() {
   }
   return context;
 }
-

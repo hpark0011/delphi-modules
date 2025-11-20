@@ -28,7 +28,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export type TrainingStatus = "queued" | "training" | "failed" | "completed";
+export type TrainingStatus =
+  | "queued"
+  | "training"
+  | "failed"
+  | "completed"
+  | "deleting";
 
 export interface TrainingItem {
   id: string;
@@ -189,6 +194,8 @@ function getStatusIcon(status: TrainingStatus): IconName {
       return "CircleDashedIcon";
     case "failed":
       return "ExclamationmarkTriangleFillIcon";
+    case "deleting":
+      return "TrashFillIcon";
     default:
       return "CircleDashedIcon";
   }

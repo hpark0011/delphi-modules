@@ -11,7 +11,6 @@ import React, {
 import { toast } from "sonner";
 import type { TrainingStatus } from "./training-status-tab";
 import { useMindScore } from "./mind-score-context";
-// import { TrainingQueueToast } from "./training-queue-toast";
 
 export interface QueueItem {
   id: string;
@@ -19,9 +18,13 @@ export interface QueueItem {
   status: TrainingStatus;
   progress: number; // 0-100
   shouldFail?: boolean; // If true, item will fail after training completes
+  shouldDelete?: boolean; // If true, item will enter deleting state after training completes
 }
 
-const TRAINING_DURATION = 3500; // 4 seconds per item
+// Constants
+const TRAINING_DURATION = 3500; // 3.5 seconds per item
+const PROGRESS_UPDATE_INTERVAL = 50; // Update every 50ms for smooth animation
+const SCORE_PER_ITEM = 25; // Points awarded/deducted per item
 
 interface TrainingQueueContextType {
   queue: QueueItem[];
@@ -48,67 +51,121 @@ export function TrainingQueueProvider({
   const intervalRefs = useRef<Map<string, NodeJS.Timeout>>(new Map());
   const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
 
+  /**
+   * Helper: Updates a specific queue item's properties
+   */
+  const updateItemStatus = useCallback(
+    (itemId: string, updates: Partial<QueueItem>) => {
+      setQueue((prev) =>
+        prev.map((q) => (q.id === itemId ? { ...q, ...updates } : q))
+      );
+    },
+    []
+  );
+
+  /**
+   * Helper: Processes a single item with progress tracking
+   * Returns a promise that resolves when processing completes
+   */
+  const processItemProgress = useCallback(
+    (itemId: string, duration: number): Promise<void> => {
+      return new Promise((resolve) => {
+        const startTime = Date.now();
+
+        // Update progress every PROGRESS_UPDATE_INTERVAL
+        const interval = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min((elapsed / duration) * 100, 100);
+          updateItemStatus(itemId, { progress });
+        }, PROGRESS_UPDATE_INTERVAL);
+
+        intervalRefs.current.set(itemId, interval);
+
+        // Wait for duration to complete
+        const timeout = setTimeout(() => {
+          const intervalToClear = intervalRefs.current.get(itemId);
+          if (intervalToClear) {
+            clearInterval(intervalToClear);
+            intervalRefs.current.delete(itemId);
+          }
+          resolve();
+        }, duration);
+
+        timeoutRefs.current.push(timeout);
+      });
+    },
+    [updateItemStatus]
+  );
+
+  /**
+   * Helper: Safely updates score with error handling
+   */
+  const updateScoreSafely = useCallback(
+    (scoreFn: (points: number) => void, points: number, action: string) => {
+      try {
+        scoreFn(points);
+      } catch (error) {
+        console.error(`Failed to ${action} score:`, error);
+      }
+    },
+    []
+  );
+
   // Process queue items sequentially
   useEffect(() => {
     if (queue.length === 0 || processingRef.current) return;
 
     const processQueue = async () => {
       processingRef.current = true;
-      const itemsToProcess = queue.filter((item) => item.status === "queued");
 
+      // Separate items by status
+      const itemsToProcess = queue.filter((item) => item.status === "queued");
+      const itemsToDelete = queue.filter((item) => item.status === "deleting");
+
+      // ============ Process Training Queue ============
       for (const item of itemsToProcess) {
-        // Update status to training
-        setQueue((prev) =>
-          prev.map((q) =>
-            q.id === item.id ? { ...q, status: "training", progress: 0 } : q
-          )
-        );
+        // Start training
+        updateItemStatus(item.id, { status: "training", progress: 0 });
 
         // Simulate progress over TRAINING_DURATION
-        const startTime = Date.now();
-        const interval = setInterval(() => {
-          const elapsed = Date.now() - startTime;
-          const progress = Math.min((elapsed / TRAINING_DURATION) * 100, 100);
+        await processItemProgress(item.id, TRAINING_DURATION);
 
-          setQueue((prev) =>
-            prev.map((q) => (q.id === item.id ? { ...q, progress } : q))
-          );
-        }, 50); // Update every 50ms for smooth animation
+        // Determine final status and handle transitions
+        if (item.shouldDelete) {
+          // Transition to deleting state
+          updateItemStatus(item.id, { status: "deleting", progress: 0 });
+        } else {
+          // Complete or fail
+          const finalStatus = item.shouldFail ? "failed" : "completed";
+          updateItemStatus(item.id, { status: finalStatus, progress: 100 });
 
-        intervalRefs.current.set(item.id, interval);
-
-        // Wait for training to complete
-        await new Promise((resolve) => {
-          const timeout = setTimeout(() => {
-            const intervalToClear = intervalRefs.current.get(item.id);
-            if (intervalToClear) {
-              clearInterval(intervalToClear);
-              intervalRefs.current.delete(item.id);
-            }
-            resolve(null);
-          }, TRAINING_DURATION);
-          timeoutRefs.current.push(timeout);
-        });
-
-        // Update status based on shouldFail flag
-        const finalStatus = item.shouldFail ? "failed" : "completed";
-        setQueue((prev) =>
-          prev.map((q) =>
-            q.id === item.id ? { ...q, status: finalStatus, progress: 100 } : q
-          )
-        );
-
-        // Increment mind score only when item completes successfully
-        if (!item.shouldFail) {
-          incrementScore(25); // 15 points per item
+          // Award points for successful completion
+          if (!item.shouldFail) {
+            updateScoreSafely(incrementScore, SCORE_PER_ITEM, "increment");
+          }
         }
+      }
+
+      // ============ Process Deletion Queue ============
+      for (const item of itemsToDelete) {
+        // Simulate deletion progress
+        await processItemProgress(item.id, TRAINING_DURATION);
+
+        // Mark as deleted (keep in history like completed/failed items)
+        updateItemStatus(item.id, { status: "deleting", progress: 100 });
       }
 
       processingRef.current = false;
     };
 
     processQueue();
-  }, [queue, incrementScore]);
+  }, [
+    queue,
+    updateItemStatus,
+    processItemProgress,
+    updateScoreSafely,
+    incrementScore,
+  ]);
 
   const addToQueue = useCallback(
     (items: Omit<QueueItem, "id" | "status" | "progress">[]) => {
@@ -118,6 +175,7 @@ export function TrainingQueueProvider({
         status: "queued" as TrainingStatus,
         progress: 0,
         shouldFail: item.shouldFail ?? false,
+        shouldDelete: item.shouldDelete ?? false,
       }));
 
       setQueue((prev) => [...prev, ...newItems]);
@@ -137,32 +195,12 @@ export function TrainingQueueProvider({
     processingRef.current = false;
   }, []);
 
-  // Manage toast notification for training queue
+  // Dismiss toast when queue is empty
   useEffect(() => {
-    const toastId = "training-queue";
-
     if (queue.length === 0) {
-      toast.dismiss(toastId);
-      return;
+      toast.dismiss("training-queue");
     }
-
-    // Create or update toast with stable ID
-    // toast.custom(
-    //   (t) => (
-    //     <TrainingQueueToast
-    //       queue={queue}
-    //       onClose={() => {
-    //         toast.dismiss(t);
-    //         clearQueue();
-    //       }}
-    //     />
-    //   ),
-    //   {
-    //     duration: Infinity,
-    //     id: toastId,
-    //   }
-    // );
-  }, [queue, clearQueue]);
+  }, [queue.length]);
 
   // Note: No cleanup on unmount - we want the queue to persist
   // Only clear when explicitly calling clearQueue()

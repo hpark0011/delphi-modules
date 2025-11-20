@@ -12,6 +12,9 @@ export function ScoreIncrementAnimation({
   points,
   isVisible,
 }: ScoreIncrementAnimationProps) {
+  const isNegative = points < 0;
+  const displayValue = Math.abs(points);
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -26,15 +29,17 @@ export function ScoreIncrementAnimation({
           }}
           className={cn(
             // "absolute left-1/2 -translate-x-1/2",
-            "text-white text-xs tracking-tighter font-medium",
+            "text-[14px] tracking-tighter font-medium",
             "whitespace-nowrap",
-            "drop-shadow-[0_0_4px_rgba(0,0,0,0.5)]"
+            "drop-shadow-[0_0_4px_rgba(0,0,0,0.5)]",
+            isNegative ? "text-[#e5484d]" : "text-white"
           )}
           style={{
             top: "calc(100% + 4px)",
           }}
         >
-          +{points}
+          {isNegative ? "-" : "+"}
+          {displayValue}
         </motion.div>
       )}
     </AnimatePresence>
