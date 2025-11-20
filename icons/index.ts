@@ -16,6 +16,7 @@ export { default as ArrowForwardIcon } from "@/icons/arrow.forward.svg";
 export { default as ArrowLeftCircleFillIcon } from "@/icons/arrow.left.circle.fill.svg";
 export { default as ArrowLeftLineIcon } from "@/icons/arrow.left.line.svg";
 export { default as ArrowLeftUpAndRightDownIcon } from "@/icons/arrow.left.up.and.right.down.svg";
+export { default as ArrowRightCircleIcon } from "@/icons/arrow.right.circle.svg";
 export { default as ArrowTriangleLeftFillIcon } from "@/icons/arrow.triangle.left.fill.svg";
 export { default as ArrowTriangleRightFillIcon } from "@/icons/arrow.triangle.right.fill.svg";
 export { default as ArrowTurnDownLeftIcon } from "@/icons/arrow.turn.down.left.svg";
