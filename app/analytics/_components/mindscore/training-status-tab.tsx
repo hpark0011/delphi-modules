@@ -358,7 +358,7 @@ export function TrainingStatusTab() {
                     "size-4.5",
                     showCompletedStatus
                       ? "text-neutral-400"
-                      : "text-icon-light",
+                      : "text-icon-light mr-0.5",
                     !showCompletedStatus && "animate-spin"
                   )}
                 />
