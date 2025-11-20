@@ -8,13 +8,10 @@ import { MindDialog, useMindDialog } from "../mind-dialog";
 import { MindProgressBar } from "../mind-progress-bar";
 import { MindScoreProvider, useMindScore } from "../mind-score-context";
 import { TrainingQueueProvider } from "../training-queue-context";
+import { isActiveStatus, isFinishedStatus } from "../training-status-utils";
 import { ActiveTrainingStatus } from "./active-training-status";
 import { LastTrainedDate } from "./last-trained-date";
 import { TrainingCompletedStatus } from "./training-completed-status";
-import {
-  isActiveStatus,
-  isFinishedStatus,
-} from "../training-status-utils";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
