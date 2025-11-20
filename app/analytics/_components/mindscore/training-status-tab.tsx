@@ -538,10 +538,7 @@ export function TrainingStatusTab() {
       <div className='flex flex-col gap-2'>
         <div className='flex gap-4 items-center justify-between mb-1'>
           <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
-            <Icon
-              name='SquareTextSquareFillIcon'
-              className='size-4.5 text-icon-light'
-            />
+            <Icon name='ClockFillIcon' className='size-4.5 text-icon-light' />
             Training History
           </div>
           {/* Filter Section */}
