@@ -4,7 +4,7 @@ import { mockTrainingItems } from "@/app/analytics/_lib/mock-training-items";
 import {
   formatDateLabel,
   getStatusIcon,
-} from "@/app/analytics/_utils/mind-dialog";
+} from "@/app/analytics/_utils/mind-dialog.utils";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {

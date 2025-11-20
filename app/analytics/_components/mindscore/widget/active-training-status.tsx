@@ -35,7 +35,7 @@ export function ActiveTrainingStatus() {
           }
         }}
       >
-        <Icon name='LoaderCircleIcon' className='size-4 animate-spin' />
+        <Icon name='LoaderCircleIcon' className='size-4.5 animate-spin' />
         <div className='text-[13px] w-full'>
           Learning {finished}
           <span className='mx-0.5'>/</span>
