@@ -7,9 +7,10 @@ import {
 } from "@/app/analytics/_utils/mind-dialog.utils";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { TrainingQueueItem } from "./training-queue-item";
+import { isFinishedStatus } from "./training-status-utils";
 import {
   Select,
   SelectContent,
@@ -34,7 +35,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { format, parseISO } from "date-fns";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export type TrainingStatus =
   | "queued"
@@ -144,6 +145,39 @@ export function TrainingStatusTab() {
   const [selectedStatus, setSelectedStatus] = useState<TrainingStatus | "all">(
     "all"
   );
+  const [showCompletedStatus, setShowCompletedStatus] = useState(false);
+  const [completedCount, setCompletedCount] = useState(0);
+  const [failedCount, setFailedCount] = useState(0);
+  const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
+
+  // Detect completion and handle state transitions
+  useEffect(() => {
+    // Check if all items are done processing (either completed, failed, or deleting)
+    const allDone =
+      queue.length > 0 && queue.every((item) => isFinishedStatus(item.status));
+
+    // Completion Detection: When all items are done and no active items
+    if (allDone && !hasActiveItems) {
+      // Capture counts and snapshot before queue clears
+      const completed = queue.filter(
+        (item) => item.status === "completed"
+      ).length;
+      const failed = queue.filter((item) => item.status === "failed").length;
+      setCompletedCount(completed);
+      setFailedCount(failed);
+      // Capture queue snapshot (all items with final states: completed, failed, deleting)
+      setQueueSnapshot([...queue]);
+      setShowCompletedStatus(true);
+    }
+
+    // Reset on New Items: When new items are added during completion state
+    if (queue.length > 0 && showCompletedStatus && hasActiveItems) {
+      setShowCompletedStatus(false);
+      setCompletedCount(0);
+      setFailedCount(0);
+      setQueueSnapshot([]);
+    }
+  }, [queue, hasActiveItems, showCompletedStatus]);
 
   // Filter data based on selected status
   const filteredData = useMemo(() => {
@@ -303,28 +337,46 @@ export function TrainingStatusTab() {
   return (
     <div className='flex flex-col gap-4'>
       {/* Active training queue */}
-      {hasActiveItems && (
+      {(hasActiveItems || showCompletedStatus) && (
         <div className='flex flex-col gap-3 mt-4'>
           {/* Active Training Queue Header */}
-          <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
-            <Icon
-              name='LoaderCircleIcon'
-              className='size-4.5 text-icon-light animate-spin'
-            />
-            Active Training
+          <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center justify-between gap-0.5 tracking-tight'>
+            <div className='flex items-center gap-0.5'>
+              <Icon
+                name={showCompletedStatus ? "CheckedCircleFillIcon" : "LoaderCircleIcon"}
+                className={cn(
+                  "size-4.5 text-icon-light",
+                  !showCompletedStatus && "animate-spin"
+                )}
+              />
+              {showCompletedStatus
+                ? `Training ${completedCount} has completed`
+                : "Active Training"}
+            </div>
+            {showCompletedStatus && (
+              <Button
+                variant='outline'
+                size='sm'
+                onClick={() => setShowCompletedStatus(false)}
+                className='text-[12px] shadow-none hover:text-text-primary shrink-0 h-6 px-2'
+              >
+                See summary
+              </Button>
+            )}
           </div>
 
           {/* Active Training Queue List */}
           <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 mb-4'>
-            {queue.map((item) => (
+            {(showCompletedStatus ? queueSnapshot : queue).map((item) => (
               <TrainingQueueItem key={item.id} item={item} />
             ))}
           </div>
         </div>
       )}
 
-      {/* Training Summary */}
-      <div className='flex flex-col gap-3 mt-4'>
+      {/* Training Summary - Only show when idle (not training and not showing completion) */}
+      {!hasActiveItems && !showCompletedStatus && (
+        <div className='flex flex-col gap-3 mt-4'>
         <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
           <Icon
             name='SquareTextSquareFillIcon'
@@ -402,7 +454,8 @@ export function TrainingStatusTab() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      )}
 
       {/* Data Table grouped by date */}
       <div className='flex flex-col gap-2'>
