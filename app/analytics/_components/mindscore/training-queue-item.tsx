@@ -95,11 +95,11 @@ export function TrainingQueueItem({ item, className }: TrainingQueueItemProps) {
 
         {/* Content */}
         <div className='flex-1 min-w-0'>
-          <div className='flex items-center gap-1.5'>
+          <div className='flex items-center gap-1'>
             {getDocTypeIcon(item.name) && (
               <Icon
                 name={getDocTypeIcon(item.name)!}
-                className='size-4 text-text-tertiary flex-shrink-0'
+                className='size-4 text-icon-light flex-shrink-0'
               />
             )}
             {item.status === "training" ? (
