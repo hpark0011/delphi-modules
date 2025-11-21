@@ -1,10 +1,16 @@
 "use client";
 
-import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useMindDialog } from "@/app/analytics/_components/mindscore/mind-dialog";
 import { useMindScore } from "@/app/analytics/_components/mindscore/mind-score-context";
 import { MiniTrainingStatus } from "./mini-training-status";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
+
+const SPRING_CONFIG = {
+  type: "spring" as const,
+  stiffness: 300,
+  damping: 25,
+};
 
 export function MindWidgetSmall() {
   const { openWithTab } = useMindDialog();
@@ -16,7 +22,13 @@ export function MindWidgetSmall() {
   };
 
   return (
-    <div className='flex gap-2 relative justify-start items-center rounded-full bg-light pr-4.5'>
+    <motion.div
+      className='flex gap-2 relative justify-start items-center rounded-full bg-light'
+      animate={{
+        paddingRight: queue.length > 0 ? "1.125rem" : "0rem",
+      }}
+      transition={SPRING_CONFIG}
+    >
       {/* Mindscore Trigger */}
       <div className='flex items-center p-0.5 bg-light rounded-full hover:scale-108 transition-all duration-200 w-fit'>
         {/* Mindscore Wrapper */}
@@ -30,7 +42,9 @@ export function MindWidgetSmall() {
           </span>
         </div>
       </div>
-      {queue.length > 0 && <MiniTrainingStatus />}
-    </div>
+      <AnimatePresence>
+        {queue.length > 0 && <MiniTrainingStatus />}
+      </AnimatePresence>
+    </motion.div>
   );
 }
