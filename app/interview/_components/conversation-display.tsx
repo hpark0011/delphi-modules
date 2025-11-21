@@ -41,7 +41,7 @@ export function ConversationDisplay({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center px-8 py-14",
+        "flex flex-col items-center justify-center px-8 py-20 pt-[120px]",
         className
       )}
     >

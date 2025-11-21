@@ -5,7 +5,7 @@ import type { Message, Topic, TopicStatus } from "../_types";
 
 const TOPIC_QUESTIONS: Record<string, string[]> = {
   "life-story": [
-    "Let's start with your life story. Where did you grow up, and what was your childhood like?",
+    "Let's start with your life story. Where did you grow up, and what was your childhood like? Anything special or unique about your upbringing? What was your family like?",
     "That's fascinating! Who were the most influential people in your early life?",
     "How did your upbringing shape who you are today?",
     "Tell me about your education journey. What were the pivotal moments?",
@@ -62,7 +62,7 @@ interface UseInterviewAIOptions {
 }
 
 export function useInterviewAI(options: UseInterviewAIOptions = {}) {
-  const { initialTopicId = "career", userName = "there" } = options;
+  const { initialTopicId = "life-story", userName = "there" } = options;
 
   const [topics, setTopics] = useState<Topic[]>(() =>
     Object.entries(TOPIC_QUESTIONS).map(([id, questions]) => ({
