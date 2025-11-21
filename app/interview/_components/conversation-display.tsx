@@ -57,7 +57,7 @@ export function ConversationDisplay({
                   "text-[16px] leading-relaxed",
                   message.type === "question"
                     ? "text-foreground"
-                    : "text-muted-foreground border-l-2 border-muted-foreground/30 pl-4"
+                    : "text-muted-foreground border-l-2 border-muted-foreground/30 pl-4 pb-[1px]"
                 )}
               >
                 {message.content}
