@@ -76,14 +76,14 @@ export function InterviewInput({
           {input.trim() ? (
             <Button
               type='submit'
-              className='absolute right-2 bottom-2 rounded-full h-8 w-8 hover:opacity-70 bg-medium'
+              className='absolute right-2 bottom-2 rounded-full h-8 w-8 hover:opacity-70 bg-black/10 dark:bg-medium'
               disabled={isLoading}
               size='icon'
             >
               {isLoading ? (
                 <LoadingCircleIcon className='size-4 animate-spin' />
               ) : (
-                <ArrowUpIcon className='size-4 text-white' />
+                <ArrowUpIcon className='size-4 text-black dark:text-white' />
               )}
             </Button>
           ) : (
