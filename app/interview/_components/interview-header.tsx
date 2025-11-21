@@ -18,7 +18,11 @@ export function InterviewHeader({ onExit }: InterviewHeaderProps) {
 
         {/* Save & Exit button - right aligned */}
         <div className='flex-1 flex justify-end'>
-          <Button size='sm' onClick={onExit} className='gap-1 rounded-full h-7'>
+          <Button
+            size='sm'
+            onClick={onExit}
+            className='gap-1 rounded-full h-7 has-[>svg]:px-3'
+          >
             <ExitIcon className='size-4' />
             Exit
           </Button>

@@ -5,75 +5,60 @@ import {
   TopicSidebar,
   ConversationDisplay,
   InterviewInput,
-  type Message,
 } from "./_components";
+import { useInterviewAI } from "./_hooks/use-interview-ai";
 
 export default function InterviewPage() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      type: "question",
-      content:
-        "Hello again, Hyunsol! Our last conversation was about your approach to building teams obsessed with greatness. Next, I'd love to know more about your own career goals. What do they look like for you in the coming years?",
-    },
-    {
-      id: "2",
-      type: "answer",
-      content: "hello",
-    },
-    {
-      id: "3",
-      type: "question",
-      content:
-        "Hyunsol, given your work at Disquiet, what specific milestones are you looking to achieve within the next few years?",
-    },
-  ]);
+  const [recording, setRecording] = useState(false);
 
-  const topics = [
-    {
-      id: "1",
-      title: "Career Goals",
-      isActive: true,
-    },
-  ];
-
-  const handleSubmit = (text: string) => {
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      type: "answer",
-      content: text,
-    };
-    setMessages([...messages, newMessage]);
-  };
+  const {
+    topics,
+    currentTopic,
+    messages,
+    isLoading,
+    submitAnswer,
+    skipQuestion,
+    switchTopic,
+    startNewTopic,
+  } = useInterviewAI({ userName: "Hyunsol" });
 
   const handleVoiceRecord = () => {
-    console.log("Voice recording started");
+    setRecording(!recording);
+    console.log("Voice recording:", !recording);
   };
 
-  const handleSkip = () => {
-    console.log("Question skipped");
-  };
-
-  const handleStartNewTopic = () => {
-    console.log("Start new topic");
-  };
+  const sidebarTopics = topics.map((t) => ({
+    id: t.id,
+    title: t.title,
+    isActive: t.id === currentTopic?.id,
+    completionPercentage: t.completionPercentage,
+    status: t.status,
+  }));
 
   return (
     <>
-      <TopicSidebar topics={topics} onStartNewTopic={handleStartNewTopic} />
+      <TopicSidebar
+        topics={sidebarTopics}
+        onStartNewTopic={startNewTopic}
+        onTopicSelect={switchTopic}
+      />
 
       <div className="flex-1 flex flex-col relative">
         <div className="flex-1 overflow-y-auto">
           <ConversationDisplay
-            title="Career Goals"
+            title={currentTopic?.title ?? "Interview"}
             messages={messages}
-            onSkip={handleSkip}
+            onSkip={skipQuestion}
+            isLoading={isLoading}
           />
         </div>
 
         <InterviewInput
-          onSubmit={handleSubmit}
+          onSubmit={submitAnswer}
           onVoiceRecord={handleVoiceRecord}
+          isLoading={isLoading}
+          recording={recording}
+          disabled={isLoading}
         />
       </div>
     </>
