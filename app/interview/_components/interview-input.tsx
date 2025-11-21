@@ -70,20 +70,20 @@ export function InterviewInput({
             maxHeight={200}
             rows={3}
             disabled={disabled || isLoading}
-            className='bg-accent/50 rounded-xl px-4 py-3 pr-14 text-text-primary text-[16px] border-none focus-visible:ring-0 placeholder:text-text-muted w-full'
+            className='bg-accent/50 rounded-[14px] px-4 py-3 pr-14 text-text-primary text-[16px] border-none focus-visible:ring-0 placeholder:text-text-muted w-full'
           />
 
           {input.trim() ? (
             <Button
               type='submit'
-              className='absolute right-2 bottom-2 rounded-full h-8 w-8 hover:opacity-70'
+              className='absolute right-2 bottom-2 rounded-full h-8 w-8 hover:opacity-70 bg-medium'
               disabled={isLoading}
               size='icon'
             >
               {isLoading ? (
                 <LoadingCircleIcon className='size-4 animate-spin' />
               ) : (
-                <ArrowUpIcon className='size-4' />
+                <ArrowUpIcon className='size-4 text-white' />
               )}
             </Button>
           ) : (
