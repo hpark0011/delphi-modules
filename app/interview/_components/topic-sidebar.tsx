@@ -250,7 +250,7 @@ export function TopicSidebar({
     <div
       className={cn(
         "hidden lg:block",
-        "fixed left-0 p-4 top-1/2 -translate-y-1/2",
+        "fixed left-0 p-4 top-2/5 -translate-y-1/2",
         "max-w-44 xl:max-w-52 2xl:max-w-64",
         "space-y-1"
       )}
