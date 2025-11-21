@@ -75,7 +75,7 @@ function TopicProgressBar({
         key={`progress-bar-${topicId}`}
         className={cn(
           "h-full",
-          isCurrentTopic ? "bg-orange-500" : "bg-muted-foreground"
+          isCurrentTopic ? "bg-orange-500/50" : "bg-muted-foreground"
         )}
         style={{ width: `${width}%` }}
         initial={{ width: 0 }}
@@ -108,12 +108,9 @@ function TopicProgressItemTitle({
     percentageValue < 100;
 
   return (
-    <div
-      className={cn("flex items-center gap-2", className)}
-      onClick={onClick}
-    >
+    <div className={cn("flex items-center gap-2", className)} onClick={onClick}>
       <AnimateFadeIn initialDelay={0.1} duration={0.3}>
-        <div className="flex items-center gap-2">
+        <div className='flex items-center gap-2'>
           <p
             className={cn(
               "text-muted-foreground text-xs xl:text-sm font-medium line-clamp-3 xl:line-clamp-2 text-left",
@@ -127,8 +124,8 @@ function TopicProgressItemTitle({
           </p>
           {showBadge && (
             <Badge
-              variant="secondary"
-              className="text-[10px] px-1.5 py-0.5 bg-orange-500/20 text-orange-600"
+              variant='secondary'
+              className='text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-500'
             >
               {percentageValue}%
             </Badge>
@@ -144,22 +141,26 @@ function TopicProgressItem({
   topic,
   topicProgress,
   isCurrentTopic,
+  isBeforeCurrent,
   onTopicClick,
 }: {
   topic: Topic;
   topicProgress: number;
   isCurrentTopic: boolean;
+  isBeforeCurrent: boolean;
   onTopicClick: (topic: Topic) => void;
 }) {
   const percentageValue = Math.round(topicProgress * 100);
+  // Topics before current should show orange, current topic shows orange, others show muted
+  const showOrange = isCurrentTopic || isBeforeCurrent;
 
   return (
-    <div className="flex items-start gap-1">
-      <div className="space-y-1 relative">
+    <div className='flex items-start gap-1'>
+      <div className='space-y-1 relative'>
         <div
           className={cn(
             "h-0.5 w-4 rounded-full shrink-0",
-            isCurrentTopic
+            showOrange
               ? "bg-orange-500"
               : topicProgress > 0
                 ? "bg-muted-foreground"
@@ -170,9 +171,9 @@ function TopicProgressItem({
         {Array.from({ length: 9 }).map((_, index) => (
           <TopicProgressBar
             key={`progress-bar-${topic.id}-${index}`}
-            progress={topicProgress * 10 - index}
+            progress={isBeforeCurrent ? 1 : topicProgress * 10 - index}
             topicId={topic.id}
-            isCurrentTopic={isCurrentTopic}
+            isCurrentTopic={showOrange}
             onClick={() => onTopicClick(topic)}
           />
         ))}
@@ -181,8 +182,8 @@ function TopicProgressItem({
         title={topic.title}
         isCurrentTopic={isCurrentTopic}
         onClick={() => onTopicClick(topic)}
-        className="-mt-[7px] xl:-mt-[9px]"
-        percentageValue={percentageValue}
+        className='-mt-[7px] xl:-mt-[9px]'
+        percentageValue={isBeforeCurrent ? undefined : percentageValue}
       />
     </div>
   );
@@ -197,8 +198,8 @@ function NewCustomTopicProgressItem({
   disabled?: boolean;
 }) {
   return (
-    <div className="flex items-start gap-1">
-      <div className="space-y-1">
+    <div className='flex items-start gap-1'>
+      <div className='space-y-1'>
         <div
           className={cn(
             "h-0.5 w-4 rounded-full shrink-0",
@@ -210,23 +211,23 @@ function NewCustomTopicProgressItem({
           <TopicProgressBar
             key={`new-topic-bar-${index}`}
             progress={0}
-            topicId=""
+            topicId=''
             isCurrentTopic={false}
           />
         ))}
       </div>
       <Button
-        size="sm"
-        variant="ghost"
-        className="-mt-[7px] xl:-mt-[9px] hover:bg-transparent p-0 h-auto"
+        size='sm'
+        variant='ghost'
+        className='-mt-[7px] xl:-mt-[9px] hover:bg-transparent p-0 h-auto'
         onClick={onClick}
         disabled={disabled}
       >
         <TopicProgressItemTitle
           icon={
-            <Plus className="size-3 text-muted-foreground inline-block mr-0.5 mb-0.5 group-hover:text-foreground" />
+            <Plus className='size-3 text-muted-foreground inline-block mr-0.5 mb-0.5 group-hover:text-foreground' />
           }
-          title="Start a New Topic"
+          title='Start a New Topic'
           isCurrentTopic={false}
         />
       </Button>
@@ -256,38 +257,44 @@ export function TopicSidebar({
     >
       <ScrollArea
         ref={scrollAreaRef}
-        className="h-72 space-y-1 relative overflow-hidden"
+        className='h-72 space-y-1 relative overflow-hidden'
       >
-        <div className="h-90 space-y-1 py-8 pr-4 relative">
-          {topics.map((topic) => {
-            const isCurrentTopic = topic.isActive ?? false;
-            // Convert percentage (0-100) to progress (0-1)
-            const progress =
-              topic.completionPercentage !== undefined
-                ? topic.completionPercentage / 100
-                : topic.status === "COMPLETED"
-                  ? 1.0
-                  : 0.0;
+        <div className='h-90 space-y-1 py-8 pr-4 relative'>
+          {(() => {
+            const currentIndex = topics.findIndex((t) => t.isActive);
+            return topics.map((topic, index) => {
+              const isCurrentTopic = topic.isActive ?? false;
+              const isBeforeCurrent =
+                currentIndex !== -1 && index < currentIndex;
+              // Convert percentage (0-100) to progress (0-1)
+              const progress =
+                topic.completionPercentage !== undefined
+                  ? topic.completionPercentage / 100
+                  : topic.status === "COMPLETED"
+                    ? 1.0
+                    : 0.0;
 
-            return (
-              <TopicProgressItem
-                key={`topic-${topic.id}`}
-                topic={topic}
-                topicProgress={progress}
-                isCurrentTopic={isCurrentTopic}
-                onTopicClick={handleTopicClick}
-              />
-            );
-          })}
+              return (
+                <TopicProgressItem
+                  key={`topic-${topic.id}`}
+                  topic={topic}
+                  topicProgress={progress}
+                  isCurrentTopic={isCurrentTopic}
+                  isBeforeCurrent={isBeforeCurrent}
+                  onTopicClick={handleTopicClick}
+                />
+              );
+            });
+          })()}
           <NewCustomTopicProgressItem onClick={onStartNewTopic} />
         </div>
 
         {/* top and bottom gradient overlays */}
-        <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-background to-transparent pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+        <div className='absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-background to-transparent pointer-events-none' />
+        <div className='absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent pointer-events-none' />
 
         {/* hides scrollbar */}
-        <div className="absolute inset-y-0 right-0 w-2.5 bg-background z-50" />
+        <div className='absolute inset-y-0 right-0 w-2.5 bg-background z-50' />
       </ScrollArea>
     </div>
   );
