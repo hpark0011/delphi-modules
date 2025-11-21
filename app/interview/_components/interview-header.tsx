@@ -14,7 +14,7 @@ export function InterviewHeader({
   hasResponses = false,
 }: InterviewHeaderProps) {
   return (
-    <header className='bg-background'>
+    <header className='bg-gradient-to-b from-background to-transparent'>
       <div className='flex items-center justify-between px-3 h-13'>
         <div className='flex-1' />
 
@@ -27,9 +27,10 @@ export function InterviewHeader({
           <Button
             size='sm'
             onClick={onExit}
-            className='gap-1 rounded-full h-7 has-[>svg]:px-3'
+            className='gap-1 rounded-full h-7 has-[>svg]:px-3 hover:opacity-70'
+            variant='secondary'
           >
-            <ExitIcon className='size-4' />
+            <ExitIcon className='size-4 text-icon-dark' />
             {hasResponses ? "Save & Exit" : "Exit"}
           </Button>
         </div>
