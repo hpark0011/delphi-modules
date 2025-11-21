@@ -20,10 +20,10 @@ interface ConversationDisplayProps {
 
 function TypingIndicator() {
   return (
-    <div className='flex items-center gap-1 text-muted-foreground py-2'>
-      <span className='w-2 h-2 bg-current rounded-full animate-bounce [animation-delay:0ms]' />
-      <span className='w-2 h-2 bg-current rounded-full animate-bounce [animation-delay:150ms]' />
-      <span className='w-2 h-2 bg-current rounded-full animate-bounce [animation-delay:300ms]' />
+    <div className='flex items-center gap-0.5 text-muted-foreground py-2'>
+      <span className='w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:0ms]' />
+      <span className='w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:150ms]' />
+      <span className='w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:300ms]' />
     </div>
   );
 }
@@ -56,7 +56,7 @@ export function ConversationDisplay({
                 className={cn(
                   "text-[16px] leading-relaxed",
                   message.type === "question"
-                    ? "text-foreground"
+                    ? "text-text-primary"
                     : "text-muted-foreground border-l-2 border-muted-foreground/30 pl-4 pb-[1px]"
                 )}
               >

@@ -57,7 +57,7 @@ export function InterviewInput({
     <div
       className={cn("bg-background max-w-[792px] mx-auto w-full", className)}
     >
-      <div className='max-w-[792px] w-full mx-auto px-8 py-4 relative'>
+      <div className='max-w-[792px] w-full mx-auto px-8 pb-4 py-0 relative'>
         {/* <div className='relative bg-light rounded-full p-2.5 w-fit mx-auto mb-4'>
           <ArrowDownIcon className='size-4 text-icon-dark dark:text-white' />
         </div> */}
