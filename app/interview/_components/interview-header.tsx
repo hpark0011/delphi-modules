@@ -2,20 +2,25 @@
 
 import { Button } from "@/components/ui/button";
 import { ExitIcon } from "@/delphi-ui/icons/Exit";
+import { MindWidgetSmall } from "@/components/mind-widget/mind-widget-small";
 
 interface InterviewHeaderProps {
   onExit?: () => void;
   hasResponses?: boolean;
 }
 
-export function InterviewHeader({ onExit, hasResponses = false }: InterviewHeaderProps) {
+export function InterviewHeader({
+  onExit,
+  hasResponses = false,
+}: InterviewHeaderProps) {
   return (
-    <header className='border-b border-border bg-background'>
-      <div className='flex items-center justify-between px-3 h-12'>
+    <header className='bg-background'>
+      <div className='flex items-center justify-between px-3 h-13'>
         <div className='flex-1' />
 
         {/* Desktop: Show "Interview" title */}
-        <h1 className='text-sm font-medium hidden md:block'>Interview</h1>
+        <MindWidgetSmall />
+        {/* <h1 className='text-sm font-medium hidden md:block'>Interview</h1> */}
 
         {/* Save & Exit button - right aligned */}
         <div className='flex-1 flex justify-end'>
