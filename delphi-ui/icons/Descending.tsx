@@ -1,0 +1,21 @@
+import type { JSX } from "react";
+export function DescendingIcon(props: JSX.IntrinsicElements["svg"]) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        d="M14.3477 20.25L15.5601 17.75M15.5601 17.75L17.5 13.75L19.4333 17.75M15.5601 17.75H19.4333M19.4333 17.75L20.6416 20.25M14.75 3.75H20.25L14.75 10.25H20.25M7 3.75V20.25M7 20.25L4 17.25M7 20.25L10 17.25"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
