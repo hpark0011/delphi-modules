@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpIcon, Keyboard, SendIcon } from "lucide-react";
+import { ArrowDownIcon, ArrowUpIcon, Keyboard, SendIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AutoResizingTextarea } from "@/components/ui/auto-resizing-textarea";
 import { LoadingCircleIcon } from "@/delphi-ui/icons/LoadingCircle";
@@ -54,8 +54,13 @@ export function InterviewInput({
   };
 
   return (
-    <div className={cn("bg-background", className)}>
-      <div className='max-w-[792px] w-full mx-auto px-8 py-6'>
+    <div
+      className={cn("bg-background max-w-[792px] mx-auto w-full", className)}
+    >
+      <div className='max-w-[792px] w-full mx-auto px-8 py-4 relative'>
+        <div className='relative bg-light rounded-full p-2.5 w-fit mx-auto mb-4'>
+          <ArrowDownIcon className='size-4 text-white' />
+        </div>
         <form onSubmit={handleSubmit} className='relative'>
           <AutoResizingTextarea
             value={input}
@@ -65,13 +70,13 @@ export function InterviewInput({
             maxHeight={200}
             rows={3}
             disabled={disabled || isLoading}
-            className='w-full bg-accent/50 rounded-xl px-4 py-3 pr-14 text-base border-none focus-visible:ring-0 placeholder:text-text-muted'
+            className='bg-accent/50 rounded-xl px-4 py-3 pr-14 text-text-primary text-[16px] border-none focus-visible:ring-0 placeholder:text-text-muted w-full'
           />
 
           {input.trim() ? (
             <Button
               type='submit'
-              className='absolute right-2 bottom-2 rounded-full h-8 w-8 bg-base hover:opacity-70'
+              className='absolute right-2 bottom-2 rounded-full h-8 w-8 hover:opacity-70'
               disabled={isLoading}
               size='icon'
             >

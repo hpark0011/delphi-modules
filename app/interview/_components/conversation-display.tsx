@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowDownIcon } from "@/delphi-ui/icons/ArrowDown";
 import { cn } from "@/lib/utils";
 import { SkipForward } from "lucide-react";
 
@@ -79,10 +78,6 @@ export function ConversationDisplay({
             </Button>
           </div>
         )}
-      </div>
-
-      <div className='absolute bottom-36 bg-light rounded-full p-2.5'>
-        <ArrowDownIcon className='size-4 text-white' />
       </div>
     </div>
   );

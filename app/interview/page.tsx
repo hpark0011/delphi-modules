@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TopicSidebar,
   ConversationDisplay,
   InterviewInput,
 } from "./_components";
 import { useInterviewAI } from "./_hooks/use-interview-ai";
+import { useInterviewContext } from "./_context/interview-context";
 
 export default function InterviewPage() {
   const [recording, setRecording] = useState(false);
+  const { setHasResponses } = useInterviewContext();
 
   const {
     topics,
@@ -26,6 +28,14 @@ export default function InterviewPage() {
     setRecording(!recording);
     console.log("Voice recording:", !recording);
   };
+
+  // Update hasResponses when user submits at least one answer
+  useEffect(() => {
+    const hasAnswers = topics.some((t) =>
+      t.messages.some((m) => m.type === "answer")
+    );
+    setHasResponses(hasAnswers);
+  }, [topics, setHasResponses]);
 
   const sidebarTopics = topics.map((t) => ({
     id: t.id,

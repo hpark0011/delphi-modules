@@ -5,9 +5,10 @@ import { ExitIcon } from "@/delphi-ui/icons/Exit";
 
 interface InterviewHeaderProps {
   onExit?: () => void;
+  hasResponses?: boolean;
 }
 
-export function InterviewHeader({ onExit }: InterviewHeaderProps) {
+export function InterviewHeader({ onExit, hasResponses = false }: InterviewHeaderProps) {
   return (
     <header className='border-b border-border bg-background'>
       <div className='flex items-center justify-between px-3 h-12'>
@@ -24,7 +25,7 @@ export function InterviewHeader({ onExit }: InterviewHeaderProps) {
             className='gap-1 rounded-full h-7 has-[>svg]:px-3'
           >
             <ExitIcon className='size-4' />
-            Exit
+            {hasResponses ? "Save & Exit" : "Exit"}
           </Button>
         </div>
       </div>
