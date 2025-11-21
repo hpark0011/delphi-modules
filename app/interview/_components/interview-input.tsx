@@ -58,9 +58,9 @@ export function InterviewInput({
       className={cn("bg-background max-w-[792px] mx-auto w-full", className)}
     >
       <div className='max-w-[792px] w-full mx-auto px-8 py-4 relative'>
-        <div className='relative bg-light rounded-full p-2.5 w-fit mx-auto mb-4'>
-          <ArrowDownIcon className='size-4 text-white' />
-        </div>
+        {/* <div className='relative bg-light rounded-full p-2.5 w-fit mx-auto mb-4'>
+          <ArrowDownIcon className='size-4 text-icon-dark dark:text-white' />
+        </div> */}
         <form onSubmit={handleSubmit} className='relative'>
           <AutoResizingTextarea
             value={input}
@@ -70,7 +70,7 @@ export function InterviewInput({
             maxHeight={200}
             rows={3}
             disabled={disabled || isLoading}
-            className='bg-accent/50 rounded-[14px] px-4 py-3 pr-14 text-text-primary text-[16px] border-none focus-visible:ring-0 placeholder:text-text-muted w-full'
+            className='bg-light rounded-[14px] px-4 py-3 pr-14 text-text-primary text-[16px] border-none focus-visible:ring-0 placeholder:text-text-muted w-full'
           />
 
           {input.trim() ? (

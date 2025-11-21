@@ -72,9 +72,9 @@ export function ConversationDisplay({
                 variant='ghost'
                 size='sm'
                 onClick={onSkip}
-                className='text-muted-foreground hover:text-foreground rounded-full h-7'
+                className='text-text-tertiary rounded-full h-7'
               >
-                <SkipIcon className='size-4 mr-0.5 text-icon-light' />
+                <SkipIcon className='size-4 mr-[1px] text-icon-extra-light' />
                 <span className='pb-[1px]'>Skip</span>
               </Button>
             </div>
