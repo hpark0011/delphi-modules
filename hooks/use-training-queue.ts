@@ -2,8 +2,8 @@
 
 import { useTrainingQueueContext } from "@/app/analytics/_components/mindscore/training-queue-context";
 
-// Re-export QueueItem for backward compatibility
-export type { QueueItem } from "@/app/analytics/_components/mindscore/training-queue-context";
+// Re-export types for backward compatibility
+export type { QueueItem, TrainingDocType } from "@/app/analytics/_components/mindscore/training-queue-context";
 
 interface UseTrainingQueueOptions {
   onItemCompleted?: (points?: number) => void;

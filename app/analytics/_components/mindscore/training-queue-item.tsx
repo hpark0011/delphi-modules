@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon, type IconName } from "@/components/ui/icon";
-import type { QueueItem } from "@/hooks/use-training-queue";
+import type { QueueItem, TrainingDocType } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { RingPercentage } from "./ring-percentage";
@@ -24,23 +24,18 @@ function getStatusIcon(status: TrainingStatus): IconName {
   }
 }
 
-function getDocTypeIcon(itemName: string): IconName | null {
-  if (itemName.startsWith("Interview Question")) {
-    return "MicFillIcon";
-  }
-  if (itemName.startsWith("YouTube Video")) {
-    return "YoutubeIcon";
-  }
-  if (itemName.startsWith("X Post")) {
-    return "XIcon";
-  }
-  if (itemName.startsWith("Website")) {
-    return "GlobeIcon";
-  }
-  if (itemName.startsWith("Podcast")) {
-    return "DocFillIcon";
-  }
-  return "DocFillIcon";
+const DOC_TYPE_ICON_MAP: Record<TrainingDocType, IconName> = {
+  interview: "MicFillIcon",
+  youtube: "YoutubeIcon",
+  x: "XIcon",
+  website: "GlobeIcon",
+  podcast: "DocFillIcon",
+  file: "DocFillIcon",
+  generic: "DocFillIcon",
+};
+
+function getDocTypeIcon(docType: TrainingDocType): IconName {
+  return DOC_TYPE_ICON_MAP[docType] ?? "DocFillIcon";
 }
 
 interface TrainingQueueItemProps {
@@ -110,12 +105,10 @@ export function TrainingQueueItem({
         {/* Content */}
         <div className='flex-1 min-w-0'>
           <div className='flex items-center gap-1'>
-            {getDocTypeIcon(item.name) && (
-              <Icon
-                name={getDocTypeIcon(item.name)!}
-                className={cn(docIconSize, "text-icon-light flex-shrink-0")}
-              />
-            )}
+            <Icon
+              name={getDocTypeIcon(item.docType)}
+              className={cn(docIconSize, "text-icon-light flex-shrink-0")}
+            />
             {item.status === "training" ? (
               <motion.span
                 className={cn(

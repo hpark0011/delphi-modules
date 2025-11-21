@@ -12,9 +12,19 @@ import { toast } from "sonner";
 import type { TrainingStatus } from "./training-status-tab";
 import { useMindScore } from "./mind-score-context";
 
+export type TrainingDocType =
+  | "interview"
+  | "youtube"
+  | "x"
+  | "website"
+  | "podcast"
+  | "file"
+  | "generic";
+
 export interface QueueItem {
   id: string;
   name: string;
+  docType: TrainingDocType;
   status: TrainingStatus;
   progress: number; // 0-100
   shouldFail?: boolean; // If true, item will fail after training completes
@@ -172,6 +182,7 @@ export function TrainingQueueProvider({
       const newItems: QueueItem[] = items.map((item) => ({
         ...item,
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        docType: item.docType,
         status: "queued" as TrainingStatus,
         progress: 0,
         shouldFail: item.shouldFail ?? false,
