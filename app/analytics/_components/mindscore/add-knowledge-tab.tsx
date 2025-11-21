@@ -131,32 +131,33 @@ export function AddKnowledgeTab() {
   const handleAddContent = (itemName?: string) => {
     let itemsToAdd: Array<{
       name: string;
+      docType: "interview" | "youtube" | "x" | "website" | "podcast" | "file" | "generic";
       shouldFail?: boolean;
       shouldDelete?: boolean;
     }> = [];
 
     if (itemName === "Interview mode") {
       itemsToAdd = [
-        { name: "Interview Question 1" },
-        { name: "Interview Question 2" },
-        { name: "Interview Question 3" },
+        { name: "Interview Question 1", docType: "interview" },
+        { name: "Interview Question 2", docType: "interview" },
+        { name: "Interview Question 3", docType: "interview" },
       ];
     } else if (itemName === "Youtube") {
       itemsToAdd = [
-        { name: "YouTube Video 1" },
-        { name: "YouTube Video 2" },
-        { name: "YouTube Video 3" },
-        { name: "YouTube Video 4" },
+        { name: "YouTube Video 1", docType: "youtube" },
+        { name: "YouTube Video 2", docType: "youtube" },
+        { name: "YouTube Video 3", docType: "youtube" },
+        { name: "YouTube Video 4", docType: "youtube" },
       ];
     } else if (itemName === "X") {
-      itemsToAdd = [{ name: "X Post 1" }];
+      itemsToAdd = [{ name: "X Post 1", docType: "x" }];
     } else if (itemName === "Website") {
       itemsToAdd = [
-        { name: "Website 1", shouldFail: true },
-        { name: "Website 2", shouldFail: true },
+        { name: "Website 1", docType: "website", shouldFail: true },
+        { name: "Website 2", docType: "website", shouldFail: true },
       ];
     } else if (itemName === "Podcast") {
-      itemsToAdd = [{ name: "Podcast 1", shouldDelete: true }];
+      itemsToAdd = [{ name: "Podcast 1", docType: "podcast", shouldDelete: true }];
     }
 
     if (itemsToAdd.length > 0) {

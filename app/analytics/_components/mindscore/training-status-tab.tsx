@@ -8,15 +8,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "@/components/ui/tooltip";
-import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
-import { useTrainingStatus } from "@/hooks/use-training-status";
-import { TrainingQueueItem } from "./training-queue-item";
-import { isFinishedStatus } from "./training-status-utils";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -31,6 +22,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
 import { cn } from "@/lib/utils";
 import {
   ColumnDef,
@@ -41,6 +34,8 @@ import {
 } from "@tanstack/react-table";
 import { format, parseISO } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
+import { TrainingQueueItem } from "./training-queue-item";
+import { isFinishedStatus } from "./training-status-utils";
 
 export type TrainingStatus =
   | "queued"

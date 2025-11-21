@@ -8,6 +8,7 @@ import { LoadingCircleIcon } from "@/delphi-ui/icons/LoadingCircle";
 import { StopIcon } from "@/delphi-ui/icons/Stop";
 import { MicrophoneOnIcon } from "@/delphi-ui/icons/MicrophoneOn";
 import { cn } from "@/lib/utils";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
 
 interface InterviewInputProps {
   onSubmit?: (text: string) => void;
@@ -29,10 +30,12 @@ export function InterviewInput({
   disabled = false,
 }: InterviewInputProps) {
   const [input, setInput] = useState("");
+  const { addToQueue } = useTrainingQueue();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
+      addToQueue([{ name: input.trim(), docType: "interview" }]);
       onSubmit?.(input);
       setInput("");
     }
@@ -47,6 +50,7 @@ export function InterviewInput({
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       if (input.trim()) {
+        addToQueue([{ name: input.trim(), docType: "interview" }]);
         onSubmit?.(input);
         setInput("");
       }

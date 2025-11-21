@@ -3,9 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { ExitIcon } from "@/delphi-ui/icons/Exit";
 import { MindWidgetSmall } from "@/components/mind-widget/mind-widget-small";
-import { MindDialog } from "@/app/analytics/_components/mindscore/mind-dialog";
-import { MindScoreProvider } from "@/app/analytics/_components/mindscore/mind-score-context";
-import { TrainingQueueProvider } from "@/app/analytics/_components/mindscore/training-queue-context";
 
 interface InterviewHeaderProps {
   onExit?: () => void;
@@ -22,13 +19,7 @@ export function InterviewHeader({
         <div className='flex-1' />
 
         {/* Desktop: Show "Interview" title */}
-        <MindScoreProvider>
-          <TrainingQueueProvider>
-            <MindDialog>
-              <MindWidgetSmall />
-            </MindDialog>
-          </TrainingQueueProvider>
-        </MindScoreProvider>
+        <MindWidgetSmall />
         {/* <h1 className='text-sm font-medium hidden md:block'>Interview</h1> */}
 
         {/* Save & Exit button - right aligned */}

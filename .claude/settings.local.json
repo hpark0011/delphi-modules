@@ -16,7 +16,8 @@
       "WebFetch(domain:stackoverflow.com)",
       "mcp__context7__resolve-library-id",
       "Bash(tree:*)",
-      "Bash(pnpm run build)"
+      "Bash(pnpm run build)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []
