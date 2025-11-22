@@ -35,9 +35,9 @@ export function TrainingCompletedStatus({
 
   return (
     <div className='w-full relative'>
-      <div className='w-full items-center flex justify-center p-2 py-1.5 pr-2 gap-1 text-text-tertiary cursor-pointer rounded-full'>
+      <div className='w-full items-center flex justify-center p-2 py-1.5 pr-[7px] gap-1 text-text-tertiary cursor-pointer rounded-full'>
         <div
-          className='flex items-center gap-1 relative py-0.5 px-2 w-full pl-[3px] group hover:opacity-70'
+          className='flex items-center gap-1 relative py-0.5 px-2 bg w-full pl-[3px] group hover:opacity-70'
           onClick={handleToggle}
           role='button'
           tabIndex={0}
