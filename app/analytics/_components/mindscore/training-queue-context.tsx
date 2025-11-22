@@ -11,6 +11,14 @@ import React, {
 import { toast } from "sonner";
 import type { TrainingStatus } from "./training-status-tab";
 import { useMindScore } from "./mind-score-context";
+import {
+  PROGRESS_UPDATE_INTERVAL,
+  SCORE_PER_ITEM,
+} from "../../_constants/training-queue";
+import {
+  getDurationByDocType,
+  updateScoreSafely,
+} from "../../_utils/training-queue-helpers";
 
 export type TrainingDocType =
   | "interview"
@@ -30,32 +38,6 @@ export interface QueueItem {
   duration: number; // Training duration in milliseconds
   shouldFail?: boolean; // If true, item will fail after training completes
   shouldDelete?: boolean; // If true, item will enter deleting state after training completes
-}
-
-// Constants
-const PROGRESS_UPDATE_INTERVAL = 50; // Update every 50ms for smooth animation
-const SCORE_PER_ITEM = 25; // Points awarded/deducted per item
-
-/**
- * Returns the default training duration for a given document type
- */
-function getDurationByDocType(docType: TrainingDocType): number {
-  switch (docType) {
-    case "interview":
-      return 6000;
-    case "youtube":
-      return 3500;
-    case "x":
-      return 4000;
-    case "website":
-      return 3500;
-    case "podcast":
-      return 3000;
-    case "file":
-    case "generic":
-    default:
-      return 3500;
-  }
 }
 
 type QueueItemInput = Omit<
@@ -134,20 +116,6 @@ export function TrainingQueueProvider({
     [updateItemStatus]
   );
 
-  /**
-   * Helper: Safely updates score with error handling
-   */
-  const updateScoreSafely = useCallback(
-    (scoreFn: (points: number) => void, points: number, action: string) => {
-      try {
-        scoreFn(points);
-      } catch (error) {
-        console.error(`Failed to ${action} score:`, error);
-      }
-    },
-    []
-  );
-
   // Process queue items sequentially
   useEffect(() => {
     if (queue.length === 0 || processingRef.current) return;
@@ -196,13 +164,7 @@ export function TrainingQueueProvider({
     };
 
     processQueue();
-  }, [
-    queue,
-    updateItemStatus,
-    processItemProgress,
-    updateScoreSafely,
-    incrementScore,
-  ]);
+  }, [queue, updateItemStatus, processItemProgress, incrementScore]);
 
   const addToQueue = useCallback((items: QueueItemInput[]) => {
     const newItems: QueueItem[] = items.map((item) => {
