@@ -62,20 +62,21 @@ export function TrainingQueueItem({
         className
       )}
     >
-      <div className='flex items-center gap-1'>
+      <div className='flex items-center gap-1 w-full min-w-0'>
         {/* Content */}
-        <div className='flex-1 min-w-0'>
-          <div className='flex items-center gap-1 justify-between'>
-            <div className='flex items-center gap-1'>
+        <div className='flex-1 min-w-0 overflow-hidden'>
+          <div className='flex items-center gap-1 justify-between min-w-0'>
+            <div className='flex items-center gap-1 min-w-0 flex-1 overflow-hidden'>
               <Icon
                 name={getDocTypeIcon(item.docType)}
                 className={cn(docIconSize, "text-icon-light flex-shrink-0")}
               />
+              {/* If item is training, show the training status */}
               {item.status === "training" ? (
                 <motion.span
                   className={cn(
                     fontSize,
-                    "font-medium text-text-primary truncate inline-block"
+                    "font-medium text-text-primary truncate min-w-0 flex-1"
                   )}
                   style={{
                     background:
@@ -97,14 +98,15 @@ export function TrainingQueueItem({
                   {item.name}
                 </motion.span>
               ) : (
-                <p
+                // If item is not training, show the item name
+                <span
                   className={cn(
                     fontSize,
-                    "font-medium text-text-primary truncate"
+                    "font-medium text-text-primary truncate min-w-0 flex-1"
                   )}
                 >
                   {item.name}
-                </p>
+                </span>
               )}
             </div>
 

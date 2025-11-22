@@ -115,7 +115,8 @@ function DateGroupTable({
                     key={cell.id}
                     className={cn(
                       "px-2 py-1 align-middle",
-                      cell.column.id === "name" && "w-[70%] rounded-l-sm",
+                      cell.column.id === "name" &&
+                        "w-[70%] rounded-l-sm overflow-hidden",
                       cell.column.id === "status" && "w-[20%]",
                       cell.column.id === "actions" &&
                         "w-[10%] text-right rounded-r-sm"
@@ -146,8 +147,6 @@ export function TrainingStatusTab() {
     "all"
   );
   const [showCompletedStatus, setShowCompletedStatus] = useState(false);
-  const [completedCount, setCompletedCount] = useState(0);
-  const [failedCount, setFailedCount] = useState(0);
   const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
   const { finishedCount, totalCount } = useTrainingStatus();
   // Detect completion and handle state transitions
@@ -158,13 +157,6 @@ export function TrainingStatusTab() {
 
     // Completion Detection: When all items are done and no active items
     if (allDone && !hasActiveItems) {
-      // Capture counts and snapshot before queue clears
-      const completed = queue.filter(
-        (item) => item.status === "completed"
-      ).length;
-      const failed = queue.filter((item) => item.status === "failed").length;
-      setCompletedCount(completed);
-      setFailedCount(failed);
       // Capture queue snapshot (all items with final states: completed, failed, deleting)
       setQueueSnapshot([...queue]);
       setShowCompletedStatus(true);
@@ -173,8 +165,6 @@ export function TrainingStatusTab() {
     // Reset on New Items: When new items are added during completion state
     if (queue.length > 0 && showCompletedStatus && hasActiveItems) {
       setShowCompletedStatus(false);
-      setCompletedCount(0);
-      setFailedCount(0);
       setQueueSnapshot([]);
     }
   }, [queue, hasActiveItems, showCompletedStatus]);
@@ -224,12 +214,12 @@ export function TrainingStatusTab() {
         cell: ({ row }) => {
           const item = row.original;
           return (
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-2 min-w-0 overflow-hidden'>
               <Icon
                 name='DocFillIcon'
                 className='size-5 flex-shrink-0 text-icon-light'
               />
-              <span className='font-medium text-text-primary text-sm'>
+              <span className='font-medium text-text-primary text-sm truncate min-w-0 flex-1'>
                 {item.name}
               </span>
             </div>
