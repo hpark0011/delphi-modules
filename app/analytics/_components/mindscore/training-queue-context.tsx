@@ -27,20 +27,47 @@ export interface QueueItem {
   docType: TrainingDocType;
   status: TrainingStatus;
   progress: number; // 0-100
+  duration: number; // Training duration in milliseconds
   shouldFail?: boolean; // If true, item will fail after training completes
   shouldDelete?: boolean; // If true, item will enter deleting state after training completes
 }
 
 // Constants
-const TRAINING_DURATION = 3500; // 3.5 seconds per item
 const PROGRESS_UPDATE_INTERVAL = 50; // Update every 50ms for smooth animation
 const SCORE_PER_ITEM = 25; // Points awarded/deducted per item
 
+/**
+ * Returns the default training duration for a given document type
+ */
+function getDurationByDocType(docType: TrainingDocType): number {
+  switch (docType) {
+    case "interview":
+      return 6000;
+    case "youtube":
+      return 3500;
+    case "x":
+      return 4000;
+    case "website":
+      return 3500;
+    case "podcast":
+      return 3000;
+    case "file":
+    case "generic":
+    default:
+      return 3500;
+  }
+}
+
+type QueueItemInput = Omit<
+  QueueItem,
+  "id" | "status" | "progress" | "duration"
+> & {
+  duration?: number; // Optional duration, will be calculated from docType if not provided
+};
+
 interface TrainingQueueContextType {
   queue: QueueItem[];
-  addToQueue: (
-    items: Omit<QueueItem, "id" | "status" | "progress">[]
-  ) => QueueItem[];
+  addToQueue: (items: QueueItemInput[]) => QueueItem[];
   clearQueue: () => void;
 }
 
@@ -137,8 +164,8 @@ export function TrainingQueueProvider({
         // Start training
         updateItemStatus(item.id, { status: "training", progress: 0 });
 
-        // Simulate progress over TRAINING_DURATION
-        await processItemProgress(item.id, TRAINING_DURATION);
+        // Simulate progress over item duration
+        await processItemProgress(item.id, item.duration);
 
         // Determine final status and handle transitions
         if (item.shouldDelete) {
@@ -159,7 +186,7 @@ export function TrainingQueueProvider({
       // ============ Process Deletion Queue ============
       for (const item of itemsToDelete) {
         // Simulate deletion progress
-        await processItemProgress(item.id, TRAINING_DURATION);
+        await processItemProgress(item.id, item.duration);
 
         // Mark as deleted (keep in history like completed/failed items)
         updateItemStatus(item.id, { status: "deleting", progress: 100 });
@@ -177,23 +204,26 @@ export function TrainingQueueProvider({
     incrementScore,
   ]);
 
-  const addToQueue = useCallback(
-    (items: Omit<QueueItem, "id" | "status" | "progress">[]) => {
-      const newItems: QueueItem[] = items.map((item) => ({
+  const addToQueue = useCallback((items: QueueItemInput[]) => {
+    const newItems: QueueItem[] = items.map((item) => {
+      // Calculate duration: use provided duration or default based on docType
+      const duration = item.duration ?? getDurationByDocType(item.docType);
+
+      return {
         ...item,
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         docType: item.docType,
         status: "queued" as TrainingStatus,
         progress: 0,
+        duration,
         shouldFail: item.shouldFail ?? false,
         shouldDelete: item.shouldDelete ?? false,
-      }));
+      };
+    });
 
-      setQueue((prev) => [...prev, ...newItems]);
-      return newItems;
-    },
-    []
-  );
+    setQueue((prev) => [...prev, ...newItems]);
+    return newItems;
+  }, []);
 
   const clearQueue = useCallback(() => {
     // Clear all intervals
