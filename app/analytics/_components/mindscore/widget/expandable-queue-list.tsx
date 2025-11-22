@@ -50,7 +50,7 @@ export function ExpandableQueueList({
           transition={{ duration: 0.2 }}
           className='overflow-hidden w-full relative rounded-b-2xl bg-transparent'
         >
-          <div className='h-2.5 w-full bg-gradient-to-b from-extra-light to-transparent absolute top-0 left-0' />
+          <div className='h-2 w-full bg-gradient-to-b from-extra-light to-transparent absolute top-0 left-0' />
           <div
             ref={scrollContainerRef}
             className={cn("overflow-hidden", "max-h-[104px] overflow-y-auto")}
