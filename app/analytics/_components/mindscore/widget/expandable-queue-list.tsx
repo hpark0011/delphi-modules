@@ -50,7 +50,7 @@ export function ExpandableQueueList({
           transition={{ duration: 0.2 }}
           className='overflow-hidden w-full relative rounded-b-2xl bg-transparent'
         >
-          <div className='h-2.5 w-full bg-gradient-to-b from-extra-light to-transparent absolute top-0 left-0' />
+          <div className='h-2 w-full bg-gradient-to-b from-extra-light to-transparent absolute top-0 left-0' />
           <div
             ref={scrollContainerRef}
             className={cn("overflow-hidden", "max-h-[104px] overflow-y-auto")}
@@ -69,7 +69,7 @@ export function ExpandableQueueList({
               ))}
             </AnimatePresence>
             <div
-              className='text-[13px] flex items-center justify-start gap-0.5 py-1 pb-1.5 text-text-muted cursor-pointer hover:text-blue-500 bg-gradient-to-t from-extra-light to-transparent px-3 w-full text-center'
+              className='text-[13px] flex items-center justify-start gap-0.5 py-1.5 pb-2 text-text-muted cursor-pointer hover:text-blue-500 bg-gradient-to-t from-extra-light to-transparent px-3 w-full text-center'
               onClick={() => openWithTab("training-status")}
               role='button'
               tabIndex={0}

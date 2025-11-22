@@ -56,94 +56,96 @@ export function TrainingQueueItem({
   return (
     <div
       className={cn(
-        "px-2 py-0.5",
+        "px-2.5 pr-[9px] py-0.5",
         "hover:bg-extra-light/50 transition-colors",
         containerClassName,
         className
       )}
     >
       <div className='flex items-center gap-1'>
-        {/* Icon or Ring Percentage */}
-        <div className='flex-shrink-0'>
-          {item.status === "training" ? (
-            <div className='size-5 flex items-center justify-center'>
-              <Icon
-                name='ArrowRightCircleFillIcon'
-                className='size-5 text-[#3b82f6]'
-              />
-            </div>
-          ) : item.status === "queued" ? (
-            <div className='size-5 flex items-center justify-center'>
-              <RingPercentage
-                value={item.progress}
-                size={14}
-                strokeWidth={2}
-                progressColor='#8D8D86'
-                trackColor='var(--color-neutral-200)'
-                showLabel={false}
-                animate={true}
-                ariaLabel={`${item.name} progress`}
-              />
-            </div>
-          ) : (
-            <Icon
-              name={getStatusIcon(item.status)}
-              className={cn(
-                "size-5",
-                item.status === "completed"
-                  ? "text-[#09CE6B]"
-                  : item.status === "failed"
-                    ? "text-orange-500"
-                    : item.status === "deleting"
-                      ? "text-red-400"
-                      : "text-[#8D8D86]"
-              )}
-            />
-          )}
-        </div>
-
         {/* Content */}
         <div className='flex-1 min-w-0'>
-          <div className='flex items-center gap-1'>
-            <Icon
-              name={getDocTypeIcon(item.docType)}
-              className={cn(docIconSize, "text-icon-light flex-shrink-0")}
-            />
-            {item.status === "training" ? (
-              <motion.span
-                className={cn(
-                  fontSize,
-                  "font-medium text-text-primary truncate inline-block"
-                )}
-                style={{
-                  background:
-                    "linear-gradient(90deg, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.9) 50%, rgba(59, 130, 246, 0.3) 100%)",
-                  backgroundSize: "200% 100%",
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                  color: "transparent",
-                }}
-                animate={{
-                  backgroundPosition: ["200% 0", "-200% 0"],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-              >
-                {item.name}
-              </motion.span>
-            ) : (
-              <p
-                className={cn(
-                  fontSize,
-                  "font-medium text-text-primary truncate"
-                )}
-              >
-                {item.name}
-              </p>
-            )}
+          <div className='flex items-center gap-1 justify-between'>
+            <div className='flex items-center gap-1'>
+              <Icon
+                name={getDocTypeIcon(item.docType)}
+                className={cn(docIconSize, "text-icon-light flex-shrink-0")}
+              />
+              {item.status === "training" ? (
+                <motion.span
+                  className={cn(
+                    fontSize,
+                    "font-medium text-text-primary truncate inline-block"
+                  )}
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.9) 50%, rgba(59, 130, 246, 0.3) 100%)",
+                    backgroundSize: "200% 100%",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    color: "transparent",
+                  }}
+                  animate={{
+                    backgroundPosition: ["200% 0", "-200% 0"],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  {item.name}
+                </motion.span>
+              ) : (
+                <p
+                  className={cn(
+                    fontSize,
+                    "font-medium text-text-primary truncate"
+                  )}
+                >
+                  {item.name}
+                </p>
+              )}
+            </div>
+
+            {/* Icon or Ring Percentage */}
+            <div className='flex-shrink-0'>
+              {item.status === "training" ? (
+                <div className='size-5 flex items-center justify-center'>
+                  <Icon
+                    name='ArrowLeftCircleFillIcon'
+                    className='size-5 text-[#3b82f6]'
+                  />
+                </div>
+              ) : item.status === "queued" ? (
+                <div className='size-5 flex items-center justify-center'>
+                  <RingPercentage
+                    value={item.progress}
+                    size={14}
+                    strokeWidth={2}
+                    progressColor='#8D8D86'
+                    trackColor='var(--color-neutral-200)'
+                    showLabel={false}
+                    animate={true}
+                    ariaLabel={`${item.name} progress`}
+                  />
+                </div>
+              ) : (
+                <Icon
+                  name={getStatusIcon(item.status)}
+                  className={cn(
+                    "size-5",
+                    item.status === "completed"
+                      ? "text-[#09CE6B]"
+                      : item.status === "failed"
+                        ? "text-orange-500"
+                        : item.status === "deleting"
+                          ? "text-red-400"
+                          : "text-[#8D8D86]"
+                  )}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
