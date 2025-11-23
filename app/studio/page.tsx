@@ -1,6 +1,6 @@
 "use client";
 
-import { MindScoreWidget } from "@/app/analytics/_components/mindscore/widget/mindscore";
+import { MindScoreWidget } from "@/app/studio/_components/mindscore/widget/mindscore";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";

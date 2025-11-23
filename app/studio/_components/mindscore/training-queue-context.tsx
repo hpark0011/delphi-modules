@@ -9,16 +9,16 @@ import React, {
   useRef,
 } from "react";
 import { toast } from "sonner";
-import type { TrainingStatus } from "./training-status-tab";
-import { useMindScore } from "./mind-score-context";
+import type { TrainingStatus } from "@/app/studio/_components/mindscore/training-status-tab";
+import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
 import {
   PROGRESS_UPDATE_INTERVAL,
   SCORE_PER_ITEM,
-} from "../../_constants/training-queue";
+} from "@/app/studio/_constants/training-queue";
 import {
   getDurationByDocType,
   updateScoreSafely,
-} from "../../_utils/training-queue-helpers";
+} from "@/app/studio/_utils/training-queue-helpers";
 
 export type TrainingDocType =
   | "interview"

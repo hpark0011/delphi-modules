@@ -1,10 +1,10 @@
 "use client";
 
-import { mockTrainingItems } from "@/app/analytics/_lib/mock-training-items";
+import { mockTrainingItems } from "@/app/studio/_lib/mock-training-items";
 import {
   formatDateLabel,
   getStatusIcon,
-} from "@/app/analytics/_utils/mind-dialog-helpers";
+} from "@/app/studio/_utils/mind-dialog-helpers";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -153,7 +153,8 @@ export function TrainingStatusTab() {
   useEffect(() => {
     // Check if all items are done processing (either completed, failed, or deleting)
     const allDone =
-      queue.length > 0 && queue.every((item) => isFinishedStatus(item.status));
+      queue.length > 0 &&
+      queue.every((item: QueueItem) => isFinishedStatus(item.status));
 
     // Completion Detection: When all items are done and no active items
     if (allDone && !hasActiveItems) {
@@ -377,15 +378,17 @@ export function TrainingStatusTab() {
           {/* Active Training Queue List */}
           <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3 mb-4 px-2'>
             <div className='flex flex-col gap-0.5 w-full'>
-              {(showCompletedStatus ? queueSnapshot : queue).map((item) => (
-                <TrainingQueueItem
-                  key={item.id}
-                  item={item}
-                  docIconSize='size-5'
-                  fontSize='text-[14px]'
-                  containerClassName='hover:bg-extra-light/100 rounded-md py-1'
-                />
-              ))}
+              {(showCompletedStatus ? queueSnapshot : queue).map(
+                (item: QueueItem) => (
+                  <TrainingQueueItem
+                    key={item.id}
+                    item={item}
+                    docIconSize='size-5'
+                    fontSize='text-[14px]'
+                    containerClassName='hover:bg-extra-light/100 rounded-md py-1'
+                  />
+                )
+              )}
             </div>
           </div>
         </div>

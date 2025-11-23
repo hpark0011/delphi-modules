@@ -1,10 +1,10 @@
 "use client";
 
-import { useTrainingQueue } from "./use-training-queue";
+import { QueueItem, useTrainingQueue } from "./use-training-queue";
 import {
   isActiveStatus,
   isFinishedStatus,
-} from "@/app/analytics/_components/mindscore/training-status-utils";
+} from "@/app/studio/_components/mindscore/training-status-utils";
 
 /**
  * Hook to get training queue status information
@@ -19,10 +19,14 @@ export function useTrainingStatus() {
   const { queue } = useTrainingQueue();
 
   // Get active items (queued or training)
-  const activeItems = queue.filter((item) => isActiveStatus(item.status));
+  const activeItems = queue.filter((item: QueueItem) =>
+    isActiveStatus(item.status)
+  );
 
   // Get finished items (completed, failed, or deleting)
-  const finishedItems = queue.filter((item) => isFinishedStatus(item.status));
+  const finishedItems = queue.filter((item: QueueItem) =>
+    isFinishedStatus(item.status)
+  );
 
   const hasActiveItems = activeItems.length > 0;
 
