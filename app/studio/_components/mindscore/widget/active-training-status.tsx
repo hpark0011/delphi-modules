@@ -35,12 +35,17 @@ export function ActiveTrainingStatus() {
           }
         }}
       >
-        <Icon name='LoaderCircleIcon' className='size-4.5 animate-spin' />
-        <div className='text-[13px] w-full'>
-          Learning {finished}
-          <span className='mx-0.5'>/</span>
-          {total}
+        {/* Training Status Text */}
+        <div className='flex items-center gap-1 w-full'>
+          <Icon name='LoaderCircleIcon' className='size-4.5 animate-spin' />
+          <div className='text-[13px] w-full'>
+            Learning {finished}
+            <span className='mx-0.5'>/</span>
+            {total}
+          </div>
         </div>
+
+        {/* Toggle Icon */}
         <motion.div
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={{ duration: 0.2 }}
