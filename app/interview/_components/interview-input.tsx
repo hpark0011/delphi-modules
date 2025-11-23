@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowDownIcon, ArrowUpIcon, Keyboard, SendIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { AutoResizingTextarea } from "@/components/ui/auto-resizing-textarea";
+import { Button } from "@/components/ui/button";
 import { LoadingCircleIcon } from "@/delphi-ui/icons/LoadingCircle";
-import { StopIcon } from "@/delphi-ui/icons/Stop";
 import { MicrophoneOnIcon } from "@/delphi-ui/icons/MicrophoneOn";
-import { cn } from "@/lib/utils";
+import { StopIcon } from "@/delphi-ui/icons/Stop";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { cn } from "@/lib/utils";
+import { ArrowUpIcon } from "lucide-react";
+import { useState } from "react";
 
 interface InterviewInputProps {
   onSubmit?: (text: string) => void;
