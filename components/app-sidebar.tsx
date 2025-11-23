@@ -85,7 +85,7 @@ export function AppSidebar() {
                 asChild
                 isActive={
                   pathname === "/" ||
-                  pathname === "/analytics" ||
+                  pathname === "/studio" ||
                   pathname === "/analytics/engagement" ||
                   pathname === "/analytics/audience" ||
                   pathname === "/analytics/actions" ||
@@ -97,7 +97,7 @@ export function AppSidebar() {
                     className={cn(
                       "size-4.5 ",
                       pathname === "/" ||
-                        (pathname === "/analytics" && "text-[#FDFDFC]") ||
+                        (pathname === "/studio" && "text-[#FDFDFC]") ||
                         (pathname === "/analytics/engagement" &&
                           "text-[#FDFDFC]") ||
                         (pathname === "/analytics/audience" &&
