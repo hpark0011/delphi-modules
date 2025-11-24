@@ -4,7 +4,7 @@ import { QueueItem, useTrainingQueue } from "./use-training-queue";
 import {
   isActiveStatus,
   isFinishedStatus,
-} from "@/app/studio/_components/mindscore/training-status-utils";
+} from "@/components/mind-dialog/training-status-utils";
 
 /**
  * Hook to get training queue status information

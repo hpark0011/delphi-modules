@@ -9,7 +9,7 @@ import React, {
   useRef,
 } from "react";
 import { toast } from "sonner";
-import type { TrainingStatus } from "@/app/studio/_components/mindscore/training-status-tab";
+import type { TrainingStatus } from "@/components/mind-dialog/training-status-tab";
 import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
 import {
   PROGRESS_UPDATE_INTERVAL,

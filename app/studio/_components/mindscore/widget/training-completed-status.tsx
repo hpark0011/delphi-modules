@@ -10,7 +10,7 @@ import type { QueueItem } from "@/hooks/use-training-queue";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
-import { useMindDialog } from "../mind-dialog";
+import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
 import { ExpandableQueueList } from "./expandable-queue-list";
 
 export interface TrainingCompletedStatusProps {

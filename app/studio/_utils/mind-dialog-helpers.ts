@@ -1,5 +1,5 @@
 import { IconName } from "@/components/ui/icon";
-import { TrainingStatus } from "../_components/mindscore/training-status-tab";
+import { TrainingStatus } from "../../../components/mind-dialog/training-status-tab";
 import { format, isToday, isYesterday, parseISO } from "date-fns";
 
 /**

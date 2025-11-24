@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import { Icon } from "@/components/ui/icon";
-import { useMindDialog } from "../mind-dialog";
+import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
 import type { QueueItem } from "@/hooks/use-training-queue";
 import { motion, AnimatePresence } from "framer-motion";
 import { TrainingQueueItem } from "../training-queue-item";

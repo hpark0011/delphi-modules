@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useMindDialog } from "@/app/studio/_components/mindscore/mind-dialog";
+import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
 import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
 import { MiniTrainingStatus } from "./mini-training-status";
 import { useTrainingQueue } from "@/hooks/use-training-queue";

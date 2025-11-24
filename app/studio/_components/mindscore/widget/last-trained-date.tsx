@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { useMindDialog } from "../mind-dialog";
+import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
 
 export function LastTrainedDate() {
   const { openWithTab } = useMindDialog();

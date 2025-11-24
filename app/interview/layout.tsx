@@ -7,8 +7,8 @@ import {
   useInterviewContext,
 } from "./_context/interview-context";
 import { MindScoreProvider } from "@/app/studio/_components/mindscore/mind-score-context";
-import { TrainingQueueProvider } from "@/app/studio/_components/mindscore/training-queue-context";
-import { MindDialog } from "@/app/studio/_components/mindscore/mind-dialog";
+import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-context";
+import { MindDialog } from "@/components/mind-dialog/mind-dialog";
 
 function InterviewLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();

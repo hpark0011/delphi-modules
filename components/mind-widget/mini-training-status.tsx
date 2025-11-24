@@ -3,8 +3,8 @@
 import { AnimatePresence, motion, type Transition } from "framer-motion";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
-import { isFinishedStatus } from "@/app/studio/_components/mindscore/training-status-utils";
-import { useMindDialog } from "@/app/studio/_components/mindscore/mind-dialog";
+import { isFinishedStatus } from "@/components/mind-dialog/training-status-utils";
+import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
 import { useEffect, useRef, useState } from "react";
 
 type BadgeState = "loading" | "newItem" | "finished";
@@ -19,7 +19,9 @@ const NEW_ITEM_DISPLAY_DURATION = 2000;
 
 function StatusIcon({ state }: { state: BadgeState }) {
   return (
-    <span className={`relative flex items-center justify-center ${state === "finished" ? "size-5" : "size-4"}`}>
+    <span
+      className={`relative flex items-center justify-center ${state === "finished" ? "size-5" : "size-4"}`}
+    >
       <AnimatePresence mode='sync'>
         <motion.span
           key={state}

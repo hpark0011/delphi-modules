@@ -6,7 +6,7 @@ import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableQueueList } from "./expandable-queue-list";
-import { isFinishedStatus } from "../training-status-utils";
+import { isFinishedStatus } from "../../../../../components/mind-dialog/training-status-utils";
 
 export function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();

@@ -4,11 +4,17 @@ import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { MindDialog, useMindDialog } from "../mind-dialog";
+import {
+  MindDialog,
+  useMindDialog,
+} from "../../../../../components/mind-dialog/mind-dialog";
 import { MindProgressBar } from "../mind-progress-bar";
 import { MindScoreProvider, useMindScore } from "../mind-score-context";
-import { TrainingQueueProvider } from "../training-queue-context";
-import { isActiveStatus, isFinishedStatus } from "../training-status-utils";
+import { TrainingQueueProvider } from "../../../../../components/mind-dialog/training-queue-context";
+import {
+  isActiveStatus,
+  isFinishedStatus,
+} from "../../../../../components/mind-dialog/training-status-utils";
 import { ActiveTrainingStatus } from "./active-training-status";
 import { LastTrainedDate } from "./last-trained-date";
 import { TrainingCompletedStatus } from "./training-completed-status";

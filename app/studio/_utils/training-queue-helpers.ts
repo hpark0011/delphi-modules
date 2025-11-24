@@ -1,4 +1,4 @@
-import type { TrainingDocType } from "../_components/mindscore/training-queue-context";
+import type { TrainingDocType } from "../../../components/mind-dialog/training-queue-context";
 
 /**
  * Returns the default training duration for a given document type

@@ -11,9 +11,9 @@ import {
   MindDialogTabId,
   getMindDialogWidthClass,
 } from "./mind-dialog-config";
-import { MindProgressBar } from "./mind-progress-bar";
+import { MindProgressBar } from "../../app/studio/_components/mindscore/mind-progress-bar";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { useMindScore } from "./mind-score-context";
+import { useMindScore } from "../../app/studio/_components/mindscore/mind-score-context";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import type { IconName } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
