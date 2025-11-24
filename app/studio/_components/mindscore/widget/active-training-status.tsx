@@ -108,13 +108,18 @@ export function ActiveTrainingStatus() {
           <AnimatePresence mode='wait'>
             {newlyAddedCount !== null && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.2 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 25,
+                }}
                 className='text-[13px] whitespace-nowrap ml-1 font-medium text-blue-500 tracking-tighter'
               >
-                + {newlyAddedCount} {newlyAddedCount === 1 ? "Item" : "Items"}
+                <span className='text-blue-500'>+{newlyAddedCount}</span>{" "}
+                {newlyAddedCount === 1 ? "Item added" : "Items added"}
               </motion.div>
             )}
           </AnimatePresence>

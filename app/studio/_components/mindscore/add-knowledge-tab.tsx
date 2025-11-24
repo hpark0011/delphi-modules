@@ -5,6 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { toast } from "sonner";
 import { useMindDialog } from "./mind-dialog";
 import { useMindScore } from "./mind-score-context";
 
@@ -162,6 +163,10 @@ export function AddKnowledgeTab() {
 
     if (itemsToAdd.length > 0) {
       addToQueue(itemsToAdd);
+      const itemCount = itemsToAdd.length;
+      toast.success(
+        `Added ${itemCount} ${itemCount === 1 ? "item" : "items"} to training queue`
+      );
       close();
     }
   };
