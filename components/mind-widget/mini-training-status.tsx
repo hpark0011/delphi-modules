@@ -4,7 +4,7 @@ import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
 import {
   getTrainingQueueStatus,
   isFinishedItemStatus,
-} from "@/utils/training-status-utils";
+} from "@/utils/training-status-helpers";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { AnimatePresence, motion, type Transition } from "framer-motion";

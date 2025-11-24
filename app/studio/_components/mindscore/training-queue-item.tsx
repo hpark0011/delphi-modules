@@ -5,7 +5,7 @@ import type { QueueItem, TrainingDocType } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { RingPercentage } from "./ring-percentage";
-import type { TrainingItemStatus } from "@/utils/training-status-utils";
+import type { TrainingItemStatus } from "@/utils/training-status-helpers";
 
 function getStatusIcon(status: TrainingItemStatus): IconName {
   switch (status) {

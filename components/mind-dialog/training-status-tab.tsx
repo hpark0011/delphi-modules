@@ -40,7 +40,7 @@ import {
   getTrainingQueueStatus,
   // Legacy exports for backward compatibility
   type TrainingStatus,
-} from "../../utils/training-status-utils";
+} from "../../utils/training-status-helpers";
 import { ActiveTrainingQueue } from "./active-training-queue";
 import { TrainingSummary } from "./training-summary";
 

@@ -14,7 +14,7 @@ import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-c
 import {
   getTrainingQueueStatus,
   isFinishedItemStatus,
-} from "@/utils/training-status-utils";
+} from "@/utils/training-status-helpers";
 import { ActiveTrainingStatus } from "./active-training-status";
 import { LastTrainedDate } from "./last-trained-date";
 import { TrainingCompletedStatus } from "./training-completed-status";

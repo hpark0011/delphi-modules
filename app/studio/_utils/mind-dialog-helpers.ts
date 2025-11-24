@@ -1,5 +1,5 @@
 import { IconName } from "@/components/ui/icon";
-import type { TrainingItemStatus } from "@/utils/training-status-utils";
+import type { TrainingItemStatus } from "@/utils/training-status-helpers";
 import { format, isToday, isYesterday, parseISO } from "date-fns";
 
 /**

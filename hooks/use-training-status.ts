@@ -1,12 +1,11 @@
 "use client";
 
-import { QueueItem, useTrainingQueue } from "./use-training-queue";
 import {
-  hasActiveItems,
   getFinishedItemCount,
   getTrainingQueueStatus,
-  type TrainingQueueStatus,
-} from "@/utils/training-status-utils";
+  hasActiveItems,
+} from "@/utils/training-status-helpers";
+import { useTrainingQueue } from "./use-training-queue";
 
 /**
  * Hook to get training queue status information
@@ -26,11 +25,13 @@ export function useTrainingStatus(hasUserReviewed: boolean = false) {
   const finishedCount = getFinishedItemCount(queue);
   const totalCount = queue.length;
   const queueStatus = getTrainingQueueStatus(queue, hasUserReviewed);
+  const activeCount = totalCount - finishedCount; // Count of items still being processed
 
   return {
     hasActiveItems: activeItemsExist,
     finishedCount,
     totalCount,
+    activeCount,
     isIdle: !activeItemsExist && queue.length === 0,
     queueStatus,
   };

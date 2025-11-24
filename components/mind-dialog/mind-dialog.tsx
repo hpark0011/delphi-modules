@@ -1,22 +1,22 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React, { createContext, useContext, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import type { IconName } from "@/components/ui/icon";
 import { Icon } from "@/components/ui/icon";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTrainingStatus } from "@/hooks/use-training-status";
+import { cn } from "@/lib/utils";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import React, { createContext, useContext, useMemo, useState } from "react";
+import { MindProgressBar } from "../../app/studio/_components/mindscore/mind-progress-bar";
+import { useMindScore } from "../../app/studio/_components/mindscore/mind-score-context";
 import {
-  MIND_DIALOG_TABS,
   DEFAULT_MIND_DIALOG_TAB,
+  MIND_DIALOG_TABS,
   MindDialogTabId,
   getMindDialogWidthClass,
 } from "./mind-dialog-config";
-import { MindProgressBar } from "../../app/studio/_components/mindscore/mind-progress-bar";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { useMindScore } from "../../app/studio/_components/mindscore/mind-score-context";
-import { useTrainingStatus } from "@/hooks/use-training-status";
-import type { IconName } from "@/components/ui/icon";
-import { cn } from "@/lib/utils";
 
 // Re-export for convenience
 export type { MindDialogTabId } from "./mind-dialog-config";
@@ -52,7 +52,7 @@ function MindDialogHeader() {
     lastIncrement,
     lastDecrement,
   } = useMindScore();
-  const { hasActiveItems, finishedCount, totalCount } = useTrainingStatus();
+  const { hasActiveItems, activeCount } = useTrainingStatus();
 
   return (
     <div className='flex-shrink-0 flex flex-col rounded-[16px] m-1 mb-0 shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87  dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
@@ -94,11 +94,7 @@ function MindDialogHeader() {
               ? "LoaderCircleIcon"
               : tab.icon;
             const label = isActiveTraining ? (
-              <>
-                Learning {finishedCount}
-                <span className='mx-[2px]'>/</span>
-                {totalCount}
-              </>
+              <>Learning {activeCount} Items</>
             ) : (
               tab.label
             );

@@ -1,8 +1,8 @@
 "use client";
 
-import { isFinishedItemStatus } from "@/utils/training-status-utils";
 import MindStatusNotification from "@/components/mind-status-notification";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -10,18 +10,12 @@ import { ExpandableQueueList } from "./expandable-queue-list";
 
 export function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
+  const { activeCount } = useTrainingStatus();
   const [isExpanded, setIsExpanded] = useState(true);
   const [newlyAddedCount, setNewlyAddedCount] = useState<number | null>(null);
   const previousQueueLengthRef = useRef(queue.length);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialMountRef = useRef(true);
-
-  // Calculate finished items (completed, failed, or deleted)
-  const finished = queue.filter((item) =>
-    isFinishedItemStatus(item.status)
-  ).length;
-  const total = queue.length;
-  const activeCount = total - finished; // Count of items still being processed
 
   // Track when items are added to the queue
   useEffect(() => {
@@ -118,7 +112,7 @@ export function ActiveTrainingStatus() {
                   stiffness: 400,
                   damping: 25,
                 }}
-                className='text-[13px] whitespace-nowrap ml-1 font-medium text-blue-500 tracking-tighter px-1.5 pr-2 py-[1px] bg-white rounded-sm dark:bg-white/10'
+                className='text-[13px] whitespace-nowrap ml-1 font-medium text-blue-500 tracking-tighter'
               >
                 <span className=''>+{newlyAddedCount}</span>{" "}
                 {newlyAddedCount === 1 ? "Item added" : "Items added"}
