@@ -144,6 +144,8 @@ export function TrainingStatusTab() {
   >("all");
   const [showCompletedStatus, setShowCompletedStatus] = useState(false);
   const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
+  const [hasUserDismissedCompletion, setHasUserDismissedCompletion] =
+    useState(false);
 
   // Use centralized queue status hook
   // showCompletedStatus = true means user has NOT reviewed (showing completion message)
@@ -151,13 +153,26 @@ export function TrainingStatusTab() {
   const { hasActiveItems, finishedCount, totalCount, queueStatus } =
     useTrainingStatus(!showCompletedStatus);
 
+  // Handler for "View summary" button click
+  // Accepts boolean parameter to match interface but ignores it
+  const handleViewSummary = (_value: boolean) => {
+    setShowCompletedStatus(false);
+    setHasUserDismissedCompletion(true);
+  };
+
   // Detect completion and handle state transitions
   useEffect(() => {
     // Check if all items are done processing using centralized logic
     const allDone = finishedCount === totalCount && totalCount > 0;
 
     // Completion Detection: When all items are done and no active items
-    if (allDone && !hasActiveItems) {
+    // Guard: Only set showCompletedStatus if user hasn't dismissed it
+    if (
+      allDone &&
+      !hasActiveItems &&
+      !showCompletedStatus &&
+      !hasUserDismissedCompletion
+    ) {
       // Capture queue snapshot (all items with final states: completed, failed, deleted)
       setQueueSnapshot([...queue]);
       setShowCompletedStatus(true);
@@ -167,8 +182,16 @@ export function TrainingStatusTab() {
     if (queue.length > 0 && showCompletedStatus && hasActiveItems) {
       setShowCompletedStatus(false);
       setQueueSnapshot([]);
+      setHasUserDismissedCompletion(false); // Reset dismissal flag when new items are added
     }
-  }, [queue, hasActiveItems, showCompletedStatus, finishedCount, totalCount]);
+  }, [
+    queue,
+    hasActiveItems,
+    showCompletedStatus,
+    finishedCount,
+    totalCount,
+    hasUserDismissedCompletion,
+  ]);
 
   // Filter data based on selected status
   const filteredData = useMemo(() => {
@@ -333,7 +356,7 @@ export function TrainingStatusTab() {
       {(queueStatus === "active" || queueStatus === "finished") && (
         <ActiveTrainingQueue
           showCompletedStatus={showCompletedStatus}
-          setShowCompletedStatus={setShowCompletedStatus}
+          setShowCompletedStatus={handleViewSummary}
           finishedCount={finishedCount}
           totalCount={totalCount}
           queueSnapshot={queueSnapshot}
