@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Icon } from "@/components/ui/icon";
-import { useTrainingQueue } from "@/hooks/use-training-queue";
-import { ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ExpandableQueueList } from "./expandable-queue-list";
-import { isFinishedItemStatus } from "../../../../../components/mind-dialog/training-status-utils";
+import { isFinishedItemStatus } from "@/components/mind-dialog/training-status-utils";
 import MindStatusNotification from "@/components/mind-status-notification";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ExpandableQueueList } from "./expandable-queue-list";
 
 export function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
@@ -100,7 +99,6 @@ export function ActiveTrainingStatus() {
         <div className='flex items-center gap-1 w-full'>
           <div className='flex items-center gap-1 w-fit'>
             <MindStatusNotification status='training' />
-            {/* <Icon name='LoaderCircleIcon' className='size-4 animate-spin' /> */}
             <div className='text-[13px]'>
               Learning {finished}
               <span className='mx-0.5'>/</span>

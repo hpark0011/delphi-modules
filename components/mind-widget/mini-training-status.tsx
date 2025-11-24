@@ -1,14 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion, type Transition } from "framer-motion";
+import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
+import {
+  getTrainingQueueStatus,
+  isFinishedItemStatus,
+} from "@/components/mind-dialog/training-status-utils";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
-import {
-  isFinishedItemStatus,
-  getTrainingQueueStatus,
-  hasActiveItems,
-} from "@/components/mind-dialog/training-status-utils";
-import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
+import { AnimatePresence, motion, type Transition } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 type BadgeState = "loading" | "newItem" | "finished";
