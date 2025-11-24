@@ -6,7 +6,6 @@ import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useMindDialog } from "./mind-dialog";
-import { useMindScore } from "./mind-score-context";
 import { showTrainingQueueToast } from "./training-queue-toast";
 
 type ContentCategory =
@@ -173,7 +172,10 @@ export function AddKnowledgeTab() {
     if (itemsToAdd.length > 0) {
       addToQueue(itemsToAdd);
       const itemCount = itemsToAdd.length;
-      showTrainingQueueToast(itemCount);
+      showTrainingQueueToast(
+        itemCount,
+        <Icon name='SquareStackFillIcon' className='size-5 text-blue-500' />
+      );
       close();
     }
   };
