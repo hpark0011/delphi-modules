@@ -56,6 +56,12 @@ function MindDialogHeader() {
   } = useMindScore();
   const { hasActiveItems, activeCount } = useTrainingStatus();
   const { clearQueue } = useTrainingQueue();
+  const { close } = useMindDialog();
+
+  const onPreviewClick = () => {
+    clearQueue();
+    close();
+  };
 
   return (
     <div className='flex-shrink-0 flex flex-col rounded-[16px] m-1 mb-0 shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87  dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
@@ -72,7 +78,12 @@ function MindDialogHeader() {
         <VisuallyHidden>
           <DialogTitle>Mind</DialogTitle>
         </VisuallyHidden>
-        <Button size='sm' className='h-7' variant='glossy' onClick={clearQueue}>
+        <Button
+          size='sm'
+          className='h-7'
+          variant='glossy'
+          onClick={onPreviewClick}
+        >
           Preview
         </Button>
       </div>

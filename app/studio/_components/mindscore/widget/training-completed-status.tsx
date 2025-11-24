@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
 import { ExpandableQueueList } from "./expandable-queue-list";
 import MindStatusNotification from "@/components/mind-status-notification";
+import { SCORE_PER_ITEM } from "../../../_constants/training-queue";
 
 export interface TrainingCompletedStatusProps {
   setShowCompletedStatus: (show: boolean) => void;
@@ -29,6 +30,9 @@ export function TrainingCompletedStatus({
 }: TrainingCompletedStatusProps) {
   const { openWithTab } = useMindDialog();
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Calculate total score increase based on completed items
+  const totalScoreIncrease = completedCount * SCORE_PER_ITEM;
 
   const handleToggle = () => {
     setIsExpanded((prev) => !prev);
@@ -107,7 +111,7 @@ export function TrainingCompletedStatus({
               <MindStatusNotification status='finished' />
               {/* Increased mind score */}
               <span className='text-[12px] font-medium text-text-muted'>
-                +230
+                +{totalScoreIncrease}
               </span>
               {/* <Icon
                 name='DocPlainTextFillIcon'
