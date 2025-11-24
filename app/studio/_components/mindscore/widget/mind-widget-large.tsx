@@ -139,6 +139,13 @@ function MindScoreContent() {
       setCompletedCount(0);
       setFailedCount(0);
     }
+
+    // Reset when queue is cleared (becomes empty)
+    if (queue.length === 0 && !hasUserReviewed) {
+      setHasUserReviewed(true);
+      setCompletedCount(0);
+      setFailedCount(0);
+    }
   }, [queueStatus, hasUserReviewed, finishedCount, totalCount, queue]);
 
   return (

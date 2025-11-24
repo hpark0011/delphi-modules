@@ -6,6 +6,7 @@ import type { IconName } from "@/components/ui/icon";
 import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTrainingStatus } from "@/hooks/use-training-status";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import React, { createContext, useContext, useMemo, useState } from "react";
@@ -54,6 +55,7 @@ function MindDialogHeader() {
     lastDecrement,
   } = useMindScore();
   const { hasActiveItems, activeCount } = useTrainingStatus();
+  const { clearQueue } = useTrainingQueue();
 
   return (
     <div className='flex-shrink-0 flex flex-col rounded-[16px] m-1 mb-0 shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87  dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
@@ -70,7 +72,7 @@ function MindDialogHeader() {
         <VisuallyHidden>
           <DialogTitle>Mind</DialogTitle>
         </VisuallyHidden>
-        <Button size='sm' className='h-7' variant='glossy'>
+        <Button size='sm' className='h-7' variant='glossy' onClick={clearQueue}>
           Preview
         </Button>
       </div>
