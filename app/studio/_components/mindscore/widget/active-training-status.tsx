@@ -1,20 +1,78 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { ChevronDown } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableQueueList } from "./expandable-queue-list";
 import { isFinishedStatus } from "../training-status-utils";
 
 export function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
   const [isExpanded, setIsExpanded] = useState(true);
+  const [newlyAddedCount, setNewlyAddedCount] = useState<number | null>(null);
+  const previousQueueLengthRef = useRef(queue.length);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isInitialMountRef = useRef(true);
 
   // Calculate finished items (completed, failed, or deleting)
   const finished = queue.filter((item) => isFinishedStatus(item.status)).length;
   const total = queue.length;
+
+  // Track when items are added to the queue
+  useEffect(() => {
+    // On initial mount, initialize ref and show notification if items exist
+    if (isInitialMountRef.current) {
+      previousQueueLengthRef.current = queue.length;
+      isInitialMountRef.current = false;
+
+      // Show notification if component mounted with items already in queue
+      if (queue.length > 0) {
+        setNewlyAddedCount(queue.length);
+
+        // Clear existing timeout if any
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+
+        // Auto-hide notification after 3 seconds
+        timeoutRef.current = setTimeout(() => {
+          setNewlyAddedCount(null);
+        }, 3000);
+      }
+      return;
+    }
+
+    const currentLength = queue.length;
+    const previousLength = previousQueueLengthRef.current;
+
+    // Only show notification if items were added (not removed)
+    if (currentLength > previousLength) {
+      const addedCount = currentLength - previousLength;
+      setNewlyAddedCount(addedCount);
+
+      // Clear existing timeout if any
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      // Auto-hide notification after 3 seconds
+      timeoutRef.current = setTimeout(() => {
+        setNewlyAddedCount(null);
+      }, 3000);
+    }
+
+    // Update the ref for next comparison
+    previousQueueLengthRef.current = currentLength;
+
+    // Cleanup timeout on unmount
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [queue.length]);
 
   const handleToggle = () => {
     setIsExpanded((prev) => !prev);
@@ -37,12 +95,29 @@ export function ActiveTrainingStatus() {
       >
         {/* Training Status Text */}
         <div className='flex items-center gap-1 w-full'>
-          <Icon name='LoaderCircleIcon' className='size-4.5 animate-spin' />
-          <div className='text-[13px] w-full'>
-            Learning {finished}
-            <span className='mx-0.5'>/</span>
-            {total}
+          <div className='flex items-center gap-1 w-fit'>
+            <Icon name='LoaderCircleIcon' className='size-4.5 animate-spin' />
+            <div className='text-[13px]'>
+              Learning {finished}
+              <span className='mx-0.5'>/</span>
+              {total}
+            </div>
           </div>
+
+          {/* Items added confirmation text */}
+          <AnimatePresence mode='wait'>
+            {newlyAddedCount !== null && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
+                className='text-[13px] whitespace-nowrap ml-1 font-medium text-blue-500 tracking-tighter'
+              >
+                + {newlyAddedCount} {newlyAddedCount === 1 ? "Item" : "Items"}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Toggle Icon */}
