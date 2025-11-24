@@ -34,13 +34,7 @@ import {
 } from "@tanstack/react-table";
 import { format, parseISO } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
-import {
-  type TrainingItemStatus,
-  isFinishedItemStatus,
-  getTrainingQueueStatus,
-  // Legacy exports for backward compatibility
-  type TrainingStatus,
-} from "../../utils/training-status-helpers";
+import { type TrainingItemStatus } from "@/utils/training-status-helpers";
 import { ActiveTrainingQueue } from "./active-training-queue";
 import { TrainingSummary } from "./training-summary";
 
@@ -145,25 +139,22 @@ function DateGroupTable({
 
 export function TrainingStatusTab() {
   const { queue } = useTrainingQueue();
-  const { hasActiveItems } = useTrainingStatus();
   const [selectedStatus, setSelectedStatus] = useState<
     TrainingItemStatus | "all"
   >("all");
   const [showCompletedStatus, setShowCompletedStatus] = useState(false);
   const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
-  const { finishedCount, totalCount } = useTrainingStatus();
 
-  // Determine queue status based on queue state and user review
+  // Use centralized queue status hook
   // showCompletedStatus = true means user has NOT reviewed (showing completion message)
-  // getTrainingQueueStatus expects hasUserReviewed (opposite), so we negate it
-  const queueStatus = getTrainingQueueStatus(queue, !showCompletedStatus);
+  // useTrainingStatus expects hasUserReviewed (opposite), so we negate it
+  const { hasActiveItems, finishedCount, totalCount, queueStatus } =
+    useTrainingStatus(!showCompletedStatus);
 
   // Detect completion and handle state transitions
   useEffect(() => {
-    // Check if all items are done processing (either completed, failed, or deleted)
-    const allDone =
-      queue.length > 0 &&
-      queue.every((item: QueueItem) => isFinishedItemStatus(item.status));
+    // Check if all items are done processing using centralized logic
+    const allDone = finishedCount === totalCount && totalCount > 0;
 
     // Completion Detection: When all items are done and no active items
     if (allDone && !hasActiveItems) {
@@ -177,7 +168,7 @@ export function TrainingStatusTab() {
       setShowCompletedStatus(false);
       setQueueSnapshot([]);
     }
-  }, [queue, hasActiveItems, showCompletedStatus]);
+  }, [queue, hasActiveItems, showCompletedStatus, finishedCount, totalCount]);
 
   // Filter data based on selected status
   const filteredData = useMemo(() => {

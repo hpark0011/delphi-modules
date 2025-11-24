@@ -1,12 +1,9 @@
 "use client";
 
 import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
-import {
-  getTrainingQueueStatus,
-  isFinishedItemStatus,
-} from "@/utils/training-status-helpers";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
 import { AnimatePresence, motion, type Transition } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
@@ -135,15 +132,14 @@ export function MiniTrainingStatus() {
   const { queue } = useTrainingQueue();
   const { openWithTab } = useMindDialog();
 
-  const finished = queue.filter((item) =>
-    isFinishedItemStatus(item.status)
-  ).length;
-  const total = queue.length;
-
-  // Use centralized queue status logic
+  // Use centralized queue status hook
   // Note: This widget doesn't track user review state, so we assume user hasn't reviewed
   // (hasUserReviewed = false) to show "finished" state when appropriate
-  const queueStatus = getTrainingQueueStatus(queue, false);
+  const {
+    finishedCount: finished,
+    totalCount: total,
+    queueStatus,
+  } = useTrainingStatus(false);
 
   // Derived base state from queue status
   // "active" → "loading", everything else → "finished"

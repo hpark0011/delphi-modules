@@ -2,6 +2,7 @@
 
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import {
@@ -11,10 +12,6 @@ import {
 import { MindProgressBar } from "../mind-progress-bar";
 import { MindScoreProvider, useMindScore } from "../mind-score-context";
 import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-context";
-import {
-  getTrainingQueueStatus,
-  isFinishedItemStatus,
-} from "@/utils/training-status-helpers";
 import { ActiveTrainingStatus } from "./active-training-status";
 import { LastTrainedDate } from "./last-trained-date";
 import { TrainingCompletedStatus } from "./training-completed-status";
@@ -84,8 +81,8 @@ function TrainingStatusTrigger({
   failedCount,
   queue,
 }: TrainingStatusTriggerProps) {
-  // Use centralized queue status logic
-  const queueStatus = getTrainingQueueStatus(queue, hasUserReviewed);
+  // Use centralized queue status hook
+  const { queueStatus } = useTrainingStatus(hasUserReviewed);
 
   // Show completed status when queue is finished (all items done, user hasn't reviewed)
   if (queueStatus === "finished") {
@@ -115,17 +112,18 @@ function MindScoreContent() {
   const [failedCount, setFailedCount] = useState(0);
 
   // Use centralized queue status logic
-  const queueStatus = getTrainingQueueStatus(queue, hasUserReviewed);
+  const { queueStatus, finishedCount, totalCount } =
+    useTrainingStatus(hasUserReviewed);
 
   // Update counts when queue finishes and reset when new items are added
   useEffect(() => {
     // Detect when all items finish and user hasn't reviewed yet
-    const allFinished =
-      queue.length > 0 &&
-      queue.every((item) => isFinishedItemStatus(item.status));
+    const allFinished = finishedCount === totalCount && totalCount > 0;
 
     if (allFinished && hasUserReviewed) {
-      // Queue just finished - capture counts and mark as unreviewed
+      // Queue just finished - capture snapshot counts and mark as unreviewed
+      // Note: We need manual filtering here to create a snapshot of counts
+      // at the moment of completion, which persists even as queue changes
       const completed = queue.filter(
         (item) => item.status === "completed"
       ).length;
@@ -141,7 +139,7 @@ function MindScoreContent() {
       setCompletedCount(0);
       setFailedCount(0);
     }
-  }, [queueStatus, hasUserReviewed, queue]);
+  }, [queueStatus, hasUserReviewed, finishedCount, totalCount, queue]);
 
   return (
     <AnalyticsSectionWrapper
