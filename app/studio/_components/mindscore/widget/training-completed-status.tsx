@@ -36,7 +36,7 @@ export function TrainingCompletedStatus({
 
   return (
     <div className='w-full relative'>
-      <div className='w-full items-center flex justify-center p-2 py-1.5 pr-[7px] gap-1 text-text-tertiary cursor-pointer rounded-full'>
+      <div className='w-full items-center flex justify-center p-2 py-1.5 pr-[4px] gap-1 text-text-tertiary cursor-pointer rounded-full'>
         <div
           className='flex items-center gap-1 relative py-0.5 px-2 bg w-full pl-[3px] group hover:opacity-70'
           onClick={handleToggle}
@@ -59,7 +59,7 @@ export function TrainingCompletedStatus({
             Learning completed!
           </div>
         </div>
-        <div className='text-xs dark:bg-black text-text-muted flex items-center gap-1 mr-1'>
+        <div className='text-xs dark:bg-black text-text-muted flex items-center gap-1 mr-0'>
           {/* Completed items */}
           {completedCount > 0 && (
             <Tooltip>
