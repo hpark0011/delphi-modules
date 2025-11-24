@@ -1,5 +1,6 @@
 "use client";
 
+import MindStatusNotification from "@/components/mind-status-notification";
 import { Icon } from "@/components/ui/icon";
 import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
 
@@ -25,6 +26,7 @@ export function LastTrainedDate() {
           name='DocPlainTextFillIcon'
           className='size-4.5 text-icon-light group-hover:text-blue-500'
         />
+        <MindStatusNotification status='training' />
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableQueueList } from "./expandable-queue-list";
 import { isFinishedStatus } from "../../../../../components/mind-dialog/training-status-utils";
+import MindStatusNotification from "@/components/mind-status-notification";
 
 export function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
@@ -96,7 +97,8 @@ export function ActiveTrainingStatus() {
         {/* Training Status Text */}
         <div className='flex items-center gap-1 w-full'>
           <div className='flex items-center gap-1 w-fit'>
-            <Icon name='LoaderCircleIcon' className='size-4 animate-spin' />
+            <MindStatusNotification status='training' />
+            {/* <Icon name='LoaderCircleIcon' className='size-4 animate-spin' /> */}
             <div className='text-[13px]'>
               Learning {finished}
               <span className='mx-0.5'>/</span>
