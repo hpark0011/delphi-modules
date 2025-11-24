@@ -1,6 +1,6 @@
 "use client";
 
-import { isFinishedItemStatus } from "@/components/mind-dialog/training-status-utils";
+import { isFinishedItemStatus } from "@/utils/training-status-utils";
 import MindStatusNotification from "@/components/mind-status-notification";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { AnimatePresence, motion } from "framer-motion";
@@ -21,6 +21,7 @@ export function ActiveTrainingStatus() {
     isFinishedItemStatus(item.status)
   ).length;
   const total = queue.length;
+  const activeCount = total - finished; // Count of items still being processed
 
   // Track when items are added to the queue
   useEffect(() => {
@@ -100,9 +101,8 @@ export function ActiveTrainingStatus() {
           <div className='flex items-center gap-1 w-fit'>
             <MindStatusNotification status='training' />
             <div className='text-[13px]'>
-              Learning {finished}
-              <span className='mx-0.5'>/</span>
-              {total}
+              Learning {/* <span className='mx-0.5'>/</span> */}
+              {activeCount} Items
             </div>
           </div>
 

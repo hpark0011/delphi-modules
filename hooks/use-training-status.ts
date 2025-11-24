@@ -6,7 +6,7 @@ import {
   getFinishedItemCount,
   getTrainingQueueStatus,
   type TrainingQueueStatus,
-} from "@/components/mind-dialog/training-status-utils";
+} from "@/utils/training-status-utils";
 
 /**
  * Hook to get training queue status information
