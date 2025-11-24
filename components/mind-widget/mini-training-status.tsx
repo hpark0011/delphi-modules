@@ -3,7 +3,11 @@
 import { AnimatePresence, motion, type Transition } from "framer-motion";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
-import { isFinishedStatus } from "@/components/mind-dialog/training-status-utils";
+import {
+  isFinishedItemStatus,
+  getTrainingQueueStatus,
+  hasActiveItems,
+} from "@/components/mind-dialog/training-status-utils";
 import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
 import { useEffect, useRef, useState } from "react";
 
@@ -132,12 +136,20 @@ export function MiniTrainingStatus() {
   const { queue } = useTrainingQueue();
   const { openWithTab } = useMindDialog();
 
-  const finished = queue.filter((item) => isFinishedStatus(item.status)).length;
+  const finished = queue.filter((item) =>
+    isFinishedItemStatus(item.status)
+  ).length;
   const total = queue.length;
 
-  // Derived base state from queue status (no effects needed)
+  // Use centralized queue status logic
+  // Note: This widget doesn't track user review state, so we assume user hasn't reviewed
+  // (hasUserReviewed = false) to show "finished" state when appropriate
+  const queueStatus = getTrainingQueueStatus(queue, false);
+
+  // Derived base state from queue status
+  // "active" → "loading", everything else → "finished"
   const baseState: "loading" | "finished" =
-    total > 0 && finished === total ? "finished" : "loading";
+    queueStatus === "active" ? "loading" : "finished";
 
   // Single override state for temporary "newItem" display
   // Initialize with first item's name on mount

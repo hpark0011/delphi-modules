@@ -2,44 +2,36 @@
 
 import { QueueItem, useTrainingQueue } from "./use-training-queue";
 import {
-  isActiveStatus,
-  isFinishedStatus,
+  hasActiveItems,
+  getFinishedItemCount,
+  getTrainingQueueStatus,
+  type TrainingQueueStatus,
 } from "@/components/mind-dialog/training-status-utils";
 
 /**
  * Hook to get training queue status information
  *
+ * @param hasUserReviewed - Whether the user has reviewed/dismissed the completion notification
  * @returns {object} Training status information
  * @property {boolean} hasActiveItems - True if there are items being queued or trained
- * @property {number} finishedCount - Number of items that finished processing (completed, failed, or deleting)
+ * @property {number} finishedCount - Number of items that finished processing (completed, failed, or deleted)
  * @property {number} totalCount - Total number of items in the queue
  * @property {boolean} isIdle - True if there are no active items and the queue is empty
+ * @property {TrainingQueueStatus} queueStatus - The overall status of the training queue (dull, active, finished)
  */
-export function useTrainingStatus() {
+export function useTrainingStatus(hasUserReviewed: boolean = false) {
   const { queue } = useTrainingQueue();
 
-  // Get active items (queued or training)
-  const activeItems = queue.filter((item: QueueItem) =>
-    isActiveStatus(item.status)
-  );
-
-  // Get finished items (completed, failed, or deleting)
-  const finishedItems = queue.filter((item: QueueItem) =>
-    isFinishedStatus(item.status)
-  );
-
-  const hasActiveItems = activeItems.length > 0;
-
-  // For "Learning X/Y" display:
-  // X = finished items (items that completed processing)
-  // Y = total items in queue
-  const finishedCount = finishedItems.length;
+  const activeItemsExist = hasActiveItems(queue);
+  const finishedCount = getFinishedItemCount(queue);
   const totalCount = queue.length;
+  const queueStatus = getTrainingQueueStatus(queue, hasUserReviewed);
 
   return {
-    hasActiveItems,
+    hasActiveItems: activeItemsExist,
     finishedCount,
     totalCount,
-    isIdle: !hasActiveItems && queue.length === 0,
+    isIdle: !activeItemsExist && queue.length === 0,
+    queueStatus,
   };
 }

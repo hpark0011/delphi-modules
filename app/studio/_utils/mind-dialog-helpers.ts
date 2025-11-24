@@ -1,5 +1,5 @@
 import { IconName } from "@/components/ui/icon";
-import { TrainingStatus } from "../../../components/mind-dialog/training-status-tab";
+import type { TrainingItemStatus } from "@/components/mind-dialog/training-status-utils";
 import { format, isToday, isYesterday, parseISO } from "date-fns";
 
 /**
@@ -23,7 +23,7 @@ export function formatDateLabel(dateString: string): string {
  * @param status - The training status
  * @returns The icon name
  */
-export function getStatusIcon(status: TrainingStatus): IconName {
+export function getStatusIcon(status: TrainingItemStatus): IconName {
   switch (status) {
     case "completed":
       return "CheckedCircleFillIcon";
@@ -33,7 +33,7 @@ export function getStatusIcon(status: TrainingStatus): IconName {
       return "CircleDashedIcon";
     case "failed":
       return "ExclamationmarkTriangleFillIcon";
-    case "deleting":
+    case "deleted":
       return "TrashFillIcon";
     default:
       return "CircleDashedIcon";

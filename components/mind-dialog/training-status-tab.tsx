@@ -34,23 +34,25 @@ import {
 } from "@tanstack/react-table";
 import { format, parseISO } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
-import { isFinishedStatus } from "./training-status-utils";
+import {
+  type TrainingItemStatus,
+  isFinishedItemStatus,
+  getTrainingQueueStatus,
+  // Legacy exports for backward compatibility
+  type TrainingStatus,
+} from "./training-status-utils";
 import { ActiveTrainingQueue } from "./active-training-queue";
 import { TrainingSummary } from "./training-summary";
 
-export type TrainingStatus =
-  | "queued"
-  | "training"
-  | "failed"
-  | "completed"
-  | "deleting";
+// Re-export for backward compatibility
+export type { TrainingItemStatus as TrainingStatus };
 
 export interface TrainingItem {
   id: string;
   name: string;
   type: string;
   trainedAt: string; // ISO date string
-  status: TrainingStatus;
+  status: TrainingItemStatus;
 }
 
 function DateGroupTable({
@@ -144,26 +146,28 @@ function DateGroupTable({
 export function TrainingStatusTab() {
   const { queue } = useTrainingQueue();
   const { hasActiveItems } = useTrainingStatus();
-  const [selectedStatus, setSelectedStatus] = useState<TrainingStatus | "all">(
-    "all"
-  );
+  const [selectedStatus, setSelectedStatus] = useState<
+    TrainingItemStatus | "all"
+  >("all");
   const [showCompletedStatus, setShowCompletedStatus] = useState(false);
   const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
   const { finishedCount, totalCount } = useTrainingStatus();
+
+  // Determine queue status based on queue state and user review
+  // showCompletedStatus = true means user has NOT reviewed (showing completion message)
+  // getTrainingQueueStatus expects hasUserReviewed (opposite), so we negate it
+  const queueStatus = getTrainingQueueStatus(queue, !showCompletedStatus);
+
   // Detect completion and handle state transitions
   useEffect(() => {
-    // Check if all items are done processing (either completed, failed, or deleting)
+    // Check if all items are done processing (either completed, failed, or deleted)
     const allDone =
       queue.length > 0 &&
-      queue.every((item: QueueItem) => isFinishedStatus(item.status));
-
-    console.log("allDone", allDone);
-    console.log("hasActiveItems", hasActiveItems);
-    console.log("showCompletedStatus", showCompletedStatus);
+      queue.every((item: QueueItem) => isFinishedItemStatus(item.status));
 
     // Completion Detection: When all items are done and no active items
     if (allDone && !hasActiveItems) {
-      // Capture queue snapshot (all items with final states: completed, failed, deleting)
+      // Capture queue snapshot (all items with final states: completed, failed, deleted)
       setQueueSnapshot([...queue]);
       setShowCompletedStatus(true);
     }
@@ -280,14 +284,16 @@ export function TrainingStatusTab() {
     []
   );
 
-  const statusFilters: Array<{ value: TrainingStatus | "all"; label: string }> =
-    [
-      { value: "all", label: "All" },
-      { value: "completed", label: "Completed" },
-      { value: "training", label: "Training" },
-      { value: "queued", label: "Queued" },
-      { value: "failed", label: "Failed" },
-    ];
+  const statusFilters: Array<{
+    value: TrainingItemStatus | "all";
+    label: string;
+  }> = [
+    { value: "all", label: "All" },
+    { value: "completed", label: "Completed" },
+    { value: "training", label: "Training" },
+    { value: "queued", label: "Queued" },
+    { value: "failed", label: "Failed" },
+  ];
 
   // Calculate summary statistics
   const summaryStats = useMemo(() => {
@@ -332,8 +338,8 @@ export function TrainingStatusTab() {
 
   return (
     <div className='flex flex-col gap-4'>
-      {/* Active training queue */}
-      {(hasActiveItems || showCompletedStatus) && (
+      {/* Active training queue - Show when queue is active or finished */}
+      {(queueStatus === "active" || queueStatus === "finished") && (
         <ActiveTrainingQueue
           showCompletedStatus={showCompletedStatus}
           setShowCompletedStatus={setShowCompletedStatus}
@@ -343,8 +349,8 @@ export function TrainingStatusTab() {
         />
       )}
 
-      {/* Training Summary - Only show when idle (not training and not showing completion) */}
-      {!hasActiveItems && !showCompletedStatus && (
+      {/* Training Summary - Only show when queue is dull (default state) */}
+      {queueStatus === "dull" && (
         <TrainingSummary summaryStats={summaryStats} />
       )}
 
@@ -360,7 +366,7 @@ export function TrainingStatusTab() {
             <Select
               value={selectedStatus}
               onValueChange={(value) =>
-                setSelectedStatus(value as TrainingStatus | "all")
+                setSelectedStatus(value as TrainingItemStatus | "all")
               }
             >
               <SelectTrigger

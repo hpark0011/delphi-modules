@@ -9,7 +9,7 @@ import React, {
   useRef,
 } from "react";
 import { toast } from "sonner";
-import type { TrainingStatus } from "@/components/mind-dialog/training-status-tab";
+import type { TrainingItemStatus } from "@/components/mind-dialog/training-status-utils";
 import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
 import {
   PROGRESS_UPDATE_INTERVAL,
@@ -33,11 +33,11 @@ export interface QueueItem {
   id: string;
   name: string;
   docType: TrainingDocType;
-  status: TrainingStatus;
+  status: TrainingItemStatus;
   progress: number; // 0-100
   duration: number; // Training duration in milliseconds
   shouldFail?: boolean; // If true, item will fail after training completes
-  shouldDelete?: boolean; // If true, item will enter deleting state after training completes
+  shouldDelete?: boolean; // If true, item will enter deleted state after training completes
 }
 
 type QueueItemInput = Omit<
@@ -125,7 +125,6 @@ export function TrainingQueueProvider({
 
       // Separate items by status
       const itemsToProcess = queue.filter((item) => item.status === "queued");
-      const itemsToDelete = queue.filter((item) => item.status === "deleting");
 
       // ============ Process Training Queue ============
       for (const item of itemsToProcess) {
@@ -137,8 +136,8 @@ export function TrainingQueueProvider({
 
         // Determine final status and handle transitions
         if (item.shouldDelete) {
-          // Transition to deleting state
-          updateItemStatus(item.id, { status: "deleting", progress: 0 });
+          // Transition to deleted state (mark as deleted immediately since training is done)
+          updateItemStatus(item.id, { status: "deleted", progress: 100 });
         } else {
           // Complete or fail
           const finalStatus = item.shouldFail ? "failed" : "completed";
@@ -149,15 +148,6 @@ export function TrainingQueueProvider({
             updateScoreSafely(incrementScore, SCORE_PER_ITEM, "increment");
           }
         }
-      }
-
-      // ============ Process Deletion Queue ============
-      for (const item of itemsToDelete) {
-        // Simulate deletion progress
-        await processItemProgress(item.id, item.duration);
-
-        // Mark as deleted (keep in history like completed/failed items)
-        updateItemStatus(item.id, { status: "deleting", progress: 100 });
       }
 
       processingRef.current = false;
@@ -175,7 +165,7 @@ export function TrainingQueueProvider({
         ...item,
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         docType: item.docType,
-        status: "queued" as TrainingStatus,
+        status: "queued" as TrainingItemStatus,
         progress: 0,
         duration,
         shouldFail: item.shouldFail ?? false,

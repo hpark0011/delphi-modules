@@ -6,7 +6,7 @@ import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExpandableQueueList } from "./expandable-queue-list";
-import { isFinishedStatus } from "../../../../../components/mind-dialog/training-status-utils";
+import { isFinishedItemStatus } from "../../../../../components/mind-dialog/training-status-utils";
 import MindStatusNotification from "@/components/mind-status-notification";
 
 export function ActiveTrainingStatus() {
@@ -17,8 +17,10 @@ export function ActiveTrainingStatus() {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isInitialMountRef = useRef(true);
 
-  // Calculate finished items (completed, failed, or deleting)
-  const finished = queue.filter((item) => isFinishedStatus(item.status)).length;
+  // Calculate finished items (completed, failed, or deleted)
+  const finished = queue.filter((item) =>
+    isFinishedItemStatus(item.status)
+  ).length;
   const total = queue.length;
 
   // Track when items are added to the queue

@@ -12,8 +12,8 @@ import { MindProgressBar } from "../mind-progress-bar";
 import { MindScoreProvider, useMindScore } from "../mind-score-context";
 import { TrainingQueueProvider } from "../../../../../components/mind-dialog/training-queue-context";
 import {
-  isActiveStatus,
-  isFinishedStatus,
+  hasActiveItems,
+  isFinishedItemStatus,
 } from "../../../../../components/mind-dialog/training-status-utils";
 import { ActiveTrainingStatus } from "./active-training-status";
 import { LastTrainedDate } from "./last-trained-date";
@@ -87,11 +87,11 @@ function TrainingStatusTrigger({
   const { queue } = useTrainingQueue();
 
   // Only show "Learning" status if there are items still being processed (queued or training)
-  const hasActiveItems = queue.some((item) => isActiveStatus(item.status));
+  const hasActiveItemsValue = hasActiveItems(queue);
 
   // Show completed status if flag is set and there are no active items
-  // (queue may still contain completed/failed/deleting items for history)
-  if (showCompletedStatus && !hasActiveItems) {
+  // (queue may still contain completed/failed/deleted items for history)
+  if (showCompletedStatus && !hasActiveItemsValue) {
     return (
       <TrainingCompletedStatus
         setShowCompletedStatus={setShowCompletedStatus}
@@ -102,7 +102,7 @@ function TrainingStatusTrigger({
     );
   }
 
-  if (hasActiveItems) {
+  if (hasActiveItemsValue) {
     return <ActiveTrainingStatus />;
   }
 
@@ -117,16 +117,17 @@ function MindScoreContent() {
   const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
 
   // Only show "Learning" status if there are items still being processed (queued or training)
-  const hasActiveItems = queue.some((item) => isActiveStatus(item.status));
+  const hasActiveItemsValue = hasActiveItems(queue);
 
   // Detect completion and handle queue clearing
   useEffect(() => {
-    // Check if all items are done processing (either completed, failed, or deleting)
+    // Check if all items are done processing (either completed, failed, or deleted)
     const allDone =
-      queue.length > 0 && queue.every((item) => isFinishedStatus(item.status));
+      queue.length > 0 &&
+      queue.every((item) => isFinishedItemStatus(item.status));
 
     // Completion Detection: When all items are done (completed or failed) and no active items
-    if (allDone && !hasActiveItems) {
+    if (allDone && !hasActiveItemsValue) {
       // Capture counts and snapshot before clearing queue
       const completed = queue.filter(
         (item) => item.status === "completed"
@@ -134,7 +135,7 @@ function MindScoreContent() {
       const failed = queue.filter((item) => item.status === "failed").length;
       setCompletedCount(completed);
       setFailedCount(failed);
-      // Capture queue snapshot (all items with final states: completed, failed, deleting)
+      // Capture queue snapshot (all items with final states: completed, failed, deleted)
       setQueueSnapshot([...queue]);
       setShowCompletedStatus(true);
       // Clear queue after a short delay to ensure state update
@@ -145,13 +146,13 @@ function MindScoreContent() {
     }
 
     // Reset on New Items: When new items are added (queue has items and active items)
-    if (queue.length > 0 && showCompletedStatus && hasActiveItems) {
+    if (queue.length > 0 && showCompletedStatus && hasActiveItemsValue) {
       setShowCompletedStatus(false);
       setCompletedCount(0);
       setFailedCount(0);
       setQueueSnapshot([]);
     }
-  }, [queue, hasActiveItems, showCompletedStatus, clearQueue]);
+  }, [queue, hasActiveItemsValue, showCompletedStatus, clearQueue]);
 
   return (
     <AnalyticsSectionWrapper

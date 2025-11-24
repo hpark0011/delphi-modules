@@ -5,9 +5,9 @@ import type { QueueItem, TrainingDocType } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { RingPercentage } from "./ring-percentage";
-import type { TrainingStatus } from "@/components/mind-dialog/training-status-tab";
+import type { TrainingItemStatus } from "@/components/mind-dialog/training-status-utils";
 
-function getStatusIcon(status: TrainingStatus): IconName {
+function getStatusIcon(status: TrainingItemStatus): IconName {
   switch (status) {
     case "completed":
       return "CheckedCircleFillIcon";
@@ -17,7 +17,7 @@ function getStatusIcon(status: TrainingStatus): IconName {
       return "CircleDashedIcon";
     case "failed":
       return "ExclamationmarkTriangleFillIcon";
-    case "deleting":
+    case "deleted":
       return "TrashFillIcon";
     default:
       return "CircleDashedIcon";
@@ -141,7 +141,7 @@ export function TrainingQueueItem({
                       ? "text-[#09CE6B]"
                       : item.status === "failed"
                         ? "text-orange-500"
-                        : item.status === "deleting"
+                        : item.status === "deleted"
                           ? "text-red-400"
                           : "text-[#8D8D86]"
                   )}
