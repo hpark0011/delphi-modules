@@ -5,6 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useMindDialog } from "./mind-dialog";
 import { showTrainingQueueToast } from "./training-queue-toast";
 
@@ -48,18 +49,18 @@ Sidebar.displayName = "Sidebar";
 interface SidebarItemProps {
   category: ContentCategory;
   selectedCategory: ContentCategory;
-  setSelectedCategory: (category: ContentCategory) => void;
+  onCategoryClick: (category: ContentCategory) => void;
 }
 
 function SidebarItem({
   category,
   selectedCategory,
-  setSelectedCategory,
+  onCategoryClick,
 }: SidebarItemProps) {
   return (
     <button
       key={category}
-      onClick={() => setSelectedCategory(category)}
+      onClick={() => onCategoryClick(category)}
       className={cn(
         "text-left px-3 py-1.5 rounded-md text-sm transition-colors justify-between flex items-baseline ",
         selectedCategory === category
@@ -127,6 +128,15 @@ export function AddKnowledgeTab() {
     useState<ContentCategory>("Popular");
   const { addToQueue } = useTrainingQueue();
   const { close } = useMindDialog();
+  const router = useRouter();
+
+  const handleCategoryClick = (category: ContentCategory) => {
+    if (category === "Interview") {
+      router.push("/interview");
+    } else {
+      setSelectedCategory(category);
+    }
+  };
 
   const handleAddContent = (itemName?: string) => {
     let itemsToAdd: Array<{
@@ -189,7 +199,7 @@ export function AddKnowledgeTab() {
             key={category}
             category={category}
             selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
+            onCategoryClick={handleCategoryClick}
           />
         ))}
       </Sidebar>

@@ -3,8 +3,8 @@
 import { AnimatePresence, motion, type Transition } from "framer-motion";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
-import { isFinishedStatus } from "@/app/analytics/_components/mindscore/training-status-utils";
-import { useMindDialog } from "@/app/analytics/_components/mindscore/mind-dialog";
+import { isFinishedStatus } from "@/app/studio/_components/mindscore/training-status-utils";
+import { useMindDialog } from "@/app/studio/_components/mindscore/mind-dialog";
 import { useEffect, useRef, useState } from "react";
 
 type BadgeState = "loading" | "newItem" | "finished";

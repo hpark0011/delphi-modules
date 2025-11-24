@@ -23,7 +23,7 @@ export function LastTrainedDate() {
       <div className='mr-1 flex items-center gap-0.5 cursor-pointer group'>
         <Icon
           name='DocPlainTextFillIcon'
-          className='size-4 text-icon-light group-hover:text-blue-500'
+          className='size-4.5 text-icon-light group-hover:text-blue-500'
         />
       </div>
     </div>

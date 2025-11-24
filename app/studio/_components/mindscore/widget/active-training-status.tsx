@@ -82,7 +82,7 @@ export function ActiveTrainingStatus() {
     <div className='w-full relative'>
       {/* Status / Trigger */}
       <div
-        className='w-full items-center flex justify-start py-2 px-[11px] pr-3 gap-1.5 text-text-muted hover:text-blue-500 cursor-pointer h-[36px]'
+        className='w-full items-center flex justify-start py-2 px-[10px] pr-3 gap-1.5 text-text-muted hover:text-blue-500 cursor-pointer h-[36px]'
         onClick={handleToggle}
         role='button'
         tabIndex={0}
@@ -96,7 +96,7 @@ export function ActiveTrainingStatus() {
         {/* Training Status Text */}
         <div className='flex items-center gap-1 w-full'>
           <div className='flex items-center gap-1 w-fit'>
-            <Icon name='LoaderCircleIcon' className='size-4.5 animate-spin' />
+            <Icon name='LoaderCircleIcon' className='size-4 animate-spin' />
             <div className='text-[13px]'>
               Learning {finished}
               <span className='mx-0.5'>/</span>
@@ -116,7 +116,7 @@ export function ActiveTrainingStatus() {
                   stiffness: 400,
                   damping: 25,
                 }}
-                className='text-[13px] whitespace-nowrap ml-1 font-medium text-blue-500 tracking-tighter px-2 py-[1px] bg-white rounded-sm dark:bg-white/10'
+                className='text-[13px] whitespace-nowrap ml-1 font-medium text-blue-500 tracking-tighter px-1.5 pr-2 py-[1px] bg-white rounded-sm dark:bg-white/10'
               >
                 <span className=''>+{newlyAddedCount}</span>{" "}
                 {newlyAddedCount === 1 ? "Item added" : "Items added"}

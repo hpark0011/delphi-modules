@@ -1,4 +1,4 @@
-import { Engagements } from "@/app/analytics/page";
+import { Engagements } from "@/app/studio/page";
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";

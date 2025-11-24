@@ -156,6 +156,10 @@ export function TrainingStatusTab() {
       queue.length > 0 &&
       queue.every((item: QueueItem) => isFinishedStatus(item.status));
 
+    console.log("allDone", allDone);
+    console.log("hasActiveItems", hasActiveItems);
+    console.log("showCompletedStatus", showCompletedStatus);
+
     // Completion Detection: When all items are done and no active items
     if (allDone && !hasActiveItems) {
       // Capture queue snapshot (all items with final states: completed, failed, deleting)

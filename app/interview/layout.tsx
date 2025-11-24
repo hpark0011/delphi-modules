@@ -2,17 +2,20 @@
 
 import { useRouter } from "next/navigation";
 import { InterviewHeader } from "./_components";
-import { InterviewProvider, useInterviewContext } from "./_context/interview-context";
-import { MindScoreProvider } from "@/app/analytics/_components/mindscore/mind-score-context";
-import { TrainingQueueProvider } from "@/app/analytics/_components/mindscore/training-queue-context";
-import { MindDialog } from "@/app/analytics/_components/mindscore/mind-dialog";
+import {
+  InterviewProvider,
+  useInterviewContext,
+} from "./_context/interview-context";
+import { MindScoreProvider } from "@/app/studio/_components/mindscore/mind-score-context";
+import { TrainingQueueProvider } from "@/app/studio/_components/mindscore/training-queue-context";
+import { MindDialog } from "@/app/studio/_components/mindscore/mind-dialog";
 
 function InterviewLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { hasResponses } = useInterviewContext();
 
   const handleExit = () => {
-    router.push("/analytics");
+    router.push("/studio");
   };
 
   return (

@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
-import { useMindDialog } from "../mind-dialog";
 import {
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ChevronDown } from "lucide-react";
-import { motion } from "framer-motion";
 import type { QueueItem } from "@/hooks/use-training-queue";
+import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import { useState } from "react";
+import { useMindDialog } from "../mind-dialog";
 import { ExpandableQueueList } from "./expandable-queue-list";
 
 export interface TrainingCompletedStatusProps {
@@ -64,7 +64,7 @@ export function TrainingCompletedStatus({
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className='text-green-500 min-w-[18px] text-center  cursor-default flex items-center'>
-                  <Icon name='CheckedCircleFillIcon' className='size-4.5' />
+                  <Icon name='CheckedCircleFillIcon' className='size-5' />
                   <span className='text-[12px] font-medium'>
                     {completedCount}
                   </span>
@@ -95,7 +95,7 @@ export function TrainingCompletedStatus({
         </div>
         <Tooltip>
           <TooltipTrigger asChild className='shadow-2xl'>
-            <div
+            <button
               className='mr-1 flex items-center gap-0.5 cursor-pointer group'
               onClick={() => {
                 setShowCompletedStatus(false);
@@ -105,9 +105,9 @@ export function TrainingCompletedStatus({
             >
               <Icon
                 name='DocPlainTextFillIcon'
-                className='size-4 text-icon-light group-hover:text-blue-500'
+                className='size-4.5 min-w-4.5 text-icon-light group-hover:text-blue-500'
               />
-            </div>
+            </button>
           </TooltipTrigger>
           <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
             View summary
