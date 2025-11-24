@@ -11,6 +11,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { MindProgressBar } from "../../app/studio/_components/mindscore/mind-progress-bar";
 import { useMindScore } from "../../app/studio/_components/mindscore/mind-score-context";
+import MindStatusNotification from "@/components/mind-status-notification";
 import {
   DEFAULT_MIND_DIALOG_TAB,
   MIND_DIALOG_TABS,
@@ -90,17 +91,12 @@ function MindDialogHeader() {
             // Dynamic config for training-status tab when items are being processed
             const isTrainingTab = tab.id === "training-status";
             const isActiveTraining = isTrainingTab && hasActiveItems;
-            const icon: IconName = isActiveTraining
-              ? "LoaderCircleIcon"
-              : tab.icon;
+            const icon: IconName = tab.icon;
             const label = isActiveTraining ? (
               <>Learning {activeCount} Items</>
             ) : (
               tab.label
             );
-            const iconClassName = isActiveTraining
-              ? "size-4 text-current animate-spin"
-              : "size-4 text-current";
 
             return (
               <TabsTrigger
@@ -111,11 +107,15 @@ function MindDialogHeader() {
                   isActiveTraining && "gap-0.5"
                 )}
               >
-                <Icon
-                  name={icon}
-                  className={iconClassName}
-                  aria-hidden='true'
-                />
+                {isActiveTraining ? (
+                  <MindStatusNotification status='training' />
+                ) : (
+                  <Icon
+                    name={icon}
+                    className='size-4 text-current'
+                    aria-hidden='true'
+                  />
+                )}
                 <span
                   className={cn(
                     "whitespace-nowrap",
