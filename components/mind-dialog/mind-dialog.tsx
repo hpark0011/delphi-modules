@@ -1,22 +1,30 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React, { createContext, useContext, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import type { IconName } from "@/components/ui/icon";
 import { Icon } from "@/components/ui/icon";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTrainingStatus } from "@/hooks/use-training-status";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { cn } from "@/lib/utils";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { MindProgressBar } from "../../app/studio/_components/mindscore/mind-progress-bar";
+import { useMindScore } from "../../app/studio/_components/mindscore/mind-score-context";
+import MindStatusNotification from "@/components/mind-status-notification";
 import {
-  MIND_DIALOG_TABS,
   DEFAULT_MIND_DIALOG_TAB,
+  MIND_DIALOG_TABS,
   MindDialogTabId,
   getMindDialogWidthClass,
 } from "./mind-dialog-config";
-import { MindProgressBar } from "./mind-progress-bar";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { useMindScore } from "./mind-score-context";
-import { useTrainingStatus } from "@/hooks/use-training-status";
-import type { IconName } from "@/components/ui/icon";
-import { cn } from "@/lib/utils";
 
 // Re-export for convenience
 export type { MindDialogTabId } from "./mind-dialog-config";
@@ -52,7 +60,30 @@ function MindDialogHeader() {
     lastIncrement,
     lastDecrement,
   } = useMindScore();
-  const { hasActiveItems, finishedCount, totalCount } = useTrainingStatus();
+  const [hasUserReviewed, setHasUserReviewed] = useState(true);
+  const { queue, clearQueue } = useTrainingQueue();
+  const { hasActiveItems, activeCount, queueStatus } =
+    useTrainingStatus(hasUserReviewed);
+  const { close } = useMindDialog();
+
+  // Reset review state when queue becomes active or empty
+  useEffect(() => {
+    if (queueStatus === "active" && !hasUserReviewed) {
+      setHasUserReviewed(true);
+    }
+    if (queue.length === 0 && !hasUserReviewed) {
+      setHasUserReviewed(true);
+    }
+  }, [queueStatus, hasUserReviewed, queue.length]);
+
+  const onPreviewClick = () => {
+    // Mark as reviewed to change status from "finished" to "dull"
+    if (queueStatus === "finished") {
+      setHasUserReviewed(true);
+    }
+    clearQueue();
+    close();
+  };
 
   return (
     <div className='flex-shrink-0 flex flex-col rounded-[16px] m-1 mb-0 shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87  dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
@@ -69,8 +100,14 @@ function MindDialogHeader() {
         <VisuallyHidden>
           <DialogTitle>Mind</DialogTitle>
         </VisuallyHidden>
-        <Button size='sm' className='h-7' variant='glossy'>
-          Preview
+        <Button
+          size='sm'
+          className='h-7 relative'
+          variant='glossy'
+          onClick={onPreviewClick}
+        >
+          <span>Preview</span>
+          {hasUserReviewed && <MindStatusNotification status='finished' />}
         </Button>
       </div>
 
@@ -90,21 +127,12 @@ function MindDialogHeader() {
             // Dynamic config for training-status tab when items are being processed
             const isTrainingTab = tab.id === "training-status";
             const isActiveTraining = isTrainingTab && hasActiveItems;
-            const icon: IconName = isActiveTraining
-              ? "LoaderCircleIcon"
-              : tab.icon;
+            const icon: IconName = tab.icon;
             const label = isActiveTraining ? (
-              <>
-                Learning {finishedCount}
-                <span className='mx-[2px]'>/</span>
-                {totalCount}
-              </>
+              <>Learning {activeCount} Items</>
             ) : (
               tab.label
             );
-            const iconClassName = isActiveTraining
-              ? "size-4 text-current animate-spin"
-              : "size-4 text-current";
 
             return (
               <TabsTrigger
@@ -115,11 +143,15 @@ function MindDialogHeader() {
                   isActiveTraining && "gap-0.5"
                 )}
               >
-                <Icon
-                  name={icon}
-                  className={iconClassName}
-                  aria-hidden='true'
-                />
+                {isActiveTraining ? (
+                  <MindStatusNotification status='active' />
+                ) : (
+                  <Icon
+                    name={icon}
+                    className='size-4 text-current'
+                    aria-hidden='true'
+                  />
+                )}
                 <span
                   className={cn(
                     "whitespace-nowrap",

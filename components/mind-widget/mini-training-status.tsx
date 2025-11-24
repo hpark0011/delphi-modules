@@ -1,10 +1,10 @@
 "use client";
 
-import { AnimatePresence, motion, type Transition } from "framer-motion";
+import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
-import { isFinishedStatus } from "@/app/analytics/_components/mindscore/training-status-utils";
-import { useMindDialog } from "@/app/analytics/_components/mindscore/mind-dialog";
+import { useTrainingStatus } from "@/hooks/use-training-status";
+import { AnimatePresence, motion, type Transition } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 type BadgeState = "loading" | "newItem" | "finished";
@@ -19,7 +19,9 @@ const NEW_ITEM_DISPLAY_DURATION = 2000;
 
 function StatusIcon({ state }: { state: BadgeState }) {
   return (
-    <span className={`relative flex items-center justify-center ${state === "finished" ? "size-5" : "size-4"}`}>
+    <span
+      className={`relative flex items-center justify-center ${state === "finished" ? "size-5" : "size-4"}`}
+    >
       <AnimatePresence mode='sync'>
         <motion.span
           key={state}
@@ -130,12 +132,19 @@ export function MiniTrainingStatus() {
   const { queue } = useTrainingQueue();
   const { openWithTab } = useMindDialog();
 
-  const finished = queue.filter((item) => isFinishedStatus(item.status)).length;
-  const total = queue.length;
+  // Use centralized queue status hook
+  // Note: This widget doesn't track user review state, so we assume user hasn't reviewed
+  // (hasUserReviewed = false) to show "finished" state when appropriate
+  const {
+    finishedCount: finished,
+    totalCount: total,
+    queueStatus,
+  } = useTrainingStatus(false);
 
-  // Derived base state from queue status (no effects needed)
+  // Derived base state from queue status
+  // "active" → "loading", everything else → "finished"
   const baseState: "loading" | "finished" =
-    total > 0 && finished === total ? "finished" : "loading";
+    queueStatus === "active" ? "loading" : "finished";
 
   // Single override state for temporary "newItem" display
   // Initialize with first item's name on mount

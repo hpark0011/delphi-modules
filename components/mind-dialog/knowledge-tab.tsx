@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Icon, type IconName } from "@/components/ui/icon";
 import {
   Table,
   TableBody,
@@ -9,16 +16,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Icon, type IconName } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 import { format, parseISO } from "date-fns";
+import { useMemo, useState } from "react";
 
 export interface KnowledgeItem {
   id: string;

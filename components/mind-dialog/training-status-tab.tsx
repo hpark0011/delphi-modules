@@ -1,10 +1,10 @@
 "use client";
 
-import { mockTrainingItems } from "@/app/analytics/_lib/mock-training-items";
+import { mockTrainingItems } from "@/app/studio/_lib/mock-training-items";
 import {
   formatDateLabel,
   getStatusIcon,
-} from "@/app/analytics/_utils/mind-dialog.utils";
+} from "@/app/studio/_utils/mind-dialog-helpers";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -34,22 +34,19 @@ import {
 } from "@tanstack/react-table";
 import { format, parseISO } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
-import { TrainingQueueItem } from "./training-queue-item";
-import { isFinishedStatus } from "./training-status-utils";
+import { type TrainingItemStatus } from "@/utils/training-status-helpers";
+import { ActiveTrainingQueue } from "./active-training-queue";
+import { TrainingSummary } from "./training-summary";
 
-export type TrainingStatus =
-  | "queued"
-  | "training"
-  | "failed"
-  | "completed"
-  | "deleting";
+// Re-export for backward compatibility
+export type { TrainingItemStatus as TrainingStatus };
 
 export interface TrainingItem {
   id: string;
   name: string;
   type: string;
   trainedAt: string; // ISO date string
-  status: TrainingStatus;
+  status: TrainingItemStatus;
 }
 
 function DateGroupTable({
@@ -115,7 +112,8 @@ function DateGroupTable({
                     key={cell.id}
                     className={cn(
                       "px-2 py-1 align-middle",
-                      cell.column.id === "name" && "w-[70%] rounded-l-sm",
+                      cell.column.id === "name" &&
+                        "w-[70%] rounded-l-sm overflow-hidden",
                       cell.column.id === "status" && "w-[20%]",
                       cell.column.id === "actions" &&
                         "w-[10%] text-right rounded-r-sm"
@@ -141,31 +139,41 @@ function DateGroupTable({
 
 export function TrainingStatusTab() {
   const { queue } = useTrainingQueue();
-  const { hasActiveItems } = useTrainingStatus();
-  const [selectedStatus, setSelectedStatus] = useState<TrainingStatus | "all">(
-    "all"
-  );
+  const [selectedStatus, setSelectedStatus] = useState<
+    TrainingItemStatus | "all"
+  >("all");
   const [showCompletedStatus, setShowCompletedStatus] = useState(false);
-  const [completedCount, setCompletedCount] = useState(0);
-  const [failedCount, setFailedCount] = useState(0);
   const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
-  const { finishedCount, totalCount } = useTrainingStatus();
+  const [hasUserDismissedCompletion, setHasUserDismissedCompletion] =
+    useState(false);
+
+  // Use centralized queue status hook
+  // showCompletedStatus = true means user has NOT reviewed (showing completion message)
+  // useTrainingStatus expects hasUserReviewed (opposite), so we negate it
+  const { hasActiveItems, finishedCount, totalCount, queueStatus } =
+    useTrainingStatus(!showCompletedStatus);
+
+  // Handler for "View summary" button click
+  // Accepts boolean parameter to match interface but ignores it
+  const handleViewSummary = (_value: boolean) => {
+    setShowCompletedStatus(false);
+    setHasUserDismissedCompletion(true);
+  };
+
   // Detect completion and handle state transitions
   useEffect(() => {
-    // Check if all items are done processing (either completed, failed, or deleting)
-    const allDone =
-      queue.length > 0 && queue.every((item) => isFinishedStatus(item.status));
+    // Check if all items are done processing using centralized logic
+    const allDone = finishedCount === totalCount && totalCount > 0;
 
     // Completion Detection: When all items are done and no active items
-    if (allDone && !hasActiveItems) {
-      // Capture counts and snapshot before queue clears
-      const completed = queue.filter(
-        (item) => item.status === "completed"
-      ).length;
-      const failed = queue.filter((item) => item.status === "failed").length;
-      setCompletedCount(completed);
-      setFailedCount(failed);
-      // Capture queue snapshot (all items with final states: completed, failed, deleting)
+    // Guard: Only set showCompletedStatus if user hasn't dismissed it
+    if (
+      allDone &&
+      !hasActiveItems &&
+      !showCompletedStatus &&
+      !hasUserDismissedCompletion
+    ) {
+      // Capture queue snapshot (all items with final states: completed, failed, deleted)
       setQueueSnapshot([...queue]);
       setShowCompletedStatus(true);
     }
@@ -173,11 +181,17 @@ export function TrainingStatusTab() {
     // Reset on New Items: When new items are added during completion state
     if (queue.length > 0 && showCompletedStatus && hasActiveItems) {
       setShowCompletedStatus(false);
-      setCompletedCount(0);
-      setFailedCount(0);
       setQueueSnapshot([]);
+      setHasUserDismissedCompletion(false); // Reset dismissal flag when new items are added
     }
-  }, [queue, hasActiveItems, showCompletedStatus]);
+  }, [
+    queue,
+    hasActiveItems,
+    showCompletedStatus,
+    finishedCount,
+    totalCount,
+    hasUserDismissedCompletion,
+  ]);
 
   // Filter data based on selected status
   const filteredData = useMemo(() => {
@@ -224,12 +238,12 @@ export function TrainingStatusTab() {
         cell: ({ row }) => {
           const item = row.original;
           return (
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-2 min-w-0 overflow-hidden'>
               <Icon
                 name='DocFillIcon'
                 className='size-5 flex-shrink-0 text-icon-light'
               />
-              <span className='font-medium text-text-primary text-sm'>
+              <span className='font-medium text-text-primary text-sm truncate min-w-0 flex-1'>
                 {item.name}
               </span>
             </div>
@@ -284,14 +298,16 @@ export function TrainingStatusTab() {
     []
   );
 
-  const statusFilters: Array<{ value: TrainingStatus | "all"; label: string }> =
-    [
-      { value: "all", label: "All" },
-      { value: "completed", label: "Completed" },
-      { value: "training", label: "Training" },
-      { value: "queued", label: "Queued" },
-      { value: "failed", label: "Failed" },
-    ];
+  const statusFilters: Array<{
+    value: TrainingItemStatus | "all";
+    label: string;
+  }> = [
+    { value: "all", label: "All" },
+    { value: "completed", label: "Completed" },
+    { value: "training", label: "Training" },
+    { value: "queued", label: "Queued" },
+    { value: "failed", label: "Failed" },
+  ];
 
   // Calculate summary statistics
   const summaryStats = useMemo(() => {
@@ -336,154 +352,20 @@ export function TrainingStatusTab() {
 
   return (
     <div className='flex flex-col gap-4'>
-      {/* Active training queue */}
-      {(hasActiveItems || showCompletedStatus) && (
-        <div className='flex flex-col gap-3 mt-4'>
-          {/* Active Training Queue Header */}
-          <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center justify-between gap-0.5 tracking-tight'>
-            <div className='flex items-center gap-2 w-full justify-between'>
-              <div className='flex items-center gap-0.5'>
-                <Icon
-                  name={
-                    showCompletedStatus
-                      ? "GaugeWithDotsNeedle67PercentIcon"
-                      : "LoaderCircleIcon"
-                  }
-                  className={cn(
-                    "size-4.5",
-                    showCompletedStatus
-                      ? "text-neutral-400"
-                      : "text-icon-light mr-0.5",
-                    !showCompletedStatus && "animate-spin"
-                  )}
-                />
-                <span
-                  className={cn(showCompletedStatus && "text-text-primary")}
-                >
-                  {showCompletedStatus
-                    ? `Training completed!`
-                    : `Learning ${finishedCount} / ${totalCount}`}
-                </span>
-              </div>
-              {showCompletedStatus && (
-                <>
-                  <Button
-                    variant='glossy'
-                    size='sm'
-                    onClick={() => setShowCompletedStatus(false)}
-                    className='text-[12px] shadow-md shrink-0 h-7 has-[>svg]:px-2.5 has-[>svg]:pr-1.5 gap-1 rounded-md'
-                  >
-                    <span className='text-[12px]'>View summary</span>
-                    <Icon
-                      name='ArrowForwardIcon'
-                      className='size-4 text-white'
-                    />
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Active Training Queue List */}
-          <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3 mb-4 px-2'>
-            <div className='flex flex-col gap-0.5 w-full'>
-              {(showCompletedStatus ? queueSnapshot : queue).map((item) => (
-                <TrainingQueueItem
-                  key={item.id}
-                  item={item}
-                  docIconSize='size-5'
-                  fontSize='text-[14px]'
-                  containerClassName='hover:bg-extra-light/100 rounded-md py-1'
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+      {/* Active training queue - Show when queue is active or finished */}
+      {(queueStatus === "active" || queueStatus === "finished") && (
+        <ActiveTrainingQueue
+          showCompletedStatus={showCompletedStatus}
+          setShowCompletedStatus={handleViewSummary}
+          finishedCount={finishedCount}
+          totalCount={totalCount}
+          queueSnapshot={queueSnapshot}
+        />
       )}
 
-      {/* Training Summary - Only show when idle (not training and not showing completion) */}
-      {!hasActiveItems && !showCompletedStatus && (
-        <div className='flex flex-col gap-3 mt-4'>
-          <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
-            <Icon
-              name='SquareTextSquareFillIcon'
-              className='size-4.5 text-icon-light'
-            />
-            Summary
-          </div>
-          <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3.5 pb-4 mb-4'>
-            <div className='flex flex-col gap-2 px-3 mb-0'>
-              <div className='flex flex-col gap-2 mb-5'>
-                <h1 className='text-start  text-text-primary px-1 text-sm'>
-                  Here is what happend from your last training at{" "}
-                  <span className='font-semibold'>Nov 17, 2025</span>:
-                </h1>
-                <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-1.5'>
-                  <div className='flex items-center gap-0.5'>
-                    <Icon
-                      name='MindBubbleFillIcon'
-                      className='size-5 text-orange-400'
-                    />
-                    <span className='text-text-secondary font-semibold'>
-                      {summaryStats.totalTrained}
-                    </span>{" "}
-                    items were trained.
-                  </div>
-                  <div className='flex items-center gap-0.5'>
-                    <Icon
-                      name='ArrowshapeUpFillIcon'
-                      className='size-5 text-neutral-400'
-                    />
-                    <span className='text-text-secondary font-semibold'>
-                      130
-                    </span>{" "}
-                    mind score has increased.
-                  </div>
-
-                  <div className='flex items-center gap-0.5'>
-                    <Icon
-                      name='CheckedCircleFillIcon'
-                      className='size-5 text-green-600'
-                    />
-                    <span className='text-text-secondary font-semibold'>
-                      {summaryStats.completed}
-                    </span>{" "}
-                    items completed.
-                  </div>
-                  <div className='flex items-center gap-0.5'>
-                    <Icon
-                      name='ExclamationmarkTriangleFillIcon'
-                      className='size-5 text-orange-500'
-                    />
-                    <span className='text-text-secondary font-semibold'>
-                      {summaryStats.failed}
-                    </span>{" "}
-                    items failed and needs actions.
-                  </div>
-                </div>
-              </div>
-              <h1 className='text-start  text-text-primary px-1 text-sm'>
-                Your mind can now answer 5 new questions!
-              </h1>
-              <div className='flex flex-wrap gap-1'>
-                {[
-                  "What is your latest hobby?",
-                  "How did you get into product design?",
-                  "What is your favorite AI tool?",
-                  "What are you working on right now?",
-                  "What is next for you?",
-                ].map((question) => (
-                  <div
-                    key={question}
-                    className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'
-                  >
-                    &quot;{question}&quot;
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Training Summary - Only show when queue is dull (default state) */}
+      {queueStatus === "dull" && (
+        <TrainingSummary summaryStats={summaryStats} />
       )}
 
       {/* Data Table grouped by date */}
@@ -498,7 +380,7 @@ export function TrainingStatusTab() {
             <Select
               value={selectedStatus}
               onValueChange={(value) =>
-                setSelectedStatus(value as TrainingStatus | "all")
+                setSelectedStatus(value as TrainingItemStatus | "all")
               }
             >
               <SelectTrigger

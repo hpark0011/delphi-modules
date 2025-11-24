@@ -5,9 +5,9 @@ import type { QueueItem, TrainingDocType } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { RingPercentage } from "./ring-percentage";
-import type { TrainingStatus } from "./training-status-tab";
+import type { TrainingItemStatus } from "@/utils/training-status-helpers";
 
-function getStatusIcon(status: TrainingStatus): IconName {
+function getStatusIcon(status: TrainingItemStatus): IconName {
   switch (status) {
     case "completed":
       return "CheckedCircleFillIcon";
@@ -17,7 +17,7 @@ function getStatusIcon(status: TrainingStatus): IconName {
       return "CircleDashedIcon";
     case "failed":
       return "ExclamationmarkTriangleFillIcon";
-    case "deleting":
+    case "deleted":
       return "TrashFillIcon";
     default:
       return "CircleDashedIcon";
@@ -62,20 +62,21 @@ export function TrainingQueueItem({
         className
       )}
     >
-      <div className='flex items-center gap-1'>
+      <div className='flex items-center gap-1 w-full min-w-0'>
         {/* Content */}
-        <div className='flex-1 min-w-0'>
-          <div className='flex items-center gap-1 justify-between'>
-            <div className='flex items-center gap-1'>
+        <div className='flex-1 min-w-0 overflow-hidden'>
+          <div className='flex items-center gap-1 justify-between min-w-0'>
+            <div className='flex items-center gap-1 min-w-0 flex-1 overflow-hidden'>
               <Icon
                 name={getDocTypeIcon(item.docType)}
                 className={cn(docIconSize, "text-icon-light flex-shrink-0")}
               />
+              {/* If item is training, show the training status */}
               {item.status === "training" ? (
                 <motion.span
                   className={cn(
                     fontSize,
-                    "font-medium text-text-primary truncate inline-block"
+                    "font-medium text-text-primary truncate min-w-0 flex-1"
                   )}
                   style={{
                     background:
@@ -97,14 +98,15 @@ export function TrainingQueueItem({
                   {item.name}
                 </motion.span>
               ) : (
-                <p
+                // If item is not training, show the item name
+                <span
                   className={cn(
                     fontSize,
-                    "font-medium text-text-primary truncate"
+                    "font-medium text-text-primary truncate min-w-0 flex-1"
                   )}
                 >
                   {item.name}
-                </p>
+                </span>
               )}
             </div>
 
@@ -139,7 +141,7 @@ export function TrainingQueueItem({
                       ? "text-[#09CE6B]"
                       : item.status === "failed"
                         ? "text-orange-500"
-                        : item.status === "deleting"
+                        : item.status === "deleted"
                           ? "text-red-400"
                           : "text-[#8D8D86]"
                   )}

@@ -5,8 +5,9 @@ import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useMindDialog } from "./mind-dialog";
-import { useMindScore } from "./mind-score-context";
+import { showTrainingQueueToast } from "./training-queue-toast";
 
 type ContentCategory =
   | "Popular"
@@ -48,18 +49,18 @@ Sidebar.displayName = "Sidebar";
 interface SidebarItemProps {
   category: ContentCategory;
   selectedCategory: ContentCategory;
-  setSelectedCategory: (category: ContentCategory) => void;
+  onCategoryClick: (category: ContentCategory) => void;
 }
 
 function SidebarItem({
   category,
   selectedCategory,
-  setSelectedCategory,
+  onCategoryClick,
 }: SidebarItemProps) {
   return (
     <button
       key={category}
-      onClick={() => setSelectedCategory(category)}
+      onClick={() => onCategoryClick(category)}
       className={cn(
         "text-left px-3 py-1.5 rounded-md text-sm transition-colors justify-between flex items-baseline ",
         selectedCategory === category
@@ -127,11 +128,27 @@ export function AddKnowledgeTab() {
     useState<ContentCategory>("Popular");
   const { addToQueue } = useTrainingQueue();
   const { close } = useMindDialog();
+  const router = useRouter();
+
+  const handleCategoryClick = (category: ContentCategory) => {
+    if (category === "Interview") {
+      router.push("/interview");
+    } else {
+      setSelectedCategory(category);
+    }
+  };
 
   const handleAddContent = (itemName?: string) => {
     let itemsToAdd: Array<{
       name: string;
-      docType: "interview" | "youtube" | "x" | "website" | "podcast" | "file" | "generic";
+      docType:
+        | "interview"
+        | "youtube"
+        | "x"
+        | "website"
+        | "podcast"
+        | "file"
+        | "generic";
       shouldFail?: boolean;
       shouldDelete?: boolean;
     }> = [];
@@ -157,11 +174,18 @@ export function AddKnowledgeTab() {
         { name: "Website 2", docType: "website", shouldFail: true },
       ];
     } else if (itemName === "Podcast") {
-      itemsToAdd = [{ name: "Podcast 1", docType: "podcast", shouldDelete: true }];
+      itemsToAdd = [
+        { name: "Podcast 1", docType: "podcast", shouldDelete: true },
+      ];
     }
 
     if (itemsToAdd.length > 0) {
       addToQueue(itemsToAdd);
+      const itemCount = itemsToAdd.length;
+      showTrainingQueueToast(
+        itemCount,
+        <Icon name='CheckedCircleFillIcon' className='size-5 text-green-500' />
+      );
       close();
     }
   };
@@ -175,7 +199,7 @@ export function AddKnowledgeTab() {
             key={category}
             category={category}
             selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
+            onCategoryClick={handleCategoryClick}
           />
         ))}
       </Sidebar>

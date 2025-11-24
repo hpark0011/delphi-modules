@@ -2,13 +2,16 @@
 
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { MindDialog, useMindDialog } from "../mind-dialog";
+import {
+  MindDialog,
+  useMindDialog,
+} from "@/components/mind-dialog/mind-dialog";
 import { MindProgressBar } from "../mind-progress-bar";
 import { MindScoreProvider, useMindScore } from "../mind-score-context";
-import { TrainingQueueProvider } from "../training-queue-context";
-import { isActiveStatus, isFinishedStatus } from "../training-status-utils";
+import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-context";
 import { ActiveTrainingStatus } from "./active-training-status";
 import { LastTrainedDate } from "./last-trained-date";
 import { TrainingCompletedStatus } from "./training-completed-status";
@@ -64,88 +67,86 @@ function MindScoreTrigger() {
 }
 
 interface TrainingStatusTriggerProps {
-  showCompletedStatus: boolean;
-  setShowCompletedStatus: (show: boolean) => void;
+  hasUserReviewed: boolean;
+  setHasUserReviewed: (reviewed: boolean) => void;
   completedCount: number;
   failedCount: number;
-  queueSnapshot?: QueueItem[];
+  queue: QueueItem[];
 }
 
 function TrainingStatusTrigger({
-  showCompletedStatus,
-  setShowCompletedStatus,
+  hasUserReviewed,
+  setHasUserReviewed,
   completedCount,
   failedCount,
-  queueSnapshot,
+  queue,
 }: TrainingStatusTriggerProps) {
-  const { queue } = useTrainingQueue();
+  // Use centralized queue status hook
+  const { queueStatus } = useTrainingStatus(hasUserReviewed);
 
-  // Only show "Learning" status if there are items still being processed (queued or training)
-  const hasActiveItems = queue.some((item) => isActiveStatus(item.status));
-
-  // Show completed status if flag is set and there are no active items
-  // (queue may still contain completed/failed/deleting items for history)
-  if (showCompletedStatus && !hasActiveItems) {
+  // Show completed status when queue is finished (all items done, user hasn't reviewed)
+  if (queueStatus === "finished") {
     return (
       <TrainingCompletedStatus
-        setShowCompletedStatus={setShowCompletedStatus}
+        setShowCompletedStatus={(show) => setHasUserReviewed(!show)}
         completedCount={completedCount}
         failedCount={failedCount}
-        queueSnapshot={queueSnapshot}
+        queueSnapshot={queue}
       />
     );
   }
 
-  if (hasActiveItems) {
+  // Show active training status when queue is active
+  if (queueStatus === "active") {
     return <ActiveTrainingStatus />;
   }
 
+  // Default: show last trained date (dull state)
   return <LastTrainedDate />;
 }
 
 function MindScoreContent() {
-  const { queue, clearQueue } = useTrainingQueue();
-  const [showCompletedStatus, setShowCompletedStatus] = useState(false);
+  const { queue } = useTrainingQueue();
+  const [hasUserReviewed, setHasUserReviewed] = useState(true); // Start as true (no completion to review)
   const [completedCount, setCompletedCount] = useState(0);
   const [failedCount, setFailedCount] = useState(0);
-  const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
 
-  // Only show "Learning" status if there are items still being processed (queued or training)
-  const hasActiveItems = queue.some((item) => isActiveStatus(item.status));
+  // Use centralized queue status logic
+  const { queueStatus, finishedCount, totalCount } =
+    useTrainingStatus(hasUserReviewed);
 
-  // Detect completion and handle queue clearing
+  // Update counts when queue finishes and reset when new items are added
   useEffect(() => {
-    // Check if all items are done processing (either completed, failed, or deleting)
-    const allDone =
-      queue.length > 0 && queue.every((item) => isFinishedStatus(item.status));
+    // Detect when all items finish and user hasn't reviewed yet
+    const allFinished = finishedCount === totalCount && totalCount > 0;
 
-    // Completion Detection: When all items are done (completed or failed) and no active items
-    if (allDone && !hasActiveItems) {
-      // Capture counts and snapshot before clearing queue
+    if (allFinished && hasUserReviewed) {
+      // Queue just finished - capture snapshot counts and mark as unreviewed
+      // Note: We need manual filtering here to create a snapshot of counts
+      // at the moment of completion, which persists even as queue changes
       const completed = queue.filter(
         (item) => item.status === "completed"
       ).length;
       const failed = queue.filter((item) => item.status === "failed").length;
       setCompletedCount(completed);
       setFailedCount(failed);
-      // Capture queue snapshot (all items with final states: completed, failed, deleting)
-      setQueueSnapshot([...queue]);
-      setShowCompletedStatus(true);
-      // Clear queue after a short delay to ensure state update
-      const timer = setTimeout(() => {
-        clearQueue();
-      }, 100);
-      return () => clearTimeout(timer);
+      setHasUserReviewed(false); // Mark as unreviewed to show completion status
     }
 
-    // Reset on New Items: When new items are added (queue has items and active items)
-    if (queue.length > 0 && showCompletedStatus && hasActiveItems) {
-      setShowCompletedStatus(false);
+    // Reset when new items added (queue becomes active)
+    if (queueStatus === "active" && !hasUserReviewed) {
+      setHasUserReviewed(true); // Reset review state
       setCompletedCount(0);
       setFailedCount(0);
-      setQueueSnapshot([]);
     }
-  }, [queue, hasActiveItems, showCompletedStatus, clearQueue]);
+
+    // Reset when queue is cleared (becomes empty)
+    if (queue.length === 0 && !hasUserReviewed) {
+      setHasUserReviewed(true);
+      setCompletedCount(0);
+      setFailedCount(0);
+    }
+  }, [queueStatus, hasUserReviewed, finishedCount, totalCount, queue]);
 
   return (
     <AnalyticsSectionWrapper
@@ -154,11 +155,11 @@ function MindScoreContent() {
       <MindDialog defaultTab='training-status'>
         <MindScoreTrigger />
         <TrainingStatusTrigger
-          showCompletedStatus={showCompletedStatus}
-          setShowCompletedStatus={setShowCompletedStatus}
+          hasUserReviewed={hasUserReviewed}
+          setHasUserReviewed={setHasUserReviewed}
           completedCount={completedCount}
           failedCount={failedCount}
-          queueSnapshot={queueSnapshot}
+          queue={queue}
         />
       </MindDialog>
     </AnalyticsSectionWrapper>

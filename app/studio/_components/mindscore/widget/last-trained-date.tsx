@@ -1,7 +1,8 @@
 "use client";
 
+import MindStatusNotification from "@/components/mind-status-notification";
 import { Icon } from "@/components/ui/icon";
-import { useMindDialog } from "../mind-dialog";
+import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
 
 export function LastTrainedDate() {
   const { openWithTab } = useMindDialog();
@@ -21,10 +22,11 @@ export function LastTrainedDate() {
     >
       <div className='text-[13px]'>Last trained at Nov 17, 2025</div>
       <div className='mr-1 flex items-center gap-0.5 cursor-pointer group'>
-        <Icon
+        {/* <Icon
           name='DocPlainTextFillIcon'
-          className='size-4 text-icon-light group-hover:text-blue-500'
-        />
+          className='size-4.5 text-icon-light group-hover:text-blue-500'
+        /> */}
+        <MindStatusNotification status='dull' />
       </div>
     </div>
   );

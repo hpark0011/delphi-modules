@@ -1,10 +1,10 @@
-import { TrainingItem } from "../_components/mindscore/training-status-tab";
+import { TrainingItem } from "../../../components/mind-dialog/training-status-tab";
 
 // Mock data - replace with actual data fetching
 export const mockTrainingItems: TrainingItem[] = [
   {
     id: "1",
-    name: "Product Documentation.pdf",
+    name: "This is a very long filename that should be truncated with ellipsis when it exceeds the container width.pdf",
     type: "PDF",
     trainedAt: new Date().toISOString(),
     status: "completed",
