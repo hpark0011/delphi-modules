@@ -9,7 +9,13 @@ import { useTrainingStatus } from "@/hooks/use-training-status";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { MindProgressBar } from "../../app/studio/_components/mindscore/mind-progress-bar";
 import { useMindScore } from "../../app/studio/_components/mindscore/mind-score-context";
 import MindStatusNotification from "@/components/mind-status-notification";
@@ -54,11 +60,27 @@ function MindDialogHeader() {
     lastIncrement,
     lastDecrement,
   } = useMindScore();
-  const { hasActiveItems, activeCount } = useTrainingStatus();
-  const { clearQueue } = useTrainingQueue();
+  const [hasUserReviewed, setHasUserReviewed] = useState(true);
+  const { queue, clearQueue } = useTrainingQueue();
+  const { hasActiveItems, activeCount, queueStatus } =
+    useTrainingStatus(hasUserReviewed);
   const { close } = useMindDialog();
 
+  // Reset review state when queue becomes active or empty
+  useEffect(() => {
+    if (queueStatus === "active" && !hasUserReviewed) {
+      setHasUserReviewed(true);
+    }
+    if (queue.length === 0 && !hasUserReviewed) {
+      setHasUserReviewed(true);
+    }
+  }, [queueStatus, hasUserReviewed, queue.length]);
+
   const onPreviewClick = () => {
+    // Mark as reviewed to change status from "finished" to "dull"
+    if (queueStatus === "finished") {
+      setHasUserReviewed(true);
+    }
     clearQueue();
     close();
   };
@@ -80,11 +102,12 @@ function MindDialogHeader() {
         </VisuallyHidden>
         <Button
           size='sm'
-          className='h-7'
+          className='h-7 relative'
           variant='glossy'
           onClick={onPreviewClick}
         >
-          Preview
+          <span>Preview</span>
+          {hasUserReviewed && <MindStatusNotification status='finished' />}
         </Button>
       </div>
 

@@ -23,6 +23,8 @@ export function ActiveTrainingQueue({
 }: ActiveTrainingQueueProps) {
   const { queue } = useTrainingQueue();
 
+  const activeCount = totalCount - finishedCount;
+
   return (
     <div className='flex flex-col gap-3 mt-4'>
       {/* Active Training Queue Header */}
@@ -46,7 +48,7 @@ export function ActiveTrainingQueue({
             <span className={cn(showCompletedStatus && "text-text-primary")}>
               {showCompletedStatus
                 ? `Learning completed!`
-                : `Learning ${finishedCount} / ${totalCount}`}
+                : `Learning ${activeCount} Items`}
             </span>
           </div>
           {showCompletedStatus && (
