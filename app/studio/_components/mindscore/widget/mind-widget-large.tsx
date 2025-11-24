@@ -70,30 +70,28 @@ function MindScoreTrigger() {
 }
 
 interface TrainingStatusTriggerProps {
-  showCompletedStatus: boolean;
-  setShowCompletedStatus: (show: boolean) => void;
+  hasUserReviewed: boolean;
+  setHasUserReviewed: (reviewed: boolean) => void;
   completedCount: number;
   failedCount: number;
   queue: QueueItem[];
 }
 
 function TrainingStatusTrigger({
-  showCompletedStatus,
-  setShowCompletedStatus,
+  hasUserReviewed,
+  setHasUserReviewed,
   completedCount,
   failedCount,
   queue,
 }: TrainingStatusTriggerProps) {
   // Use centralized queue status logic
-  // showCompletedStatus = true means user has NOT reviewed (showing completion message)
-  const queueStatus = getTrainingQueueStatus(queue, !showCompletedStatus);
+  const queueStatus = getTrainingQueueStatus(queue, hasUserReviewed);
 
-  // Show completed status when user hasn't reviewed (regardless of queue state)
-  // This handles both "finished" (items still in queue) and "dull" (empty queue) states
-  if (showCompletedStatus) {
+  // Show completed status when queue is finished (all items done, user hasn't reviewed)
+  if (queueStatus === "finished") {
     return (
       <TrainingCompletedStatus
-        setShowCompletedStatus={setShowCompletedStatus}
+        setShowCompletedStatus={(show) => setHasUserReviewed(!show)}
         completedCount={completedCount}
         failedCount={failedCount}
         queueSnapshot={queue}
@@ -112,38 +110,38 @@ function TrainingStatusTrigger({
 
 function MindScoreContent() {
   const { queue } = useTrainingQueue();
-  const [showCompletedStatus, setShowCompletedStatus] = useState(false);
+  const [hasUserReviewed, setHasUserReviewed] = useState(true); // Start as true (no completion to review)
   const [completedCount, setCompletedCount] = useState(0);
   const [failedCount, setFailedCount] = useState(0);
 
-  // Detect completion and handle state updates
+  // Use centralized queue status logic
+  const queueStatus = getTrainingQueueStatus(queue, hasUserReviewed);
+
+  // Update counts when queue finishes and reset when new items are added
   useEffect(() => {
-    // Manual detection: all items finished and user hasn't been shown completion
+    // Detect when all items finish and user hasn't reviewed yet
     const allFinished =
       queue.length > 0 &&
       queue.every((item) => isFinishedItemStatus(item.status));
 
-    if (allFinished && !showCompletedStatus) {
+    if (allFinished && hasUserReviewed) {
+      // Queue just finished - capture counts and mark as unreviewed
       const completed = queue.filter(
         (item) => item.status === "completed"
       ).length;
       const failed = queue.filter((item) => item.status === "failed").length;
       setCompletedCount(completed);
       setFailedCount(failed);
-      setShowCompletedStatus(true);
-      // No queue clearing - keep finished items for history
-      // No snapshot needed - use queue directly
+      setHasUserReviewed(false); // Mark as unreviewed to show completion status
     }
 
     // Reset when new items added (queue becomes active)
-    // Use queueStatus to detect when new active items are added
-    const queueStatus = getTrainingQueueStatus(queue, !showCompletedStatus);
-    if (queueStatus === "active" && showCompletedStatus) {
-      setShowCompletedStatus(false);
+    if (queueStatus === "active" && !hasUserReviewed) {
+      setHasUserReviewed(true); // Reset review state
       setCompletedCount(0);
       setFailedCount(0);
     }
-  }, [queue, showCompletedStatus]);
+  }, [queueStatus, hasUserReviewed, queue]);
 
   return (
     <AnalyticsSectionWrapper
@@ -152,8 +150,8 @@ function MindScoreContent() {
       <MindDialog defaultTab='training-status'>
         <MindScoreTrigger />
         <TrainingStatusTrigger
-          showCompletedStatus={showCompletedStatus}
-          setShowCompletedStatus={setShowCompletedStatus}
+          hasUserReviewed={hasUserReviewed}
+          setHasUserReviewed={setHasUserReviewed}
           completedCount={completedCount}
           failedCount={failedCount}
           queue={queue}
