@@ -66,7 +66,7 @@ export function ActiveTrainingQueue({
       </div>
 
       {/* Active Training Queue List */}
-      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3 mb-4 px-2'>
+      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 mb-4 px-2 max-h-[322px] overflow-y-auto'>
         <div className='flex flex-col gap-0.5 w-full'>
           {(showCompletedStatus ? queueSnapshot : queue).map(
             (item: QueueItem) => (
