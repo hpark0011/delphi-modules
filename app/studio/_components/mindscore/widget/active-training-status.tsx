@@ -82,7 +82,7 @@ export function ActiveTrainingStatus() {
     <div className='w-full relative'>
       {/* Status / Trigger */}
       <div
-        className='w-full items-center flex justify-start py-2 px-[11px] pr-3 gap-1.5 text-text-muted hover:text-blue-500 cursor-pointer'
+        className='w-full items-center flex justify-start py-2 px-[11px] pr-3 gap-1.5 text-text-muted hover:text-blue-500 cursor-pointer h-[36px]'
         onClick={handleToggle}
         role='button'
         tabIndex={0}
@@ -116,9 +116,9 @@ export function ActiveTrainingStatus() {
                   stiffness: 400,
                   damping: 25,
                 }}
-                className='text-[13px] whitespace-nowrap ml-1 font-medium text-blue-500 tracking-tighter'
+                className='text-[13px] whitespace-nowrap ml-1 font-medium text-blue-500 tracking-tighter px-2 py-[1px] bg-white rounded-sm dark:bg-white/10'
               >
-                <span className='text-blue-500'>+{newlyAddedCount}</span>{" "}
+                <span className=''>+{newlyAddedCount}</span>{" "}
                 {newlyAddedCount === 1 ? "Item added" : "Items added"}
               </motion.div>
             )}

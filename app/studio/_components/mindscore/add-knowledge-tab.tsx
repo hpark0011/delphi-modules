@@ -5,9 +5,9 @@ import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { toast } from "sonner";
 import { useMindDialog } from "./mind-dialog";
 import { useMindScore } from "./mind-score-context";
+import { showTrainingQueueToast } from "./training-queue-toast";
 
 type ContentCategory =
   | "Popular"
@@ -132,7 +132,14 @@ export function AddKnowledgeTab() {
   const handleAddContent = (itemName?: string) => {
     let itemsToAdd: Array<{
       name: string;
-      docType: "interview" | "youtube" | "x" | "website" | "podcast" | "file" | "generic";
+      docType:
+        | "interview"
+        | "youtube"
+        | "x"
+        | "website"
+        | "podcast"
+        | "file"
+        | "generic";
       shouldFail?: boolean;
       shouldDelete?: boolean;
     }> = [];
@@ -158,15 +165,15 @@ export function AddKnowledgeTab() {
         { name: "Website 2", docType: "website", shouldFail: true },
       ];
     } else if (itemName === "Podcast") {
-      itemsToAdd = [{ name: "Podcast 1", docType: "podcast", shouldDelete: true }];
+      itemsToAdd = [
+        { name: "Podcast 1", docType: "podcast", shouldDelete: true },
+      ];
     }
 
     if (itemsToAdd.length > 0) {
       addToQueue(itemsToAdd);
       const itemCount = itemsToAdd.length;
-      toast.success(
-        `Added ${itemCount} ${itemCount === 1 ? "item" : "items"} to training queue`
-      );
+      showTrainingQueueToast(itemCount);
       close();
     }
   };
