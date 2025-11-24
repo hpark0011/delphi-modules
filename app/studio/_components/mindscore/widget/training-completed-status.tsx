@@ -97,14 +97,18 @@ export function TrainingCompletedStatus({
         <Tooltip>
           <TooltipTrigger asChild className='shadow-2xl'>
             <button
-              className='mr-1 flex items-center gap-0.5 cursor-pointer group'
+              className='mr-1 flex items-center gap-1 cursor-pointer group hover:bg-black/5 rounded-sm px-1.5 pl-1 py-0.5'
               onClick={() => {
                 setShowCompletedStatus(false);
                 openWithTab("training-status");
               }}
               role='button'
             >
-              <MindStatusNotification status='completed' />
+              <MindStatusNotification status='finished' />
+              {/* Increased mind score */}
+              <span className='text-[12px] font-medium text-text-muted'>
+                +230
+              </span>
               {/* <Icon
                 name='DocPlainTextFillIcon'
                 className='size-4.5 min-w-4.5 text-icon-light group-hover:text-blue-500'
@@ -112,7 +116,7 @@ export function TrainingCompletedStatus({
             </button>
           </TooltipTrigger>
           <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
-            View summary
+            New mind ready!
           </TooltipContent>
         </Tooltip>
       </div>

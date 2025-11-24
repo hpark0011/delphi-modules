@@ -93,7 +93,7 @@ export function ActiveTrainingStatus() {
         {/* Training Status Text */}
         <div className='flex items-center gap-1 w-full'>
           <div className='flex items-center gap-1 w-fit'>
-            <MindStatusNotification status='training' />
+            <MindStatusNotification status='active' />
             <div className='text-[13px]'>
               Learning {/* <span className='mx-0.5'>/</span> */}
               {activeCount} Items

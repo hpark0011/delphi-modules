@@ -45,7 +45,7 @@ export function ActiveTrainingQueue({
             />
             <span className={cn(showCompletedStatus && "text-text-primary")}>
               {showCompletedStatus
-                ? `Training completed!`
+                ? `Learning completed!`
                 : `Learning ${finishedCount} / ${totalCount}`}
             </span>
           </div>

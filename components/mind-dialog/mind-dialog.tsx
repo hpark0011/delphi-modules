@@ -108,7 +108,7 @@ function MindDialogHeader() {
                 )}
               >
                 {isActiveTraining ? (
-                  <MindStatusNotification status='training' />
+                  <MindStatusNotification status='active' />
                 ) : (
                   <Icon
                     name={icon}

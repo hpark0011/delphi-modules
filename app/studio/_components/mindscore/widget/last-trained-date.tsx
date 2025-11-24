@@ -22,11 +22,11 @@ export function LastTrainedDate() {
     >
       <div className='text-[13px]'>Last trained at Nov 17, 2025</div>
       <div className='mr-1 flex items-center gap-0.5 cursor-pointer group'>
-        <Icon
+        {/* <Icon
           name='DocPlainTextFillIcon'
           className='size-4.5 text-icon-light group-hover:text-blue-500'
-        />
-        <MindStatusNotification status='training' />
+        /> */}
+        <MindStatusNotification status='dull' />
       </div>
     </div>
   );

@@ -1,18 +1,18 @@
 import { BrainIcon } from "@/delphi-ui/icons/Brain";
 import { cn } from "@/lib/utils";
-import type { TrainingStatus } from "@/components/mind-dialog/training-status-tab";
 
 interface MindStatusNotificationProps {
   className?: string;
-  status: TrainingStatus;
+  status: "active" | "finished" | "dull";
 }
 
 export default function MindStatusNotification({
   className,
   status,
 }: MindStatusNotificationProps) {
-  const isTraining = status === "training";
-  const isCompleted = status === "completed";
+  const isActive = status === "active";
+  const isFinished = status === "finished";
+  // const isDull = status === "dull";
 
   return (
     <div className='relative flex items-center justify-center'>
@@ -23,12 +23,12 @@ export default function MindStatusNotification({
             className
           )}
         />
-        {isTraining && <div className='brain-shimmer' />}
-        {isCompleted && <div className='brain-glow' />}
+        {isActive && <div className='brain-shimmer' />}
+        {isFinished && <div className='brain-glow' />}
       </div>
 
       {/* Notification Dot */}
-      {isCompleted && (
+      {isFinished && (
         <div className='absolute top-[-1px] right-[-1px] w-[7px] h-[7px] bg-red-600/80 rounded-full shadow-[0_0_0_1px_var(--color-light)]' />
       )}
     </div>
