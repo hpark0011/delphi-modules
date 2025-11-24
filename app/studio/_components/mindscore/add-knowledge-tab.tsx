@@ -184,7 +184,7 @@ export function AddKnowledgeTab() {
       const itemCount = itemsToAdd.length;
       showTrainingQueueToast(
         itemCount,
-        <Icon name='SquareStackFillIcon' className='size-4 text-icon-light' />
+        <Icon name='CheckedCircleFillIcon' className='size-5 text-green-500' />
       );
       close();
     }
