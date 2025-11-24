@@ -12,6 +12,7 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
 import { ExpandableQueueList } from "./expandable-queue-list";
+import MindStatusNotification from "@/components/mind-status-notification";
 
 export interface TrainingCompletedStatusProps {
   setShowCompletedStatus: (show: boolean) => void;
@@ -103,10 +104,11 @@ export function TrainingCompletedStatus({
               }}
               role='button'
             >
-              <Icon
+              <MindStatusNotification status='completed' />
+              {/* <Icon
                 name='DocPlainTextFillIcon'
                 className='size-4.5 min-w-4.5 text-icon-light group-hover:text-blue-500'
-              />
+              /> */}
             </button>
           </TooltipTrigger>
           <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
