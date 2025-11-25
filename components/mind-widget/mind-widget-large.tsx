@@ -9,12 +9,15 @@ import {
   MindDialog,
   useMindDialog,
 } from "@/components/mind-dialog/mind-dialog";
-import { MindProgressBar } from "../mind-progress-bar";
-import { MindScoreProvider, useMindScore } from "../mind-score-context";
+import { MindProgressBar } from "@/app/studio/_components/mindscore/mind-progress-bar";
+import {
+  MindScoreProvider,
+  useMindScore,
+} from "@/app/studio/_components/mindscore/mind-score-context";
 import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-context";
-import { ActiveTrainingStatus } from "./active-training-status";
-import { LastTrainedDate } from "./last-trained-date";
-import { TrainingCompletedStatus } from "./training-completed-status";
+import { ActiveTrainingStatus } from "@/app/studio/_components/mindscore/widget/active-training-status";
+import { LastTrainedDate } from "@/app/studio/_components/mindscore/widget/last-trained-date";
+import { TrainingCompletedStatus } from "@/app/studio/_components/mindscore/widget/training-completed-status";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
@@ -166,7 +169,7 @@ function MindScoreContent() {
   );
 }
 
-export function MindScoreWidget() {
+export function MindWidgetLarge() {
   return (
     <MindScoreProvider>
       <TrainingQueueProvider>

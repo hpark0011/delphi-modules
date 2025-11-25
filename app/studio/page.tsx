@@ -1,6 +1,6 @@
 "use client";
 
-import { MindScoreWidget } from "@/app/studio/_components/mindscore/widget/mind-widget-large";
+import { MindWidgetLarge } from "@/components/mind-widget/mind-widget-large";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";
@@ -196,7 +196,7 @@ export default function AnalyticsPage() {
 
         <div className='flex flex-col space-y-2 w-full max-w-[360px]'>
           {/* Mind Score Card */}
-          <MindScoreWidget />
+          <MindWidgetLarge />
 
           {/* Analytics Section */}
           <HomeAnalytics engagements={engagements} />
