@@ -60,7 +60,7 @@ export function TrainingCompletedStatus({
             <ChevronDown className='size-3.5 text-icon-light' />
           </motion.div>
           <div className='text-[13px] font-[500] w-full'>
-            Learning completed!
+            Learning Completed!
           </div>
         </div>
         <div className='text-xs dark:bg-black text-text-muted flex items-center gap-1 mr-0'>

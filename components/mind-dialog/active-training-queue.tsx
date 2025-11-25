@@ -47,7 +47,7 @@ export function ActiveTrainingQueue({
             />
             <span className={cn(showCompletedStatus && "text-text-primary")}>
               {showCompletedStatus
-                ? `Learning completed!`
+                ? `Learning Completed!`
                 : `Learning ${activeCount} Items`}
             </span>
           </div>
