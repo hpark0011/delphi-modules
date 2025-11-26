@@ -31,7 +31,7 @@ function MindScoreTrigger() {
 
   return (
     <div
-      className='w-full flex flex-col gap-2 relative cursor-pointer rounded-[18px]  overflow-hidden bg-transparent dark:border-white/3 dark:bg-black/40 group'
+      className='w-full flex flex-col gap-2 relative cursor-pointer rounded-[18px]  overflow-hidden bg-transparent dark:border-white/3  group'
       onClick={() => openWithTab("add-knowledge")}
       role='button'
       tabIndex={0}
@@ -164,7 +164,7 @@ function MindScoreContent() {
   return (
     <AnalyticsSectionWrapper
       className={cn(
-        "w-full p-0.5 rounded-[20px] flex flex-col items-center bg-linear-to-b from-black/5 to-black/2 cursor-default bg-amber-50/12 backdrop-blur-[20px] overflow-hidden transition-all duration-200 text-left opacity-100 hover:bg-amber-50/18 shadow-[0_1px_0.908px_0_rgba(255,255,255,0.15)_inset,0_-1px_0.908px_0_rgba(255,255,255,0.05)_inset]"
+        "w-full p-0.5 rounded-[20px] flex flex-col items-center bg-linear-to-b from-black/15 to-black/4 cursor-default bg-amber-50/12 backdrop-blur-[20px] overflow-hidden transition-all duration-200 text-left opacity-100 hover:bg-amber-50/18 shadow-[0_1px_0.908px_0_rgba(255,255,255,0.15)_inset,0_-1px_0.908px_0_rgba(255,255,255,0.05)_inset]"
       )}
     >
       <MindDialog defaultTab='training-status'>

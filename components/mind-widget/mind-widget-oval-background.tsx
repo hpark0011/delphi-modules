@@ -48,7 +48,7 @@ export function MindWidgetOvalBackground({
   const id = useId();
   const filterId = `filter0_iiii_${id}`;
   const gradientId = `paint0_linear_${id}`;
-  
+
   // Get level-based shadow colors
   const shadowColors = getLevelSvgShadowColors(level);
 
@@ -218,6 +218,7 @@ export function MindWidgetOvalBackground({
             in2='effect3_innerShadow_2290_4195'
             result='effect4_innerShadow_2290_4195'
           />
+          {/* Outer shadow */}
         </filter>
         <linearGradient
           id={gradientId}

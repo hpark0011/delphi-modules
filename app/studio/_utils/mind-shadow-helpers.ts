@@ -85,8 +85,15 @@ export function generateSmallWidgetShadowString(colors: LevelColors): string {
 /**
  * Parses rgba() string to extract RGB and alpha values
  */
-function parseRgba(rgbaString: string): { r: number; g: number; b: number; a: number } {
-  const match = rgbaString.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+function parseRgba(rgbaString: string): {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+} {
+  const match = rgbaString.match(
+    /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/
+  );
   if (!match) {
     throw new Error(`Invalid rgba string: ${rgbaString}`);
   }
@@ -110,12 +117,12 @@ export interface SvgShadowColors {
  */
 export function getLevelSvgShadowColors(level: string): SvgShadowColors {
   const colors = getLevelShadowColors(level);
-  
+
   // Parse rgba strings to RGB values
   const darkRgba = parseRgba(colors.dark);
   const mediumRgba = parseRgba(colors.medium);
   const lightRgba = parseRgba(colors.light);
-  
+
   return {
     // outerShadow: dark color (alpha 1.0)
     outerShadow: {
