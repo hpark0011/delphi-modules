@@ -75,6 +75,14 @@ export function generateShadowString(
 }
 
 /**
+ * Generates shadow string for small widget with level-based colors
+ * Format: inset glows + border + outer shadows + white highlight
+ */
+export function generateSmallWidgetShadowString(colors: LevelColors): string {
+  return `inset_0_1px_8px_-2px_${colors.light},inset_0_-4px_6px_-2px_${colors.medium},inset_0_-13px_24px_-14px_${colors.dark},_0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15),_inset_0_0_6px_0_rgba(255,255,255,0.1)`;
+}
+
+/**
  * Parses rgba() string to extract RGB and alpha values
  */
 function parseRgba(rgbaString: string): { r: number; g: number; b: number; a: number } {
