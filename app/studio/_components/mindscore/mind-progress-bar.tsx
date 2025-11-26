@@ -38,7 +38,7 @@ export function MindProgressBar({
         />
       </div>
       {/* Gauge Label */}
-      <div className='w-full h-full flex items-center justify-between px-4.5 text-white/50 relative'>
+      <div className='w-full h-full flex items-center justify-between px-5 text-white/50 relative'>
         <div className='relative'>
           {/* Score Increment Animation */}
           <ScoreIncrementAnimation

@@ -152,7 +152,7 @@ function MindDialogHeader() {
                 key={tab.id}
                 value={tab.id}
                 className={cn(
-                  "text-[13px] h-7 rounded-md px-2 tracking-tight text-text-muted hover:bg-white/10 data-[state=active]:bg-white/10 data-[state=active]:text-white gap-1 pl-1.5",
+                  "text-[13px] h-7 rounded-md px-2 tracking-tight text-text-tertiary-inverse hover:bg-white/10 data-[state=active]:bg-white/10 data-[state=active]:text-white gap-1 pl-1.5",
                   isActiveTraining && "gap-0.5"
                 )}
               >

@@ -99,7 +99,7 @@ export default function AnalyticsPage() {
           <MindWidgetLargeRect />
 
           {/* Mind Score Card */}
-          <MindWidgetLarge />
+          {/* <MindWidgetLarge /> */}
 
           {/* Analytics Section */}
           <HomeAnalytics engagements={engagements} />
