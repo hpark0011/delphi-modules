@@ -1,7 +1,7 @@
 "use client";
 
-import { MindWidgetLarge } from "@/components/mind-widget/mind-widget-large";
-// import { MindWidgetLargeRect } from "@/components/mind-widget/mind-widget-large-rect";
+// import { MindWidgetLarge } from "@/components/mind-widget/mind-widget-large";
+import { MindWidgetLargeRect } from "@/components/mind-widget/mind-widget-large-rect";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";
@@ -85,7 +85,7 @@ export default function AnalyticsPage() {
           <AnalyticsSectionWrapper className='p-4 py-3 rounded-[20px] flex gap-3 flex-row items-center justify-between'>
             {/* Bottom Section - Next Actions */}
             <div className='flex items-center gap-2'>
-              <div className='flex items-center gap-2 size-8 bg-[#F1F0EF] rounded-full justify-center'>
+              <div className='flex items-center gap-2 size-8 bg-[#F1F0EF] dark:bg-light rounded-full justify-center'>
                 <span className='text-[#8D8D86] dark:text-neutral-500'>▶</span>
               </div>
               <div className='text-[#8D8D86]'>Next up</div>
@@ -96,10 +96,10 @@ export default function AnalyticsPage() {
 
         <div className='flex flex-col space-y-2 w-full max-w-[360px]'>
           {/*  */}
-          {/* <MindWidgetLargeRect /> */}
+          <MindWidgetLargeRect />
 
           {/* Mind Score Card */}
-          <MindWidgetLarge />
+          {/* <MindWidgetLarge /> */}
 
           {/* Analytics Section */}
           <HomeAnalytics engagements={engagements} />

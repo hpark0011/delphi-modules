@@ -7,7 +7,11 @@ export const DashboardMainWrapper = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  return <div className={cn("p-7", className)}>{children}</div>;
+  return (
+    <div className={cn("p-7 h-full dark:bg-black/50", className)}>
+      {children}
+    </div>
+  );
 };
 
 export const Divider = ({ className }: { className?: string }) => {

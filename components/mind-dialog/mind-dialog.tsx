@@ -180,7 +180,7 @@ function MindDialogHeader() {
       </div>
 
       {/* Mind Area Inner */}
-      <div className='mind-area-inner absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_2px_1px_rgba(255,255,255,0.2),_0px_0px_1px_1px_rgba(255,255,255,0.1)]' />
+      <div className='mind-area-inner studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_1px_0.5px_rgba(255,255,255,0.9),inset_0px_1px_1px_1px_rgba(255,255,255,1)] blur-[8px]' />
     </div>
   );
 }

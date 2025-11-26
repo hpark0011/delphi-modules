@@ -67,7 +67,7 @@ export function DashboardLayout({
     <SidebarProvider defaultOpen={true}>
       <div className='flex h-screen w-full'>
         <AppSidebar />
-        <SidebarInset className='flex-1 overflow-auto md:peer-data-[variant=inset]:shadow-none border-light border '>
+        <SidebarInset className='flex-1 overflow-auto md:peer-data-[variant=inset]:shadow-none border-light border dark:border-white/2'>
           <DashboardMainWrapper
             className={`${isFullWidth ? "px-0" : "px-8 w-full max-w-[1136px] mx-auto"}`}
           >
