@@ -27,10 +27,11 @@ function MindScoreTrigger() {
     lastIncrement,
     lastDecrement,
   } = useMindScore();
+  const { queueStatus } = useTrainingStatus(false);
 
   return (
     <div
-      className='w-full flex flex-col gap-2 relative cursor-pointer rounded-[18px]  overflow-hidden bg-transparent hover:bg-black/5 dark:border-white/3 dark:bg-black/40'
+      className='w-full flex flex-col gap-2 relative cursor-pointer rounded-[18px]  overflow-hidden bg-transparent dark:border-white/3 dark:bg-black/40 group'
       onClick={() => openWithTab("add-knowledge")}
       role='button'
       tabIndex={0}
@@ -42,7 +43,9 @@ function MindScoreTrigger() {
       }}
     >
       {/* SVG Background */}
-      <MindWidgetOvalBackground />
+      <div className='absolute top-0 left-0 w-full h-full group-hover:scale-103 transition-all duration-100 ease-in'>
+        <MindWidgetOvalBackground />
+      </div>
 
       {/* Progress Bar */}
       <MindProgressBar
@@ -51,18 +54,23 @@ function MindScoreTrigger() {
         progressCap={progressCap}
         lastIncrement={lastIncrement}
         lastDecrement={lastDecrement}
-        className='top-[2px]'
+        className={cn(
+          "top-[3px] transition-all duration-100 ease-in",
+          queueStatus === "active"
+            ? "opacity-100"
+            : "opacity-0 group-hover:opacity-100"
+        )}
       />
 
       {/* Mind Score & Mind Level Container */}
       <div className='flex flex-col gap-2 w-full justify-center items-center relative z-10'>
-        <div className='flex flex-col items-center justify-center h-[160px] text-white gap-0.5'>
+        <div className='flex flex-col items-center justify-center h-[160px] text-white gap-0.5 pb-3'>
           {/* Mind Score Value */}
           <p className='font-medium text-center text-6xl tracking-tighter'>
             {current}
           </p>
           {/* Mind Level */}
-          <p className='text-sm font-medium text-center text-white/70'>
+          <p className='text-[15px] font-medium text-center text-white/70'>
             {level}
           </p>
         </div>
