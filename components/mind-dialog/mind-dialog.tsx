@@ -18,6 +18,10 @@ import React, {
 } from "react";
 import { MindProgressBar } from "../../app/studio/_components/mindscore/mind-progress-bar";
 import { useMindScore } from "../../app/studio/_components/mindscore/mind-score-context";
+import {
+  getLevelShadowColors,
+  generateShadowString,
+} from "@/app/studio/_utils/mind-shadow-helpers";
 import MindStatusNotification from "@/components/mind-status-notification";
 import {
   DEFAULT_MIND_DIALOG_TAB,
@@ -85,8 +89,17 @@ function MindDialogHeader() {
     close();
   };
 
+  // Get level-based colors and generate shadow
+  const levelColors = getLevelShadowColors(level);
+  const defaultShadow = generateShadowString(levelColors, false);
+
   return (
-    <div className='mind-area flex-shrink-0 flex flex-col m-1 mb-0 shadow-[inset_0px_0px_30px_-8px_rgba(255,164,102,1),inset_0px_-10px_40px_-7px_rgba(255,167,109,0.5),inset_0px_-35px_80px_-30px_rgba(205,93,19,1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4)] overflow-hidden bg-linear-to-b from-[#110C09] to-[#23170A] dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
+    <div
+      className='mind-area flex-shrink-0 flex flex-col m-1 mb-0 overflow-hidden bg-linear-to-b from-[#110C09] to-[#23170A] dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'
+      style={{
+        boxShadow: defaultShadow.replace(/_/g, " "),
+      }}
+    >
       <div className='absolute top-[3px] left-1/2 -translate-x-1/2 w-full max-w-[400px]'>
         <MindProgressBar
           progressToNextLevel={progressToNextLevel}

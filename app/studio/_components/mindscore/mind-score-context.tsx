@@ -12,11 +12,11 @@ import React, {
 const LEVEL_THRESHOLDS = [
   { name: "Novice", min: 0 },
   { name: "Skilled", min: 200 },
-  { name: "Expert", min: 2000 },
-  { name: "Master", min: 10000 },
-  { name: "Sage", min: 25000 },
-  { name: "Legendary", min: 50000 },
-  { name: "Eternal", min: 200000 },
+  { name: "Expert", min: 1000 },
+  { name: "Master", min: 2000 },
+  { name: "Sage", min: 3000 },
+  { name: "Legendary", min: 4000 },
+  { name: "Eternal", min: 5000 },
 ];
 
 interface MindScoreContextType {

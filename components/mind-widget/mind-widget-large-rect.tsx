@@ -1,4 +1,8 @@
 import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
+import {
+  getLevelShadowColors,
+  generateShadowString,
+} from "@/app/studio/_utils/mind-shadow-helpers";
 import { cn } from "@/lib/utils";
 import { AnalyticsSectionWrapper } from "../analytics/dashboard-ui";
 import { MindDialog, useMindDialog } from "../mind-dialog/mind-dialog";
@@ -23,6 +27,11 @@ function MindScoreTrigger() {
   } = useMindScore();
   const { queueStatus } = useTrainingStatus(false);
 
+  // Get level-based colors
+  const levelColors = getLevelShadowColors(level);
+  const defaultShadow = generateShadowString(levelColors, false);
+  const hoverShadow = generateShadowString(levelColors, true);
+
   return (
     // Mind score wrapper
     <div
@@ -32,12 +41,24 @@ function MindScoreTrigger() {
         // Background & gradients
         "bg-transparent bg-linear-to-b from-[#110C09] to-[#23170A]",
         // Interactive states
-        "hover:from-[black] to-[black] dark:border-white/3 dark:bg-black/40 transition-all duration-200 ease-in",
-        // Shadows (inset glows + border + outer shadow)
-        "shadow-[inset_0px_0px_30px_-8px_rgba(255,164,102,1),inset_0px_-10px_40px_-7px_rgba(255,167,109,0.5),inset_0px_-35px_80px_-30px_rgba(205,93,19,1),inset_0px_1px_1px_1px_rgba(255,255,255,0.1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4)]",
-        // Hover shadow
-        "hover:shadow-[inset_0px_0px_10px_-0px_rgba(255,164,102,1),inset_0px_-10px_30px_-7px_rgba(255,167,109,0.5),inset_0px_-15px_80px_-30px_rgba(205,93,19,1),inset_0px_1px_1px_1px_rgba(255,255,255,0.1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_5px_10px_-5px_rgba(0,0,0,0.4)]"
+        "hover:from-[black] to-[black] dark:border-white/3 dark:bg-black/40 transition-all duration-200 ease-in"
       )}
+      style={
+        {
+          "--shadow-default": defaultShadow.replace(/_/g, " "),
+          "--shadow-hover": hoverShadow.replace(/_/g, " "),
+          boxShadow: "var(--shadow-default)",
+        } as React.CSSProperties & {
+          "--shadow-default": string;
+          "--shadow-hover": string;
+        }
+      }
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = "var(--shadow-hover)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = "var(--shadow-default)";
+      }}
       onClick={() => openWithTab("add-knowledge")}
       role='button'
       tabIndex={0}
