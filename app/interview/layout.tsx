@@ -6,8 +6,6 @@ import {
   InterviewProvider,
   useInterviewContext,
 } from "./_context/interview-context";
-import { MindScoreProvider } from "@/app/studio/_components/mindscore/mind-score-context";
-import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-context";
 import { MindDialog } from "@/components/mind-dialog/mind-dialog";
 
 function InterviewLayoutContent({ children }: { children: React.ReactNode }) {
@@ -32,14 +30,10 @@ export default function InterviewLayout({
   children: React.ReactNode;
 }) {
   return (
-    <MindScoreProvider>
-      <TrainingQueueProvider>
-        <MindDialog>
-          <InterviewProvider>
-            <InterviewLayoutContent>{children}</InterviewLayoutContent>
-          </InterviewProvider>
-        </MindDialog>
-      </TrainingQueueProvider>
-    </MindScoreProvider>
+    <MindDialog>
+      <InterviewProvider>
+        <InterviewLayoutContent>{children}</InterviewLayoutContent>
+      </InterviewProvider>
+    </MindDialog>
   );
 }

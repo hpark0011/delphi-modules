@@ -1,10 +1,7 @@
 "use client";
 
 import { MindProgressBar } from "@/app/studio/_components/mindscore/mind-progress-bar";
-import {
-  MindScoreProvider,
-  useMindScore,
-} from "@/app/studio/_components/mindscore/mind-score-context";
+import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
 import { ActiveTrainingStatus } from "@/app/studio/_components/mindscore/widget/active-training-status";
 import { LastTrainedDate } from "@/app/studio/_components/mindscore/widget/last-trained-date";
 import { TrainingCompletedStatus } from "@/app/studio/_components/mindscore/widget/training-completed-status";
@@ -13,7 +10,6 @@ import {
   MindDialog,
   useMindDialog,
 } from "@/components/mind-dialog/mind-dialog";
-import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-context";
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { cn } from "@/lib/utils";
@@ -176,11 +172,5 @@ function MindScoreContent() {
 }
 
 export function MindWidgetLarge() {
-  return (
-    <MindScoreProvider>
-      <TrainingQueueProvider>
-        <MindScoreContent />
-      </TrainingQueueProvider>
-    </MindScoreProvider>
-  );
+  return <MindScoreContent />;
 }
