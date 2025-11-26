@@ -109,13 +109,13 @@ function MindDialogHeader() {
           lastDecrement={lastDecrement}
         />
       </div>
-      <div className='flex justify-end items-center'>
+      <div className='flex justify-end items-center z-10 relative'>
         <VisuallyHidden>
           <DialogTitle>Mind</DialogTitle>
         </VisuallyHidden>
         <Button
           size='sm'
-          className='h-7.5 relative gap-1 has-[>svg]:pl-0.5 pl-2 rounded-full'
+          className='h-7.5 relative gap-1 has-[>svg]:pl-0.5 pl-2 rounded-full cursor-pointer'
           variant='glossy'
           onClick={onPreviewClick}
         >
