@@ -1,6 +1,5 @@
 "use client";
 
-import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
 import { AnimatePresence, motion } from "framer-motion";
 
 const SPRING_CONFIG = {
@@ -9,9 +8,8 @@ const SPRING_CONFIG = {
   damping: 25,
 };
 
-export function OnboardingMindWidget() {
-  const { currentPage } = useOnboardingNavigation();
-  const isSmall = currentPage >= 1;
+export function OnboardingMindWidget({ currentPage }: { currentPage: number }) {
+  const isSmall = currentPage !== 1;
 
   return (
     <motion.div

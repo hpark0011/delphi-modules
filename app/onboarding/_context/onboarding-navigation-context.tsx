@@ -24,7 +24,7 @@ export function OnboardingNavigationProvider({
   }, []);
 
   const handleNext = useCallback(() => {
-    setCurrentPage((prev) => (prev < 2 ? prev + 1 : prev));
+    setCurrentPage((prev) => (prev < 3 ? prev + 1 : prev));
   }, []);
 
   return (

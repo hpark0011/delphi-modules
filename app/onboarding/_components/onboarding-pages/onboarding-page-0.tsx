@@ -16,12 +16,15 @@ export function OnboardingPage0() {
           </p>
         </div>
 
+        <div className='h-[236px] w-[400px] rounded-2xl bg-light shadow-xl my-8' />
+
         {/* Button */}
         <div className='flex gap-2 items-center justify-center flex-col'>
           <Button
             size='lg'
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
+            onClick={handleNext}
           >
             Continue
           </Button>
