@@ -31,9 +31,11 @@ function MindScoreTrigger() {
         // Background & gradients
         "bg-transparent bg-linear-to-b from-[#110C09] to-[#23170A]",
         // Interactive states
-        "hover:bg-black/5 dark:border-white/3 dark:bg-black/40",
+        "hover:from-[black] to-[black] dark:border-white/3 dark:bg-black/40 transition-all duration-200 ease-in",
         // Shadows (inset glows + border + outer shadow)
-        "shadow-[inset_0px_0px_30px_-8px_rgba(255,164,102,1),inset_0px_-10px_40px_-7px_rgba(255,167,109,0.5),inset_0px_-35px_80px_-30px_rgba(205,93,19,1),inset_0px_1px_1px_1px_rgba(255,255,255,0.1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4)]"
+        "shadow-[inset_0px_0px_30px_-8px_rgba(255,164,102,1),inset_0px_-10px_40px_-7px_rgba(255,167,109,0.5),inset_0px_-35px_80px_-30px_rgba(205,93,19,1),inset_0px_1px_1px_1px_rgba(255,255,255,0.1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4)]",
+        // Hover shadow
+        "hover:shadow-[inset_0px_0px_10px_-0px_rgba(255,164,102,1),inset_0px_-10px_30px_-7px_rgba(255,167,109,0.5),inset_0px_-15px_80px_-30px_rgba(205,93,19,1),inset_0px_1px_1px_1px_rgba(255,255,255,0.1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_5px_10px_-5px_rgba(0,0,0,0.4)]"
       )}
       onClick={() => openWithTab("add-knowledge")}
       role='button'
@@ -52,24 +54,24 @@ function MindScoreTrigger() {
         progressCap={progressCap}
         lastIncrement={lastIncrement}
         lastDecrement={lastDecrement}
-        className='top-[2px]'
+        className='top-[3px]'
       />
 
       {/* Mind Score & Mind Level Container */}
       <div className='flex flex-col gap-2 w-full justify-center items-center relative z-10'>
-        <div className='flex flex-col items-center justify-center h-[160px] text-white gap-0.5'>
+        <div className='flex flex-col items-center justify-center h-[160px] text-white gap-0.5 '>
           {/* Mind Score Value */}
           <p className='font-medium text-center text-6xl tracking-tighter'>
             {current}
           </p>
           {/* Mind Level */}
-          <p className='text-sm font-medium text-center text-white/70'>
+          <p className='text-[15px] font-medium text-center text-white/70'>
             {level}
           </p>
         </div>
 
         {/* Mind Area Inner */}
-        <div className='mind-area-inner studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_2px_1px_rgba(255,255,255,0.2),_0px_0px_1px_1px_rgba(255,255,255,0.1)]' />
+        <div className='mind-area-inner studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_1px_1px_rgba(255,255,255,0.2),_0px_0px_1px_1px_rgba(255,255,255,0.1)]' />
       </div>
     </div>
   );
