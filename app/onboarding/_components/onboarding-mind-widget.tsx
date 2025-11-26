@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
 import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
-import { MiniTrainingStatus } from "@/components/mind-widget/mini-training-status";
+import { AnimatePresence, motion } from "framer-motion";
 
 const SPRING_CONFIG = {
   type: "spring" as const,
