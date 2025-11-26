@@ -63,7 +63,7 @@ export function TrainingCompletedStatus({
             Learning Completed!
           </div>
         </div>
-        <div className='text-xs dark:bg-black text-text-muted flex items-center gap-1 mr-0'>
+        <div className='text-xs text-text-muted flex items-center gap-1 mr-0'>
           {/* Completed items */}
           {completedCount > 0 && (
             <Tooltip>

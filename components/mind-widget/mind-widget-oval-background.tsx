@@ -1,21 +1,7 @@
 "use client";
 
 import { useId } from "react";
-
-// Shadow color definitions for the SVG filter effects
-const SHADOW_COLORS = {
-  // Deep orange/brown shadow (outermost, strongest) - creates depth
-  outerShadow: { r: 205, g: 93, b: 19, a: 1 }, // #CD5D13
-
-  // Medium orange/peach shadow - warm mid-tone
-  midShadow: { r: 255, g: 167, b: 109, a: 0.3 }, // #FFA76D
-
-  // White highlight - adds brightness
-  highlight: { r: 255, g: 255, b: 255, a: 0.3 }, // white
-
-  // Light orange accent - final detail layer
-  accent: { r: 255, g: 121, b: 31, a: 0.15 }, // #FF791F
-} as const;
+import { getLevelSvgShadowColors } from "@/app/studio/_utils/mind-shadow-helpers";
 
 /**
  * Converts RGBA color values to feColorMatrix format
@@ -39,6 +25,7 @@ function rgbaToColorMatrix(r: number, g: number, b: number, a: number): string {
 interface MindWidgetOvalBackgroundProps {
   className?: string;
   style?: React.CSSProperties;
+  level?: string;
   ellipseProps?: {
     cx?: number;
     cy?: number;
@@ -50,6 +37,7 @@ interface MindWidgetOvalBackgroundProps {
 export function MindWidgetOvalBackground({
   className = "",
   style,
+  level = "Skilled",
   ellipseProps = {
     cx: 166,
     cy: 82,
@@ -60,6 +48,9 @@ export function MindWidgetOvalBackground({
   const id = useId();
   const filterId = `filter0_iiii_${id}`;
   const gradientId = `paint0_linear_${id}`;
+  
+  // Get level-based shadow colors
+  const shadowColors = getLevelSvgShadowColors(level);
 
   return (
     <svg
@@ -122,14 +113,14 @@ export function MindWidgetOvalBackground({
           <feOffset dy='-20' />
           <feGaussianBlur stdDeviation='30' />
           <feComposite in2='hardAlpha' operator='arithmetic' k2='-1' k3='1' />
-          {/* Shadow Layer 1: Deep orange/brown outer glow - creates depth */}
+          {/* Shadow Layer 1: Deep outer glow - creates depth */}
           <feColorMatrix
             type='matrix'
             values={rgbaToColorMatrix(
-              SHADOW_COLORS.outerShadow.r,
-              SHADOW_COLORS.outerShadow.g,
-              SHADOW_COLORS.outerShadow.b,
-              SHADOW_COLORS.outerShadow.a
+              shadowColors.outerShadow.r,
+              shadowColors.outerShadow.g,
+              shadowColors.outerShadow.b,
+              shadowColors.outerShadow.a
             )}
           />
           <feBlend
@@ -152,14 +143,14 @@ export function MindWidgetOvalBackground({
           <feOffset dy='-10' />
           <feGaussianBlur stdDeviation='10' />
           <feComposite in2='hardAlpha' operator='arithmetic' k2='-1' k3='1' />
-          {/* Shadow Layer 2: Medium orange/peach - warm mid-tone */}
+          {/* Shadow Layer 2: Medium mid-tone */}
           <feColorMatrix
             type='matrix'
             values={rgbaToColorMatrix(
-              SHADOW_COLORS.midShadow.r,
-              SHADOW_COLORS.midShadow.g,
-              SHADOW_COLORS.midShadow.b,
-              SHADOW_COLORS.midShadow.a
+              shadowColors.midShadow.r,
+              shadowColors.midShadow.g,
+              shadowColors.midShadow.b,
+              shadowColors.midShadow.a
             )}
           />
           <feBlend
@@ -186,10 +177,10 @@ export function MindWidgetOvalBackground({
           <feColorMatrix
             type='matrix'
             values={rgbaToColorMatrix(
-              SHADOW_COLORS.highlight.r,
-              SHADOW_COLORS.highlight.g,
-              SHADOW_COLORS.highlight.b,
-              SHADOW_COLORS.highlight.a
+              shadowColors.highlight.r,
+              shadowColors.highlight.g,
+              shadowColors.highlight.b,
+              shadowColors.highlight.a
             )}
           />
           <feBlend
@@ -212,14 +203,14 @@ export function MindWidgetOvalBackground({
           <feOffset dy='-2' />
           <feGaussianBlur stdDeviation='3' />
           <feComposite in2='hardAlpha' operator='arithmetic' k2='-1' k3='1' />
-          {/* Shadow Layer 4: Light orange accent - final detail */}
+          {/* Shadow Layer 4: Light accent - final detail */}
           <feColorMatrix
             type='matrix'
             values={rgbaToColorMatrix(
-              SHADOW_COLORS.accent.r,
-              SHADOW_COLORS.accent.g,
-              SHADOW_COLORS.accent.b,
-              SHADOW_COLORS.accent.a
+              shadowColors.accent.r,
+              shadowColors.accent.g,
+              shadowColors.accent.b,
+              shadowColors.accent.a
             )}
           />
           <feBlend

@@ -44,7 +44,7 @@ function MindScoreTrigger() {
     >
       {/* SVG Background */}
       <div className='absolute top-0 left-0 w-full h-full group-hover:scale-103 transition-all duration-100 ease-in'>
-        <MindWidgetOvalBackground />
+        <MindWidgetOvalBackground level={level} />
       </div>
 
       {/* Progress Bar */}

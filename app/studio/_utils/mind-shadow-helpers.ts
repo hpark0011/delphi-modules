@@ -73,3 +73,69 @@ export function generateShadowString(
   }
   return `inset_0px_0px_30px_-8px_${colors.light},inset_0px_-10px_40px_-7px_${colors.medium},inset_0px_-35px_80px_-30px_${colors.dark},inset_0px_1px_1px_1px_rgba(255,255,255,0.1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4)`;
 }
+
+/**
+ * Parses rgba() string to extract RGB and alpha values
+ */
+function parseRgba(rgbaString: string): { r: number; g: number; b: number; a: number } {
+  const match = rgbaString.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+  if (!match) {
+    throw new Error(`Invalid rgba string: ${rgbaString}`);
+  }
+  return {
+    r: parseInt(match[1], 10),
+    g: parseInt(match[2], 10),
+    b: parseInt(match[3], 10),
+    a: match[4] ? parseFloat(match[4]) : 1,
+  };
+}
+
+export interface SvgShadowColors {
+  outerShadow: { r: number; g: number; b: number; a: number };
+  midShadow: { r: number; g: number; b: number; a: number };
+  highlight: { r: number; g: number; b: number; a: number };
+  accent: { r: number; g: number; b: number; a: number };
+}
+
+/**
+ * Maps mind level to SVG shadow colors (RGB format for SVG filters)
+ */
+export function getLevelSvgShadowColors(level: string): SvgShadowColors {
+  const colors = getLevelShadowColors(level);
+  
+  // Parse rgba strings to RGB values
+  const darkRgba = parseRgba(colors.dark);
+  const mediumRgba = parseRgba(colors.medium);
+  const lightRgba = parseRgba(colors.light);
+  
+  return {
+    // outerShadow: dark color (alpha 1.0)
+    outerShadow: {
+      r: darkRgba.r,
+      g: darkRgba.g,
+      b: darkRgba.b,
+      a: 1.0,
+    },
+    // midShadow: medium color (alpha 0.3)
+    midShadow: {
+      r: mediumRgba.r,
+      g: mediumRgba.g,
+      b: mediumRgba.b,
+      a: 0.3,
+    },
+    // highlight: white (stays white for all levels)
+    highlight: {
+      r: 255,
+      g: 255,
+      b: 255,
+      a: 0.3,
+    },
+    // accent: light color (alpha 0.15)
+    accent: {
+      r: lightRgba.r,
+      g: lightRgba.g,
+      b: lightRgba.b,
+      a: 0.15,
+    },
+  };
+}
