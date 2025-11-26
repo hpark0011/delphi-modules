@@ -324,3 +324,21 @@
   -webkit-mask-position: center;
   filter: drop-shadow(0 0 4px #0083ef) drop-shadow(0 0 8px #0083ef);
 }
+
+.mind-area {
+  corner-shape: superellipse(1.2);
+  border-radius: 16px 16px 40px 40px;
+}
+
+.mind-area.studio {
+  border-radius: 21px 21px 36px 36px;
+}
+
+.mind-area-inner {
+  corner-shape: superellipse(1.2);
+  border-radius: 14px 14px 38px 38px;
+}
+
+.mind-area-inner.studio {
+  border-radius: 19px 19px 34px 34px;
+}

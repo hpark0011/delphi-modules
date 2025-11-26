@@ -56,7 +56,7 @@ export function MindWidgetDome({
         />
       </g>
       <defs>
-        {/* <filter
+        <filter
           id='filter0_dddddd_2282_4102'
           x='0'
           y='0'
@@ -174,7 +174,7 @@ export function MindWidgetDome({
             in2='effect6_dropShadow_2282_4102'
             result='shape'
           />
-        </filter> */}
+        </filter>
         <linearGradient
           id='paint0_linear_2282_4102'
           x1='507'

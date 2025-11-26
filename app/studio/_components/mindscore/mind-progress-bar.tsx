@@ -9,6 +9,7 @@ interface MindProgressBarProps {
   lastIncrement: number | null;
   lastDecrement: number | null;
   className?: string;
+  accentColor?: string;
 }
 
 export function MindProgressBar({
@@ -18,6 +19,7 @@ export function MindProgressBar({
   lastIncrement,
   lastDecrement,
   className = "",
+  accentColor = "bg-white/90",
 }: MindProgressBarProps) {
   const percentage =
     progressCap > 0
@@ -31,7 +33,7 @@ export function MindProgressBar({
       {/* Gauge */}
       <div className='w-[calc(100%-32px)] bg-white/20 rounded-b-[10px] h-[5px]'>
         <div
-          className='bg-blue-500/90 rounded-b-[10px] h-[5px] transition-all'
+          className={`${accentColor} rounded-b-[10px] h-[5px] transition-all`}
           style={{ width: `${percentage}%` }}
         />
       </div>

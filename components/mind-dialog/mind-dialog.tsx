@@ -86,8 +86,8 @@ function MindDialogHeader() {
   };
 
   return (
-    <div className='flex-shrink-0 flex flex-col rounded-[16px] m-1 mb-0 shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87  dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
-      <div className='absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[400px]'>
+    <div className='mind-area flex-shrink-0 flex flex-col m-1 mb-0 shadow-[inset_0px_0px_30px_-8px_rgba(255,164,102,1),inset_0px_-10px_40px_-7px_rgba(255,167,109,0.5),inset_0px_-35px_80px_-30px_rgba(205,93,19,1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4)] overflow-hidden bg-linear-to-b from-[#110C09] to-[#23170A] dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'>
+      <div className='absolute top-[2px] left-1/2 -translate-x-1/2 w-full max-w-[400px]'>
         <MindProgressBar
           progressToNextLevel={progressToNextLevel}
           nextLevelThreshold={nextLevelThreshold}
@@ -121,7 +121,7 @@ function MindDialogHeader() {
         </div>
       </div>
 
-      <div className='flex justify-center'>
+      <div className='flex justify-center relative z-10'>
         <TabsList className='gap-0.5'>
           {MIND_DIALOG_TABS.map((tab) => {
             // Dynamic config for training-status tab when items are being processed
@@ -165,6 +165,9 @@ function MindDialogHeader() {
           })}
         </TabsList>
       </div>
+
+      {/* Mind Area Inner */}
+      <div className='mind-area-inner absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_3px_1px_rgba(255,255,255,0.25),_0px_0px_1px_1px_rgba(255,255,255,0.1)]' />
     </div>
   );
 }

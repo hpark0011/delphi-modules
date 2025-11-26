@@ -51,15 +51,17 @@ function MindScoreTrigger() {
         progressCap={progressCap}
         lastIncrement={lastIncrement}
         lastDecrement={lastDecrement}
+        className='top-[2px]'
       />
 
-      {/* Mind Score Value */}
+      {/* Mind Score & Mind Level Container */}
       <div className='flex flex-col gap-2 w-full justify-center items-center relative z-10'>
         <div className='flex flex-col items-center justify-center h-[160px] text-white gap-0.5'>
           {/* Mind Score Value */}
           <p className='font-medium text-center text-6xl tracking-tighter'>
             {current}
           </p>
+          {/* Mind Level */}
           <p className='text-sm font-medium text-center text-white/70'>
             {level}
           </p>
@@ -154,7 +156,7 @@ function MindScoreContent() {
   return (
     <AnalyticsSectionWrapper
       className={cn(
-        "w-full p-0.5 rounded-[20px] flex flex-col items-center bg-linear-to-b from-black/5 to-black/2 "
+        "w-full p-0.5 rounded-[20px] flex flex-col items-center bg-linear-to-b from-black/5 to-black/2 cursor-default bg-amber-50/12 backdrop-blur-[20px] overflow-hidden transition-all duration-200 text-left opacity-100 hover:bg-amber-50/18 shadow-[0_1px_0.908px_0_rgba(255,255,255,0.15)_inset,0_-1px_0.908px_0_rgba(255,255,255,0.05)_inset]"
       )}
     >
       <MindDialog defaultTab='training-status'>

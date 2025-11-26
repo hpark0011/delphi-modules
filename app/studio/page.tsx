@@ -95,8 +95,11 @@ export default function AnalyticsPage() {
         </div>
 
         <div className='flex flex-col space-y-2 w-full max-w-[360px]'>
+          {/*  */}
+          <MindWidgetLargeRect />
+
           {/* Mind Score Card */}
-          <MindWidgetLarge />
+          {/* <MindWidgetLarge /> */}
 
           {/* Analytics Section */}
           <HomeAnalytics engagements={engagements} />

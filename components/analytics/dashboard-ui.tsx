@@ -24,9 +24,11 @@ export const Divider = ({ className }: { className?: string }) => {
 export const AnalyticsSectionWrapper = ({
   children,
   className,
+  style,
 }: {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }) => {
   return (
     <div
@@ -34,6 +36,7 @@ export const AnalyticsSectionWrapper = ({
         "bg-[#F6F6F5] dark:bg-[#111110] rounded-[28px] p-1",
         className
       )}
+      style={style}
     >
       {children}
     </div>
