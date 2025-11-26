@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
 
 export function OnboardingPage0() {
+  const { handleNext } = useOnboardingNavigation();
+
   return (
     <div className='flex flex-col items-center justify-center h-full'>
       {" "}
@@ -14,20 +17,20 @@ export function OnboardingPage0() {
         </div>
 
         {/* Button */}
-        <div className='flex gap-2 items-center justify-center'>
-          <Button
-            size='lg'
-            className='w-full rounded-full max-w-[348px]'
-            variant='secondary'
-          >
-            Don't add
-          </Button>
+        <div className='flex gap-2 items-center justify-center flex-col'>
           <Button
             size='lg'
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
           >
-            Add this
+            Continue
+          </Button>
+          <Button
+            size='sm'
+            variant='ghost'
+            className='hover:bg-transparent  hover:text-text-muted'
+          >
+            Not you? Search again
           </Button>
         </div>
       </div>
