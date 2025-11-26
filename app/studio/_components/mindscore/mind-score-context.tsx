@@ -22,6 +22,8 @@ const LEVEL_THRESHOLDS = [
 interface MindScoreContextType {
   current: number;
   level: string;
+  previousLevel: string | null;
+  hasLevelChanged: boolean;
   progressToNextLevel: number;
   nextLevelThreshold: number;
   progressCap: number;
@@ -29,6 +31,7 @@ interface MindScoreContextType {
   lastDecrement: number | null;
   incrementScore: (points: number) => void;
   decrementScore: (points: number) => void;
+  acknowledgeLevelChange: () => void;
 }
 
 const MindScoreContext = createContext<MindScoreContextType | null>(null);
@@ -88,6 +91,8 @@ export function MindScoreProvider({
   const [current, setCurrent] = useState(initialScore);
   const [lastIncrement, setLastIncrement] = useState<number | null>(null);
   const [lastDecrement, setLastDecrement] = useState<number | null>(null);
+  const [previousLevel, setPreviousLevel] = useState<string | null>(null);
+  const [hasLevelChanged, setHasLevelChanged] = useState(false);
 
   const incrementScore = useCallback((points: number) => {
     setCurrent((prev) => prev + points);
@@ -130,10 +135,31 @@ export function MindScoreProvider({
   );
   const progressCap = useMemo(() => getProgressCap(current), [current]);
 
+  // Detect level changes
+  useEffect(() => {
+    if (previousLevel === null) {
+      // Initial mount - set previous level but don't trigger change
+      setPreviousLevel(level);
+      return;
+    }
+
+    if (previousLevel !== level) {
+      // Level has changed
+      setHasLevelChanged(true);
+      setPreviousLevel(level);
+    }
+  }, [level, previousLevel]);
+
+  const acknowledgeLevelChange = useCallback(() => {
+    setHasLevelChanged(false);
+  }, []);
+
   const value = useMemo(
     () => ({
       current,
       level,
+      previousLevel,
+      hasLevelChanged,
       progressToNextLevel,
       nextLevelThreshold,
       progressCap,
@@ -141,10 +167,13 @@ export function MindScoreProvider({
       lastDecrement,
       incrementScore,
       decrementScore,
+      acknowledgeLevelChange,
     }),
     [
       current,
       level,
+      previousLevel,
+      hasLevelChanged,
       progressToNextLevel,
       nextLevelThreshold,
       progressCap,
@@ -152,6 +181,7 @@ export function MindScoreProvider({
       lastDecrement,
       incrementScore,
       decrementScore,
+      acknowledgeLevelChange,
     ]
   );
 
