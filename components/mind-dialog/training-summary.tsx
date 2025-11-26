@@ -27,7 +27,7 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
 
   return (
     <div className='flex flex-col gap-3 mt-4'>
-      <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
+      <div className='text-[14px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
         <Icon
           name='SquareTextSquareFillIcon'
           className='size-4.5 text-icon-light'
@@ -37,7 +37,7 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
       <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3.5 pb-4 mb-4'>
         <div className='flex flex-col gap-2 px-3 mb-0'>
           <div className='flex flex-col gap-2 mb-5'>
-            <h1 className='text-start  text-text-primary px-1 text-sm'>
+            <h1 className='text-start  text-text-primary px-1 text-[15px]'>
               Here is what happend from your last training at{" "}
               <span className='font-semibold'>Nov 17, 2025</span>:
             </h1>
@@ -83,16 +83,16 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
               </div>
             </div>
           </div>
-          <h1 className='text-start  text-text-primary px-1 text-sm'>
+          <h1 className='text-start  text-text-primary px-1 text-[15px]'>
             Your mind can now answer 5 new questions!
           </h1>
           <div className='flex flex-wrap gap-1'>
             {questions.map((question) => (
               <div
                 key={question}
-                className='px-2 py-1 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'
+                className='px-2.5 py-1.5 bg-extra-light dark:bg-[#2C2C2A] rounded-lg text-text-secondary shadow-xs w-fit cursor-pointer opacity-100 hover:opacity-80 hover:bg-white hover:translate-y-[-1px] transition-all duration-100 ease-in'
               >
-                &quot;{question}&quot;
+                {question}
               </div>
             ))}
           </div>

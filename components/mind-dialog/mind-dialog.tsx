@@ -95,7 +95,7 @@ function MindDialogHeader() {
 
   return (
     <div
-      className='mind-area flex-shrink-0 flex flex-col m-1 mb-0 overflow-hidden bg-linear-to-b from-[#110C09] to-[#23170A] dark:border-white/3 dark:bg-black/40 p-2 pb-1 relative'
+      className='mind-area flex-shrink-0 flex flex-col m-1 mb-0 overflow-hidden bg-black dark:border-white/3 p-2 pb-1 relative'
       style={{
         boxShadow: defaultShadow.replace(/_/g, " "),
       }}
@@ -129,7 +129,7 @@ function MindDialogHeader() {
           {/* Mind Score */}
           {current}
         </div>
-        <div className='text-sm text-text-muted w-full text-center'>
+        <div className='text-[15px] font-medium text-center text-white/70'>
           {level}
         </div>
       </div>
@@ -152,7 +152,7 @@ function MindDialogHeader() {
                 key={tab.id}
                 value={tab.id}
                 className={cn(
-                  "text-[13px] h-7 rounded-md px-2 tracking-tight text-text-tertiary-inverse hover:bg-white/10 data-[state=active]:bg-white/10 data-[state=active]:text-white gap-1 pl-1.5",
+                  "text-[13px] h-7 rounded-md px-2 tracking-tight text-text-tertiary-inverse dark:text-white/60 hover:bg-white/10 dark:hover:bg-white/10 data-[state=active]:bg-white/10 dark:data-[state=active]:bg-white/10 data-[state=active]:text-white gap-1 pl-1.5",
                   isActiveTraining && "gap-0.5"
                 )}
               >
