@@ -21,13 +21,14 @@ function MindScoreTrigger() {
     lastIncrement,
     lastDecrement,
   } = useMindScore();
+  const { queueStatus } = useTrainingStatus(false);
 
   return (
     // Mind score wrapper
     <div
       className={cn(
         // Layout & positioning
-        "mind-area studio w-full flex flex-col gap-2 relative cursor-pointer overflow-hidden",
+        "mind-area studio w-full flex flex-col gap-2 relative cursor-pointer overflow-hidden group",
         // Background & gradients
         "bg-transparent bg-linear-to-b from-[#110C09] to-[#23170A]",
         // Interactive states
@@ -54,7 +55,12 @@ function MindScoreTrigger() {
         progressCap={progressCap}
         lastIncrement={lastIncrement}
         lastDecrement={lastDecrement}
-        className='top-[3px]'
+        className={cn(
+          "top-[3px] transition-all duration-100 ease-in",
+          queueStatus === "active"
+            ? "opacity-100"
+            : "opacity-0 group-hover:opacity-100"
+        )}
       />
 
       {/* Mind Score & Mind Level Container */}
