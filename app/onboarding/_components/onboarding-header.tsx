@@ -7,7 +7,7 @@ import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-na
 import { OnboardingMindWidget } from "./onboarding-mind-widget";
 
 export function OnboardingHeader() {
-  const { handlePrevious, currentPage } = useOnboardingNavigation();
+  const { handlePrevious, currentPage, mindScore } = useOnboardingNavigation();
 
   return (
     <header className='bg-gradient-to-b from-background via-background/80 to-transparent absolute top-0 left-0 right-0 z-10'>
@@ -22,7 +22,7 @@ export function OnboardingHeader() {
         </Button>
 
         {/* Desktop: Show "Interview" title */}
-        <OnboardingMindWidget currentPage={currentPage} />
+        <OnboardingMindWidget currentPage={currentPage} mindScore={mindScore} />
         {/* <MindWidgetSmall /> */}
         {/* <h1 className='text-sm font-medium hidden md:block'>Interview</h1> */}
       </div>

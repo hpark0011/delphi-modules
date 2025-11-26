@@ -4,8 +4,10 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 
 interface OnboardingNavigationContextType {
   currentPage: number;
+  mindScore: number;
   handlePrevious: () => void;
   handleNext: () => void;
+  addMindScore: (points: number) => void;
 }
 
 const OnboardingNavigationContext = createContext<
@@ -18,6 +20,7 @@ export function OnboardingNavigationProvider({
   children: React.ReactNode;
 }) {
   const [currentPage, setCurrentPage] = useState(0);
+  const [mindScore, setMindScore] = useState(0);
 
   const handlePrevious = useCallback(() => {
     setCurrentPage((prev) => (prev > 0 ? prev - 1 : prev));
@@ -27,9 +30,19 @@ export function OnboardingNavigationProvider({
     setCurrentPage((prev) => (prev < 3 ? prev + 1 : prev));
   }, []);
 
+  const addMindScore = useCallback((points: number) => {
+    setMindScore((prev) => prev + points);
+  }, []);
+
   return (
     <OnboardingNavigationContext.Provider
-      value={{ currentPage, handlePrevious, handleNext }}
+      value={{
+        currentPage,
+        mindScore,
+        handlePrevious,
+        handleNext,
+        addMindScore,
+      }}
     >
       {children}
     </OnboardingNavigationContext.Provider>

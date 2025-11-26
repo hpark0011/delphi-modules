@@ -19,8 +19,13 @@ const options = [
 ];
 
 export function OnboardingPage3() {
-  const { handleNext } = useOnboardingNavigation();
+  const { handleNext, addMindScore } = useOnboardingNavigation();
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
+  const handleContinue = () => {
+    addMindScore(5);
+    handleNext();
+  };
 
   const toggleOption = (option: string) => {
     setSelectedOptions((prev) => {
@@ -77,7 +82,7 @@ export function OnboardingPage3() {
             size='lg'
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
-            onClick={handleNext}
+            onClick={handleContinue}
           >
             Continue
           </Button>

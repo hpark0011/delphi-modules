@@ -3,7 +3,12 @@ import { useOnboardingNavigation } from "../../_context/onboarding-navigation-co
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 
 export function OnboardingPage2() {
-  const { handleNext } = useOnboardingNavigation();
+  const { handleNext, addMindScore } = useOnboardingNavigation();
+
+  const handleAddThis = () => {
+    addMindScore(5);
+    handleNext();
+  };
 
   return (
     <div className='flex flex-col items-center justify-center h-full'>
@@ -31,7 +36,7 @@ export function OnboardingPage2() {
             size='lg'
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
-            onClick={handleNext}
+            onClick={handleAddThis}
           >
             Add this
           </Button>
