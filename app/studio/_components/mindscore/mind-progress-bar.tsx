@@ -31,7 +31,7 @@ export function MindProgressBar({
       {/* Gauge */}
       <div className='w-[calc(100%-32px)] bg-white/20 rounded-b-[10px] h-[5px]'>
         <div
-          className='bg-white/80 rounded-b-[10px] h-[5px] transition-all'
+          className='bg-blue-500/90 rounded-b-[10px] h-[5px] transition-all'
           style={{ width: `${percentage}%` }}
         />
       </div>

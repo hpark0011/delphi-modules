@@ -1,23 +1,24 @@
 "use client";
 
-import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
-import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
-import { useTrainingStatus } from "@/hooks/use-training-status";
-import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import {
-  MindDialog,
-  useMindDialog,
-} from "@/components/mind-dialog/mind-dialog";
 import { MindProgressBar } from "@/app/studio/_components/mindscore/mind-progress-bar";
 import {
   MindScoreProvider,
   useMindScore,
 } from "@/app/studio/_components/mindscore/mind-score-context";
-import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-context";
 import { ActiveTrainingStatus } from "@/app/studio/_components/mindscore/widget/active-training-status";
 import { LastTrainedDate } from "@/app/studio/_components/mindscore/widget/last-trained-date";
 import { TrainingCompletedStatus } from "@/app/studio/_components/mindscore/widget/training-completed-status";
+import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
+import {
+  MindDialog,
+  useMindDialog,
+} from "@/components/mind-dialog/mind-dialog";
+import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-context";
+import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { MindWidgetOvalBackground } from "./mind-widget-oval-background";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
@@ -33,7 +34,7 @@ function MindScoreTrigger() {
 
   return (
     <div
-      className='w-full flex flex-col gap-2 relative cursor-pointer rounded-[18px] shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40'
+      className='w-full flex flex-col gap-2 relative cursor-pointer rounded-[18px]  overflow-hidden bg-transparent hover:bg-black/5 dark:border-white/3 dark:bg-black/40'
       onClick={() => openWithTab("add-knowledge")}
       role='button'
       tabIndex={0}
@@ -44,6 +45,9 @@ function MindScoreTrigger() {
         }
       }}
     >
+      {/* SVG Background */}
+      <MindWidgetOvalBackground />
+
       {/* Progress Bar */}
       <MindProgressBar
         progressToNextLevel={progressToNextLevel}
@@ -60,7 +64,7 @@ function MindScoreTrigger() {
           <p className='font-medium text-center text-6xl tracking-tighter'>
             {current}
           </p>
-          <p className='text-sm font-medium text-center text-text-muted'>
+          <p className='text-sm font-medium text-center text-white/70'>
             {level}
           </p>
         </div>
@@ -153,7 +157,9 @@ function MindScoreContent() {
 
   return (
     <AnalyticsSectionWrapper
-      className={cn("w-full p-0.5 rounded-[20px] flex flex-col items-center")}
+      className={cn(
+        "w-full p-0.5 rounded-[20px] flex flex-col items-center bg-linear-to-b from-black/5 to-black/2 "
+      )}
     >
       <MindDialog defaultTab='training-status'>
         <MindScoreTrigger />
