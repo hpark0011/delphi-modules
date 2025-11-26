@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
 
 export function OnboardingPage2() {
+  const { handleNext } = useOnboardingNavigation();
+
   return (
     <div className='flex flex-col items-center justify-center h-full'>
       <div className='flex flex-col items-center justify-center gap-8'>
@@ -25,6 +28,7 @@ export function OnboardingPage2() {
             size='lg'
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
+            onClick={handleNext}
           >
             Add this
           </Button>

@@ -22,6 +22,8 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-base hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        glossyWhite:
+          "shadow-[inset_0_2px_1px_0px_rgba(255,255,255,1),inset_0_-1px_1px_0px_rgba(255,255,255,1)]",
         glossy:
           "bg-blue-500 shadow-[inset_0_-1px_1px_0px_rgba(255,255,255,0.2),inset_0_1px_1px_0px_rgba(255,255,255,0.2),_0px_16px_32px_-8px_rgba(0,199,255,0.3),_0px_8px_8px_0px_rgba(0,0,0,0.1),_0px_4px_4px_0px_rgba(0,0,0,0.1),_0px_2px_2px_0px_rgba(0,0,0,0.1),_0px_1px_1px_0px_rgba(0,0,0,0.1)] hover:bg-blue-600 text-white",
       },
