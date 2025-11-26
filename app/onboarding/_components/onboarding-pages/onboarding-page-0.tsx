@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
+import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 
 export function OnboardingPage0() {
   const { handleNext } = useOnboardingNavigation();
@@ -35,6 +36,10 @@ export function OnboardingPage0() {
           >
             Not you? Search again
           </Button>
+        </div>
+
+        <div className='mt-8 flex items-center justify-center '>
+          <OnboardingPrivacyStatement />
         </div>
       </div>
     </div>

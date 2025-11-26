@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
+import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 
 export function OnboardingPage2() {
   const { handleNext } = useOnboardingNavigation();
@@ -14,6 +15,8 @@ export function OnboardingPage2() {
             Train your digital mind with this account.
           </p>
         </div>
+
+        <div className='h-[236px] w-[400px] rounded-2xl bg-light shadow-xl my-8' />
 
         {/* Button */}
         <div className='flex gap-2 items-center justify-center'>
@@ -32,6 +35,10 @@ export function OnboardingPage2() {
           >
             Add this
           </Button>
+        </div>
+
+        <div className='mt-8 flex items-center justify-center '>
+          <OnboardingPrivacyStatement />
         </div>
       </div>
     </div>

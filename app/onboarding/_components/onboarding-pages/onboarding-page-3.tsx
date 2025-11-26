@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
-import { LockIcon } from "@/delphi-ui/icons/Lock";
+import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 
 const options = [
   "Help My Team",
@@ -81,14 +81,10 @@ export function OnboardingPage3() {
           >
             Continue
           </Button>
+        </div>
 
-          {/* Privacy statement */}
-          <div className='flex items-center gap-1.5 text-text-muted text-sm mt-2'>
-            <LockIcon className='size-3.5' />
-            <span className='text-[13px]'>
-              Your Delphi is private until you share
-            </span>
-          </div>
+        <div className='mt-8 flex items-center justify-center '>
+          <OnboardingPrivacyStatement />
         </div>
       </div>
     </div>
