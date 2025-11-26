@@ -371,7 +371,7 @@ export function TrainingStatusTab() {
       {/* Data Table grouped by date */}
       <div className='flex flex-col gap-2'>
         <div className='flex gap-4 items-center justify-between mb-1'>
-          <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
+          <div className='text-[14px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center gap-0.5 tracking-tight'>
             <Icon name='ClockFillIcon' className='size-4.5 text-icon-light' />
             Training History
           </div>
@@ -385,7 +385,7 @@ export function TrainingStatusTab() {
             >
               <SelectTrigger
                 size='sm'
-                className='data-[size=sm]:h-6 bg-transparent px-2 text-[12px] w-fit rounded-sm hover:bg-base gap-1.5'
+                className='data-[size=sm]:h-6 bg-transparent px-2 text-[13px] w-fit rounded-sm hover:bg-base gap-1.5'
               >
                 <div className='flex items-center gap-2 pb-[1px]'>
                   <SelectValue />

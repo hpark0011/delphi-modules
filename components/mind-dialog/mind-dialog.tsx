@@ -115,12 +115,12 @@ function MindDialogHeader() {
         </VisuallyHidden>
         <Button
           size='sm'
-          className='h-7 relative pr-2.5 gap-1'
+          className='h-7.5 relative gap-1 has-[>svg]:pl-0.5 pl-2 rounded-full'
           variant='glossy'
           onClick={onPreviewClick}
         >
-          <span>Preview</span>
           <MindStatusNotification status={queueStatus} />
+          <span>Preview</span>
         </Button>
       </div>
 
