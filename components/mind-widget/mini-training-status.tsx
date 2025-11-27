@@ -9,6 +9,7 @@ import { useTrainingStatus } from "@/hooks/use-training-status";
 import { getDocTypeIcon } from "@/utils/doc-type-helpers";
 import { AnimatePresence, motion, type Transition } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { TrainingResultBadges } from "./training-result-badges";
 
 type BadgeState = "loading" | "newItem" | "finished";
 
@@ -24,13 +25,11 @@ function StatusIcon({
   state,
   docType,
 }: {
-  state: BadgeState;
+  state: "loading" | "newItem";
   docType?: TrainingDocType;
 }) {
   return (
-    <span
-      className={`relative flex items-center justify-center ${state === "finished" ? "size-5" : "size-4"}`}
-    >
+    <span className='relative flex items-center justify-center size-4'>
       <AnimatePresence mode='sync'>
         <motion.span
           key={state}
@@ -47,12 +46,6 @@ function StatusIcon({
               className='size-4'
             />
           )}
-          {state === "finished" && (
-            <Icon
-              name='CheckedCircleFillIcon'
-              className='size-5 text-[#09CE6B]'
-            />
-          )}
         </motion.span>
       </AnimatePresence>
     </span>
@@ -60,7 +53,7 @@ function StatusIcon({
 }
 
 interface StatusLabelProps {
-  state: BadgeState;
+  state: "loading" | "newItem";
   activeCount: number;
   newItemName: string;
 }
@@ -70,11 +63,7 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
   const measureRef = useRef<HTMLDivElement>(null);
 
   const labelText =
-    state === "loading"
-      ? `Learning ${activeCount} Items`
-      : state === "newItem"
-        ? newItemName
-        : "Completed!";
+    state === "loading" ? `Learning ${activeCount} Items` : newItemName;
 
   const isNewItem = state === "newItem";
 
@@ -141,6 +130,12 @@ export function MiniTrainingStatus() {
   // (hasUserReviewed = false) to show "finished" state when appropriate
   const { activeCount, queueStatus } = useTrainingStatus(false);
 
+  // Calculate completed and failed counts from queue
+  const completedCount = queue.filter(
+    (item) => item.status === "completed"
+  ).length;
+  const failedCount = queue.filter((item) => item.status === "failed").length;
+
   // When the training queue is actively processing, show loading spinner.
   // Otherwise (empty, paused, or done), show completed state.
   const baseState = queueStatus === "active" ? "loading" : "finished";
@@ -198,19 +193,31 @@ export function MiniTrainingStatus() {
 
   return (
     <motion.div
-      className={`flex items-center ${displayState === "finished" ? "gap-0.5" : "gap-1"} text-text-muted cursor-pointer hover:text-blue-500`}
+      className='flex items-center gap-1 text-text-muted cursor-pointer hover:text-blue-500'
       initial={{ opacity: 0, x: -8 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -8 }}
       transition={SPRING_CONFIG}
       onClick={handleClick}
     >
-      <StatusIcon state={displayState} docType={newItemOverride?.docType} />
-      <StatusLabel
-        state={displayState}
-        activeCount={activeCount}
-        newItemName={newItemOverride?.name ?? ""}
-      />
+      {displayState === "finished" ? (
+        <div className='flex items-center gap-1.5'>
+          <span className='text-[13px] font-medium'>Completed!</span>
+          <TrainingResultBadges
+            completedCount={completedCount}
+            failedCount={failedCount}
+          />
+        </div>
+      ) : (
+        <>
+          <StatusIcon state={displayState} docType={newItemOverride?.docType} />
+          <StatusLabel
+            state={displayState}
+            activeCount={activeCount}
+            newItemName={newItemOverride?.name ?? ""}
+          />
+        </>
+      )}
     </motion.div>
   );
 }
