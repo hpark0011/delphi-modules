@@ -1,14 +1,48 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
+import { LoadingCircleIcon } from "@/delphi-ui/icons/LoadingCircle";
+import { useEffect, useState } from "react";
 
 export function OnboardingPage0() {
-  const { handleNext, addMindScore } = useOnboardingNavigation();
+  const { handleNext, addMindScore, setAnimationState } =
+    useOnboardingNavigation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleContinue = () => {
-    addMindScore(10);
-    handleNext();
+    setIsLoading(true);
+    setAnimationState("training");
   };
+
+  useEffect(() => {
+    if (!isLoading) return;
+
+    // Step 1: Show training status for 2 seconds
+    const trainingTimeout = setTimeout(() => {
+      setAnimationState("showing-plus");
+    }, 2000);
+
+    // Step 2: Show +10 for 1.5 seconds
+    const plusTimeout = setTimeout(() => {
+      setAnimationState("showing-score");
+      addMindScore(10);
+    }, 3500); // 2000 + 1500
+
+    // Step 3: Show score 10 for 1 second, then navigate
+    const scoreTimeout = setTimeout(() => {
+      handleNext();
+      setIsLoading(false);
+      setAnimationState("idle");
+    }, 4500); // 2000 + 1500 + 1000
+
+    return () => {
+      clearTimeout(trainingTimeout);
+      clearTimeout(plusTimeout);
+      clearTimeout(scoreTimeout);
+    };
+  }, [isLoading, setAnimationState, addMindScore, handleNext]);
 
   return (
     <div className='flex flex-col items-center justify-center h-full'>
@@ -31,8 +65,13 @@ export function OnboardingPage0() {
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
             onClick={handleContinue}
+            disabled={isLoading}
           >
-            Continue
+            {isLoading ? (
+              <LoadingCircleIcon className='size-5 animate-spin' />
+            ) : (
+              "Continue"
+            )}
           </Button>
           <Button
             size='sm'

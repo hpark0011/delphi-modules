@@ -2,12 +2,20 @@
 
 import React, { createContext, useContext, useState, useCallback } from "react";
 
+export type AnimationState =
+  | "idle"
+  | "training"
+  | "showing-plus"
+  | "showing-score";
+
 interface OnboardingNavigationContextType {
   currentPage: number;
   mindScore: number;
+  animationState: AnimationState;
   handlePrevious: () => void;
   handleNext: () => void;
   addMindScore: (points: number) => void;
+  setAnimationState: (state: AnimationState) => void;
 }
 
 const OnboardingNavigationContext = createContext<
@@ -21,6 +29,7 @@ export function OnboardingNavigationProvider({
 }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [mindScore, setMindScore] = useState(0);
+  const [animationState, setAnimationState] = useState<AnimationState>("idle");
 
   const handlePrevious = useCallback(() => {
     setCurrentPage((prev) => (prev > 0 ? prev - 1 : prev));
@@ -39,9 +48,11 @@ export function OnboardingNavigationProvider({
       value={{
         currentPage,
         mindScore,
+        animationState,
         handlePrevious,
         handleNext,
         addMindScore,
+        setAnimationState,
       }}
     >
       {children}

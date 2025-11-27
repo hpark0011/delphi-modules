@@ -3,6 +3,7 @@
 import { MindStatusIcon } from "@/components/mind-status-notification";
 import { BrainIcon } from "@/delphi-ui/icons/Brain";
 import { AnimatePresence, motion } from "framer-motion";
+import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
 
 // ============================================================================
 // Constants
@@ -58,24 +59,68 @@ function LabelContent() {
   );
 }
 
+function PlusTenContent({ isSmall }: { isSmall: boolean }) {
+  return (
+    <motion.h1
+      key='plus-ten'
+      className='text-text-primary-inverse tracking-tighter font-semibold flex items-center justify-center h-fit leading-[100%]'
+      initial={{
+        y: 20,
+        opacity: 0,
+        filter: "blur(10px)",
+        fontSize: isSmall ? FONT_SIZE_SMALL : FONT_SIZE_LARGE,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+        filter: "blur(0px)",
+        fontSize: isSmall ? FONT_SIZE_SMALL : FONT_SIZE_LARGE,
+      }}
+      exit={{
+        y: -20,
+        opacity: 0,
+        filter: "blur(10px)",
+      }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
+    >
+      +10
+    </motion.h1>
+  );
+}
+
 function ScoreContent({
   mindScore,
   isSmall,
+  shouldRollIn,
 }: {
   mindScore: number;
   isSmall: boolean;
+  shouldRollIn?: boolean;
 }) {
   return (
     <motion.h1
       key='score'
       className='text-text-primary-inverse tracking-tighter font-semibold flex items-center justify-center h-fit leading-[100%]'
-      initial={{ opacity: 0, fontSize: FONT_SIZE_LARGE }}
+      initial={
+        shouldRollIn
+          ? {
+              y: 20,
+              opacity: 0,
+              filter: "blur(10px)",
+              fontSize: FONT_SIZE_LARGE,
+            }
+          : { opacity: 0, fontSize: FONT_SIZE_LARGE }
+      }
       animate={{
+        y: 0,
         opacity: 1,
+        filter: "blur(0px)",
         fontSize: isSmall ? FONT_SIZE_SMALL : FONT_SIZE_LARGE,
       }}
       exit={{ opacity: 0 }}
-      transition={SPRING_CONFIG}
+      transition={
+        shouldRollIn ? { duration: 0.2, ease: "easeInOut" } : SPRING_CONFIG
+      }
     >
       {mindScore}
     </motion.h1>
@@ -107,9 +152,13 @@ export function OnboardingMindWidget({
   currentPage: number;
   mindScore: number;
 }) {
+  const { animationState } = useOnboardingNavigation();
   // When the current page is 1, the widget is large. All the other pages, the wdiget is small.
   const isSmall = currentPage !== 1;
-  const showLabel = mindScore === 0;
+  const showLabel = mindScore === 0 && animationState === "idle";
+  const showPlusTen = animationState === "showing-plus";
+  const showScore = !showLabel && !showPlusTen;
+  const showTrainingStatus = animationState === "training";
 
   return (
     // Widget container
@@ -161,12 +210,18 @@ export function OnboardingMindWidget({
             }}
             transition={{ duration: 0.2, ease: "easeIn" }}
           >
-            {/* Content: Label or Score */}
+            {/* Content: Label, +10, or Score */}
             <AnimatePresence mode='wait'>
               {showLabel ? (
                 <LabelContent />
+              ) : showPlusTen ? (
+                <PlusTenContent isSmall={isSmall} />
               ) : (
-                <ScoreContent mindScore={mindScore} isSmall={isSmall} />
+                <ScoreContent
+                  mindScore={mindScore}
+                  isSmall={isSmall}
+                  shouldRollIn={animationState === "showing-score"}
+                />
               )}
             </AnimatePresence>
 
@@ -177,12 +232,22 @@ export function OnboardingMindWidget({
 
         {/* Training Status */}
         <AnimatePresence>
-          <div className='pl-2.5 pr-3.5 text-text-tertiary flex items-center gap-1'>
-            <MindStatusIcon status='active' />
-            <span className='max-w-[176px] truncate text-[13px]'>
-              Learning from your profile.
-            </span>
-          </div>
+          {showTrainingStatus && (
+            <motion.div
+              className='overflow-hidden'
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: "auto", opacity: 1 }}
+              exit={{ width: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+            >
+              <div className='pl-2.5 pr-3.5 text-text-tertiary flex items-center gap-1 whitespace-nowrap'>
+                <MindStatusIcon status='active' />
+                <span className='max-w-[176px] truncate text-[13px]'>
+                  Learning from your profile.
+                </span>
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </motion.div>
     </motion.div>
