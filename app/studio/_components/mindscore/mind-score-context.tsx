@@ -12,16 +12,18 @@ import React, {
 const LEVEL_THRESHOLDS = [
   { name: "Novice", min: 0 },
   { name: "Skilled", min: 200 },
-  { name: "Expert", min: 2000 },
-  { name: "Master", min: 10000 },
-  { name: "Sage", min: 25000 },
-  { name: "Legendary", min: 50000 },
-  { name: "Eternal", min: 200000 },
+  { name: "Expert", min: 1000 },
+  { name: "Master", min: 2000 },
+  { name: "Sage", min: 3000 },
+  { name: "Legendary", min: 4000 },
+  { name: "Eternal", min: 5000 },
 ];
 
 interface MindScoreContextType {
   current: number;
   level: string;
+  previousLevel: string | null;
+  hasLevelChanged: boolean;
   progressToNextLevel: number;
   nextLevelThreshold: number;
   progressCap: number;
@@ -29,6 +31,7 @@ interface MindScoreContextType {
   lastDecrement: number | null;
   incrementScore: (points: number) => void;
   decrementScore: (points: number) => void;
+  acknowledgeLevelChange: () => void;
 }
 
 const MindScoreContext = createContext<MindScoreContextType | null>(null);
@@ -83,11 +86,13 @@ interface MindScoreProviderProps {
 
 export function MindScoreProvider({
   children,
-  initialScore = 110,
+  initialScore = 20,
 }: MindScoreProviderProps) {
   const [current, setCurrent] = useState(initialScore);
   const [lastIncrement, setLastIncrement] = useState<number | null>(null);
   const [lastDecrement, setLastDecrement] = useState<number | null>(null);
+  const [previousLevel, setPreviousLevel] = useState<string | null>(null);
+  const [hasLevelChanged, setHasLevelChanged] = useState(false);
 
   const incrementScore = useCallback((points: number) => {
     setCurrent((prev) => prev + points);
@@ -130,10 +135,31 @@ export function MindScoreProvider({
   );
   const progressCap = useMemo(() => getProgressCap(current), [current]);
 
+  // Detect level changes
+  //   useEffect(() => {
+  //   if (previousLevel === null) {
+  //     // Initial mount - set previous level but don't trigger change
+  //     setPreviousLevel(level);
+  //     return;
+  //   }
+
+  //   if (previousLevel !== level) {
+  //     // Level has changed
+  //     setHasLevelChanged(true);
+  //     setPreviousLevel(level);
+  //   }
+  // }, [level, previousLevel]);
+
+  const acknowledgeLevelChange = useCallback(() => {
+    setHasLevelChanged(false);
+  }, []);
+
   const value = useMemo(
     () => ({
       current,
       level,
+      previousLevel,
+      hasLevelChanged,
       progressToNextLevel,
       nextLevelThreshold,
       progressCap,
@@ -141,10 +167,13 @@ export function MindScoreProvider({
       lastDecrement,
       incrementScore,
       decrementScore,
+      acknowledgeLevelChange,
     }),
     [
       current,
       level,
+      previousLevel,
+      hasLevelChanged,
       progressToNextLevel,
       nextLevelThreshold,
       progressCap,
@@ -152,6 +181,7 @@ export function MindScoreProvider({
       lastDecrement,
       incrementScore,
       decrementScore,
+      acknowledgeLevelChange,
     ]
   );
 

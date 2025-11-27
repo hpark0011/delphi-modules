@@ -28,7 +28,7 @@ export function ActiveTrainingQueue({
   return (
     <div className='flex flex-col gap-3 mt-4'>
       {/* Active Training Queue Header */}
-      <div className='text-[13px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center justify-between gap-0.5 tracking-tight'>
+      <div className='text-[14px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center justify-between gap-0.5 tracking-tight'>
         <div className='flex items-center gap-2 w-full justify-between'>
           <div className='flex items-center gap-0.5'>
             <Icon
@@ -47,7 +47,7 @@ export function ActiveTrainingQueue({
             />
             <span className={cn(showCompletedStatus && "text-text-primary")}>
               {showCompletedStatus
-                ? `Learning completed!`
+                ? `Learning Completed!`
                 : `Learning ${activeCount} Items`}
             </span>
           </div>
@@ -57,10 +57,13 @@ export function ActiveTrainingQueue({
                 variant='glossy'
                 size='sm'
                 onClick={() => setShowCompletedStatus(false)}
-                className='text-[12px] shadow-md shrink-0 h-7 has-[>svg]:px-2.5 has-[>svg]:pr-1.5 gap-1 rounded-md'
+                className='text-[12px] shadow-md shrink-0 h-7.5 rounded-full has-[>svg]:pl-2 has-[>svg]:pr-3 gap-0.5 '
               >
-                <span className='text-[12px]'>View summary</span>
-                <Icon name='ArrowForwardIcon' className='size-4 text-white' />
+                <Icon
+                  name='DocPlainTextFillIcon'
+                  className='size-4 text-white/90'
+                />
+                <span className='text-[13px]'>View summary</span>
               </Button>
             </>
           )}
@@ -68,7 +71,7 @@ export function ActiveTrainingQueue({
       </div>
 
       {/* Active Training Queue List */}
-      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2 mb-4 px-2 max-h-[322px] overflow-y-auto'>
+      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2.5 mb-4 px-2.5 max-h-[322px] overflow-y-auto'>
         <div className='flex flex-col gap-0.5 w-full'>
           {(showCompletedStatus ? queueSnapshot : queue).map(
             (item: QueueItem) => (
@@ -77,7 +80,7 @@ export function ActiveTrainingQueue({
                 item={item}
                 docIconSize='size-5'
                 fontSize='text-[14px]'
-                containerClassName='hover:bg-extra-light/100 rounded-md py-1'
+                containerClassName='hover:bg-extra-light/100 rounded-md py-1 px-2'
               />
             )
           )}

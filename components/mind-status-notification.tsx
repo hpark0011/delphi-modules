@@ -1,15 +1,12 @@
 import { BrainIcon } from "@/delphi-ui/icons/Brain";
 import { cn } from "@/lib/utils";
 
-interface MindStatusNotificationProps {
+interface MindStatusIconProps {
   className?: string;
   status: "active" | "finished" | "dull";
 }
 
-export default function MindStatusNotification({
-  className,
-  status,
-}: MindStatusNotificationProps) {
+export function MindStatusIcon({ className, status }: MindStatusIconProps) {
   const isActive = status === "active";
   const isFinished = status === "finished";
   // const isDull = status === "dull";
@@ -29,7 +26,7 @@ export default function MindStatusNotification({
 
       {/* Notification Dot */}
       {isFinished && (
-        <div className='absolute top-[-1px] right-[-1px] w-[7px] h-[7px] bg-red-600/80 rounded-full shadow-[0_0_0_1px_var(--color-light)]' />
+        <div className='absolute top-[-1px] right-[-1px] w-[7px] h-[7px] bg-red-600/80 rounded-full z-10' />
       )}
     </div>
   );

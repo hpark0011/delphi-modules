@@ -58,7 +58,7 @@ export default function AnalyticsLoading() {
             <AnalyticsSectionWrapper className='p-4 py-3 rounded-[20px] flex gap-3 flex-row items-center justify-between'>
               {/* Bottom Section - Next Actions */}
               <div className='flex items-center gap-2'>
-                <div className='flex items-center gap-2 size-8 bg-[#F1F0EF] rounded-full justify-center'>
+                <div className='flex items-center gap-2 size-8 bg-[#F1F0EF] dark:bg-light rounded-full justify-center'>
                   <span className='text-[#8D8D86] dark:text-neutral-500'>
                     ▶
                   </span>

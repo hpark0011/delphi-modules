@@ -1,6 +1,6 @@
 "use client";
 
-import MindStatusNotification from "@/components/mind-status-notification";
+import { MindStatusIcon } from "@/components/mind-status-notification";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { AnimatePresence, motion } from "framer-motion";
@@ -93,7 +93,7 @@ export function ActiveTrainingStatus() {
         {/* Training Status Text */}
         <div className='flex items-center gap-1 w-full'>
           <div className='flex items-center gap-1 w-fit'>
-            <MindStatusNotification status='active' />
+            <MindStatusIcon status='active' />
             <div className='text-[13px]'>
               Learning {/* <span className='mx-0.5'>/</span> */}
               {activeCount} Items

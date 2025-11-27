@@ -1,122 +1,22 @@
 "use client";
 
-import { MindScoreWidget } from "@/app/studio/_components/mindscore/widget/mind-widget-large";
+// import { MindWidgetLarge } from "@/components/mind-widget/mind-widget-large";
+import { MindWidgetLargeRect } from "@/components/mind-widget/mind-widget-large-rect";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";
 import { Icon } from "@/components/ui/icon";
 import { CircleDashedIcon } from "lucide-react";
-
-export type Engagements = {
-  conversations: {
-    value: number;
-    change: number;
-    isPositive: boolean;
-  };
-  activeUsers: {
-    value: number;
-    change: number;
-    isPositive: boolean;
-  };
-};
-
-export type Highlights = {
-  unansweredQuestions: {
-    value: number;
-  };
-  productMentions: {
-    value: number;
-  };
-  peopleHighlights: {
-    value: number;
-  };
-  insights: {
-    value: number;
-  };
-};
+import {
+  mockEngagements,
+  mockHighlights,
+  mockTrainingCards,
+} from "./_lib/mock-studio-data";
 
 export default function AnalyticsPage() {
-  // Sample data - replace with actual data fetching
-  const engagements: Engagements = {
-    conversations: {
-      value: 418,
-      change: 36,
-      isPositive: true,
-    },
-    activeUsers: {
-      value: 231,
-      change: 21,
-      isPositive: true,
-    },
-  };
-
-  const highlights: Highlights = {
-    unansweredQuestions: {
-      value: 32,
-    },
-    productMentions: {
-      value: 8,
-    },
-    peopleHighlights: {
-      value: 24,
-    },
-    insights: {
-      value: 16,
-    },
-  };
-
-  const trainingCards = [
-    {
-      icon: "import",
-      title: "Import your website",
-      description: "Connect your blog or website content",
-      points: 5,
-    },
-    {
-      icon: "upload",
-      title: "Upload your documents",
-      description: "Add PDFs, presentations, and files",
-      points: 5,
-    },
-    {
-      icon: "connect",
-      title: "Connect your notes",
-      description: "Link your note-taking apps",
-      points: 5,
-    },
-    {
-      icon: "podcast",
-      title: "Find your podcast appearances",
-      description: "Claim podcast episodes you've been on",
-      points: 15,
-    },
-    {
-      icon: "childhood",
-      title: "Talk about your childhood",
-      description:
-        "Increase the accuracy and variety of questions your mind can answer",
-      points: 30,
-    },
-    {
-      icon: "education",
-      title: "Talk about your education",
-      description:
-        "Complete the Big 5 assessment to understand your communication style",
-      points: 30,
-    },
-    {
-      icon: "topic",
-      title: "Choose your next topic",
-      description: "Pick another area to train your Delphi on",
-      points: 15,
-    },
-    {
-      icon: "claim",
-      title: "Claim your content",
-      description: "Verify content we found about you online",
-      points: 15,
-    },
-  ];
+  const engagements = mockEngagements;
+  const highlights = mockHighlights;
+  const trainingCards = mockTrainingCards;
 
   // const highlights = [];
 
@@ -149,7 +49,7 @@ export default function AnalyticsPage() {
                 <div className='flex items-end text-xs text-[#8D8D86] dark:text-neutral-400 flex-col mr-4'>
                   <span>Reach 200 Mind Score</span>
                   <span className='text-[#21201C] dark:text-[#EEEEEC]'>
-                    110 / 200
+                    20 / 200
                   </span>
                 </div>
               </div>
@@ -185,7 +85,7 @@ export default function AnalyticsPage() {
           <AnalyticsSectionWrapper className='p-4 py-3 rounded-[20px] flex gap-3 flex-row items-center justify-between'>
             {/* Bottom Section - Next Actions */}
             <div className='flex items-center gap-2'>
-              <div className='flex items-center gap-2 size-8 bg-[#F1F0EF] rounded-full justify-center'>
+              <div className='flex items-center gap-2 size-8 bg-[#F1F0EF] dark:bg-light rounded-full justify-center'>
                 <span className='text-[#8D8D86] dark:text-neutral-500'>▶</span>
               </div>
               <div className='text-[#8D8D86]'>Next up</div>
@@ -195,8 +95,11 @@ export default function AnalyticsPage() {
         </div>
 
         <div className='flex flex-col space-y-2 w-full max-w-[360px]'>
+          {/*  */}
+          <MindWidgetLargeRect />
+
           {/* Mind Score Card */}
-          <MindScoreWidget />
+          {/* <MindWidgetLarge /> */}
 
           {/* Analytics Section */}
           <HomeAnalytics engagements={engagements} />

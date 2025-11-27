@@ -1,20 +1,18 @@
-"use client";
-
-import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
-import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
-import { useTrainingStatus } from "@/hooks/use-training-status";
-import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
 import {
-  MindDialog,
-  useMindDialog,
-} from "@/components/mind-dialog/mind-dialog";
-import { MindProgressBar } from "../mind-progress-bar";
-import { MindScoreProvider, useMindScore } from "../mind-score-context";
-import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-context";
-import { ActiveTrainingStatus } from "./active-training-status";
-import { LastTrainedDate } from "./last-trained-date";
-import { TrainingCompletedStatus } from "./training-completed-status";
+  getLevelShadowColors,
+  generateShadowString,
+} from "@/app/studio/_utils/mind-shadow-helpers";
+import { cn } from "@/lib/utils";
+import { AnalyticsSectionWrapper } from "../analytics/dashboard-ui";
+import { MindDialog, useMindDialog } from "../mind-dialog/mind-dialog";
+import { MindProgressBar } from "@/app/studio/_components/mindscore/mind-progress-bar";
+import { TrainingCompletedStatus } from "@/app/studio/_components/mindscore/widget/training-completed-status";
+import { QueueItem, useTrainingQueue } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
+import { ActiveTrainingStatus } from "@/app/studio/_components/mindscore/widget/active-training-status";
+import { LastTrainedDate } from "@/app/studio/_components/mindscore/widget/last-trained-date";
+import { useEffect, useState } from "react";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
@@ -27,10 +25,40 @@ function MindScoreTrigger() {
     lastIncrement,
     lastDecrement,
   } = useMindScore();
+  const { queueStatus } = useTrainingStatus(false);
+
+  // Get level-based colors
+  const levelColors = getLevelShadowColors(level);
+  const defaultShadow = generateShadowString(levelColors, false);
+  const hoverShadow = generateShadowString(levelColors, true);
 
   return (
+    // Mind score wrapper
     <div
-      className='w-full flex flex-col gap-2 relative cursor-pointer rounded-[18px] shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40'
+      className={cn(
+        // Layout & positioning
+        "mind-area studio w-full flex flex-col gap-2 relative cursor-pointer overflow-hidden group",
+        // Background & gradients
+        "bg-transparent bg-linear-to-b from-[#110C09] to-[#23170A]",
+        // Interactive states
+        "hover:from-[black] to-[black] dark:border-white/3 dark:bg-black/40 transition-all duration-200 ease-in"
+      )}
+      style={
+        {
+          "--shadow-default": defaultShadow.replace(/_/g, " "),
+          "--shadow-hover": hoverShadow.replace(/_/g, " "),
+          boxShadow: "var(--shadow-default)",
+        } as React.CSSProperties & {
+          "--shadow-default": string;
+          "--shadow-hover": string;
+        }
+      }
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = "var(--shadow-hover)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = "var(--shadow-default)";
+      }}
       onClick={() => openWithTab("add-knowledge")}
       role='button'
       tabIndex={0}
@@ -48,19 +76,29 @@ function MindScoreTrigger() {
         progressCap={progressCap}
         lastIncrement={lastIncrement}
         lastDecrement={lastDecrement}
+        className={cn(
+          "top-[3px] transition-all duration-100 ease-in",
+          queueStatus === "active"
+            ? "opacity-100"
+            : "opacity-0 group-hover:opacity-100"
+        )}
       />
 
-      {/* Mind Score Value */}
+      {/* Mind Score & Mind Level Container */}
       <div className='flex flex-col gap-2 w-full justify-center items-center relative z-10'>
-        <div className='flex flex-col items-center justify-center h-[160px] text-white gap-0.5'>
+        <div className='flex flex-col items-center justify-center h-[160px] text-white gap-0.5 '>
           {/* Mind Score Value */}
           <p className='font-medium text-center text-6xl tracking-tighter'>
             {current}
           </p>
-          <p className='text-sm font-medium text-center text-text-muted'>
+          {/* Mind Level */}
+          <p className='text-[15px] font-medium text-center text-white/70'>
             {level}
           </p>
         </div>
+
+        {/* Mind Area Inner */}
+        <div className='mind-area-inner studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_1px_0.5px_rgba(255,255,255,0.9),inset_0px_1px_1px_1px_rgba(255,255,255,1)] blur-[6px]' />
       </div>
     </div>
   );
@@ -105,7 +143,7 @@ function TrainingStatusTrigger({
   return <LastTrainedDate />;
 }
 
-function MindScoreContent() {
+export function MindWidgetLargeRect() {
   const { queue } = useTrainingQueue();
   const [hasUserReviewed, setHasUserReviewed] = useState(true); // Start as true (no completion to review)
   const [completedCount, setCompletedCount] = useState(0);
@@ -150,7 +188,9 @@ function MindScoreContent() {
 
   return (
     <AnalyticsSectionWrapper
-      className={cn("w-full p-0.5 rounded-[20px] flex flex-col items-center")}
+      className={cn(
+        "w-full p-0.5 rounded-[20px] flex flex-col items-center bg-linear-to-b from-black/5 to-black/2 cursor-default bg-amber-50/12 backdrop-blur-[20px] overflow-hidden transition-all duration-200 text-left opacity-100 hover:bg-amber-50/18 shadow-[0_1px_0.908px_0_rgba(255,255,255,0.15)_inset,0_-1px_0.908px_0_rgba(255,255,255,0.05)_inset]"
+      )}
     >
       <MindDialog defaultTab='training-status'>
         <MindScoreTrigger />
@@ -163,15 +203,5 @@ function MindScoreContent() {
         />
       </MindDialog>
     </AnalyticsSectionWrapper>
-  );
-}
-
-export function MindScoreWidget() {
-  return (
-    <MindScoreProvider>
-      <TrainingQueueProvider>
-        <MindScoreContent />
-      </TrainingQueueProvider>
-    </MindScoreProvider>
   );
 }
