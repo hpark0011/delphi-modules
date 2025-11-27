@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
+import { LoadingCircleIcon } from "@/delphi-ui/icons/LoadingCircle";
 
 const options = [
   "Help My Team",
@@ -19,13 +21,42 @@ const options = [
 ];
 
 export function OnboardingPage3() {
-  const { handleNext, addMindScore } = useOnboardingNavigation();
+  const router = useRouter();
+  const { addMindScore, setAnimationState } = useOnboardingNavigation();
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleContinue = () => {
-    addMindScore(5);
-    handleNext();
+    setIsLoading(true);
+    setAnimationState("training");
   };
+
+  useEffect(() => {
+    if (!isLoading) return;
+
+    // Step 1: Show training status for 2 seconds
+    const trainingTimeout = setTimeout(() => {
+      setAnimationState("showing-plus");
+    }, 2000);
+
+    // Step 2: Show +10 for 1.5 seconds
+    const plusTimeout = setTimeout(() => {
+      setAnimationState("showing-score");
+      addMindScore(10);
+    }, 3500); // 2000 + 1500
+
+    // Step 3: Show score for 1 second, then navigate to studio
+    const scoreTimeout = setTimeout(() => {
+      setAnimationState("idle");
+      router.push("/studio");
+    }, 4500); // 2000 + 1500 + 1000
+
+    return () => {
+      clearTimeout(trainingTimeout);
+      clearTimeout(plusTimeout);
+      clearTimeout(scoreTimeout);
+    };
+  }, [isLoading, setAnimationState, addMindScore, router]);
 
   const toggleOption = (option: string) => {
     setSelectedOptions((prev) => {
@@ -68,7 +99,8 @@ export function OnboardingPage3() {
               }`}
               onClick={() => toggleOption(option)}
               disabled={
-                !selectedOptions.includes(option) && selectedOptions.length >= 3
+                isLoading ||
+                (!selectedOptions.includes(option) && selectedOptions.length >= 3)
               }
             >
               {option}
@@ -83,8 +115,13 @@ export function OnboardingPage3() {
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
             onClick={handleContinue}
+            disabled={isLoading}
           >
-            Continue
+            {isLoading ? (
+              <LoadingCircleIcon className='size-5 animate-spin' />
+            ) : (
+              "Continue"
+            )}
           </Button>
         </div>
 
