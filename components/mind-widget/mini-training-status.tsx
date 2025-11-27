@@ -2,6 +2,7 @@
 
 import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
 import type { TrainingDocType } from "@/components/mind-dialog/training-queue-context";
+import { MindStatusIcon } from "@/components/mind-status-notification";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
@@ -39,9 +40,7 @@ function StatusIcon({
           exit={{ y: 20, scale: 0.5, filter: "blur(6px)" }}
           transition={{ duration: 0.15, ease: "easeInOut" }}
         >
-          {state === "loading" && (
-            <Icon name='LoaderCircleIcon' className='size-4 animate-spin' />
-          )}
+          {state === "loading" && <MindStatusIcon status='active' />}
           {state === "newItem" && (
             <Icon
               name={docType ? getDocTypeIcon(docType) : "DocFillIcon"}
@@ -62,23 +61,17 @@ function StatusIcon({
 
 interface StatusLabelProps {
   state: BadgeState;
-  finished: number;
-  total: number;
+  activeCount: number;
   newItemName: string;
 }
 
-function StatusLabel({
-  state,
-  finished,
-  total,
-  newItemName,
-}: StatusLabelProps) {
+function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
   const [labelWidth, setLabelWidth] = useState(0);
   const measureRef = useRef<HTMLDivElement>(null);
 
   const labelText =
     state === "loading"
-      ? `Learning ${finished} / ${total}`
+      ? `Learning ${activeCount} Items`
       : state === "newItem"
         ? newItemName
         : "Completed!";
@@ -146,11 +139,7 @@ export function MiniTrainingStatus() {
   // Use centralized queue status hook
   // Note: This widget doesn't track user review state, so we assume user hasn't reviewed
   // (hasUserReviewed = false) to show "finished" state when appropriate
-  const {
-    finishedCount: finished,
-    totalCount: total,
-    queueStatus,
-  } = useTrainingStatus(false);
+  const { activeCount, queueStatus } = useTrainingStatus(false);
 
   // When the training queue is actively processing, show loading spinner.
   // Otherwise (empty, paused, or done), show completed state.
@@ -185,7 +174,10 @@ export function MiniTrainingStatus() {
     if (queue.length > prevQueueLengthRef.current) {
       const newestItem = queue[queue.length - 1];
       if (newestItem) {
-        setNewItemOverride({ name: newestItem.name, docType: newestItem.docType });
+        setNewItemOverride({
+          name: newestItem.name,
+          docType: newestItem.docType,
+        });
 
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
@@ -206,7 +198,7 @@ export function MiniTrainingStatus() {
 
   return (
     <motion.div
-      className={`flex items-center ${displayState === "finished" ? "gap-0.5" : "gap-1.5"} text-text-muted cursor-pointer hover:text-blue-500`}
+      className={`flex items-center ${displayState === "finished" ? "gap-0.5" : "gap-1"} text-text-muted cursor-pointer hover:text-blue-500`}
       initial={{ opacity: 0, x: -8 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -8 }}
@@ -216,8 +208,7 @@ export function MiniTrainingStatus() {
       <StatusIcon state={displayState} docType={newItemOverride?.docType} />
       <StatusLabel
         state={displayState}
-        finished={finished}
-        total={total}
+        activeCount={activeCount}
         newItemName={newItemOverride?.name ?? ""}
       />
     </motion.div>
