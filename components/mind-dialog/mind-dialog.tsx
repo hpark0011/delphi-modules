@@ -125,7 +125,7 @@ function MindDialogHeader() {
       </div>
 
       <div className='flex flex-col items-center justify-center mb-6 gap-1'>
-        <div className='text-5xl text-white tracking-tighter font-medium w-full text-center'>
+        <div className='text-6xl text-white tracking-tighter font-medium w-full text-center'>
           {/* Mind Score */}
           {current}
         </div>
