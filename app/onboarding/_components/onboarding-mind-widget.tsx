@@ -152,7 +152,7 @@ export function OnboardingMindWidget({
   currentPage: number;
   mindScore: number;
 }) {
-  const { animationState } = useOnboardingNavigation();
+  const { animationState, trainingMessage } = useOnboardingNavigation();
   // When the current page is 1, the widget is large. All the other pages, the wdiget is small.
   const isSmall = currentPage !== 1;
   const showLabel = mindScore === 0 && animationState === "idle";
@@ -242,7 +242,7 @@ export function OnboardingMindWidget({
               <div className='pl-2.5 pr-3.5 text-text-tertiary flex items-center gap-1 whitespace-nowrap'>
                 <MindStatusIcon status='active' />
                 <span className='max-w-[176px] truncate text-[13px]'>
-                  Learning from your profile.
+                  {trainingMessage}
                 </span>
               </div>
             </motion.div>

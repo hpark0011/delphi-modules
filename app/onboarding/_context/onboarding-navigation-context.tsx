@@ -12,10 +12,12 @@ interface OnboardingNavigationContextType {
   currentPage: number;
   mindScore: number;
   animationState: AnimationState;
+  trainingMessage: string;
   handlePrevious: () => void;
   handleNext: () => void;
   addMindScore: (points: number) => void;
   setAnimationState: (state: AnimationState) => void;
+  setTrainingMessage: (message: string) => void;
 }
 
 const OnboardingNavigationContext = createContext<
@@ -30,6 +32,7 @@ export function OnboardingNavigationProvider({
   const [currentPage, setCurrentPage] = useState(0);
   const [mindScore, setMindScore] = useState(0);
   const [animationState, setAnimationState] = useState<AnimationState>("idle");
+  const [trainingMessage, setTrainingMessage] = useState("");
 
   const handlePrevious = useCallback(() => {
     setCurrentPage((prev) => (prev > 0 ? prev - 1 : prev));
@@ -49,10 +52,12 @@ export function OnboardingNavigationProvider({
         currentPage,
         mindScore,
         animationState,
+        trainingMessage,
         handlePrevious,
         handleNext,
         addMindScore,
         setAnimationState,
+        setTrainingMessage,
       }}
     >
       {children}

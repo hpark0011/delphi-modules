@@ -30,6 +30,7 @@ export function OnboardingPage3() {
 
   const { isLoading, startAnimation } = useTrainingAnimation({
     points: 10,
+    message: "Learning from your preferences.",
     onComplete: handleComplete,
   });
 

@@ -4,26 +4,30 @@ import { useState, useEffect, useCallback } from "react";
 import { useOnboardingNavigation } from "../_context/onboarding-navigation-context";
 
 // Animation timing constants (in milliseconds)
-const TRAINING_DURATION = 2000;
-const PLUS_DURATION = 1500;
+const TRAINING_DURATION = 1500;
+const PLUS_DURATION = 1000;
 const SCORE_DURATION = 1000;
 
 interface UseTrainingAnimationOptions {
   points?: number;
+  message?: string;
   onComplete: () => void;
 }
 
 export function useTrainingAnimation({
   points = 10,
+  message,
   onComplete,
 }: UseTrainingAnimationOptions) {
-  const { addMindScore, setAnimationState } = useOnboardingNavigation();
+  const { addMindScore, setAnimationState, setTrainingMessage } =
+    useOnboardingNavigation();
   const [isLoading, setIsLoading] = useState(false);
 
   const startAnimation = useCallback(() => {
+    if (message) setTrainingMessage(message);
     setIsLoading(true);
     setAnimationState("training");
-  }, [setAnimationState]);
+  }, [setAnimationState, setTrainingMessage, message]);
 
   useEffect(() => {
     if (!isLoading) return;
@@ -40,11 +44,14 @@ export function useTrainingAnimation({
     }, TRAINING_DURATION + PLUS_DURATION);
 
     // Step 3: Complete and call onComplete callback
-    const scoreTimeout = setTimeout(() => {
-      setIsLoading(false);
-      setAnimationState("idle");
-      onComplete();
-    }, TRAINING_DURATION + PLUS_DURATION + SCORE_DURATION);
+    const scoreTimeout = setTimeout(
+      () => {
+        setIsLoading(false);
+        setAnimationState("idle");
+        onComplete();
+      },
+      TRAINING_DURATION + PLUS_DURATION + SCORE_DURATION
+    );
 
     return () => {
       clearTimeout(trainingTimeout);

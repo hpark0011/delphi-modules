@@ -10,6 +10,7 @@ export function OnboardingPage2() {
   const { handleNext } = useOnboardingNavigation();
   const { isLoading, startAnimation } = useTrainingAnimation({
     points: 10,
+    message: "Learning from your content.",
     onComplete: handleNext,
   });
 
@@ -18,7 +19,7 @@ export function OnboardingPage2() {
       <div className='flex flex-col items-center justify-center gap-8'>
         {/* Heading and description */}
         <div className='flex flex-col gap-4 items-center justify-center max-w-md'>
-          <h1 className='text-3xl font-medium'>Is this your account?</h1>
+          <h1 className='text-3xl font-medium'>Is this your content?</h1>
           <p className='text-text-muted font-[480] text-center leading-[140%] text-[15px]'>
             Train your digital mind with this account.
           </p>

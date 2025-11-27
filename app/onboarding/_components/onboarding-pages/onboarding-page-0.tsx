@@ -10,6 +10,7 @@ export function OnboardingPage0() {
   const { handleNext } = useOnboardingNavigation();
   const { isLoading, startAnimation } = useTrainingAnimation({
     points: 10,
+    message: "Learning from your LinkedIn.",
     onComplete: handleNext,
   });
 
