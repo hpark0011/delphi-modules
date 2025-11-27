@@ -34,7 +34,7 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
         />
         Summary
       </div>
-      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3.5 pb-4 mb-4'>
+      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3.5 pb-0 mb-4'>
         <div className='flex flex-col gap-2 px-3 mb-0'>
           <div className='flex flex-col gap-2 mb-5'>
             <h1 className='text-start  text-text-primary px-1 text-[15px]'>
@@ -83,10 +83,10 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
               </div>
             </div>
           </div>
-          <h1 className='text-start  text-text-primary px-1 text-[15px]'>
+          {/* <h1 className='text-start  text-text-primary px-1 text-[15px]'>
             Your mind can now answer 5 new questions!
-          </h1>
-          <div className='flex flex-wrap gap-1'>
+          </h1> */}
+          {/* <div className='flex flex-wrap gap-1'>
             {questions.map((question) => (
               <div
                 key={question}
@@ -95,7 +95,7 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
                 {question}
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
