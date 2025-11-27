@@ -86,7 +86,7 @@ interface MindScoreProviderProps {
 
 export function MindScoreProvider({
   children,
-  initialScore = 110,
+  initialScore = 20,
 }: MindScoreProviderProps) {
   const [current, setCurrent] = useState(initialScore);
   const [lastIncrement, setLastIncrement] = useState<number | null>(null);

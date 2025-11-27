@@ -49,7 +49,7 @@ export default function AnalyticsPage() {
                 <div className='flex items-end text-xs text-[#8D8D86] dark:text-neutral-400 flex-col mr-4'>
                   <span>Reach 200 Mind Score</span>
                   <span className='text-[#21201C] dark:text-[#EEEEEC]'>
-                    110 / 200
+                    20 / 200
                   </span>
                 </div>
               </div>
