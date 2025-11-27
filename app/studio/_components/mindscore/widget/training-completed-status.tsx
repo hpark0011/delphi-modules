@@ -12,7 +12,7 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
 import { ExpandableQueueList } from "./expandable-queue-list";
-import MindStatusNotification from "@/components/mind-status-notification";
+import { MindStatusIcon } from "@/components/mind-status-notification";
 import { SCORE_PER_ITEM } from "../../../_constants/training-queue";
 
 export interface TrainingCompletedStatusProps {
@@ -108,7 +108,7 @@ export function TrainingCompletedStatus({
               }}
               role='button'
             >
-              <MindStatusNotification status='finished' />
+              <MindStatusIcon status='finished' />
               {/* Increased mind score */}
               <span className='text-[12px] font-medium text-text-muted'>
                 +{totalScoreIncrease}

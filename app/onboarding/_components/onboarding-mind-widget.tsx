@@ -1,7 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { MindStatusIcon } from "@/components/mind-status-notification";
 import { BrainIcon } from "@/delphi-ui/icons/Brain";
+import { AnimatePresence, motion } from "framer-motion";
 
 // ============================================================================
 // Constants
@@ -176,8 +177,9 @@ export function OnboardingMindWidget({
 
         {/* Training Status */}
         <AnimatePresence>
-          <div className='pl-3 pr-3.5 text-text-tertiary text-sm max-w-[160px] truncate'>
-            hello
+          <div className='pl-3 pr-3.5 text-text-tertiary text-[13px] max-w-[176px] truncate'>
+            <MindStatusIcon status='active' />
+            Learning from LinkedIn profile.
           </div>
         </AnimatePresence>
       </motion.div>

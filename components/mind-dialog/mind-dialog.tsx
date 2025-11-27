@@ -1,12 +1,19 @@
 "use client";
 
+import { MindProgressBar } from "@/app/studio/_components/mindscore/mind-progress-bar";
+import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
+import {
+  generateShadowString,
+  getLevelShadowColors,
+} from "@/app/studio/_utils/mind-shadow-helpers";
+import { MindStatusIcon } from "@/components/mind-status-notification";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import type { IconName } from "@/components/ui/icon";
 import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useTrainingStatus } from "@/hooks/use-training-status";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
 import { cn } from "@/lib/utils";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import React, {
@@ -16,13 +23,6 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { MindProgressBar } from "../../app/studio/_components/mindscore/mind-progress-bar";
-import { useMindScore } from "../../app/studio/_components/mindscore/mind-score-context";
-import {
-  getLevelShadowColors,
-  generateShadowString,
-} from "@/app/studio/_utils/mind-shadow-helpers";
-import MindStatusNotification from "@/components/mind-status-notification";
 import {
   DEFAULT_MIND_DIALOG_TAB,
   MIND_DIALOG_TABS,
@@ -119,7 +119,7 @@ function MindDialogHeader() {
           variant='glossy'
           onClick={onPreviewClick}
         >
-          <MindStatusNotification status={queueStatus} />
+          <MindStatusIcon status={queueStatus} />
           <span>Preview</span>
         </Button>
       </div>
@@ -157,7 +157,7 @@ function MindDialogHeader() {
                 )}
               >
                 {isActiveTraining ? (
-                  <MindStatusNotification status='active' />
+                  <MindStatusIcon status='active' />
                 ) : (
                   <Icon
                     name={icon}

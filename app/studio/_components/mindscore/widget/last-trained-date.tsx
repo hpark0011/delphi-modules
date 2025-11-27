@@ -1,7 +1,7 @@
 "use client";
 
-import MindStatusNotification from "@/components/mind-status-notification";
-import { Icon } from "@/components/ui/icon";
+import { MindStatusIcon } from "@/components/mind-status-notification";
+// import { Icon } from "@/components/ui/icon";
 import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
 
 export function LastTrainedDate() {
@@ -22,7 +22,7 @@ export function LastTrainedDate() {
     >
       <div className='text-[13px]'>Last trained at Nov 17, 2025</div>
       <div className='flex items-center gap-0.5 cursor-pointer group'>
-        <MindStatusNotification status='dull' />
+        <MindStatusIcon status='dull' />
       </div>
     </div>
   );
