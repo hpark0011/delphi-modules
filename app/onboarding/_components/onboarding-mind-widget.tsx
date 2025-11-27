@@ -177,9 +177,11 @@ export function OnboardingMindWidget({
 
         {/* Training Status */}
         <AnimatePresence>
-          <div className='pl-3 pr-3.5 text-text-tertiary text-[13px] max-w-[176px] truncate'>
+          <div className='pl-2.5 pr-3.5 text-text-tertiary flex items-center gap-1'>
             <MindStatusIcon status='active' />
-            Learning from LinkedIn profile.
+            <span className='max-w-[176px] truncate text-[13px]'>
+              Learning from your profile.
+            </span>
           </div>
         </AnimatePresence>
       </motion.div>
