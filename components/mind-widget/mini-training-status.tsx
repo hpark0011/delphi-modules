@@ -1,9 +1,11 @@
 "use client";
 
 import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
+import type { TrainingDocType } from "@/components/mind-dialog/training-queue-context";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
+import { getDocTypeIcon } from "@/utils/doc-type-helpers";
 import { AnimatePresence, motion, type Transition } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
@@ -17,7 +19,13 @@ const SPRING_CONFIG: Transition = {
 
 const NEW_ITEM_DISPLAY_DURATION = 2000;
 
-function StatusIcon({ state }: { state: BadgeState }) {
+function StatusIcon({
+  state,
+  docType,
+}: {
+  state: BadgeState;
+  docType?: TrainingDocType;
+}) {
   return (
     <span
       className={`relative flex items-center justify-center ${state === "finished" ? "size-5" : "size-4"}`}
@@ -35,7 +43,10 @@ function StatusIcon({ state }: { state: BadgeState }) {
             <Icon name='LoaderCircleIcon' className='size-4 animate-spin' />
           )}
           {state === "newItem" && (
-            <Icon name='MicFillIcon' className='size-4' />
+            <Icon
+              name={docType ? getDocTypeIcon(docType) : "DocFillIcon"}
+              className='size-4'
+            />
           )}
           {state === "finished" && (
             <Icon
@@ -141,15 +152,18 @@ export function MiniTrainingStatus() {
     queueStatus,
   } = useTrainingStatus(false);
 
-  // Derived base state from queue status
-  // "active" → "loading", everything else → "finished"
-  const baseState: "loading" | "finished" =
-    queueStatus === "active" ? "loading" : "finished";
+  // When the training queue is actively processing, show loading spinner.
+  // Otherwise (empty, paused, or done), show completed state.
+  const baseState = queueStatus === "active" ? "loading" : "finished";
 
   // Single override state for temporary "newItem" display
-  // Initialize with first item's name on mount
-  const [newItemOverride, setNewItemOverride] = useState<string | null>(() => {
-    return queue.length > 0 ? queue[queue.length - 1].name : null;
+  // Tracks both name and docType to show correct icon
+  const [newItemOverride, setNewItemOverride] = useState<{
+    name: string;
+    docType: TrainingDocType;
+  } | null>(() => {
+    const lastItem = queue[queue.length - 1];
+    return lastItem ? { name: lastItem.name, docType: lastItem.docType } : null;
   });
 
   const prevQueueLengthRef = useRef(queue.length);
@@ -171,7 +185,7 @@ export function MiniTrainingStatus() {
     if (queue.length > prevQueueLengthRef.current) {
       const newestItem = queue[queue.length - 1];
       if (newestItem) {
-        setNewItemOverride(newestItem.name);
+        setNewItemOverride({ name: newestItem.name, docType: newestItem.docType });
 
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
@@ -199,12 +213,12 @@ export function MiniTrainingStatus() {
       transition={SPRING_CONFIG}
       onClick={handleClick}
     >
-      <StatusIcon state={displayState} />
+      <StatusIcon state={displayState} docType={newItemOverride?.docType} />
       <StatusLabel
         state={displayState}
         finished={finished}
         total={total}
-        newItemName={newItemOverride ?? ""}
+        newItemName={newItemOverride?.name ?? ""}
       />
     </motion.div>
   );

@@ -1,11 +1,12 @@
 "use client";
 
 import { Icon, type IconName } from "@/components/ui/icon";
-import type { QueueItem, TrainingDocType } from "@/hooks/use-training-queue";
+import type { QueueItem } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
+import { getDocTypeIcon } from "@/utils/doc-type-helpers";
+import type { TrainingItemStatus } from "@/utils/training-status-helpers";
 import { motion } from "framer-motion";
 import { RingPercentage } from "./ring-percentage";
-import type { TrainingItemStatus } from "@/utils/training-status-helpers";
 
 function getStatusIcon(status: TrainingItemStatus): IconName {
   switch (status) {
@@ -22,20 +23,6 @@ function getStatusIcon(status: TrainingItemStatus): IconName {
     default:
       return "CircleDashedIcon";
   }
-}
-
-const DOC_TYPE_ICON_MAP: Record<TrainingDocType, IconName> = {
-  interview: "MicFillIcon",
-  youtube: "YoutubeIcon",
-  x: "XIcon",
-  website: "GlobeIcon",
-  podcast: "DocFillIcon",
-  file: "DocFillIcon",
-  generic: "DocFillIcon",
-};
-
-function getDocTypeIcon(docType: TrainingDocType): IconName {
-  return DOC_TYPE_ICON_MAP[docType] ?? "DocFillIcon";
 }
 
 interface TrainingQueueItemProps {
