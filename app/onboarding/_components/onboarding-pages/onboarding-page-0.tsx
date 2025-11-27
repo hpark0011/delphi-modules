@@ -21,7 +21,7 @@ export function OnboardingPage0() {
         <div className='flex flex-col gap-4 items-center justify-center max-w-md w-full'>
           <h1 className='text-3xl font-medium'>Is this you?</h1>
           <p className='text-text-muted font-[480] text-center leading-[140%] text-[15px]'>
-            We'll use the basics here to start training Digital Hyunsol.
+            We&apos;ll use the basics here to start training Digital Hyunsol.
           </p>
         </div>
 

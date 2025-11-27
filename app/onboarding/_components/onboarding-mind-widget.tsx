@@ -157,7 +157,6 @@ export function OnboardingMindWidget({
   const isSmall = currentPage !== 1;
   const showLabel = mindScore === 0 && animationState === "idle";
   const showPlusTen = animationState === "showing-plus";
-  const showScore = !showLabel && !showPlusTen;
   const showTrainingStatus = animationState === "training";
 
   return (

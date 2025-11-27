@@ -77,12 +77,12 @@ export function LevelUpDialog({
             <DialogDescription className="text-base pt-2">
               {isMaxLevel ? (
                 <span>
-                  You've reached the maximum level! Your mind has achieved
+                  You&apos;ve reached the maximum level! Your mind has achieved
                   eternal wisdom.
                 </span>
               ) : (
                 <span>
-                  You've reached <strong>{newLevel}</strong>! Keep training to
+                  You&apos;ve reached <strong>{newLevel}</strong>! Keep training to
                   reach the next level.
                 </span>
               )}

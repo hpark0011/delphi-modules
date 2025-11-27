@@ -34,7 +34,7 @@ export function OnboardingPage2() {
             variant='secondary'
             disabled={isLoading}
           >
-            Don't add
+            Don&apos;t add
           </Button>
           <Button
             size='lg'
