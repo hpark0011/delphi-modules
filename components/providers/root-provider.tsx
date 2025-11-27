@@ -8,7 +8,10 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "sonner";
 import { ReactQueryProvider } from "./react-query-provider";
 import { useThemeToggle } from "@/hooks/use-theme-toggle";
-import { MindScoreProvider, useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
+import {
+  MindScoreProvider,
+  useMindScore,
+} from "@/app/studio/_components/mindscore/mind-score-context";
 import { TrainingQueueProvider } from "@/components/mind-dialog/training-queue-context";
 import { LevelUpDialog } from "@/components/mind-dialog/level-up-dialog";
 
@@ -73,12 +76,12 @@ export function RootProvider({ children }: { children: React.ReactNode }) {
       >
         <MindScoreProvider>
           <TrainingQueueProvider>
-            <LevelUpDialogWrapper>
-              <ThemeWrapper>
-                {children}
-                <Toaster />
-              </ThemeWrapper>
-            </LevelUpDialogWrapper>
+            {/* <LevelUpDialogWrapper> */}
+            <ThemeWrapper>
+              {children}
+              <Toaster />
+            </ThemeWrapper>
+            {/* </LevelUpDialogWrapper> */}
           </TrainingQueueProvider>
         </MindScoreProvider>
       </ThemeProvider>

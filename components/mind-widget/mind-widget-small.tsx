@@ -42,7 +42,7 @@ export function MindWidgetSmall() {
         {/* Mindscore Wrapper */}
         <div
           onClick={handleClick}
-          className='flex flex-col gap-2 relative cursor-pointer rounded-[18px] overflow-hidden bg-black/87  border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40 w-fit h-fit px-2.5 py-1.5'
+          className='flex flex-col gap-2  cursor-pointer rounded-[18px] overflow-hidden bg-black/87  border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40 w-fit h-fit px-2.5 py-1.5 relative z-10'
           style={{
             boxShadow: shadowString.replace(/_/g, " "),
           }}

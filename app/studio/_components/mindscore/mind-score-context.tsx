@@ -136,19 +136,19 @@ export function MindScoreProvider({
   const progressCap = useMemo(() => getProgressCap(current), [current]);
 
   // Detect level changes
-  useEffect(() => {
-    if (previousLevel === null) {
-      // Initial mount - set previous level but don't trigger change
-      setPreviousLevel(level);
-      return;
-    }
+  //   useEffect(() => {
+  //   if (previousLevel === null) {
+  //     // Initial mount - set previous level but don't trigger change
+  //     setPreviousLevel(level);
+  //     return;
+  //   }
 
-    if (previousLevel !== level) {
-      // Level has changed
-      setHasLevelChanged(true);
-      setPreviousLevel(level);
-    }
-  }, [level, previousLevel]);
+  //   if (previousLevel !== level) {
+  //     // Level has changed
+  //     setHasLevelChanged(true);
+  //     setPreviousLevel(level);
+  //   }
+  // }, [level, previousLevel]);
 
   const acknowledgeLevelChange = useCallback(() => {
     setHasLevelChanged(false);
