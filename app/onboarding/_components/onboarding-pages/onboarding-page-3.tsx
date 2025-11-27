@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 import { LoadingCircleIcon } from "@/delphi-ui/icons/LoadingCircle";
+import { useTrainingAnimation } from "../../_hooks/use-training-animation";
 
 const options = [
   "Help My Team",
@@ -22,41 +22,16 @@ const options = [
 
 export function OnboardingPage3() {
   const router = useRouter();
-  const { addMindScore, setAnimationState } = useOnboardingNavigation();
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleContinue = () => {
-    setIsLoading(true);
-    setAnimationState("training");
-  };
+  const handleComplete = useCallback(() => {
+    router.push("/studio");
+  }, [router]);
 
-  useEffect(() => {
-    if (!isLoading) return;
-
-    // Step 1: Show training status for 2 seconds
-    const trainingTimeout = setTimeout(() => {
-      setAnimationState("showing-plus");
-    }, 2000);
-
-    // Step 2: Show +10 for 1.5 seconds
-    const plusTimeout = setTimeout(() => {
-      setAnimationState("showing-score");
-      addMindScore(10);
-    }, 3500); // 2000 + 1500
-
-    // Step 3: Show score for 1 second, then navigate to studio
-    const scoreTimeout = setTimeout(() => {
-      setAnimationState("idle");
-      router.push("/studio");
-    }, 4500); // 2000 + 1500 + 1000
-
-    return () => {
-      clearTimeout(trainingTimeout);
-      clearTimeout(plusTimeout);
-      clearTimeout(scoreTimeout);
-    };
-  }, [isLoading, setAnimationState, addMindScore, router]);
+  const { isLoading, startAnimation } = useTrainingAnimation({
+    points: 10,
+    onComplete: handleComplete,
+  });
 
   const toggleOption = (option: string) => {
     setSelectedOptions((prev) => {
@@ -114,7 +89,7 @@ export function OnboardingPage3() {
             size='lg'
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
-            onClick={handleContinue}
+            onClick={startAnimation}
             disabled={isLoading}
           >
             {isLoading ? (
