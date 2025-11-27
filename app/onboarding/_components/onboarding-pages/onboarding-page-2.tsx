@@ -10,7 +10,7 @@ export function OnboardingPage2() {
   const { handleNext } = useOnboardingNavigation();
   const { isLoading, startAnimation } = useTrainingAnimation({
     points: 10,
-    message: "Learning from your content.",
+    message: "Learning your content.",
     onComplete: handleNext,
   });
 

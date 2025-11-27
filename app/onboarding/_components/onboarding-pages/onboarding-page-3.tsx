@@ -30,7 +30,7 @@ export function OnboardingPage3() {
 
   const { isLoading, startAnimation } = useTrainingAnimation({
     points: 10,
-    message: "Learning from your preferences.",
+    message: "Learning your goals.",
     onComplete: handleComplete,
   });
 
@@ -76,7 +76,8 @@ export function OnboardingPage3() {
               onClick={() => toggleOption(option)}
               disabled={
                 isLoading ||
-                (!selectedOptions.includes(option) && selectedOptions.length >= 3)
+                (!selectedOptions.includes(option) &&
+                  selectedOptions.length >= 3)
               }
             >
               {option}
