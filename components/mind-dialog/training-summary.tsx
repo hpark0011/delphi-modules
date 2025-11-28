@@ -83,7 +83,7 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
               </div>
               <div className='text-text-muted text-[15px] mt-1'>
                 Mind score left until next level{" "}
-                <span className='px-1 py-0.5 bg-extra-light rounded-sm tracking-tighter shadow-sm ml-0.5 text-text-primary'>
+                <span className='px-1.5 py-0.5 bg-extra-light rounded-sm tracking-tighter shadow-sm ml-0.5 text-text-primary'>
                   400
                 </span>
               </div>
