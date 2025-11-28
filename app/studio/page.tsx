@@ -1,12 +1,13 @@
 "use client";
 
 // import { MindWidgetLarge } from "@/components/mind-widget/mind-widget-large";
-import { MindWidgetLargeRect } from "@/components/mind-widget/mind-widget-large-rect";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";
-import { Icon } from "@/components/ui/icon";
+import { MindWidgetLargeRect } from "@/components/mind-widget/mind-widget-large-rect";
+import { MindSolidIcon } from "@/delphi-ui/icons/MindSolid";
 import { CircleDashedIcon } from "lucide-react";
+
 import {
   mockEngagements,
   mockHighlights,
@@ -39,10 +40,7 @@ export default function AnalyticsPage() {
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-3 p-2'>
                   <div className='w-8 h-8 bg-[#FF8D28]/10 rounded-full flex items-center justify-center'>
-                    <Icon
-                      name='BookClosedFillIcon'
-                      className='size-6 text-[#FF8D28]'
-                    />
+                    <MindSolidIcon className='size-6 text-[#FF8D28]' />
                   </div>
                   <h2 className='text-lg font-medium'>Train your Delphi</h2>
                 </div>

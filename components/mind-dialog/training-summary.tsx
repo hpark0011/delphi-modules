@@ -1,6 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/components/ui/icon";
 
 interface SummaryStats {
   totalTrained: number;
@@ -14,6 +15,31 @@ interface SummaryStats {
 
 interface TrainingSummaryProps {
   summaryStats: SummaryStats;
+}
+
+interface StatCardProps {
+  iconName: IconName;
+  iconColor: string;
+  label: string;
+  value: number;
+}
+
+function StatCard({ iconName, iconColor, label, value }: StatCardProps) {
+  return (
+    <div className='flex flex-col items-center gap-2 w-full px-1'>
+      <div className='flex items-center gap-0.5 w-full'>
+        <Icon name={iconName} className={`size-5 ${iconColor}`} />
+        <span className='text-text-secondary text-sm'>{label}</span>
+      </div>
+      <span className='text-text-secondary font-semibold text-2xl w-full flex-end flex px-0.5'>
+        {value}
+      </span>
+    </div>
+  );
+}
+
+function Divider() {
+  return <div className='self-stretch bg-light min-w-[2px] w-[2px]' />;
 }
 
 export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
@@ -34,53 +60,48 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
         />
         Summary
       </div>
-      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3.5 pb-0 mb-4'>
+      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3 pb-3.5 mb-4'>
         <div className='flex flex-col gap-2 px-3 mb-0'>
-          <div className='flex flex-col gap-2 mb-5'>
-            <h1 className='text-start  text-text-primary px-1 text-[15px]'>
-              Here is what happend from your last training at{" "}
+          <div className='flex flex-col gap-2'>
+            <h1 className='text-start text-text-primary px-1 text-[15px]'>
+              From your last training at{" "}
               <span className='font-semibold'>Nov 17, 2025</span>:
             </h1>
-            <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex flex-col gap-1.5'>
-              <div className='flex items-center gap-0.5'>
-                <Icon
-                  name='MindBubbleFillIcon'
-                  className='size-5 text-orange-400'
-                />
-                <span className='text-text-secondary font-semibold'>
-                  {summaryStats.totalTrained}
-                </span>{" "}
-                items were trained.
-              </div>
-              <div className='flex items-center gap-0.5'>
+
+            <div className='flex flex-col w-full items-center justify-center mb-1'>
+              <div className='flex gap-0 items-end justify-center relative py-6 w-full'>
                 <Icon
                   name='ArrowshapeUpFillIcon'
-                  className='size-5 text-neutral-400'
+                  className='size-10 text-green-700 bottom-1 relative'
                 />
-                <span className='text-text-secondary font-semibold'>130</span>{" "}
-                mind score has increased.
+                <span className='text-text-primary font-semibold text-6xl tracking-tighter'>
+                  130
+                </span>{" "}
               </div>
+            </div>
 
-              <div className='flex items-center gap-0.5'>
-                <Icon
-                  name='CheckedCircleFillIcon'
-                  className='size-5 text-green-600'
-                />
-                <span className='text-text-secondary font-semibold'>
-                  {summaryStats.completed}
-                </span>{" "}
-                items completed.
-              </div>
-              <div className='flex items-center gap-0.5'>
-                <Icon
-                  name='ExclamationmarkTriangleFillIcon'
-                  className='size-5 text-orange-500'
-                />
-                <span className='text-text-secondary font-semibold'>
-                  {summaryStats.failed}
-                </span>{" "}
-                items failed and needs actions.
-              </div>
+            {/* Training Summary Section */}
+            <div className='px-2 py-2 bg-extra-light dark:bg-[#2C2C2A] rounded-xl text-text-secondary shadow-xs w-full flex items-stretch gap-1.5'>
+              <StatCard
+                iconName='MindBubbleFillIcon'
+                iconColor='text-orange-400'
+                label='Items Trained'
+                value={summaryStats.totalTrained}
+              />
+              <Divider />
+              <StatCard
+                iconName='CheckedCircleFillIcon'
+                iconColor='text-green-600'
+                label='Completed'
+                value={summaryStats.completed}
+              />
+              <Divider />
+              <StatCard
+                iconName='ExclamationmarkTriangleFillIcon'
+                iconColor='text-orange-500'
+                label='Failed'
+                value={summaryStats.failed}
+              />
             </div>
           </div>
           {/* <h1 className='text-start  text-text-primary px-1 text-[15px]'>

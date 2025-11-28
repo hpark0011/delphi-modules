@@ -69,9 +69,9 @@ export function generateShadowString(
   isHover: boolean = false
 ): string {
   if (isHover) {
-    return `inset_0px_0px_10px_-0px_${colors.light},inset_0px_-10px_30px_-7px_${colors.medium},inset_0px_-15px_80px_-30px_${colors.dark},inset_0px_1px_1px_1px_rgba(255,255,255,0.1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_5px_10px_-5px_rgba(0,0,0,0.4)`;
+    return `inset_0px_0px_5px_-0px_${colors.light},inset_0px_-10px_20px_-7px_${colors.medium},inset_0px_-15px_70px_-30px_${colors.dark},inset_0px_1px_1px_1px_rgba(255,255,255,0.1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_5px_10px_-5px_rgba(0,0,0,0.4)`;
   }
-  return `inset_0px_0px_30px_-8px_${colors.light},inset_0px_-10px_40px_-7px_${colors.medium},inset_0px_-35px_80px_-30px_${colors.dark},inset_0px_1px_1px_1px_rgba(255,255,255,0.1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4)`;
+  return `inset_0px_0px_20px_-8px_${colors.light},inset_0px_-10px_30px_-7px_${colors.medium},inset_0px_-30px_70px_-30px_${colors.dark},inset_0px_1px_1px_1px_rgba(255,255,255,0.1),_0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4)`;
 }
 
 /**

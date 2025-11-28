@@ -16,7 +16,7 @@ export function MindStatusIcon({ className, status }: MindStatusIconProps) {
       <div className='relative inline-block'>
         <BrainIcon
           className={cn(
-            "size-4 text-icon-light group-hover:text-blue-500",
+            "size-4 text-icon-light group-hover:text-blue-500 dark:text-white/50",
             className
           )}
         />

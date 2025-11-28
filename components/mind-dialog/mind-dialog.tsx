@@ -95,7 +95,7 @@ function MindDialogHeader() {
 
   return (
     <div
-      className='mind-area flex-shrink-0 flex flex-col m-1 mb-0 overflow-hidden bg-black dark:border-white/3 p-2 pb-1 relative'
+      className='mind-area flex-shrink-0 flex flex-col m-1 mb-0 overflow-hidden bg-black  dark:border-white/3 p-2 pb-1 relative'
       style={{
         boxShadow: defaultShadow.replace(/_/g, " "),
       }}

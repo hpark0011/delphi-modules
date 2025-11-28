@@ -101,7 +101,7 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
         <AnimatePresence mode='sync' initial={false}>
           <motion.div
             key={state + labelText}
-            className={`text-[13px] ${isNewItem ? "max-w-[160px] truncate" : "whitespace-nowrap"}`}
+            className={`text-[13px] dark:text-white/90 ${isNewItem ? "max-w-[160px] truncate" : "whitespace-nowrap"}`}
             initial={{
               y: -20,
               opacity: 0,
@@ -134,9 +134,7 @@ interface MiniTrainingStatusProps {
   onDismiss?: () => void;
 }
 
-export function MiniTrainingStatus({
-  onDismiss,
-}: MiniTrainingStatusProps) {
+export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
   const { queue } = useTrainingQueue();
   const { openWithTab } = useMindDialog();
 

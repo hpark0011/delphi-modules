@@ -52,7 +52,7 @@ function LabelContent() {
       transition={{ duration: 0.2 }}
     >
       <BrainIcon className='text-icon-light size-4' />
-      <motion.h1 className='text-text-primary-inverse tracking-tighter font-medium flex items-center justify-center h-fit leading-[100%]'>
+      <motion.h1 className='text-text-primary-inverse dark:text-white tracking-tighter font-medium flex items-center justify-center h-fit leading-[100%]'>
         Hello
       </motion.h1>
     </motion.div>
@@ -63,7 +63,7 @@ function PlusTenContent({ isSmall }: { isSmall: boolean }) {
   return (
     <motion.h1
       key='plus-ten'
-      className='text-text-primary-inverse tracking-tighter font-semibold flex items-center justify-center h-fit leading-[100%]'
+      className='text-text-primary-inverse tracking-tighter font-semibold flex items-center justify-center h-fit leading-[100%] dark:text-white'
       initial={{
         y: 20,
         opacity: 0,
@@ -100,7 +100,7 @@ function ScoreContent({
   return (
     <motion.h1
       key='score'
-      className='text-text-primary-inverse tracking-tighter font-semibold flex items-center justify-center h-fit leading-[100%]'
+      className='text-text-primary-inverse tracking-tighter font-semibold flex items-center justify-center h-fit leading-[100%] dark:text-white'
       initial={
         shouldRollIn
           ? {
@@ -182,7 +182,7 @@ export function OnboardingMindWidget({
         <div className={showLabel && isSmall ? "w-fit" : ""}>
           {/* Inner widget: Widget that contains the label or score. */}
           <motion.div
-            className='shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40 z-10 flex flex-col items-center justify-center'
+            className='shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/100 z-10 flex flex-col items-center justify-center relative'
             initial={{
               width: showLabel && isSmall ? undefined : WIDGET_WIDTH_LARGE,
               height: WIDGET_HEIGHT_SMALL,
@@ -226,6 +226,22 @@ export function OnboardingMindWidget({
 
             {/* Mind Level (only visible when large) */}
             <AnimatePresence>{!isSmall && <MindLevel />}</AnimatePresence>
+
+            {/* Mind Area Inner */}
+            <motion.div
+              className='rounded-full absolute'
+              animate={{
+                top: isSmall ? "1px" : "2px",
+                left: isSmall ? "1px" : "2px",
+                width: isSmall ? "calc(100% - 2px)" : "calc(100% - 4px)",
+                height: isSmall ? "calc(100% - 2px)" : "calc(100% - 4px)",
+                filter: isSmall ? "blur(3px)" : "blur(6px)",
+                boxShadow: isSmall
+                  ? "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 0.5px rgba(255,255,255,1)"
+                  : "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 2px rgba(255,255,255,1)",
+              }}
+              transition={SPRING_CONFIG}
+            />
           </motion.div>
         </div>
 

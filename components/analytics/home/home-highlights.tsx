@@ -15,7 +15,7 @@ function HighlightCard({ href, label, value }: HighlightCardProps) {
   return (
     <Link
       href={href}
-      className='bg-card p-3.5 py-3 pr-3 hover:bg-[#f2f2f2] dark:hover:bg-[#262626] transition-all cursor-pointer'
+      className='bg-card p-3.5 py-3 pr-3 hover:bg-[#f2f2f2] dark:hover:bg-white/10 transition-all cursor-pointer'
     >
       <div className='flex w-full items-center justify-between'>
         <p className='text-[13px] text-[#63635E] dark:text-neutral-400 leading-[1.2]'>
@@ -79,7 +79,7 @@ export function HomeHighlights({ highlights }: { highlights: Highlights }) {
               value={item.value}
             />
             {index < highlightItems.length - 1 && (
-              <div className='h-[1px] bg-[#EBEBE9] dark:bg-[#21201C]' />
+              <div className='h-[1px] bg-[#EBEBE9] dark:bg-[#171715]' />
             )}
           </Fragment>
         ))}
