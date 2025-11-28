@@ -1,9 +1,9 @@
 "use client";
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
-import { Icon } from "@/components/ui/icon";
 import { usePathname } from "next/navigation";
 
 import EngagementLoading from "@/app/analytics/engagement/loading";
+import { MindSolidIcon } from "@/delphi-ui/icons/MindSolid";
 
 export default function AnalyticsLoading() {
   const pathname = usePathname();
@@ -31,10 +31,7 @@ export default function AnalyticsLoading() {
                 <div className='flex items-center justify-between'>
                   <div className='flex items-center gap-3 p-2'>
                     <div className='w-8 h-8 bg-[#FF8D28]/10 rounded-full flex items-center justify-center'>
-                      <Icon
-                        name='BookClosedFillIcon'
-                        className='size-6 text-[#FF8D28]'
-                      />
+                      <MindSolidIcon className='size-6 text-[#FF8D28]' />
                     </div>
                     <h2 className='text-lg font-medium'>Train your Delphi</h2>
                   </div>

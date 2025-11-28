@@ -25,7 +25,8 @@
       "mcp__playwright__browser_tabs",
       "mcp__playwright__browser_install",
       "Bash(pkill:*)",
-      "WebFetch(domain:motion.dev)"
+      "WebFetch(domain:motion.dev)",
+      "mcp__playwright__browser_wait_for"
     ],
     "deny": [],
     "ask": []

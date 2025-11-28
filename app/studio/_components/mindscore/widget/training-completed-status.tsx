@@ -1,6 +1,7 @@
 "use client";
 
-import { Icon } from "@/components/ui/icon";
+import { MindStatusIcon } from "@/components/mind-status-notification";
+import { TrainingResultBadges } from "@/components/mind-widget/training-result-badges";
 import {
   Tooltip,
   TooltipContent,
@@ -11,9 +12,8 @@ import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
-import { ExpandableQueueList } from "./expandable-queue-list";
-import { MindStatusIcon } from "@/components/mind-status-notification";
 import { SCORE_PER_ITEM } from "../../../_constants/training-queue";
+import { ExpandableQueueList } from "./expandable-queue-list";
 
 export interface TrainingCompletedStatusProps {
   setShowCompletedStatus: (show: boolean) => void;
@@ -63,41 +63,10 @@ export function TrainingCompletedStatus({
             Learning Completed!
           </div>
         </div>
-        <div className='text-xs text-text-muted flex items-center gap-1 mr-0'>
-          {/* Completed items */}
-          {completedCount > 0 && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className='text-green-500 min-w-[18px] text-center  cursor-default flex items-center'>
-                  <Icon name='CheckedCircleFillIcon' className='size-5' />
-                  <span className='text-[12px] font-medium'>
-                    {completedCount}
-                  </span>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
-                completed
-              </TooltipContent>
-            </Tooltip>
-          )}
-          {/* Failed items */}
-          {failedCount > 0 && (
-            <Tooltip>
-              <TooltipTrigger asChild className='shadow-2xl'>
-                <div className='text-orange-500 min-w-[18px] text-center cursor-default flex items-center'>
-                  <Icon
-                    name='ExclamationmarkTriangleFillIcon'
-                    className='size-4.5'
-                  />
-                  <span className='text-[12px] font-medium'>{failedCount}</span>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
-                failed
-              </TooltipContent>
-            </Tooltip>
-          )}
-        </div>
+        <TrainingResultBadges
+          completedCount={completedCount}
+          failedCount={failedCount}
+        />
         <Tooltip>
           <TooltipTrigger asChild className='shadow-2xl'>
             <button
@@ -113,10 +82,6 @@ export function TrainingCompletedStatus({
               <span className='text-[12px] font-medium text-text-muted'>
                 +{totalScoreIncrease}
               </span>
-              {/* <Icon
-                name='DocPlainTextFillIcon'
-                className='size-4.5 min-w-4.5 text-icon-light group-hover:text-blue-500'
-              /> */}
             </button>
           </TooltipTrigger>
           <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>

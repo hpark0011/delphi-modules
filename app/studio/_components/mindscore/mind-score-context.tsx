@@ -29,9 +29,11 @@ interface MindScoreContextType {
   progressCap: number;
   lastIncrement: number | null;
   lastDecrement: number | null;
+  lastTrainingDate: Date | null;
   incrementScore: (points: number) => void;
   decrementScore: (points: number) => void;
   acknowledgeLevelChange: () => void;
+  setLastTrainingDate: (date: Date) => void;
 }
 
 const MindScoreContext = createContext<MindScoreContextType | null>(null);
@@ -93,6 +95,7 @@ export function MindScoreProvider({
   const [lastDecrement, setLastDecrement] = useState<number | null>(null);
   const [previousLevel, setPreviousLevel] = useState<string | null>(null);
   const [hasLevelChanged, setHasLevelChanged] = useState(false);
+  const [lastTrainingDate, setLastTrainingDate] = useState<Date | null>(null);
 
   const incrementScore = useCallback((points: number) => {
     setCurrent((prev) => prev + points);
@@ -165,9 +168,11 @@ export function MindScoreProvider({
       progressCap,
       lastIncrement,
       lastDecrement,
+      lastTrainingDate,
       incrementScore,
       decrementScore,
       acknowledgeLevelChange,
+      setLastTrainingDate,
     }),
     [
       current,
@@ -179,6 +184,7 @@ export function MindScoreProvider({
       progressCap,
       lastIncrement,
       lastDecrement,
+      lastTrainingDate,
       incrementScore,
       decrementScore,
       acknowledgeLevelChange,

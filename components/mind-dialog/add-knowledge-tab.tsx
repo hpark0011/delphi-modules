@@ -92,7 +92,7 @@ function ContentCard({
   return (
     <div
       className={cn(
-        "bg-card p-4 px-5 pr-4 shadow-card-primary rounded-2xl group hover:bg-extra-light/50 cursor-pointer",
+        "bg-card p-4 px-5 pr-4 shadow-card-primary rounded-2xl group hover:bg-white/10 dark:hover:bg-white/10 cursor-pointer",
         className
       )}
       onClick={onAdd}

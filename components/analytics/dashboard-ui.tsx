@@ -18,7 +18,7 @@ export const Divider = ({ className }: { className?: string }) => {
   return (
     <div
       className={cn(
-        "w-[3px] h-12 bg-[#EBEBE9] dark:bg-[#21201C] rounded-full min-w-[3px]",
+        "w-[3px] h-12 bg-[#EBEBE9] dark:bg-[#171715] rounded-full min-w-[3px]",
         className
       )}
     />
@@ -37,7 +37,7 @@ export const AnalyticsSectionWrapper = ({
   return (
     <div
       className={cn(
-        "bg-[#F6F6F5] dark:bg-[#111110] rounded-[28px] p-1",
+        "bg-[#F6F6F5] dark:bg-[#171715] rounded-[28px] p-1",
         className
       )}
       style={style}

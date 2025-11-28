@@ -1,5 +1,6 @@
 "use client";
 
+import { MindStatusIcon } from "@/components/mind-status-notification";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
@@ -30,20 +31,9 @@ export function ActiveTrainingQueue({
       {/* Active Training Queue Header */}
       <div className='text-[14px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center justify-between gap-0.5 tracking-tight'>
         <div className='flex items-center gap-2 w-full justify-between'>
-          <div className='flex items-center gap-0.5'>
-            <Icon
-              name={
-                showCompletedStatus
-                  ? "GaugeWithDotsNeedle67PercentIcon"
-                  : "LoaderCircleIcon"
-              }
-              className={cn(
-                "size-4.5",
-                showCompletedStatus
-                  ? "text-neutral-400"
-                  : "text-icon-light mr-0.5",
-                !showCompletedStatus && "animate-spin"
-              )}
+          <div className='flex items-center gap-1'>
+            <MindStatusIcon
+              status={showCompletedStatus ? "finished" : "active"}
             />
             <span className={cn(showCompletedStatus && "text-text-primary")}>
               {showCompletedStatus
@@ -80,7 +70,7 @@ export function ActiveTrainingQueue({
                 item={item}
                 docIconSize='size-5'
                 fontSize='text-[14px]'
-                containerClassName='hover:bg-extra-light/100 rounded-md py-1 px-2'
+                containerClassName='hover:bg-extra-light/100 rounded-md py-1 px-2 pl-1.5'
               />
             )
           )}

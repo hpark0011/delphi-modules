@@ -15,7 +15,7 @@ export function OnboardingHeader() {
         <Button
           size='sm'
           onClick={handlePrevious}
-          className='gap-1 rounded-full h-7 has-[>svg]:px-3 hover:opacity-70 absolute left-2 mt-2.5'
+          className='gap-1 rounded-full h-7 has-[>svg]:px-3 hover:bg-light absolute left-2 mt-2.5'
           variant='ghost'
         >
           <ArrowLeftIcon className='size-4 text-icon-medium' />
