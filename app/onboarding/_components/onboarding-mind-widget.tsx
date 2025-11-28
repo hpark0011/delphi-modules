@@ -182,7 +182,7 @@ export function OnboardingMindWidget({
         <div className={showLabel && isSmall ? "w-fit" : ""}>
           {/* Inner widget: Widget that contains the label or score. */}
           <motion.div
-            className='shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/100 z-10 flex flex-col items-center justify-center relative'
+            className='shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/60 z-10 flex flex-col items-center justify-center relative'
             initial={{
               width: showLabel && isSmall ? undefined : WIDGET_WIDTH_LARGE,
               height: WIDGET_HEIGHT_SMALL,

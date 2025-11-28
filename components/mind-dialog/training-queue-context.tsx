@@ -64,7 +64,7 @@ interface TrainingQueueProviderProps {
 export function TrainingQueueProvider({
   children,
 }: TrainingQueueProviderProps) {
-  const { incrementScore } = useMindScore();
+  const { incrementScore, setLastTrainingDate } = useMindScore();
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const processingRef = useRef(false);
   const intervalRefs = useRef<Map<string, NodeJS.Timeout>>(new Map());
@@ -150,11 +150,16 @@ export function TrainingQueueProvider({
         }
       }
 
+      // Update last training date when queue processing completes
+      if (itemsToProcess.length > 0) {
+        setLastTrainingDate(new Date());
+      }
+
       processingRef.current = false;
     };
 
     processQueue();
-  }, [queue, updateItemStatus, processItemProgress, incrementScore]);
+  }, [queue, updateItemStatus, processItemProgress, incrementScore, setLastTrainingDate]);
 
   const addToQueue = useCallback((items: QueueItemInput[]) => {
     const newItems: QueueItem[] = items.map((item) => {

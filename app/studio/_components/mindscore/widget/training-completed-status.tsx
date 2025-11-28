@@ -82,10 +82,6 @@ export function TrainingCompletedStatus({
               <span className='text-[12px] font-medium text-text-muted'>
                 +{totalScoreIncrease}
               </span>
-              {/* <Icon
-                name='DocPlainTextFillIcon'
-                className='size-4.5 min-w-4.5 text-icon-light group-hover:text-blue-500'
-              /> */}
             </button>
           </TooltipTrigger>
           <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>

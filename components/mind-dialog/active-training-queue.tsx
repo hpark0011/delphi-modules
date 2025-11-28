@@ -70,7 +70,7 @@ export function ActiveTrainingQueue({
                 item={item}
                 docIconSize='size-5'
                 fontSize='text-[14px]'
-                containerClassName='hover:bg-extra-light/100 rounded-md py-1 px-2 pl-1'
+                containerClassName='hover:bg-extra-light/100 rounded-md py-1 px-2 pl-1.5'
               />
             )
           )}

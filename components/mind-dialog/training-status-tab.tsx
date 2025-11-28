@@ -5,6 +5,8 @@ import {
   formatDateLabel,
   getStatusIcon,
 } from "@/app/studio/_utils/mind-dialog-helpers";
+import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
+import { SCORE_PER_ITEM } from "@/app/studio/_constants/training-queue";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -139,6 +141,7 @@ function DateGroupTable({
 
 export function TrainingStatusTab() {
   const { queue } = useTrainingQueue();
+  const { current, nextLevelThreshold, lastTrainingDate } = useMindScore();
   const [selectedStatus, setSelectedStatus] = useState<
     TrainingItemStatus | "all"
   >("all");
@@ -309,24 +312,24 @@ export function TrainingStatusTab() {
     { value: "failed", label: "Failed" },
   ];
 
-  // Calculate summary statistics
+  // Calculate summary statistics from actual queue data
   const summaryStats = useMemo(() => {
-    const completed = mockTrainingItems.filter(
+    // Use actual queue data to match training-completed-status.tsx
+    const completed = queue.filter(
       (item) => item.status === "completed"
     ).length;
-    const failed = mockTrainingItems.filter(
-      (item) => item.status === "failed"
-    ).length;
-    // Total trained items (completed + failed, excluding queued/training)
-    const totalTrained = completed + failed;
+    const failed = queue.filter((item) => item.status === "failed").length;
+    const deleted = queue.filter((item) => item.status === "deleted").length;
+    // Total trained items (completed + failed + deleted)
+    const totalTrained = completed + failed + deleted;
 
-    // Items trained in past 24 hours
+    // Items trained in past 24 hours (from mock data for history)
     const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000;
     const trainedLast24Hours = mockTrainingItems.filter(
       (item) => parseISO(item.trainedAt).getTime() >= twentyFourHoursAgo
     ).length;
 
-    // Types of questions mind can answer (based on completed items)
+    // Types of questions mind can answer (from mock data for history)
     const completedTypes = new Set(
       mockTrainingItems
         .filter((item) => item.status === "completed")
@@ -334,7 +337,7 @@ export function TrainingStatusTab() {
     );
     const questionTypes = Array.from(completedTypes).join(", ");
 
-    // Words left to train (mock: assume each completed item = ~500K words)
+    // Words left to train (mock calculation)
     const totalWords = 12000000; // 12M words
     const wordsTrained = completed * 500000; // Mock calculation
     const wordsLeft = Math.max(0, totalWords - wordsTrained);
@@ -348,7 +351,11 @@ export function TrainingStatusTab() {
       wordsLeft,
       totalWords,
     };
-  }, []);
+  }, [queue]);
+
+  // Calculate derived values for TrainingSummary
+  const scoreIncrease = summaryStats.completed * SCORE_PER_ITEM;
+  const remainingToNextLevel = nextLevelThreshold - current;
 
   return (
     <div className='flex flex-col gap-4'>
@@ -365,7 +372,12 @@ export function TrainingStatusTab() {
 
       {/* Training Summary - Only show when queue is dull (default state) */}
       {queueStatus === "dull" && (
-        <TrainingSummary summaryStats={summaryStats} />
+        <TrainingSummary
+          summaryStats={summaryStats}
+          scoreIncrease={scoreIncrease}
+          remainingToNextLevel={remainingToNextLevel}
+          trainingDate={lastTrainingDate}
+        />
       )}
 
       {/* Data Table grouped by date */}

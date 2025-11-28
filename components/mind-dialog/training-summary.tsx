@@ -2,6 +2,7 @@
 
 import { Icon } from "@/components/ui/icon";
 import type { IconName } from "@/components/ui/icon";
+import { format } from "date-fns";
 
 interface SummaryStats {
   totalTrained: number;
@@ -15,6 +16,9 @@ interface SummaryStats {
 
 interface TrainingSummaryProps {
   summaryStats: SummaryStats;
+  scoreIncrease: number;
+  remainingToNextLevel: number;
+  trainingDate: Date | null;
 }
 
 interface StatCardProps {
@@ -42,7 +46,12 @@ function Divider() {
   return <div className='self-stretch bg-light min-w-[2px] w-[2px]' />;
 }
 
-export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
+export function TrainingSummary({
+  summaryStats,
+  scoreIncrease,
+  remainingToNextLevel,
+  trainingDate,
+}: TrainingSummaryProps) {
   const questions = [
     "What is your latest hobby?",
     "How did you get into product design?",
@@ -50,6 +59,11 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
     "What are you working on right now?",
     "What is next for you?",
   ];
+
+  // Format the training date
+  const formattedDate = trainingDate
+    ? format(trainingDate, "MMM d, yyyy")
+    : "No training yet";
 
   return (
     <div className='flex flex-col gap-3 mt-4'>
@@ -65,7 +79,7 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
           <div className='flex flex-col gap-2'>
             <h1 className='text-start text-text-secondary px-1 text-[15px]'>
               From training on{" "}
-              <span className='font-semibold'>Nov 17, 2025</span>
+              <span className='font-semibold'>{formattedDate}</span>
             </h1>
 
             <div className='flex flex-col w-full items-center justify-center mb-4 py-10 gap-2'>
@@ -73,18 +87,16 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
                 Mind Score
               </span>
               <div className='flex gap-0 items-end justify-center relative  w-full'>
-                {/* <Icon
-                  name='ArrowshapeUpFillIcon'
-                  className='size-10 text-green-700 bottom-1 relative'
-                /> */}
                 <span className='text-text-primary font-semibold text-6xl tracking-tighter ml-[-24px]'>
-                  <span className='text-5xl'>+</span>130
+                  {/* Mind score increased */}
+                  <span className='text-5xl'>+</span>{scoreIncrease}
                 </span>{" "}
               </div>
+              {/* Remaining mind score until next level */}
               <div className='text-text-muted text-[15px] mt-1'>
                 Mind score left until next level{" "}
                 <span className='px-1.5 py-0.5 bg-extra-light rounded-sm tracking-tighter shadow-sm ml-0.5 text-text-primary'>
-                  400
+                  {remainingToNextLevel}
                 </span>
               </div>
             </div>
