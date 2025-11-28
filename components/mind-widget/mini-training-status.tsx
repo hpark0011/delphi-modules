@@ -131,11 +131,11 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
 }
 
 interface MiniTrainingStatusProps {
-  onMarkReviewed?: () => void;
+  onDismiss?: () => void;
 }
 
 export function MiniTrainingStatus({
-  onMarkReviewed,
+  onDismiss,
 }: MiniTrainingStatusProps) {
   const { queue } = useTrainingQueue();
   const { openWithTab } = useMindDialog();
@@ -199,12 +199,12 @@ export function MiniTrainingStatus({
     prevQueueLengthRef.current = queue.length;
   }, [queue]);
 
-  // When training finishes, show badges for 2 seconds then notify parent to unmount
+  // When training finishes, show badges for 2 seconds then dismiss
   useEffect(() => {
     if (queueStatus === "finished" && completedCount + failedCount > 0) {
       if (finishedTimeoutRef.current) clearTimeout(finishedTimeoutRef.current);
       finishedTimeoutRef.current = setTimeout(() => {
-        onMarkReviewed?.();
+        onDismiss?.();
       }, FINISHED_DISPLAY_DURATION);
     }
 
@@ -215,7 +215,7 @@ export function MiniTrainingStatus({
     return () => {
       if (finishedTimeoutRef.current) clearTimeout(finishedTimeoutRef.current);
     };
-  }, [queueStatus, completedCount, failedCount, onMarkReviewed]);
+  }, [queueStatus, completedCount, failedCount, onDismiss]);
 
   // Display state: override takes priority over base state
   const displayState: BadgeState =

@@ -7,22 +7,35 @@ import {
 } from "@/app/studio/_utils/mind-shadow-helpers";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { AnimatePresence } from "framer-motion";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
 import { MiniTrainingStatus } from "./mini-training-status";
 
 export function MindWidgetSmall() {
   const { openWithTab } = useMindDialog();
   const { current, level } = useMindScore();
-  const [hasUserReviewed, setHasUserReviewed] = useState(false);
-  const { queueStatus } = useTrainingStatus(hasUserReviewed);
+
+  // Always pass false - mini widget doesn't mark as "reviewed"
+  // User reviews via dialog's "Preview" button
+  const { queueStatus } = useTrainingStatus(false);
+
+  // Local visibility state for the mini widget
+  const [isWidgetVisible, setIsWidgetVisible] = useState(false);
+
+  // Show widget when training is active or just finished
+  useEffect(() => {
+    if (queueStatus === "active" || queueStatus === "finished") {
+      setIsWidgetVisible(true);
+    }
+  }, [queueStatus]);
 
   const handleClick = () => {
     openWithTab("add-knowledge");
   };
 
-  const handleMarkReviewed = useCallback(() => {
-    setHasUserReviewed(true);
+  // Called after MiniTrainingStatus finishes showing "Completed!" for 2 seconds
+  const handleWidgetDismiss = useCallback(() => {
+    setIsWidgetVisible(false);
   }, []);
 
   // Get level-based shadow colors
@@ -51,8 +64,8 @@ export function MindWidgetSmall() {
         <div className='rounded-full studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_1px_0.5px_rgba(255,255,255,0.8),inset_0px_1px_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0px_1px_1px_1px_rgba(255,255,255,0.1),inset_0px_-1px_1px_0.5px_rgba(0,0,0,0.8),inset_0px_1px_1px_1px_rgba(0,0,0,0.4)] blur-[2px]' />
       </div>
       <AnimatePresence>
-        {queueStatus !== "dull" && (
-          <MiniTrainingStatus onMarkReviewed={handleMarkReviewed} />
+        {isWidgetVisible && (
+          <MiniTrainingStatus onDismiss={handleWidgetDismiss} />
         )}
       </AnimatePresence>
     </div>
