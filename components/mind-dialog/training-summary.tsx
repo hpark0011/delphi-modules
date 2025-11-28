@@ -26,7 +26,7 @@ interface StatCardProps {
 
 function StatCard({ iconName, iconColor, label, value }: StatCardProps) {
   return (
-    <div className='flex flex-col items-center gap-2 w-full px-1'>
+    <div className='flex flex-col items-center gap-2 w-full px-1.5 py-1 pb-0.5'>
       <div className='flex items-center gap-0.5 w-full'>
         <Icon name={iconName} className={`size-5 ${iconColor}`} />
         <span className='text-text-secondary text-sm'>{label}</span>
@@ -60,23 +60,32 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
         />
         Summary
       </div>
-      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-3 pb-3.5 mb-4'>
+      <div className='bg-light dark:bg-[#1A1A1A] rounded-2xl py-3 pb-3.5 mb-4'>
         <div className='flex flex-col gap-2 px-3 mb-0'>
           <div className='flex flex-col gap-2'>
-            <h1 className='text-start text-text-primary px-1 text-[15px]'>
-              From your last training at{" "}
-              <span className='font-semibold'>Nov 17, 2025</span>:
+            <h1 className='text-start text-text-secondary px-1 text-[15px]'>
+              From training on{" "}
+              <span className='font-semibold'>Nov 17, 2025</span>
             </h1>
 
-            <div className='flex flex-col w-full items-center justify-center mb-1'>
-              <div className='flex gap-0 items-end justify-center relative py-6 w-full'>
-                <Icon
+            <div className='flex flex-col w-full items-center justify-center mb-4 py-10 gap-2'>
+              <span className='text-text-secondary text-[15px]'>
+                Mind Score
+              </span>
+              <div className='flex gap-0 items-end justify-center relative  w-full'>
+                {/* <Icon
                   name='ArrowshapeUpFillIcon'
                   className='size-10 text-green-700 bottom-1 relative'
-                />
-                <span className='text-text-primary font-semibold text-6xl tracking-tighter'>
-                  130
+                /> */}
+                <span className='text-text-primary font-semibold text-6xl tracking-tighter ml-[-24px]'>
+                  <span className='text-5xl'>+</span>130
                 </span>{" "}
+              </div>
+              <div className='text-text-muted text-[15px] mt-1'>
+                Mind score left until next level{" "}
+                <span className='px-1 py-0.5 bg-extra-light rounded-sm tracking-tighter shadow-sm ml-0.5 text-text-primary'>
+                  400
+                </span>
               </div>
             </div>
 
@@ -91,7 +100,7 @@ export function TrainingSummary({ summaryStats }: TrainingSummaryProps) {
               <Divider />
               <StatCard
                 iconName='CheckedCircleFillIcon'
-                iconColor='text-green-600'
+                iconColor='text-green-500'
                 label='Completed'
                 value={summaryStats.completed}
               />
