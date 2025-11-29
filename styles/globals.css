@@ -22,6 +22,7 @@
   --color-dark-inverse: var(--color-dark-inverse);
   --color-extra-dark-inverse: var(--color-extra-dark-inverse);
   --color-highlight: var(--color-text-highlight);
+  --color-dialog: var(--color-dialog);
 
   /* Text Colors */
   --color-text-strong: var(--color-text-strong);
@@ -327,7 +328,7 @@
 
 .mind-area {
   corner-shape: superellipse(1.2);
-  border-radius: 16px 16px 40px 40px;
+  border-radius: 36px 36px 36px 36px;
 }
 
 .mind-area.studio {

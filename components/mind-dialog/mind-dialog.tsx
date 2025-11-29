@@ -109,7 +109,7 @@ function MindDialogHeader() {
           lastDecrement={lastDecrement}
         />
       </div>
-      <div className='flex justify-end items-center z-10 relative'>
+      <div className='flex justify-end items-center z-10 relative pt-2 pr-2'>
         <VisuallyHidden>
           <DialogTitle>Mind</DialogTitle>
         </VisuallyHidden>
@@ -219,7 +219,11 @@ export function MindDialog({
         {children}
         <DialogContent
           // showCloseButton
-          className={`p-0 sm:max-w-[calc(100%-2rem)] ${dialogWidthClass} rounded-2xl max-h-[90vh] h-full flex flex-col overflow-hidden bg-extra-light`}
+          className={`p-0 sm:max-w-[calc(100%-2rem)] ${dialogWidthClass} rounded-[36px] max-h-[90vh] h-full flex flex-col overflow-hidden bg-dialog`}
+          style={{
+            boxShadow:
+              "0 2px 2px 0 rgba(255, 255, 255, 1) inset,  0 10.213px 10.213px -5.107px rgba(0, 0, 0, 0.03), 0 5.107px 5.107px -2.553px rgba(0, 0, 0, 0.03), 0 2.553px 2.553px -2px rgba(0, 0, 0, 0.03), 0 0.638px 0.638px -0.319px rgba(0, 0, 0, 0.03)",
+          }}
         >
           <Tabs
             value={activeTab}
