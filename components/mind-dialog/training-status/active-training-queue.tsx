@@ -72,7 +72,7 @@ export function ActiveTrainingQueue({
   return (
     <div className='flex flex-col gap-3 mt-4'>
       {/* Active Training Queue Header */}
-      <div className='text-[14px] font-medium text-text-muted dark:text-neutral-500 px-3 flex items-center justify-between gap-0.5 tracking-tight'>
+      <div className='text-[14px] font-medium text-text-muted dark:text-neutral-500 px-3 pr-2 flex items-center justify-between gap-0.5 tracking-tight'>
         <div className='flex items-center gap-2 w-full justify-between'>
           <div className='flex items-center gap-1'>
             <MindStatusIcon
@@ -94,7 +94,7 @@ export function ActiveTrainingQueue({
             >
               <SelectTrigger
                 size='sm'
-                className='data-[size=sm]:h-6 bg-transparent px-2 text-[13px] w-fit rounded-sm hover:bg-base gap-1.5'
+                className='data-[size=sm]:h-6 bg-[#EAEAE6] px-2 text-[13px] w-fit rounded-md hover:bg-base gap-2'
               >
                 <div className='flex items-center gap-2 pb-[1px]'>
                   <SelectValue />
@@ -129,7 +129,7 @@ export function ActiveTrainingQueue({
       </div>
 
       {/* Active Training Queue List */}
-      <div className='bg-light dark:bg-[#1A1A1A] rounded-xl py-2.5 mb-4 px-2.5 max-h-[322px] overflow-y-auto'>
+      <div className='bg-[#EAEAE6] dark:bg-[#1A1A1A] rounded-xl py-2.5 mb-4 px-2.5 max-h-[322px] overflow-y-auto'>
         <div className='flex flex-col gap-0.5 w-full'>
           {filteredQueue.length === 0 ? (
             <div className='flex items-center justify-center py-8 text-[#8D8D86] dark:text-neutral-500'>

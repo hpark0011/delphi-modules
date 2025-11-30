@@ -7,7 +7,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { QueueItem } from "@/hooks/use-training-queue";
+// import type { QueueItem } from "@/hooks/use-training-queue";
 // import { motion } from "framer-motion";
 // import { ChevronDown } from "lucide-react";
 // import { useState } from "react";
@@ -19,20 +19,20 @@ export interface TrainingCompletedStatusProps {
   setShowCompletedStatus: (show: boolean) => void;
   completedCount: number;
   failedCount: number;
-  queueSnapshot?: QueueItem[];
+  // queueSnapshot?: QueueItem[];
 }
 
 export function TrainingCompletedStatus({
-  setShowCompletedStatus,
+  // setShowCompletedStatus,
   completedCount,
   failedCount,
-  queueSnapshot = [],
+  // queueSnapshot = [],
 }: TrainingCompletedStatusProps) {
   const { openWithTab } = useMindDialog();
   // const [isExpanded, setIsExpanded] = useState(false);
 
   // Calculate total score increase based on completed items
-  const totalScoreIncrease = completedCount * SCORE_PER_ITEM;
+  // const totalScoreIncrease = completedCount * SCORE_PER_ITEM;
 
   // const handleToggle = () => {
   //   setIsExpanded((prev) => !prev);
@@ -40,9 +40,10 @@ export function TrainingCompletedStatus({
 
   return (
     <div className='w-full relative'>
-      <div className='w-full items-center flex justify-center p-2 py-1.5 pr-[4px] gap-1 text-text-tertiary cursor-pointer rounded-full'>
+      <div className='w-full items-center flex justify-center p-2 py-1.5 pr-[12px] gap-1 text-text-tertiary cursor-pointer rounded-full '>
         <div
-          className='flex items-center gap-1 relative py-0.5 px-2 bg w-full pl-[3px] group hover:opacity-70'
+          className='flex items-center gap-1 relative py-0.5 px-2 bg w-full pl-[3px] group hover:opacity-70 '
+          onClick={() => openWithTab("training-status", "all")}
           // onClick={handleToggle}
           // role='button'
           tabIndex={0}
@@ -59,8 +60,11 @@ export function TrainingCompletedStatus({
           >
             <ChevronDown className='size-3.5 text-icon-light' />
           </motion.div> */}
-          <div className='text-[13px] font-[500] w-full'>
-            Learning Completed!
+          <div className='flex items-center gap-1'>
+            <MindStatusIcon status='finished' />
+            <div className='text-[13px] font-[500] w-full'>
+              Learning Completed!
+            </div>
           </div>
         </div>
         <TrainingResultBadges
@@ -69,7 +73,7 @@ export function TrainingCompletedStatus({
           onCompletedClick={() => openWithTab("training-status", "completed")}
           onFailedClick={() => openWithTab("training-status", "failed")}
         />
-        <Tooltip>
+        {/* <Tooltip>
           <TooltipTrigger asChild className='shadow-2xl'>
             <button
               className='mr-1 flex items-center gap-1 cursor-pointer group hover:bg-black/5 rounded-sm px-1.5 pl-1 py-0.5'
@@ -80,7 +84,6 @@ export function TrainingCompletedStatus({
               role='button'
             >
               <MindStatusIcon status='finished' />
-              {/* Increased mind score */}
               <span className='text-[12px] font-medium text-text-muted'>
                 +{totalScoreIncrease}
               </span>
@@ -89,7 +92,7 @@ export function TrainingCompletedStatus({
           <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
             New mind ready!
           </TooltipContent>
-        </Tooltip>
+        </Tooltip> */}
       </div>
 
       {/* Expanded Queue List */}

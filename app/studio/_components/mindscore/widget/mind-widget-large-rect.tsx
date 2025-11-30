@@ -132,7 +132,7 @@ function TrainingStatusTrigger({
         setShowCompletedStatus={(show) => setHasUserReviewed(!show)}
         completedCount={completedCount}
         failedCount={failedCount}
-        queueSnapshot={queue}
+        // queueSnapshot={queue}
       />
     );
   }

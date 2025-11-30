@@ -44,7 +44,7 @@ export function TrainingQueueItem({
     <div
       className={cn(
         "px-2.5 pr-[9px] py-0.5",
-        "hover:bg-extra-light/50 transition-colors",
+        "hover:bg-extra-light/50",
         containerClassName,
         className
       )}
