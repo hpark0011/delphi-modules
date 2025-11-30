@@ -26,12 +26,16 @@ export function useTrainingStatus(hasUserReviewed: boolean = false) {
   const totalCount = queue.length;
   const queueStatus = getTrainingQueueStatus(queue, hasUserReviewed);
   const activeCount = totalCount - finishedCount; // Count of items still being processed
+  const completedCount = queue.filter((item) => item.status === "completed").length;
+  const failedCount = queue.filter((item) => item.status === "failed").length;
 
   return {
     hasActiveItems: activeItemsExist,
     finishedCount,
     totalCount,
     activeCount,
+    completedCount,
+    failedCount,
     isIdle: !activeItemsExist && queue.length === 0,
     queueStatus,
   };

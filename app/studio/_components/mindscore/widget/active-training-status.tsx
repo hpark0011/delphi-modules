@@ -1,6 +1,7 @@
 "use client";
 
 import { MindStatusIcon } from "@/components/mind-status-notification";
+import { TrainingResultBadges } from "@/components/mind-widget/training-result-badges";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,7 +11,7 @@ import { ExpandableQueueList } from "./expandable-queue-list";
 
 export function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
-  const { activeCount } = useTrainingStatus();
+  const { activeCount, completedCount, failedCount } = useTrainingStatus();
   const [isExpanded, setIsExpanded] = useState(true);
   const [newlyAddedCount, setNewlyAddedCount] = useState<number | null>(null);
   const previousQueueLengthRef = useRef(queue.length);
@@ -120,6 +121,14 @@ export function ActiveTrainingStatus() {
             )}
           </AnimatePresence>
         </div>
+
+        {/* Completed/Failed Badges */}
+        {(completedCount > 0 || failedCount > 0) && (
+          <TrainingResultBadges
+            completedCount={completedCount}
+            failedCount={failedCount}
+          />
+        )}
 
         {/* Toggle Icon */}
         <motion.div
