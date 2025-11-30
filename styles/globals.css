@@ -5,6 +5,7 @@
 @import "./icon-colors.css";
 @import "./background-colors.css";
 @import "./shadows.css";
+@import "./profile.css";
 
 @custom-variant dark (&:is(.dark *));
 

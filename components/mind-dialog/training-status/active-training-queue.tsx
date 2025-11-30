@@ -129,7 +129,7 @@ export function ActiveTrainingQueue({
       </div>
 
       {/* Active Training Queue List */}
-      <div className='bg-[#EAEAE6] dark:bg-[#1A1A1A] rounded-xl py-2.5 mb-4 px-2.5 max-h-[322px] overflow-y-auto'>
+      <div className='bg-[#EAEAE6] dark:bg-[#1A1A1A] rounded-2xl py-2.5 mb-4 px-2.5 max-h-[488px] overflow-y-auto'>
         <div className='flex flex-col gap-0.5 w-full'>
           {filteredQueue.length === 0 ? (
             <div className='flex items-center justify-center py-8 text-[#8D8D86] dark:text-neutral-500'>
