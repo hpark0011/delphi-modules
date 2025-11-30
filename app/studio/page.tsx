@@ -4,7 +4,7 @@
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";
-import { MindWidgetLargeRect } from "@/components/mind-widget/mind-widget-large-rect";
+import { MindWidgetLargeRect } from "@/app/studio/_components/mindscore/widget/mind-widget-large-rect";
 import { MindSolidIcon } from "@/delphi-ui/icons/MindSolid";
 import { CircleDashedIcon } from "lucide-react";
 

@@ -5,17 +5,20 @@ import { SCORE_PER_ITEM } from "@/app/studio/_constants/training-queue";
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { useEffect, useMemo, useState } from "react";
-import { ActiveTrainingQueue } from "../active-training-queue";
+import { useMindDialog } from "../mind-dialog";
+import { ActiveTrainingQueue } from "./active-training-queue";
+import { type TrainingItem } from "./training-history";
 import { TrainingSummary } from "./training-summary";
-import { TrainingHistory, type TrainingItem } from "./training-history";
+// import { TrainingHistory } from "./training-history";
 
 // Re-export for backward compatibility
-export type { TrainingItem };
 export type { TrainingItemStatus as TrainingStatus } from "@/utils/training-status-helpers";
+export type { TrainingItem };
 
 export function TrainingStatusTab() {
   const { queue } = useTrainingQueue();
   const { current, nextLevelThreshold, lastTrainingDate } = useMindScore();
+  const { initialFilter, clearInitialFilter } = useMindDialog();
   const [showCompletedStatus, setShowCompletedStatus] = useState(false);
   const [queueSnapshot, setQueueSnapshot] = useState<QueueItem[]>([]);
   const [hasUserDismissedCompletion, setHasUserDismissedCompletion] =
@@ -101,6 +104,8 @@ export function TrainingStatusTab() {
           finishedCount={finishedCount}
           totalCount={totalCount}
           queueSnapshot={queueSnapshot}
+          initialFilter={initialFilter}
+          onFilterApplied={clearInitialFilter}
         />
       )}
 
@@ -115,7 +120,7 @@ export function TrainingStatusTab() {
       )}
 
       {/* Training History */}
-      <TrainingHistory />
+      {/* <TrainingHistory /> */}
     </div>
   );
 }

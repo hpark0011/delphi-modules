@@ -1,18 +1,20 @@
 "use client";
 
+import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
 import { MindStatusIcon } from "@/components/mind-status-notification";
 import { TrainingResultBadges } from "@/components/mind-widget/training-result-badges";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+// import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { ExpandableQueueList } from "./expandable-queue-list";
+// import { ExpandableQueueList } from "./expandable-queue-list";
 
 export function ActiveTrainingStatus() {
   const { queue } = useTrainingQueue();
   const { activeCount, completedCount, failedCount } = useTrainingStatus();
-  const [isExpanded, setIsExpanded] = useState(true);
+  const { openWithTab } = useMindDialog();
+  // const [isExpanded, setIsExpanded] = useState(true);
   const [newlyAddedCount, setNewlyAddedCount] = useState<number | null>(null);
   const previousQueueLengthRef = useRef(queue.length);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -72,33 +74,45 @@ export function ActiveTrainingStatus() {
     };
   }, [queue.length]);
 
-  const handleToggle = () => {
-    setIsExpanded((prev) => !prev);
-  };
+  // const handleToggle = () => {
+  //   setIsExpanded((prev) => !prev);
+  // };
 
   return (
     <div className='w-full relative'>
       {/* Status / Trigger */}
       <div
         className='w-full items-center flex justify-start py-2 px-[10px] pr-3 gap-1.5 text-text-muted hover:text-blue-500 cursor-pointer h-[36px]'
-        onClick={handleToggle}
+        // onClick={handleToggle}
         role='button'
         tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            handleToggle();
+            // handleToggle();
           }
         }}
       >
         {/* Training Status Text */}
         <div className='flex items-center gap-1 w-full'>
-          <div className='flex items-center gap-1 w-fit'>
+          <div
+            className='flex items-center gap-1 w-fit cursor-pointer hover:opacity-80'
+            onClick={(e) => {
+              e.stopPropagation();
+              openWithTab("training-status", "all");
+            }}
+            role='button'
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                e.stopPropagation();
+                openWithTab("training-status", "all");
+              }
+            }}
+          >
             <MindStatusIcon status='active' />
-            <div className='text-[13px]'>
-              Learning {/* <span className='mx-0.5'>/</span> */}
-              {activeCount} Items
-            </div>
+            <div className='text-[13px]'>Learning {activeCount} Items</div>
           </div>
 
           {/* Items added confirmation text */}
@@ -127,25 +141,27 @@ export function ActiveTrainingStatus() {
           <TrainingResultBadges
             completedCount={completedCount}
             failedCount={failedCount}
+            onCompletedClick={() => openWithTab("training-status", "completed")}
+            onFailedClick={() => openWithTab("training-status", "failed")}
           />
         )}
 
         {/* Toggle Icon */}
-        <motion.div
+        {/* <motion.div
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={{ duration: 0.2 }}
           className='ml-1'
         >
           <ChevronDown className='size-3.5' />
-        </motion.div>
+        </motion.div> */}
       </div>
 
       {/* Expanded Queue List */}
-      <ExpandableQueueList
+      {/* <ExpandableQueueList
         items={queue}
         isExpanded={isExpanded}
         enableAutoScroll={true}
-      />
+      /> */}
     </div>
   );
 }

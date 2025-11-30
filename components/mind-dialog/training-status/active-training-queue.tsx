@@ -1,8 +1,8 @@
 "use client";
 
 import { MindStatusIcon } from "@/components/mind-status-notification";
-import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
+// import { Button } from "@/components/ui/button";
+// import { Icon } from "@/components/ui/icon";
 import {
   Select,
   SelectContent,
@@ -13,8 +13,8 @@ import {
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { type TrainingItemStatus } from "@/utils/training-status-helpers";
-import { useMemo, useState } from "react";
-import { TrainingQueueItem } from "../../app/studio/_components/mindscore/training-queue-item";
+import { useEffect, useMemo, useState } from "react";
+import { TrainingQueueItem } from "../../../app/studio/_components/mindscore/training-queue-item";
 
 interface ActiveTrainingQueueProps {
   showCompletedStatus: boolean;
@@ -22,6 +22,8 @@ interface ActiveTrainingQueueProps {
   finishedCount: number;
   totalCount: number;
   queueSnapshot: QueueItem[];
+  initialFilter?: TrainingItemStatus | "all" | null;
+  onFilterApplied?: () => void;
 }
 
 const statusFilters: Array<{
@@ -37,10 +39,12 @@ const statusFilters: Array<{
 
 export function ActiveTrainingQueue({
   showCompletedStatus,
-  setShowCompletedStatus,
+  // setShowCompletedStatus,
   finishedCount,
   totalCount,
   queueSnapshot,
+  initialFilter,
+  onFilterApplied,
 }: ActiveTrainingQueueProps) {
   const { queue } = useTrainingQueue();
   const [selectedStatus, setSelectedStatus] = useState<
@@ -48,6 +52,14 @@ export function ActiveTrainingQueue({
   >("all");
 
   const activeCount = totalCount - finishedCount;
+
+  // Apply initial filter when provided from context (e.g., badge click)
+  useEffect(() => {
+    if (initialFilter) {
+      setSelectedStatus(initialFilter);
+      onFilterApplied?.();
+    }
+  }, [initialFilter, onFilterApplied]);
 
   const filteredQueue = useMemo(() => {
     const sourceQueue = showCompletedStatus ? queueSnapshot : queue;
@@ -97,7 +109,7 @@ export function ActiveTrainingQueue({
               </SelectContent>
             </Select>
           </div>
-          {showCompletedStatus && (
+          {/* {showCompletedStatus && (
             <>
               <Button
                 variant='glossy'
@@ -112,7 +124,7 @@ export function ActiveTrainingQueue({
                 <span className='text-[13px]'>View summary</span>
               </Button>
             </>
-          )}
+          )} */}
         </div>
       </div>
 

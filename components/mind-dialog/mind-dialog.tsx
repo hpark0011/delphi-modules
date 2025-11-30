@@ -29,14 +29,17 @@ import {
   MindDialogTabId,
   getMindDialogWidthClass,
 } from "./mind-dialog-config";
+import { type TrainingItemStatus } from "@/utils/training-status-helpers";
 
 // Re-export for convenience
 export type { MindDialogTabId } from "./mind-dialog-config";
 
 interface MindDialogContextType {
   setActiveTab: (tab: MindDialogTabId) => void;
-  openWithTab: (tab: MindDialogTabId) => void;
+  openWithTab: (tab: MindDialogTabId, initialFilter?: TrainingItemStatus | "all") => void;
   close: () => void;
+  initialFilter: TrainingItemStatus | "all" | null;
+  clearInitialFilter: () => void;
 }
 
 const MindDialogContext = createContext<MindDialogContextType | null>(null);
@@ -191,18 +194,31 @@ export function MindDialog({
 }: MindDialogProps) {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<MindDialogTabId>(defaultTab);
+  const [initialFilter, setInitialFilter] = useState<TrainingItemStatus | "all" | null>(null);
 
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
+    // Clear initial filter when dialog closes
+    if (!isOpen) {
+      setInitialFilter(null);
+    }
   };
 
-  const openWithTab = (tab: MindDialogTabId) => {
+  const openWithTab = (tab: MindDialogTabId, filter?: TrainingItemStatus | "all") => {
     setActiveTab(tab);
+    if (filter) {
+      setInitialFilter(filter);
+    }
     setOpen(true);
   };
 
   const closeDialog = () => {
     setOpen(false);
+    setInitialFilter(null);
+  };
+
+  const clearInitialFilter = () => {
+    setInitialFilter(null);
   };
 
   // Get width class for current tab
@@ -213,7 +229,7 @@ export function MindDialog({
 
   return (
     <MindDialogContext.Provider
-      value={{ setActiveTab, openWithTab, close: closeDialog }}
+      value={{ setActiveTab, openWithTab, close: closeDialog, initialFilter, clearInitialFilter }}
     >
       <Dialog open={open} onOpenChange={handleOpenChange}>
         {children}

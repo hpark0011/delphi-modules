@@ -4,8 +4,11 @@ import {
   generateShadowString,
 } from "@/app/studio/_utils/mind-shadow-helpers";
 import { cn } from "@/lib/utils";
-import { AnalyticsSectionWrapper } from "../analytics/dashboard-ui";
-import { MindDialog, useMindDialog } from "../mind-dialog/mind-dialog";
+import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
+import {
+  MindDialog,
+  useMindDialog,
+} from "@/components/mind-dialog/mind-dialog";
 import { MindProgressBar } from "@/app/studio/_components/mindscore/mind-progress-bar";
 import { TrainingCompletedStatus } from "@/app/studio/_components/mindscore/widget/training-completed-status";
 import { QueueItem, useTrainingQueue } from "@/hooks/use-training-queue";

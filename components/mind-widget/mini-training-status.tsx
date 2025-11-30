@@ -247,6 +247,8 @@ export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
               <TrainingResultBadges
                 completedCount={completedCount}
                 failedCount={failedCount}
+                onCompletedClick={() => openWithTab("training-status", "completed")}
+                onFailedClick={() => openWithTab("training-status", "failed")}
               />
             </motion.div>
           ) : (
