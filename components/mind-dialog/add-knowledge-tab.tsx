@@ -212,7 +212,7 @@ export function AddKnowledgeTab() {
             title='Interview mode'
             description='Train your Delphi by answering questions relevant to you.'
             onAdd={() => handleAddContent("Interview mode")}
-            className='h-[240px]'
+            className='h-[220px]'
           />
           {/* 2x2 Grid */}
           <div className='flex-1 min-h-0 grid grid-cols-2 gap-2'>

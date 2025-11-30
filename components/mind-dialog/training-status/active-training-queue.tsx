@@ -3,6 +3,7 @@
 import { MindStatusIcon } from "@/components/mind-status-notification";
 // import { Button } from "@/components/ui/button";
 // import { Icon } from "@/components/ui/icon";
+import { TrainingQueueItem } from "@/app/studio/_components/mindscore/training-queue-item";
 import {
   Select,
   SelectContent,
@@ -14,7 +15,6 @@ import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { type TrainingItemStatus } from "@/utils/training-status-helpers";
 import { useEffect, useMemo, useState } from "react";
-import { TrainingQueueItem } from "../../../app/studio/_components/mindscore/training-queue-item";
 
 interface ActiveTrainingQueueProps {
   showCompletedStatus: boolean;
@@ -129,7 +129,7 @@ export function ActiveTrainingQueue({
       </div>
 
       {/* Active Training Queue List */}
-      <div className='bg-[#EAEAE6] dark:bg-[#1A1A1A] rounded-2xl py-2.5 mb-4 px-2.5 max-h-[488px] overflow-y-auto'>
+      <div className='bg-[#EAEAE6] dark:bg-[#1A1A1A] rounded-2xl py-2.5 px-2.5 max-h-[488px] overflow-y-auto'>
         <div className='flex flex-col gap-0.5 w-full'>
           {filteredQueue.length === 0 ? (
             <div className='flex items-center justify-center py-8 text-[#8D8D86] dark:text-neutral-500'>
@@ -142,7 +142,7 @@ export function ActiveTrainingQueue({
                 item={item}
                 docIconSize='size-5'
                 fontSize='text-[14px]'
-                containerClassName='hover:bg-extra-light/100 rounded-md py-1 px-2 pl-1.5'
+                containerClassName='hover:bg-extra-light/100 rounded-lg py-1.5 px-2 pl-1.5'
               />
             ))
           )}
