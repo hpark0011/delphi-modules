@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 const SPRING_CONFIG = {
   type: "spring" as const,
@@ -48,15 +49,24 @@ interface ProfileMindWidgetProps {
 }
 
 export function ProfileMindWidget({ mindScore }: ProfileMindWidgetProps) {
+  const [widgetExpanded, setWidgetExpanded] = useState<boolean>(false);
+  const handleExpandWidget = () => {
+    setWidgetExpanded((prev) => !prev);
+  };
   return (
     <motion.div
-      className='flex items-center justify-center relative'
+      className='flex items-center justify-center relative w-full '
       initial={false}
       transition={SPRING_CONFIG}
     >
       {/* Outer border */}
       <motion.div
-        className='relative bg-sand-7 rounded-full flex flex-row items-center p-[2px]'
+        className='relative rounded-4xl flex flex-col items-center max-w-[400px] bg-sand-1/80 dark:bg-sand-4/90'
+        animate={{
+          width: widgetExpanded ? "100%" : "fit-content",
+          height: widgetExpanded ? "240px" : "fit-content",
+          paddingTop: widgetExpanded ? "4px" : "0px",
+        }}
         transition={SPRING_CONFIG}
       >
         {/* Inner widget: Widget that contains the label or score. */}
@@ -65,7 +75,7 @@ export function ProfileMindWidget({ mindScore }: ProfileMindWidgetProps) {
           initial={{
             width: "fit-content",
             height: "40px",
-            minWidth: "56px",
+            minWidth: "52px",
             borderWidth: 0,
             borderRadius: "999px",
             paddingLeft: 0,
@@ -76,7 +86,7 @@ export function ProfileMindWidget({ mindScore }: ProfileMindWidgetProps) {
           animate={{
             width: "fit-content",
             height: "40px",
-            minWidth: "56px",
+            minWidth: "52px",
             borderWidth: 0,
             borderRadius: "999px",
             paddingLeft: 0,
@@ -85,11 +95,21 @@ export function ProfileMindWidget({ mindScore }: ProfileMindWidgetProps) {
             paddingBottom: 0,
           }}
           transition={{ duration: 0.2, ease: "easeIn" }}
+          onClick={handleExpandWidget}
         >
           <ScoreContent mindScore={mindScore} shouldRollIn={true} />
 
           <motion.div
             className='rounded-full absolute'
+            initial={{
+              top: "",
+              left: "",
+              width: "0px",
+              height: "0px",
+              filter: "blur(0px)",
+              boxShadow:
+                "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)",
+            }}
             animate={{
               top: "1px",
               left: "1px",
@@ -97,7 +117,7 @@ export function ProfileMindWidget({ mindScore }: ProfileMindWidgetProps) {
               height: "calc(100% - 2px)",
               filter: "blur(3px)",
               boxShadow:
-                "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -2px 2px 0px rgba(255,255,255,0.7), inset 0px 4px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)",
+                "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)",
             }}
             transition={SPRING_CONFIG}
           />
