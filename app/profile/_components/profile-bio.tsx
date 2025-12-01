@@ -8,10 +8,10 @@ export function ProfileBio({ bio }: ProfileBioProps) {
   const paragraphs = bio.split("\n\n");
 
   return (
-    <section className="pb-5">
-      <div className="text-sand-12/90 text-[18px] relative z-10">
+    <section className='pb-5'>
+      <div className='text-text-secondary text-[18px] relative z-10'>
         {paragraphs.map((paragraph, index) => (
-          <p key={index} className="pb-4 last:pb-0">
+          <p key={index} className='pb-4 last:pb-0'>
             {paragraph}
           </p>
         ))}

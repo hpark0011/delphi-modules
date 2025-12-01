@@ -5,8 +5,8 @@ import { Link } from "next-view-transitions";
 // import { Button, DelphiCurrentIcon } from "@delphi/ui";
 import { Button } from "@/components/ui/button";
 
-import { VerticalDivider } from "./vertical-divider";
 import { DelphiCurrentIcon } from "@/delphi-ui/icons/DelphiCurrent";
+import { VerticalDivider } from "./vertical-divider";
 
 interface ProfileHeaderProps {
   slug: string;
@@ -38,9 +38,9 @@ export function ProfileHeader({
             <Button
               variant='secondary'
               size='sm'
-              className='transition-colors font-normal bg-[#ECE6E3] rounded-full text-text-muted shadow-none h-12 text-[16px]'
+              className='transition-colors  bg-[#ECE6E3] rounded-full text-text-muted shadow-none h-10 text-[16px]'
             >
-              <span className='text-[16px]'>Share</span>
+              <span className='text-[16px] font-medium'>Share</span>
             </Button>
           </div>
         </nav>

@@ -25,7 +25,7 @@ export function ProfileHeadline({
 
   return (
     <div
-      className='text-md flex gap-2 text-sand-11 pb-5'
+      className='text-md flex gap-2 text-text-secondary pb-5'
       style={{ marginLeft: "-1px" }}
     >
       <TooltipProvider delayDuration={200}>
@@ -38,7 +38,7 @@ export function ProfileHeadline({
                   alt={primaryOrganization?.name}
                   width={22}
                   height={22}
-                  className='inline-block size-[22px] rounded-[6px]'
+                  className='inline-block size-[22px] rounded-[6px] p-1'
                   style={{
                     boxShadow: "var(--profile-shadow-org-icon)",
                   }}
@@ -46,7 +46,7 @@ export function ProfileHeadline({
                 <div className='absolute right-[-3px] bottom-[-2px] bg-white h-[10px] w-[10px] rounded-full z-10' />
                 <div className='absolute right-[-6px] bottom-[-4px] rounded-[20px] z-20'>
                   <VerifiedIcon
-                    className={`size-[16px] text-blue-10 rounded-full`}
+                    className={`size-[16px] text-blue-500 rounded-full`}
                   />
                 </div>
               </div>
