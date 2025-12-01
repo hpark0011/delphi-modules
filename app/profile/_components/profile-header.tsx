@@ -6,6 +6,7 @@ import { Link } from "next-view-transitions";
 import { Button } from "@/components/ui/button";
 
 import { VerticalDivider } from "./vertical-divider";
+import { DelphiCurrentIcon } from "@/delphi-ui/icons/DelphiCurrent";
 
 interface ProfileHeaderProps {
   slug: string;
@@ -29,18 +30,17 @@ export function ProfileHeader({
               href='/explore'
               className='flex items-center gap-3 group pr-2 pl-2 transition-colors  transform text-sand-12/50 hover:text-sand-12'
             >
-              Delphi
-              {/* <DelphiCurrentIcon className='h-3.5' /> */}
+              <DelphiCurrentIcon className='h-3.5 text-icon-dark' />
             </Link>
             <VerticalDivider className='mr-2' />
           </div>
           <div className='flex items-center gap-5'>
             <Button
-              variant='ghost'
+              variant='secondary'
               size='sm'
-              className='transition-colors font-normal text-base backdrop-blur-sm bg-sand-10/10 text-sand-11 hover:text-sand-12 hover:bg-sand-10/15'
+              className='transition-colors font-normal bg-[#ECE6E3] rounded-full text-text-muted shadow-none h-12 text-[16px]'
             >
-              Share
+              <span className='text-[16px]'>Share</span>
             </Button>
           </div>
         </nav>
