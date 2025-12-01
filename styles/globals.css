@@ -158,6 +158,9 @@
   --color-sand-10: var(--sand-10);
   --color-sand-11: var(--sand-11);
   --color-sand-12: var(--sand-12);
+
+  /* Profile Colors */
+  --color-profile-bg: var(--profile-bg);
 }
 
 :root {

@@ -25,7 +25,7 @@ export function ProfileQuestions({ questions, slug }: ProfileQuestionsProps) {
   if (!questions || questions.length === 0) return null;
 
   return (
-    <div className='pb-3 mb-8 bg-sand-9/5 rounded-none p-6 pt-4 -ml-5.5 -mr-5.5 md:rounded-[30px]'>
+    <div className='pb-3 mb-8 bg-sand-9/5 rounded-none p-7 pt-4 -ml-5.5 -mr-5.5 md:rounded-[30px]'>
       <div className='flex items-center justify-between pb-4'>
         <h2 id='questions-section' className='text-xl font-[580] text-sand-12'>
           <span className='inline-flex items-center gap-2 transition-opacity duration-300'>

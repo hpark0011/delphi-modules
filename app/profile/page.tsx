@@ -14,7 +14,7 @@ export default function ProfilePage() {
         profile={mockProfile}
         organizations={mockOrganizations}
         cloneOptions={mockCloneOptions}
-        slug="hyunsol"
+        slug='hyunsol'
         canVoiceCall={true}
       />
     </ProfileBackgroundWrapper>

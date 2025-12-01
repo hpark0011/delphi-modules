@@ -51,12 +51,14 @@ export default function ProfileView({
             <ProfileSocials socials={profile.socials} name={profile.name} />
             <ProfileFooter name={profile.name} />
           </div>
-          <ProfileChatInput
-            slug={slug}
-            questions={profile.questions}
-            name={profile.name}
-            canVoiceCall={canVoiceCall}
-          />
+          <div className='flex flex-col items-center justify-center '>
+            <ProfileChatInput
+              slug={slug}
+              questions={profile.questions}
+              name={profile.name}
+              canVoiceCall={canVoiceCall}
+            />
+          </div>
         </div>
       </div>
     </>

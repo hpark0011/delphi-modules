@@ -2,11 +2,10 @@
 
 import { Link } from "next-view-transitions";
 
-// import { Button, DelphiCurrentIcon } from "@delphi/ui";
 import { Button } from "@/components/ui/button";
-
 import { DelphiCurrentIcon } from "@/delphi-ui/icons/DelphiCurrent";
-import { VerticalDivider } from "./vertical-divider";
+import { ProfileMindWidget } from "./mind-widget/profile-mind-widget";
+// import { VerticalDivider } from "./vertical-divider";
 
 interface ProfileHeaderProps {
   slug: string;
@@ -23,7 +22,7 @@ export function ProfileHeader({
 }: ProfileHeaderProps) {
   return (
     <>
-      <header className='pointer-events-none relative z-10 w-full select-none pb-10'>
+      <header className='pointer-events-none sticky top-0 z-50 w-full select-none pb-1 bg-gradient-to-b from-profile-bg to-transparent'>
         <nav className=' pointer-events-none flex items-center justify-between px-6 py-6 [&>*]:pointer-events-auto'>
           <div className='flex items-center gap-3'>
             <Link
@@ -32,8 +31,9 @@ export function ProfileHeader({
             >
               <DelphiCurrentIcon className='h-3.5 text-icon-dark' />
             </Link>
-            <VerticalDivider className='mr-2' />
+            {/* <VerticalDivider className='mr-2' /> */}
           </div>
+          <ProfileMindWidget mindScore={20} />
           <div className='flex items-center gap-5'>
             <Button
               variant='secondary'

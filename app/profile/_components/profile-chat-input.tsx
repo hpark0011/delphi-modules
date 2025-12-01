@@ -269,10 +269,10 @@ function ProfileChatInputMobile({
           className={cn(
             "relative z-10 overflow-hidden animate-slide-in-from-bottom-mobile opacity-0 bg-white",
             showInput
-              ? "w-[90%] max-w-3xl h-[58px] bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-sm bg-white"
+              ? "w-[90%] max-w-3xl h-[58px] bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-sm "
               : isScrolled
-                ? "w-[160px] h-[50px] bg-sand-1/50 dark:bg-sand-4/70 backdrop-blur-sm bg-white"
-                : "w-[240px] h-[62px] bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-sm bg-white"
+                ? "w-[160px] h-[50px] bg-sand-1/50 dark:bg-sand-4/70 backdrop-blur-sm "
+                : "w-[240px] h-[62px] bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-sm "
           )}
           style={{
             borderRadius: showInput ? "32px" : "60px",
@@ -401,10 +401,10 @@ function ProfileChatInputDesktop({
   return (
     <>
       <SharedStyles />
-      <div className='fixed bottom-0 left-1/2 -translate-x-1/2 w-[105%] sm:w-full sm:max-w-3xl px-8 z-50 pointer-events-none'>
+      <div className='fixed bottom-0 left-1/2 -translate-x-1/2 w-[105%] sm:w-full sm:max-w-3xl px-8 z-50 pointer-events-none flex flex-col items-center'>
         <div
           className={cn(
-            "relative z-10 bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-sm overflow-hidden animate-slide-in-from-bottom-mobile opacity-0 h-[66px] flex items-center",
+            "relative z-10 bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-sm overflow-hidden animate-slide-in-from-bottom-mobile opacity-0 h-[66px] flex items-center mx-auto",
             inputValue ? "max-w-3xl" : "max-w-lg"
           )}
           style={{
@@ -448,7 +448,7 @@ function ProfileChatInputDesktop({
         </div>
         <div
           className={cn(
-            "hidden sm:flex w-full px-5f relative z-10 pl-5 justify-center sm:justify-start tracking-tight items-center gap-1 text-text-muted text-[13px] pt-[16px] pb-[16px] pointer-events-none",
+            "hidden sm:flex max-w-3xl px-5 relative z-10 pl-5 justify-center sm:justify-start tracking-tight items-center gap-1 text-text-muted text-[13px] pt-[16px] pb-[16px] pointer-events-none mx-auto",
             !hasScrolled && "animate-fade-in-message opacity-0"
           )}
           style={
