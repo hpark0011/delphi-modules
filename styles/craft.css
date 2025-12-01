@@ -147,10 +147,6 @@
     --embed-primary-color-light: #ff6a274d;
   }
 
-  ::selection {
-    @apply bg-blue-5 dark:bg-blue-7 text-blue-11 dark:text-blue-12;
-  }
-
   .font-sans {
     font-feature-settings:
       "ss08" on,
@@ -160,19 +156,11 @@
       "cv09" on,
       "cv11" on;
   }
-
-  .focus-ring {
-    @apply focus-visible:ring-offset-sand-1 ring-blue-7 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
-  }
 }
 
 @tailwind utilities;
 
 @layer utilities {
-  .debug {
-    @apply border-tomato-9 border;
-  }
-
   .progressive-blur {
     --pb-top: to top;
     --pb-left: to left;
