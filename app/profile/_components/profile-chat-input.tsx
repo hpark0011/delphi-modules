@@ -267,16 +267,17 @@ function ProfileChatInputMobile({
       >
         <div
           className={cn(
-            "relative z-10 overflow-hidden animate-slide-in-from-bottom-mobile opacity-0",
+            "relative z-10 overflow-hidden animate-slide-in-from-bottom-mobile opacity-0 bg-white",
             showInput
-              ? "w-[90%] max-w-3xl h-[58px] bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-sm"
+              ? "w-[90%] max-w-3xl h-[58px] bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-sm bg-white"
               : isScrolled
-                ? "w-[160px] h-[50px] bg-sand-1/50 dark:bg-sand-4/70 backdrop-blur-sm"
-                : "w-[240px] h-[62px] bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-sm"
+                ? "w-[160px] h-[50px] bg-sand-1/50 dark:bg-sand-4/70 backdrop-blur-sm bg-white"
+                : "w-[240px] h-[62px] bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-sm bg-white"
           )}
           style={{
             borderRadius: showInput ? "32px" : "60px",
             boxShadow: "var(--profile-shadow-container)",
+            backgroundColor: "white",
             transition:
               "width var(--profile-transition-smooth), transform var(--profile-transition-smooth), border-radius var(--profile-transition-smooth), height var(--profile-transition-smooth)",
           }}
@@ -413,7 +414,7 @@ function ProfileChatInputDesktop({
               "max-width var(--profile-transition-spring), transform var(--profile-transition-smooth), border-radius var(--profile-transition-smooth)",
           }}
         >
-          <div className='flex items-center gap-0 p-[7px] w-full pointer-events-auto'>
+          <div className='flex items-center gap-0 p-[7px] w-full pointer-events-auto bg-white/80'>
             {canVoiceCall && (
               <button
                 type='button'
@@ -447,7 +448,7 @@ function ProfileChatInputDesktop({
         </div>
         <div
           className={cn(
-            "hidden sm:flex w-full px-5f relative z-10 pl-5 justify-center sm:justify-start tracking-tight items-center gap-1 text-sand-11/70 text-[13px] pt-[16px] pb-[16px] pointer-events-none",
+            "hidden sm:flex w-full px-5f relative z-10 pl-5 justify-center sm:justify-start tracking-tight items-center gap-1 text-text-muted text-[13px] pt-[16px] pb-[16px] pointer-events-none",
             !hasScrolled && "animate-fade-in-message opacity-0"
           )}
           style={

@@ -229,7 +229,7 @@ export const CustomInput = forwardRef<CustomInputHandle, CustomInputProps>(
             </div>
           )}
           {!value && (
-            <div className='ml-3 absolute inset-0 pointer-events-none flex items-center pr-1'>
+            <div className='ml-3 absolute inset-0 pointer-events-none flex items-center pr-1 text-text-muted'>
               {placeholder}
             </div>
           )}
@@ -246,7 +246,7 @@ export const CustomInput = forwardRef<CustomInputHandle, CustomInputProps>(
                   : "btn-inactive text-sand-11"
               }`}
             >
-              <ArrowUpIcon className='size-5' />
+              <ArrowUpIcon className='size-5 text-text-tertiary' />
             </button>
           </>
         )}
