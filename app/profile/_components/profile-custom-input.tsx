@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { ArrowUpIcon } from "@icons";
-import { AnimatedText, KeyboardKey } from "@delphi/ui";
+// import { AnimatedText, KeyboardKey } from "@delphi/ui";
 
 interface CustomInputProps {
   value: string;
@@ -230,25 +230,7 @@ export const CustomInput = forwardRef<CustomInputHandle, CustomInputProps>(
           )}
           {!value && (
             <div className='ml-3 absolute inset-0 pointer-events-none flex items-center pr-1'>
-              {questions.length > 0 ? (
-                <AnimatedText
-                  animationKey={currentQuestionIndex}
-                  className={`${compact ? "text-[15px]" : "text-[16px]"} text-sand-11/50 flex items-center gap-1 min-w-0`}
-                >
-                  <span className='leading-[1.3] flex-1 overflow-hidden text-ellipsis truncate'>
-                    {questions[currentQuestionIndex]}
-                  </span>
-                  <KeyboardKey className='flex-shrink-0 ml-2 bg-transparent border-b-1 text-sand-11/80 hidden sm:block'>
-                    <span className='text-sand-11/50'>TAB</span>
-                  </KeyboardKey>
-                </AnimatedText>
-              ) : (
-                <span
-                  className={`${compact ? "text-[15px]" : "text-[16px]"} text-sand-11/50 leading-[1.3]`}
-                >
-                  {placeholder}
-                </span>
-              )}
+              {placeholder}
             </div>
           )}
         </div>
