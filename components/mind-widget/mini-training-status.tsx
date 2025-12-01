@@ -52,7 +52,7 @@ function StatusIcon({
           {state === "newItem" && (
             <Icon
               name={docType ? getDocTypeIcon(docType) : "DocFillIcon"}
-              className='size-4'
+              className='size-4.5'
             />
           )}
         </motion.span>
@@ -88,7 +88,7 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
       {/* Hidden copy to measure width */}
       <div
         ref={measureRef}
-        className='absolute invisible whitespace-nowrap text-[13px]'
+        className='absolute invisible whitespace-nowrap text-[14px]'
       >
         {labelText}
       </div>
@@ -101,7 +101,7 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
         <AnimatePresence mode='sync' initial={false}>
           <motion.div
             key={state + labelText}
-            className={`text-[13px] dark:text-white/90 ${isNewItem ? "max-w-[160px] truncate" : "whitespace-nowrap"}`}
+            className={`text-[14px] dark:text-white/90 ${isNewItem ? "max-w-[168px] truncate" : "whitespace-nowrap"}`}
             initial={{
               y: -20,
               opacity: 0,
@@ -243,11 +243,13 @@ export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
               {...SLIDE_ANIMATION}
               className='flex items-center gap-1'
             >
-              <span className='text-[13px] font-medium'>Completed!</span>
+              <span className='text-[14px] font-medium'>Completed!</span>
               <TrainingResultBadges
                 completedCount={completedCount}
                 failedCount={failedCount}
-                onCompletedClick={() => openWithTab("training-status", "completed")}
+                onCompletedClick={() =>
+                  openWithTab("training-status", "completed")
+                }
                 onFailedClick={() => openWithTab("training-status", "failed")}
               />
             </motion.div>

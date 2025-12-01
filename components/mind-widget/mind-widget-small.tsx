@@ -6,10 +6,16 @@ import {
   getLevelShadowColors,
 } from "@/app/studio/_utils/mind-shadow-helpers";
 import { useTrainingStatus } from "@/hooks/use-training-status";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
 import { MiniTrainingStatus } from "./mini-training-status";
+
+const SPRING_CONFIG = {
+  type: "spring" as const,
+  stiffness: 300,
+  damping: 25,
+};
 
 export function MindWidgetSmall() {
   const { openWithTab } = useMindDialog();
@@ -49,19 +55,42 @@ export function MindWidgetSmall() {
         {/* Mindscore Wrapper */}
         <div
           onClick={handleClick}
-          className='flex flex-col gap-2  cursor-pointer rounded-[18px] overflow-hidden bg-black/87  border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40 w-fit h-fit px-2.5 py-1.5 relative z-10 justify-center items-center min-w-[46px]'
+          className='flex flex-col gap-2  cursor-pointer rounded-full overflow-hidden bg-black/87  border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40 w-fit px-2.5 py-1.5 relative z-10 justify-center items-center min-w-[52px] h-[40px]'
           style={{
             boxShadow: shadowString.replace(/_/g, " "),
           }}
         >
           {/* Mindscore Value */}
-          <span className='text-text-primary-inverse dark:text-text-primary text-[14px] font-semibold'>
+          <span className='text-text-primary-inverse dark:text-text-primary text-[16px] font-semibold'>
             {current}
           </span>
         </div>
 
         {/* Mind Area Inner */}
-        <div className='rounded-full studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_1px_0.5px_rgba(255,255,255,0.8),inset_0px_1px_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0px_1px_1px_1px_rgba(255,255,255,0.1),inset_0px_-1px_1px_0.5px_rgba(0,0,0,0.8),inset_0px_1px_1px_1px_rgba(0,0,0,0.4)] blur-[2px]' />
+        {/* <div className='rounded-full studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_1px_0.5px_rgba(255,255,255,0.8),inset_0px_1px_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0px_1px_1px_1px_rgba(255,255,255,0.1),inset_0px_-1px_1px_0.5px_rgba(0,0,0,0.8),inset_0px_1px_1px_1px_rgba(0,0,0,0.4)] blur-[2px]' /> */}
+
+        <motion.div
+          className='rounded-full absolute'
+          initial={{
+            top: "",
+            left: "",
+            width: "0px",
+            height: "0px",
+            filter: "blur(0px)",
+            boxShadow:
+              "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)",
+          }}
+          animate={{
+            top: "1px",
+            left: "1px",
+            width: "calc(100% - 2px)",
+            height: "calc(100% - 2px)",
+            filter: "blur(3px)",
+            boxShadow:
+              "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)",
+          }}
+          transition={SPRING_CONFIG}
+        />
       </div>
       <AnimatePresence>
         {isWidgetVisible && (

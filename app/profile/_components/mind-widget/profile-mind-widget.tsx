@@ -1,4 +1,8 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { MindStatusIcon } from "@/components/mind-status-notification";
+import { Button } from "@/components/ui/button";
+import { HomeIcon, PlusLargeIcon, PlusSmallIcon } from "@/delphi-ui/icons";
+import { useTrainingStatus } from "@/hooks/use-training-status";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 const SPRING_CONFIG = {
@@ -46,32 +50,39 @@ function ScoreContent({
 
 interface ProfileMindWidgetProps {
   mindScore: number;
+  level: string;
 }
 
-export function ProfileMindWidget({ mindScore }: ProfileMindWidgetProps) {
+export function ProfileMindWidget({
+  mindScore,
+  level,
+}: ProfileMindWidgetProps) {
   const [widgetExpanded, setWidgetExpanded] = useState<boolean>(false);
   const handleExpandWidget = () => {
     setWidgetExpanded((prev) => !prev);
   };
+  const { queueStatus } = useTrainingStatus();
+
   return (
     <motion.div
       className='flex items-center justify-center relative w-full '
       initial={false}
       transition={SPRING_CONFIG}
     >
-      {/* Outer border */}
+      {/* Outer box */}
       <motion.div
-        className='relative rounded-4xl flex flex-col items-center max-w-[400px] bg-sand-1/80 dark:bg-sand-4/90'
+        className='relative rounded-4xl flex flex-col items-center max-w-[400px] bg-sand-1/80 dark:bg-sand-4/90 backdrop-blur-lg'
         animate={{
           width: widgetExpanded ? "100%" : "fit-content",
-          height: widgetExpanded ? "240px" : "fit-content",
-          paddingTop: widgetExpanded ? "4px" : "0px",
+          height: widgetExpanded ? "200px" : "fit-content",
+          paddingTop: widgetExpanded ? "8px" : "0px",
+          boxShadow: "var(--profile-shadow-container)",
         }}
         transition={SPRING_CONFIG}
       >
         {/* Inner widget: Widget that contains the label or score. */}
         <motion.div
-          className='shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border-white/20 dark:border-white/3 dark:bg-black/60 z-10 flex flex-col items-center justify-center relative hover:scale-110 transition-all duration-100 ease-in cursor-pointer'
+          className='shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border-white/20 dark:border-white/3 dark:bg-black/60 z-10 flex flex-col items-center justify-center relative hover:scale-110 transition-all duration-100 ease-in cursor-pointer min-h-[40px]'
           initial={{
             width: "fit-content",
             height: "40px",
@@ -85,6 +96,7 @@ export function ProfileMindWidget({ mindScore }: ProfileMindWidgetProps) {
           }}
           animate={{
             width: "fit-content",
+
             height: "40px",
             minWidth: "52px",
             borderWidth: 0,
@@ -99,6 +111,7 @@ export function ProfileMindWidget({ mindScore }: ProfileMindWidgetProps) {
         >
           <ScoreContent mindScore={mindScore} shouldRollIn={true} />
 
+          {/* Mind Area Inner */}
           <motion.div
             className='rounded-full absolute'
             initial={{
@@ -122,7 +135,46 @@ export function ProfileMindWidget({ mindScore }: ProfileMindWidgetProps) {
             transition={SPRING_CONFIG}
           />
         </motion.div>
-        {/* Mind Area Inner */}
+
+        {widgetExpanded && (
+          <>
+            <div className='h-full py-2 pt-5 m-auto flex flex-col items-center justify-center'>
+              <span className='text-text-tertiary text-xl'>{level}</span>
+              {/* <div className='text-text-muted leading-[120%]'>
+                Mind score left until next level
+              </div> */}
+            </div>
+            <motion.div className='flex flex-row h-full p-4 gap-1 left-0 box-border w-full items-end'>
+              <Button
+                size='sm'
+                className='h-10 text-[15px] relative gap-1.5 rounded-full cursor-pointer flex-1 shadow-none bg-sand-8/20 text-gray-500 hover:bg-sand-8/10 hover:shadow-none'
+                variant='primary'
+              >
+                <HomeIcon className='size-5' />
+                <span>Home</span>
+              </Button>
+              <Button
+                size='sm'
+                className='h-10 text-[15px] relative gap-1.5 rounded-full cursor-pointer flex-1 shadow-none bg-sand-8/20 text-gray-500 hover:bg-sand-8/10 hover:shadow-none'
+                variant='primary'
+              >
+                <PlusLargeIcon className='text-gray-500 size-4.5' />
+                <span>Add</span>
+              </Button>
+              <Button
+                size='sm'
+                className='h-10 text-[15px] relative gap-1.5 has-[>svg]:pl-0.5 pl-2 rounded-full cursor-pointer flex-1'
+                variant='glossy'
+              >
+                <MindStatusIcon
+                  status={queueStatus}
+                  className='size-5 text-white/50'
+                />
+                <span>Preview</span>
+              </Button>
+            </motion.div>
+          </>
+        )}
       </motion.div>
     </motion.div>
   );

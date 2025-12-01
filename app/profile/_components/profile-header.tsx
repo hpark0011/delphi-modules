@@ -45,7 +45,7 @@ export function ProfileHeader({
             {/* <VerticalDivider className='mr-2' /> */}
           </div>
           <div className='absolute top-[22px] left-1/2 -translate-x-1/2 w-full'>
-            <ProfileMindWidget mindScore={current} />
+            <ProfileMindWidget mindScore={current} level={level} />
           </div>
           <div className='flex items-center gap-5'>
             <Button
