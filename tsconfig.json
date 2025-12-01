@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@config/*": ["./config/*"]
+      "@config/*": ["./config/*"],
+      "@icons": ["./delphi-ui/icons"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

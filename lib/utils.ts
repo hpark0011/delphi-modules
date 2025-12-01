@@ -35,3 +35,7 @@ export function formatCompactNumber(
 
   return String(value);
 }
+
+export function getFirstName(fullName: string): string {
+  return fullName.split(" ")[0];
+}
