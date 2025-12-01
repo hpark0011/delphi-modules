@@ -92,7 +92,6 @@ export { default as LinkIcon } from "@/icons/link.svg";
 export { default as ListBulletIcon } from "@/icons/list.bullet.svg";
 export { default as ListNumberIcon } from "@/icons/list.number.svg";
 export { default as LoaderCircleIcon } from "@/icons/loader.circle.svg";
-export { default as LogoIcon } from "@/icons/logo.svg";
 export { default as MagnifyingGlassIcon } from "@/icons/magnifying.glass.svg";
 export { default as MicFillIcon } from "@/icons/mic.fill.svg";
 export { default as MicSlashFillIcon } from "@/icons/mic.slash.fill.svg";
@@ -122,7 +121,10 @@ export { default as QuoteOpeningIcon } from "@/icons/quote.opening.svg";
 export { default as RectangleLeadingHalfFilledIcon } from "@/icons/rectangle.leading.half.filled.svg";
 export { default as RectanglePortraitAndArrowRightIcon } from "@/icons/rectangle.portrait.and.arrow.right.svg";
 export { default as RectangleTrailingHalfFilledIcon } from "@/icons/rectangle.trailinghalf.filled.svg";
-export { default as RoundBubbleLeftIcon } from "@/icons/round.bubble.left.svg";
+export {
+  default as BubbleLeftIcon,
+  default as RoundBubbleLeftIcon,
+} from "@/icons/round.bubble.left.svg";
 export { default as ScreenShareFillIcon } from "@/icons/screen.share.fill.svg";
 export { default as XIcon } from "@/icons/social/x.svg";
 export { default as YoutubeIcon } from "@/icons/social/youtube.svg";

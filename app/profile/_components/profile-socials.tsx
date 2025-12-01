@@ -64,7 +64,7 @@ export function ProfileSocials({ socials, name }: ProfileSocialsProps) {
 
   return (
     <div>
-      <h2 id='socials-section' className='pb-4 text-md text-sand-12/60'>
+      <h2 id='socials-section' className='pb-4 text-[18px] text-sand-12/60'>
         Follow {firstName} for more...
       </h2>
       <TooltipProvider delayDuration={200}>
