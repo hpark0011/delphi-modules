@@ -8,10 +8,7 @@ import {
 } from "@/components/ui/tooltip";
 import { CircleCheckIcon as VerifiedIcon } from "@icons";
 
-import type { RouterOutputs } from "@/lib/trpc/server";
-
-type Organization =
-  RouterOutputs["organization"]["getOrganizationsByCloneId"][number];
+import type { Organization } from "@/app/profile/_lib/types";
 
 interface ProfileHeadlineProps {
   headline: string | null;

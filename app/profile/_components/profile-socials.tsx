@@ -20,9 +20,7 @@ import {
 } from "@/components/ui/tooltip";
 
 import { getFirstName } from "@/lib/utils";
-import type { RouterOutputs } from "@/lib/trpc/server";
-
-type Socials = RouterOutputs["profile"]["getProfileBySlug"]["socials"];
+import type { Socials } from "@/app/profile/_lib/types";
 
 interface ProfileSocialsProps {
   socials: Socials;

@@ -6,10 +6,7 @@ import { useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { ChatIcon as ChatAltIcon } from "@icons";
 
-import type { RouterOutputs } from "@/lib/trpc/server";
-
-type Question =
-  RouterOutputs["profile"]["getProfileBySlug"]["questions"][number];
+import type { Question } from "@/app/profile/_lib/types";
 
 interface ProfileQuestionsProps {
   questions: Question[];

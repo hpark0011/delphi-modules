@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getFirstName } from "@/features/profile/lib/utils";
+import { getFirstName } from "@/lib/utils";
 
 interface ProfileFooterProps {
   name: string;

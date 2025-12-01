@@ -6,7 +6,6 @@ import { Link } from "next-view-transitions";
 import { Button } from "@/components/ui/button";
 
 import { VerticalDivider } from "./vertical-divider";
-import { ProfileWarning } from "./profile-warning";
 
 interface ProfileHeaderProps {
   slug: string;
@@ -23,8 +22,6 @@ export function ProfileHeader({
 }: ProfileHeaderProps) {
   return (
     <>
-      <ProfileWarning slug={slug} customWarning={customWarning?.trim()} />
-
       <header className='pointer-events-none relative z-10 w-full select-none pb-10'>
         <nav className=' pointer-events-none flex items-center justify-between px-6 py-6 [&>*]:pointer-events-auto'>
           <div className='flex items-center gap-3'>

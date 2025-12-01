@@ -8,6 +8,12 @@ import { ProfileName } from "./profile-name";
 import { ProfileQuestions } from "./profile-questions";
 import { ProfileSocials } from "./profile-socials";
 
+import type {
+  Profile,
+  Organization,
+  CloneOptions,
+} from "@/app/profile/_lib/types";
+
 interface ProfileViewProps {
   profile: Profile;
   organizations: Organization[];
