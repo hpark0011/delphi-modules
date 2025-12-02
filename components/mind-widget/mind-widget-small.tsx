@@ -51,11 +51,14 @@ export function MindWidgetSmall() {
   return (
     <div className='flex gap-2 relative justify-start items-center rounded-full bg-light'>
       {/* Mindscore Trigger */}
-      <div className='flex items-center p-0.5 bg-light rounded-full hover:scale-108 transition-all duration-200 w-fit relative'>
+      <div
+        className='flex items-center p-0.5 bg-light rounded-full hover:scale-108 transition-all duration-200 w-fit relative cursor-pointer'
+        onClick={handleClick}
+      >
         {/* Mindscore Wrapper */}
         <div
           onClick={handleClick}
-          className='flex flex-col gap-2  cursor-pointer rounded-full overflow-hidden bg-black/87  border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40 w-fit px-2.5 py-1.5 relative z-10 justify-center items-center min-w-[52px] h-[40px]'
+          className='flex flex-col gap-2  cursor-pointer rounded-full overflow-hidden bg-black/87  border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40 w-fit px-2.5 py-1.5 relative justify-center items-center min-w-[52px] h-[40px] z-0'
           style={{
             boxShadow: shadowString.replace(/_/g, " "),
           }}
@@ -67,8 +70,6 @@ export function MindWidgetSmall() {
         </div>
 
         {/* Mind Area Inner */}
-        {/* <div className='rounded-full studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_1px_0.5px_rgba(255,255,255,0.8),inset_0px_1px_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0px_1px_1px_1px_rgba(255,255,255,0.1),inset_0px_-1px_1px_0.5px_rgba(0,0,0,0.8),inset_0px_1px_1px_1px_rgba(0,0,0,0.4)] blur-[2px]' /> */}
-
         <motion.div
           className='rounded-full absolute'
           initial={{
