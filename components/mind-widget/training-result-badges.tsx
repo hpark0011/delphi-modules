@@ -6,12 +6,15 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 interface TrainingResultBadgesProps {
   completedCount: number;
   failedCount: number;
   onCompletedClick?: () => void;
   onFailedClick?: () => void;
+  className?: string;
+  countTextSize?: string;
 }
 
 export function TrainingResultBadges({
@@ -19,9 +22,11 @@ export function TrainingResultBadges({
   failedCount,
   onCompletedClick,
   onFailedClick,
+  className,
+  countTextSize = "text-[13px]",
 }: TrainingResultBadgesProps) {
   return (
-    <div className='flex items-center gap-1'>
+    <div className={cn("flex items-center gap-1", className)}>
       {completedCount > 0 && (
         <Tooltip>
           <TooltipTrigger asChild>
@@ -42,7 +47,9 @@ export function TrainingResultBadges({
               }
             >
               <Icon name='CheckedCircleFillIcon' className='size-5' />
-              <span className='text-[12px] font-medium'>{completedCount}</span>
+              <span className={cn("font-medium", countTextSize)}>
+                {completedCount}
+              </span>
             </div>
           </TooltipTrigger>
           <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
@@ -73,7 +80,9 @@ export function TrainingResultBadges({
                 name='ExclamationmarkTriangleFillIcon'
                 className='size-4.5'
               />
-              <span className='text-[12px] font-medium'>{failedCount}</span>
+              <span className={cn("font-medium", countTextSize)}>
+                {failedCount}
+              </span>
             </div>
           </TooltipTrigger>
           <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>

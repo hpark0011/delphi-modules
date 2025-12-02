@@ -268,6 +268,22 @@ export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
                 activeCount={activeCount}
                 newItemName={newItemOverride?.name ?? ""}
               />
+              {(completedCount > 0 || failedCount > 0) && (
+                <div className='ml-1'>
+                  <TrainingResultBadges
+                    className='gap-0.5'
+                    countTextSize='text-[14px]'
+                    completedCount={completedCount}
+                    failedCount={failedCount}
+                    onCompletedClick={() =>
+                      openWithTab("training-status", "completed")
+                    }
+                    onFailedClick={() =>
+                      openWithTab("training-status", "failed")
+                    }
+                  />
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
