@@ -29,10 +29,7 @@ import {
   MindDialogTabId,
   getMindDialogWidthClass,
 } from "./mind-dialog-config";
-import {
-  hasActiveItems,
-  type TrainingItemStatus,
-} from "@/utils/training-status-helpers";
+import { type TrainingItemStatus } from "@/utils/training-status-helpers";
 import { MindWidgetSmall } from "@/components/mind-widget/mind-widget-small";
 
 // Re-export for convenience
@@ -65,7 +62,7 @@ interface MindDialogProps {
 }
 
 export function MindDialogHeader2() {
-  const { activeCount } = useTrainingStatus(false);
+  const { activeCount, hasActiveItems } = useTrainingStatus(false);
 
   return (
     <div className='flex flex-col justify-between items-center w-full'>
@@ -75,7 +72,8 @@ export function MindDialogHeader2() {
       <div className='mt-2'>
         <MindWidgetSmall />
       </div>
-      <div className='flex justify-center relative z-10 mt-8 mb-0'>
+      <div className='flex justify-center relative z-10 mt-8 mb-3'>
+        {/* Training status & add knowledge tabs */}
         <TabsList className='p-[1px] px-1 rounded-[12px] gap-1'>
           {MIND_DIALOG_TABS.map((tab) => {
             // Dynamic config for training-status tab when items are being processed
@@ -93,7 +91,7 @@ export function MindDialogHeader2() {
                 key={tab.id}
                 value={tab.id}
                 className={cn(
-                  "text-[14px] h-9 rounded-full px-3 tracking-tight text-sand-8 dark:text-white/60  dark:hover:bg-white/10 data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:text-sand-11 gap-1 pl-2 bg-sand-10/5 hover:bg-sand-10/15",
+                  "text-[14px] h-9 rounded-full px-2.5 pr-3 tracking-tight text-sand-9 dark:text-white/60  dark:hover:bg-white/10 data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:text-sand-11 gap-1 bg-sand-10/10 hover:bg-sand-10/20",
                   isActiveTraining && "gap-1"
                 )}
               >
