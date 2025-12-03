@@ -6,15 +6,11 @@ import {
   generateShadowString,
   getLevelShadowColors,
 } from "@/app/studio/_utils/mind-shadow-helpers";
-import { MindStatusIcon } from "@/components/mind-status-notification";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import type { IconName } from "@/components/ui/icon";
 import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useTrainingQueue } from "@/hooks/use-training-queue";
-import { useTrainingStatus } from "@/hooks/use-training-status";
-import { cn } from "@/lib/utils";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import React, {
   createContext,
@@ -62,56 +58,32 @@ interface MindDialogProps {
 }
 
 export function MindDialogHeader2() {
-  const { activeCount, hasActiveItems } = useTrainingStatus(false);
-
   return (
     <div className='flex flex-col justify-between items-center w-full'>
       <VisuallyHidden>
         <DialogTitle>Mind</DialogTitle>
       </VisuallyHidden>
       <div className='mt-2'>
-        <MindWidgetSmall />
+        <MindWidgetSmall disableClick />
       </div>
       <div className='flex justify-center relative z-10 mt-8 mb-3'>
         {/* Training status & add knowledge tabs */}
         <TabsList className='p-[1px] px-1 rounded-[12px] gap-1'>
           {MIND_DIALOG_TABS.map((tab) => {
-            // Dynamic config for training-status tab when items are being processed
-            const isTrainingTab = tab.id === "training-status";
-            const isActiveTraining = isTrainingTab && hasActiveItems;
             const icon: IconName = tab.icon;
-            const label = isActiveTraining ? (
-              <>Learning {activeCount} Items</>
-            ) : (
-              tab.label
-            );
 
             return (
               <TabsTrigger
                 key={tab.id}
                 value={tab.id}
-                className={cn(
-                  "text-[14px] h-9 rounded-full px-2.5 pr-3 tracking-tight text-sand-9 dark:text-white/60  dark:hover:bg-white/10 data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:text-sand-11 gap-1 bg-sand-10/10 hover:bg-sand-10/20",
-                  isActiveTraining && "gap-1"
-                )}
+                className='text-[14px] h-9 rounded-full px-2.5 pr-3 tracking-tight text-sand-9 dark:text-white/60  dark:hover:bg-white/10 data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:text-sand-11 gap-1 bg-sand-10/10 hover:bg-sand-10/20'
               >
-                {isActiveTraining ? (
-                  <MindStatusIcon status='active' />
-                ) : (
-                  <Icon
-                    name={icon}
-                    className='size-4 text-sand-8'
-                    aria-hidden='true'
-                  />
-                )}
-                <span
-                  className={cn(
-                    "whitespace-nowrap",
-                    isActiveTraining && "ml-0.5"
-                  )}
-                >
-                  {label}
-                </span>
+                <Icon
+                  name={icon}
+                  className='size-4 text-sand-8'
+                  aria-hidden='true'
+                />
+                <span className='whitespace-nowrap'>{tab.label}</span>
               </TabsTrigger>
             );
           })}

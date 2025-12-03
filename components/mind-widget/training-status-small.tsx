@@ -132,9 +132,10 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
 
 interface MiniTrainingStatusProps {
   onDismiss?: () => void;
+  disableTooltips?: boolean;
 }
 
-export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
+export function MiniTrainingStatus({ onDismiss, disableTooltips = false }: MiniTrainingStatusProps) {
   const { queue } = useTrainingQueue();
   const { openWithTab } = useMindDialog();
 
@@ -251,6 +252,7 @@ export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
                   openWithTab("training-status", "completed")
                 }
                 onFailedClick={() => openWithTab("training-status", "failed")}
+                disableTooltips={disableTooltips}
               />
             </motion.div>
           ) : (
@@ -281,6 +283,7 @@ export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
                     onFailedClick={() =>
                       openWithTab("training-status", "failed")
                     }
+                    disableTooltips={disableTooltips}
                   />
                 </div>
               )}

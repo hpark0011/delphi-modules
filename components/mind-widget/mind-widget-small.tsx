@@ -6,6 +6,7 @@ import {
   getLevelShadowColors,
 } from "@/app/studio/_utils/mind-shadow-helpers";
 import { useTrainingStatus } from "@/hooks/use-training-status";
+import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { useMindDialog } from "@/components/mind-dialog/mind-dialog-2";
@@ -17,7 +18,11 @@ const SPRING_CONFIG = {
   damping: 25,
 };
 
-export function MindWidgetSmall() {
+interface MindWidgetSmallProps {
+  disableClick?: boolean;
+}
+
+export function MindWidgetSmall({ disableClick = false }: MindWidgetSmallProps) {
   const { openWithTab } = useMindDialog();
   const { current, level } = useMindScore();
 
@@ -36,6 +41,7 @@ export function MindWidgetSmall() {
   }, [queueStatus]);
 
   const handleClick = () => {
+    if (disableClick) return;
     openWithTab("add-knowledge");
   };
 
@@ -52,13 +58,19 @@ export function MindWidgetSmall() {
     <div className='flex gap-2 relative justify-start items-center rounded-full bg-light'>
       {/* Mindscore Trigger */}
       <div
-        className='flex items-center p-0.5 bg-light rounded-full hover:scale-108 transition-all duration-200 w-fit relative cursor-pointer'
+        className={cn(
+          'flex items-center p-0.5 bg-light rounded-full transition-all duration-200 w-fit relative',
+          !disableClick && 'hover:scale-108 cursor-pointer'
+        )}
         onClick={handleClick}
       >
         {/* Mindscore Wrapper */}
         <div
           onClick={handleClick}
-          className='flex flex-col gap-2  cursor-pointer rounded-full overflow-hidden bg-black/87  border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40 w-fit px-2.5 py-1.5 relative justify-center items-center min-w-[52px] h-[40px] z-0'
+          className={cn(
+            'flex flex-col gap-2 rounded-full overflow-hidden bg-black/87 border-white/20 dark:border-white/3 dark:bg-black/40 w-fit px-2.5 py-1.5 relative justify-center items-center min-w-[52px] h-[40px] z-0',
+            !disableClick && 'cursor-pointer hover:bg-black/84'
+          )}
           style={{
             boxShadow: shadowString.replace(/_/g, " "),
           }}
@@ -95,7 +107,7 @@ export function MindWidgetSmall() {
       </div>
       <AnimatePresence>
         {isWidgetVisible && (
-          <MiniTrainingStatus onDismiss={handleWidgetDismiss} />
+          <MiniTrainingStatus onDismiss={handleWidgetDismiss} disableTooltips={disableClick} />
         )}
       </AnimatePresence>
     </div>
