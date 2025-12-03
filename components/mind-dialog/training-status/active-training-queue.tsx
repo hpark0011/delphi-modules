@@ -8,6 +8,7 @@ import {
   getStatusIcon,
 } from "@/app/studio/_utils/mind-dialog-helpers";
 import { TrainingQueueItem } from "@/app/studio/_components/mindscore/training-queue-item";
+import { TrainingResultBadges } from "@/components/mind-widget/training-result-badges";
 import {
   Select,
   SelectContent,
@@ -100,6 +101,17 @@ export function ActiveTrainingQueue({
     return sourceQueue.filter((item) => item.status === selectedStatus);
   }, [showCompletedStatus, queueSnapshot, queue, selectedStatus]);
 
+  // Calculate completed and failed counts for badges
+  const { completedCount, failedCount } = useMemo(() => {
+    const sourceQueue = showCompletedStatus ? queueSnapshot : queue;
+    return {
+      completedCount: sourceQueue.filter((item) => item.status === "completed")
+        .length,
+      failedCount: sourceQueue.filter((item) => item.status === "failed")
+        .length,
+    };
+  }, [showCompletedStatus, queueSnapshot, queue]);
+
   return (
     <div className='flex flex-col gap-3 mt-4'>
       {/* Active Training Queue Header */}
@@ -116,20 +128,29 @@ export function ActiveTrainingQueue({
             </span>
           </div>
           <div className='flex items-center gap-2'>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className='text-[14px] mr-2 flex items-center gap-0.5 justify-center cursor-help'>
-                  <Icon
-                    name='InfoCircleFillIcon'
-                    className='size-4.5 text-icon-light'
-                  />
-                  <span>Last 7d</span>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                Training history is shown uptil last 7 days
-              </TooltipContent>
-            </Tooltip>
+            {/* Completed/Failed count badges */}
+            <TrainingResultBadges
+              completedCount={completedCount}
+              failedCount={failedCount}
+              countTextSize='text-[12px]'
+              disableTooltips
+            />
+            {selectedStatus !== "failed" && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className='text-[14px] mr-2 flex items-center gap-0.5 justify-center cursor-help'>
+                    <Icon
+                      name='InfoCircleFillIcon'
+                      className='size-4.5 text-icon-light'
+                    />
+                    <span>Last 7d</span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Training history is shown uptil last 7 days
+                </TooltipContent>
+              </Tooltip>
+            )}
             {/* Status Filter */}
             <Select
               value={selectedStatus}

@@ -30,6 +30,7 @@ import {
 } from "./mind-dialog-config";
 import { type TrainingItemStatus } from "@/utils/training-status-helpers";
 import { MindWidgetSmall } from "@/components/mind-widget/mind-widget-small";
+import { cn } from "@/lib/utils";
 
 // Re-export for convenience
 export type { MindDialogTabId } from "./mind-dialog-config";
@@ -112,12 +113,22 @@ export function MindDialogHeader2({ level }: { level: string }) {
         <TabsList className='gap-1'>
           {MIND_DIALOG_TABS.map((tab) => {
             const icon: IconName = tab.icon;
-
             return (
               <TabsTrigger
                 key={tab.id}
                 value={tab.id}
-                className='text-[14px] h-9 rounded-full px-2.5 pr-3 tracking-tight text-sand-9 dark:text-white/60  dark:hover:bg-white/10 data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:text-sand-11 gap-1 bg-sand-10/8 hover:bg-sand-10/20'
+                className={cn(
+                  // Base styles
+                  "text-[14px] h-9 rounded-full px-2.5 pr-3 tracking-tight gap-1",
+                  // Default state
+                  "text-sand-9 dark:text-white/60 bg-sand-10/8",
+                  // Hover state
+                  "hover:bg-sand-10/20 dark:hover:bg-white/10",
+                  // Active state
+                  "data-[state=active]:bg-sand-2 data-[state=active]:text-sand-11 dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-[inset_0_2px_1px_0px_rgba(255,255,255,1),inset_0_-1px_1px_0px_rgba(255,255,255,1)] dark:data-[state=active]:shadow-[inset_0_2px_1px_0px_rgba(0,0,0,0.1),inset_0_-1px_1px_0px_rgba(0,0,0,0.1)]",
+                  // Conditional styles
+                  tab.id === "training-status" && "gap-0.5"
+                )}
               >
                 <Icon
                   name={icon}
