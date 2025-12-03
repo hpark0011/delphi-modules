@@ -41,7 +41,7 @@ const FONT_SIZE_SMALL = "14px";
 // Subcomponents
 // ============================================================================
 
-function LabelContent() {
+function HelloLabel() {
   return (
     <motion.div
       key='label'
@@ -59,7 +59,7 @@ function LabelContent() {
   );
 }
 
-function PlusTenContent({ isSmall }: { isSmall: boolean }) {
+function PlusTenContent({ isLarge }: { isLarge: boolean }) {
   return (
     <motion.h1
       key='plus-ten'
@@ -68,13 +68,13 @@ function PlusTenContent({ isSmall }: { isSmall: boolean }) {
         y: 20,
         opacity: 0,
         filter: "blur(10px)",
-        fontSize: isSmall ? FONT_SIZE_SMALL : FONT_SIZE_LARGE,
+        fontSize: isLarge ? FONT_SIZE_LARGE : FONT_SIZE_SMALL,
       }}
       animate={{
         y: 0,
         opacity: 1,
         filter: "blur(0px)",
-        fontSize: isSmall ? FONT_SIZE_SMALL : FONT_SIZE_LARGE,
+        fontSize: isLarge ? FONT_SIZE_LARGE : FONT_SIZE_SMALL,
       }}
       exit={{
         y: -20,
@@ -90,11 +90,11 @@ function PlusTenContent({ isSmall }: { isSmall: boolean }) {
 
 function ScoreContent({
   mindScore,
-  isSmall,
+  isLarge,
   shouldRollIn,
 }: {
   mindScore: number;
-  isSmall: boolean;
+  isLarge: boolean;
   shouldRollIn?: boolean;
 }) {
   return (
@@ -115,7 +115,7 @@ function ScoreContent({
         y: 0,
         opacity: 1,
         filter: "blur(0px)",
-        fontSize: isSmall ? FONT_SIZE_SMALL : FONT_SIZE_LARGE,
+        fontSize: isLarge ? FONT_SIZE_LARGE : FONT_SIZE_SMALL,
       }}
       exit={{ opacity: 0 }}
       transition={
@@ -153,8 +153,8 @@ export function OnboardingMindWidget({
   mindScore: number;
 }) {
   const { animationState, trainingMessage } = useOnboardingNavigation();
-  // When the current page is 1, the widget is large. All the other pages, the wdiget is small.
-  const isSmall = currentPage !== 1;
+  // When the current page is 1, the widget is large. All the other pages, the widget is small (default).
+  const isLarge = currentPage === 1;
   const showLabel = mindScore === 0 && animationState === "idle";
   const showPlusTen = animationState === "showing-plus";
   const showTrainingStatus = animationState === "training";
@@ -166,7 +166,7 @@ export function OnboardingMindWidget({
       initial={false}
       transition={SPRING_CONFIG}
       animate={{
-        top: isSmall ? POSITION_TOP_SMALL : POSITION_TOP_LARGE,
+        top: isLarge ? POSITION_TOP_LARGE : POSITION_TOP_SMALL,
       }}
     >
       {/* Outer border */}
@@ -174,17 +174,17 @@ export function OnboardingMindWidget({
         className='relative bg-light rounded-full flex flex-row items-center'
         initial={{ padding: PADDING_OUTER_SMALL }}
         animate={{
-          padding: isSmall ? PADDING_OUTER_SMALL : PADDING_OUTER_LARGE,
+          padding: isLarge ? PADDING_OUTER_LARGE : PADDING_OUTER_SMALL,
         }}
         transition={SPRING_CONFIG}
       >
         {/* Width wrapper for label state */}
-        <div className={showLabel && isSmall ? "w-fit" : ""}>
+        <div className={showLabel && !isLarge ? "w-fit" : ""}>
           {/* Inner widget: Widget that contains the label or score. */}
           <motion.div
             className='shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/60 z-10 flex flex-col items-center justify-center relative'
             initial={{
-              width: showLabel && isSmall ? undefined : WIDGET_WIDTH_LARGE,
+              width: showLabel && !isLarge ? undefined : WIDGET_WIDTH_LARGE,
               height: WIDGET_HEIGHT_SMALL,
               borderWidth: 0,
               borderRadius: BORDER_RADIUS_LARGE,
@@ -194,51 +194,51 @@ export function OnboardingMindWidget({
               paddingBottom: 0,
             }}
             animate={{
-              width: isSmall
-                ? showLabel
+              width: isLarge
+                ? WIDGET_WIDTH_LARGE
+                : showLabel
                   ? "fit-content"
-                  : WIDGET_WIDTH_SMALL
-                : WIDGET_WIDTH_LARGE,
-              height: isSmall ? WIDGET_HEIGHT_SMALL : WIDGET_HEIGHT_LARGE,
-              borderWidth: isSmall ? 1 : 1.5,
-              borderRadius: isSmall ? BORDER_RADIUS_SMALL : BORDER_RADIUS_LARGE,
-              paddingLeft: isSmall ? PADDING_INNER_X : 0,
-              paddingRight: isSmall ? PADDING_INNER_X : 0,
-              paddingTop: isSmall ? PADDING_INNER_Y : 0,
-              paddingBottom: isSmall ? PADDING_INNER_Y : 0,
+                  : WIDGET_WIDTH_SMALL,
+              height: isLarge ? WIDGET_HEIGHT_LARGE : WIDGET_HEIGHT_SMALL,
+              borderWidth: isLarge ? 1.5 : 1,
+              borderRadius: isLarge ? BORDER_RADIUS_LARGE : BORDER_RADIUS_SMALL,
+              paddingLeft: isLarge ? 0 : PADDING_INNER_X,
+              paddingRight: isLarge ? 0 : PADDING_INNER_X,
+              paddingTop: isLarge ? 0 : PADDING_INNER_Y,
+              paddingBottom: isLarge ? 0 : PADDING_INNER_Y,
             }}
             transition={{ duration: 0.2, ease: "easeIn" }}
           >
             {/* Content: Label, +10, or Score */}
             <AnimatePresence mode='wait'>
               {showLabel ? (
-                <LabelContent />
+                <HelloLabel />
               ) : showPlusTen ? (
-                <PlusTenContent isSmall={isSmall} />
+                <PlusTenContent isLarge={isLarge} />
               ) : (
                 <ScoreContent
                   mindScore={mindScore}
-                  isSmall={isSmall}
+                  isLarge={isLarge}
                   shouldRollIn={animationState === "showing-score"}
                 />
               )}
             </AnimatePresence>
 
             {/* Mind Level (only visible when large) */}
-            <AnimatePresence>{!isSmall && <MindLevel />}</AnimatePresence>
+            <AnimatePresence>{isLarge && <MindLevel />}</AnimatePresence>
 
             {/* Mind Area Inner */}
             <motion.div
               className='rounded-full absolute'
               animate={{
-                top: isSmall ? "1px" : "2px",
-                left: isSmall ? "1px" : "2px",
-                width: isSmall ? "calc(100% - 2px)" : "calc(100% - 4px)",
-                height: isSmall ? "calc(100% - 2px)" : "calc(100% - 4px)",
-                filter: isSmall ? "blur(3px)" : "blur(6px)",
-                boxShadow: isSmall
-                  ? "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 0.5px rgba(255,255,255,1)"
-                  : "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 2px rgba(255,255,255,1)",
+                top: isLarge ? "2px" : "1px",
+                left: isLarge ? "2px" : "1px",
+                width: isLarge ? "calc(100% - 4px)" : "calc(100% - 2px)",
+                height: isLarge ? "calc(100% - 4px)" : "calc(100% - 2px)",
+                filter: isLarge ? "blur(6px)" : "blur(3px)",
+                boxShadow: isLarge
+                  ? "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 2px rgba(255,255,255,1)"
+                  : "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 0.5px rgba(255,255,255,1)",
               }}
               transition={SPRING_CONFIG}
             />

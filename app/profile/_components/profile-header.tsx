@@ -42,7 +42,6 @@ export function ProfileHeader({
             >
               <DelphiCurrentIcon className='h-3.5 text-icon-dark' />
             </Link>
-            {/* <VerticalDivider className='mr-2' /> */}
           </div>
           <div className='absolute top-[22px] left-1/2 -translate-x-1/2 w-full'>
             <ProfileMindWidget mindScore={current} level={level} />

@@ -12,6 +12,7 @@ export function OnboardingHeader() {
   return (
     <header className='bg-gradient-to-b from-background via-background/80 to-transparent absolute top-0 left-0 right-0 z-10'>
       <div className='flex items-start justify-center px-3 h-13 relative w-full'>
+        {/* Previous step button */}
         <Button
           size='sm'
           onClick={handlePrevious}
