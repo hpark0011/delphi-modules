@@ -16,6 +16,8 @@ import { useTrainingStatus } from "@/hooks/use-training-status";
 import { ActiveTrainingStatus } from "@/app/studio/_components/mindscore/widget/active-training-status";
 import { LastTrainedDate } from "@/app/studio/_components/mindscore/widget/last-trained-date";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { PlusLargeIcon } from "@/delphi-ui/icons";
 
 function MindScoreTrigger() {
   const { openWithTab } = useMindDialog();
@@ -105,6 +107,15 @@ function MindScoreTrigger() {
         {/* Mind Area Inner */}
         <div className='mind-area-inner studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_-1px_1px_1px_rgba(255,255,255,0.7),inset_0px_2px_2px_2px_rgba(255,255,255,0.4),inset_0px_6px_6px_2px_rgba(255,255,255,0.2)] blur-[6px]' />
       </div>
+
+      {/* Add button */}
+      <Button
+        variant='ghost'
+        size='icon'
+        className='absolute bottom-3.5 right-3.5 rounded-full bg-sand-1/15 flex items-center justify-center w-8 h-8 opacity-0 z-20 group-hover:opacity-100 hover:bg-sand-1/30'
+      >
+        <PlusLargeIcon className='size-3.5 text-sand-1/50' />
+      </Button>
     </div>
   );
 }
