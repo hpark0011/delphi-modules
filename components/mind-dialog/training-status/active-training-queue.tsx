@@ -2,7 +2,7 @@
 
 import { MindStatusIcon } from "@/components/mind-status-notification";
 // import { Button } from "@/components/ui/button";
-// import { Icon } from "@/components/ui/icon";
+import { Icon } from "@/components/ui/icon";
 import { TrainingQueueItem } from "@/app/studio/_components/mindscore/training-queue-item";
 import {
   Select,
@@ -11,6 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { type TrainingItemStatus } from "@/utils/training-status-helpers";
@@ -85,6 +90,20 @@ export function ActiveTrainingQueue({
             </span>
           </div>
           <div className='flex items-center gap-2'>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className='text-[14px] mr-2 flex items-center gap-0.5 justify-center cursor-help'>
+                  <Icon
+                    name='InfoCircleFillIcon'
+                    className='size-4.5 text-icon-light'
+                  />
+                  <span>Last 7d</span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                Training history is shown uptil last 7 days
+              </TooltipContent>
+            </Tooltip>
             {/* Status Filter */}
             <Select
               value={selectedStatus}
