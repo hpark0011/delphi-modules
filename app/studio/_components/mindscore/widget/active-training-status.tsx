@@ -1,6 +1,6 @@
 "use client";
 
-import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
+import { useMindDialog } from "@/components/mind-dialog/mind-dialog-2";
 import { MindStatusIcon } from "@/components/mind-status-notification";
 import { TrainingResultBadges } from "@/components/mind-widget/training-result-badges";
 import { useTrainingQueue } from "@/hooks/use-training-queue";

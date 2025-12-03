@@ -30,6 +30,7 @@ import {
   getMindDialogWidthClass,
 } from "./mind-dialog-config";
 import { type TrainingItemStatus } from "@/utils/training-status-helpers";
+import { MindWidgetSmall } from "@/components/mind-widget/mind-widget-small";
 
 // Re-export for convenience
 export type { MindDialogTabId } from "./mind-dialog-config";
@@ -106,7 +107,7 @@ function MindDialogHeader() {
         boxShadow: defaultShadow.replace(/_/g, " "),
       }}
     >
-      <div className='absolute top-[3px] left-1/2 -translate-x-1/2 w-full max-w-[400px]'>
+      <div className='absolute top-[3px] left-1/2 -translate-x-1/2 w-full max-w-[320px]'>
         <MindProgressBar
           progressToNextLevel={progressToNextLevel}
           nextLevelThreshold={nextLevelThreshold}
@@ -186,7 +187,20 @@ function MindDialogHeader() {
       </div>
 
       {/* Mind Area Inner */}
-      <div className='mind-area-inner studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_1px_0.5px_rgba(255,255,255,0.9),inset_0px_1px_1px_1px_rgba(255,255,255,1)] blur-[8px]' />
+      <div className='mind-area-inner studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_-1px_1px_1px_rgba(255,255,255,0.7),inset_0px_2px_2px_2px_rgba(255,255,255,0.4),inset_0px_6px_6px_2px_rgba(255,255,255,0.2)] blur-[6px]' />
+    </div>
+  );
+}
+
+export function MindDialogHeader2() {
+  return (
+    <div className='flex flex-col justify-between items-center w-full'>
+      <VisuallyHidden>
+        <DialogTitle>Mind</DialogTitle>
+      </VisuallyHidden>
+      <div className='mt-2'>
+        <MindWidgetSmall />
+      </div>
     </div>
   );
 }
@@ -249,7 +263,7 @@ export function MindDialog({
         {children}
         <DialogContent
           // showCloseButton
-          className={`p-0 sm:max-w-[calc(100%-2rem)] ${dialogWidthClass} rounded-[36px] max-h-[90vh] h-full flex flex-col overflow-hidden bg-dialog`}
+          className={`p-0 sm:max-w-2xl ${dialogWidthClass} rounded-[36px] max-h-[90vh] h-full flex flex-col overflow-hidden bg-dialog`}
           style={{
             boxShadow:
               "0 2px 2px 0 rgba(255, 255, 255, 1) inset,  0 10.213px 10.213px -5.107px rgba(0, 0, 0, 0.03), 0 5.107px 5.107px -2.553px rgba(0, 0, 0, 0.03), 0 2.553px 2.553px -2px rgba(0, 0, 0, 0.03), 0 0.638px 0.638px -0.319px rgba(0, 0, 0, 0.03)",
@@ -261,10 +275,11 @@ export function MindDialog({
             className='w-full flex flex-col h-full min-h-0 gap-0'
           >
             {/* Fixed Header Section */}
-            <MindDialogHeader />
+            {/* <MindDialogHeader /> */}
+            <MindDialogHeader2 />
 
             {/* Scrollable Content Section */}
-            <div className='flex-1 overflow-y-auto min-h-0 p-4'>
+            <div className='flex-1 overflow-y-auto min-h-0 p-4 pt-2'>
               {MIND_DIALOG_TABS.map((tab) => {
                 const TabComponent = tab.component;
                 return (

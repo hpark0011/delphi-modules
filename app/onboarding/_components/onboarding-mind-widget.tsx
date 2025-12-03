@@ -4,38 +4,62 @@ import { MindStatusIcon } from "@/components/mind-status-notification";
 import { BrainIcon } from "@/delphi-ui/icons/Brain";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
+import { cn } from "@/lib/utils";
+import {
+  getLevelShadowColors,
+  generateShadowString,
+  generateSmallWidgetShadowString,
+} from "@/app/studio/_utils/mind-shadow-helpers";
 
-// ============================================================================
-// Constants
-// ============================================================================
+const LEVEL_THRESHOLDS = [
+  { name: "Novice", min: 0 },
+  { name: "Skilled", min: 200 },
+  { name: "Expert", min: 1000 },
+  { name: "Master", min: 2000 },
+  { name: "Sage", min: 3000 },
+  { name: "Legendary", min: 4000 },
+  { name: "Eternal", min: 5000 },
+];
 
-const SPRING_CONFIG = {
+function calculateLevel(score: number): string {
+  for (let i = LEVEL_THRESHOLDS.length - 1; i >= 0; i--) {
+    if (score >= LEVEL_THRESHOLDS[i].min) {
+      return LEVEL_THRESHOLDS[i].name;
+    }
+  }
+  return LEVEL_THRESHOLDS[0].name;
+}
+
+// Animation Config
+
+export const SPRING_CONFIG = {
   type: "spring" as const,
   stiffness: 300,
   damping: 25,
 };
 
 // Dimensions
-const WIDGET_WIDTH_LARGE = 336;
-const WIDGET_HEIGHT_LARGE = 218;
-const WIDGET_WIDTH_SMALL = 46;
-const WIDGET_HEIGHT_SMALL = 32;
+
+export const WIDGET_WIDTH_LARGE = 336;
+export const WIDGET_HEIGHT_LARGE = 218;
+export const WIDGET_WIDTH_SMALL = 52;
+export const WIDGET_HEIGHT_SMALL = 40;
 
 // Positions
-const POSITION_TOP_LARGE = "128px";
-const POSITION_TOP_SMALL = "8px";
 
-// Border & Padding
-const BORDER_RADIUS_LARGE = 9999;
-const BORDER_RADIUS_SMALL = 18;
-const PADDING_OUTER_LARGE = "6px";
-const PADDING_OUTER_SMALL = "2px";
-const PADDING_INNER_X = 10;
-const PADDING_INNER_Y = 4;
+export const POSITION_TOP_LARGE = "17vh";
+export const POSITION_TOP_SMALL = "8px";
 
-// Font Sizes
-const FONT_SIZE_LARGE = "80px";
-const FONT_SIZE_SMALL = "14px";
+// Styling Values
+
+export const BORDER_RADIUS_LARGE = 9999;
+export const BORDER_RADIUS_SMALL = 9999;
+export const PADDING_OUTER_LARGE = "0px";
+export const PADDING_OUTER_SMALL = "2px";
+export const PADDING_INNER_X = 12;
+export const PADDING_INNER_Y = 4;
+export const FONT_SIZE_LARGE = "80px";
+export const FONT_SIZE_SMALL = "16px";
 
 // ============================================================================
 // Subcomponents
@@ -159,6 +183,72 @@ export function OnboardingMindWidget({
   const showPlusTen = animationState === "showing-plus";
   const showTrainingStatus = animationState === "training";
 
+  // Calculate level and get shadow colors (only apply colored shadow on and after page 1)
+  const shouldUseColoredShadow = currentPage >= 1;
+  const level = calculateLevel(mindScore);
+  const levelColors = getLevelShadowColors(level);
+
+  // Default neutral shadows for page 0
+  const defaultNeutralShadowLarge =
+    "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 3px rgba(255,255,255,1)";
+  const defaultNeutralShadowSmall =
+    "0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)";
+  // White inset shadow for small widget's inner div (always the same regardless of colored shadow)
+  const smallWidgetInnerShadow =
+    "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)";
+
+  // Use different shadow generators for large vs small widgets (only if colored shadow is enabled)
+  const defaultShadow = shouldUseColoredShadow
+    ? isLarge
+      ? generateShadowString(levelColors, false)
+      : generateSmallWidgetShadowString(levelColors)
+    : isLarge
+      ? defaultNeutralShadowLarge
+      : defaultNeutralShadowSmall;
+  const hoverShadow = shouldUseColoredShadow
+    ? isLarge
+      ? generateShadowString(levelColors, true)
+      : generateSmallWidgetShadowString(levelColors) // Small widget doesn't have hover state
+    : defaultShadow;
+
+  // Compute outer container shadow style for small widgets
+  // Small widgets have colored shadow applied to outer container (not inner div)
+  const outerContainerShadowStyle = (() => {
+    // Large widgets don't need shadow on outer container (shadow is on inner div)
+    if (isLarge) {
+      return undefined;
+    }
+
+    // Small widget with colored shadow (page 1+)
+    if (shouldUseColoredShadow) {
+      return {
+        boxShadow: defaultShadow.replace(/_/g, " "),
+      };
+    }
+
+    // Small widget with neutral shadow (page 0)
+    return {
+      boxShadow: defaultNeutralShadowSmall.replace(/_/g, " "),
+    };
+  })();
+
+  // Compute inner div shadow for the "Mind Area Inner" element
+  // Only applies to large widgets (small widgets use white inset shadow)
+  const innerDivShadow = (() => {
+    // Only compute shadow for large widgets
+    if (!isLarge) {
+      return undefined;
+    }
+
+    // Large widget with colored shadow (page 1+)
+    if (shouldUseColoredShadow) {
+      return "var(--shadow-default)";
+    }
+
+    // Large widget with neutral shadow (page 0)
+    return defaultNeutralShadowLarge;
+  })();
+
   return (
     // Widget container
     <motion.div
@@ -182,7 +272,18 @@ export function OnboardingMindWidget({
         <div className={showLabel && !isLarge ? "w-fit" : ""}>
           {/* Inner widget: Widget that contains the label or score. */}
           <motion.div
-            className='shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)] overflow-hidden bg-black/87 border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/60 z-10 flex flex-col items-center justify-center relative'
+            className={cn(
+              isLarge && !shouldUseColoredShadow
+                ? "shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)]"
+                : "",
+              "overflow-hidden",
+              "bg-sand-12 hover:bg-sand-12 dark:bg-black/60",
+              "border-none",
+              "z-10",
+              "flex flex-col items-center justify-center",
+              "relative"
+            )}
+            style={outerContainerShadowStyle}
             initial={{
               width: showLabel && !isLarge ? undefined : WIDGET_WIDTH_LARGE,
               height: WIDGET_HEIGHT_SMALL,
@@ -228,6 +329,46 @@ export function OnboardingMindWidget({
             <AnimatePresence>{isLarge && <MindLevel />}</AnimatePresence>
 
             {/* Mind Area Inner */}
+            {isLarge && (
+              <motion.div
+                className='rounded-full absolute'
+                style={
+                  isLarge && shouldUseColoredShadow
+                    ? ({
+                        "--shadow-default": defaultShadow.replace(/_/g, " "),
+                        "--shadow-hover": hoverShadow.replace(/_/g, " "),
+                      } as React.CSSProperties & {
+                        "--shadow-default": string;
+                        "--shadow-hover": string;
+                      })
+                    : undefined
+                }
+                animate={{
+                  top: isLarge ? "2px" : "1px",
+                  left: isLarge ? "2px" : "1px",
+                  width: isLarge ? "calc(100% - 4px)" : "calc(100% - 2px)",
+                  height: isLarge ? "calc(100% - 4px)" : "calc(100% - 2px)",
+                  filter: isLarge ? "blur(6px)" : "blur(3px)",
+                  boxShadow: isLarge ? innerDivShadow : smallWidgetInnerShadow,
+                }}
+                transition={SPRING_CONFIG}
+                onMouseEnter={
+                  isLarge && shouldUseColoredShadow
+                    ? (e) => {
+                        e.currentTarget.style.boxShadow = "var(--shadow-hover)";
+                      }
+                    : undefined
+                }
+                onMouseLeave={
+                  isLarge && shouldUseColoredShadow
+                    ? (e) => {
+                        e.currentTarget.style.boxShadow =
+                          "var(--shadow-default)";
+                      }
+                    : undefined
+                }
+              />
+            )}
             <motion.div
               className='rounded-full absolute'
               animate={{
@@ -237,8 +378,8 @@ export function OnboardingMindWidget({
                 height: isLarge ? "calc(100% - 4px)" : "calc(100% - 2px)",
                 filter: isLarge ? "blur(6px)" : "blur(3px)",
                 boxShadow: isLarge
-                  ? "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 2px rgba(255,255,255,1)"
-                  : "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 0.5px rgba(255,255,255,1)",
+                  ? "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 3px rgba(255,255,255,1)"
+                  : "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)",
               }}
               transition={SPRING_CONFIG}
             />

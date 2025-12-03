@@ -345,13 +345,18 @@
   filter: drop-shadow(0 0 4px #0083ef) drop-shadow(0 0 8px #0083ef);
 }
 
+.mind-area-section {
+  corner-shape: superellipse(1.2);
+  border-radius: 38px 38px 20px 20px;
+}
+
 .mind-area {
   corner-shape: superellipse(1.2);
   border-radius: 36px 36px 36px 36px;
 }
 
 .mind-area.studio {
-  border-radius: 21px 21px 36px 36px;
+  border-radius: 36px 36px 36px 36px;
 }
 
 .mind-area-inner {
@@ -360,5 +365,5 @@
 }
 
 .mind-area-inner.studio {
-  border-radius: 19px 19px 34px 34px;
+  border-radius: 32px 32px 32px 32px;
 }

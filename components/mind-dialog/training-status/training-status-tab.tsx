@@ -5,7 +5,7 @@ import { SCORE_PER_ITEM } from "@/app/studio/_constants/training-queue";
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { useEffect, useMemo, useState } from "react";
-import { useMindDialog } from "../mind-dialog";
+import { useMindDialog } from "../mind-dialog-2";
 import { ActiveTrainingQueue } from "./active-training-queue";
 import { type TrainingItem } from "./training-history";
 import { TrainingSummary } from "./training-summary";

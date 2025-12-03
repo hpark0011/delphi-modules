@@ -8,7 +8,7 @@ import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import {
   MindDialog,
   useMindDialog,
-} from "@/components/mind-dialog/mind-dialog";
+} from "@/components/mind-dialog/mind-dialog-2";
 import { MindProgressBar } from "@/app/studio/_components/mindscore/mind-progress-bar";
 import { TrainingCompletedStatus } from "@/app/studio/_components/mindscore/widget/training-completed-status";
 import { QueueItem, useTrainingQueue } from "@/hooks/use-training-queue";
@@ -73,35 +73,37 @@ function MindScoreTrigger() {
       }}
     >
       {/* Progress Bar */}
-      <MindProgressBar
-        progressToNextLevel={progressToNextLevel}
-        nextLevelThreshold={nextLevelThreshold}
-        progressCap={progressCap}
-        lastIncrement={lastIncrement}
-        lastDecrement={lastDecrement}
-        className={cn(
-          "top-[3px] transition-all duration-100 ease-in",
-          queueStatus === "active"
-            ? "opacity-100"
-            : "opacity-0 group-hover:opacity-100"
-        )}
-      />
+      <div className='absolute top-0 w-full flex items-center justify-center'>
+        <MindProgressBar
+          progressToNextLevel={progressToNextLevel}
+          nextLevelThreshold={nextLevelThreshold}
+          progressCap={progressCap}
+          lastIncrement={lastIncrement}
+          lastDecrement={lastDecrement}
+          className={cn(
+            "top-[3px] transition-all duration-100 ease-in relative max-w-[312px]",
+            queueStatus === "active"
+              ? "opacity-100"
+              : "opacity-0 group-hover:opacity-100"
+          )}
+        />
+      </div>
 
       {/* Mind Score & Mind Level Container */}
       <div className='flex flex-col gap-2 w-full justify-center items-center relative z-10'>
         <div className='flex flex-col items-center justify-center h-[160px] text-white gap-0.5 '>
           {/* Mind Score Value */}
-          <p className='font-medium text-center text-6xl tracking-tighter'>
+          <p className='font-[500] text-center text-6xl tracking-tighter'>
             {current}
           </p>
           {/* Mind Level */}
-          <p className='text-[15px] font-medium text-center text-white/70'>
+          <p className='text-[16px] font-medium text-center text-white/70'>
             {level}
           </p>
         </div>
 
         {/* Mind Area Inner */}
-        <div className='mind-area-inner studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_1px_0.5px_rgba(255,255,255,0.9),inset_0px_1px_1px_1px_rgba(255,255,255,1)] blur-[6px]' />
+        <div className='mind-area-inner studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_-1px_1px_1px_rgba(255,255,255,0.7),inset_0px_2px_2px_2px_rgba(255,255,255,0.4),inset_0px_6px_6px_2px_rgba(255,255,255,0.2)] blur-[6px]' />
       </div>
     </div>
   );
@@ -192,7 +194,7 @@ export function MindWidgetLargeRect() {
   return (
     <AnalyticsSectionWrapper
       className={cn(
-        "w-full p-0.5 rounded-[20px] flex flex-col items-center bg-linear-to-b from-black/5 to-black/2 cursor-default bg-amber-50/12 backdrop-blur-[20px] overflow-hidden transition-all duration-200 text-left opacity-100 hover:bg-amber-50/18 shadow-[0_1px_0.908px_0_rgba(255,255,255,0.15)_inset,0_-1px_0.908px_0_rgba(255,255,255,0.05)_inset]"
+        "w-full p-0.5 mind-area-section flex flex-col items-center bg-linear-to-b from-sand-6 to-sand-3 cursor-default bg-amber-50/12 backdrop-blur-[20px] overflow-hidden transition-all duration-200 text-left opacity-100 hover:bg-amber-50/18 shadow-[0_1px_0.908px_0_rgba(255,255,255,0.15)_inset,0_-1px_0.908px_0_rgba(255,255,255,0.05)_inset]"
       )}
     >
       <MindDialog defaultTab='training-status'>
