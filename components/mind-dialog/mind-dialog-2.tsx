@@ -6,11 +6,14 @@ import {
   generateShadowString,
   getLevelShadowColors,
 } from "@/app/studio/_utils/mind-shadow-helpers";
+import { MindStatusIcon } from "@/components/mind-status-notification";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import type { IconName } from "@/components/ui/icon";
 import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
+import { useTrainingStatus } from "@/hooks/use-training-status";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import React, {
   createContext,
@@ -58,19 +61,55 @@ interface MindDialogProps {
 }
 
 export function MindDialogHeader2({ level }: { level: string }) {
+  const [hasUserReviewed, setHasUserReviewed] = useState(false);
+  const { queue, clearQueue } = useTrainingQueue();
+  const { hasActiveItems, activeCount, queueStatus } =
+    useTrainingStatus(hasUserReviewed);
+  const { close } = useMindDialog();
+
+  // Reset review state when queue becomes active or empty
+  useEffect(() => {
+    if (queueStatus === "active" && !hasUserReviewed) {
+      setHasUserReviewed(true);
+    }
+    if (queue.length === 0 && !hasUserReviewed) {
+      setHasUserReviewed(true);
+    }
+  }, [queueStatus, hasUserReviewed, queue.length]);
+
+  const onPreviewClick = () => {
+    // Mark as reviewed to change status from "finished" to "dull"
+    if (queueStatus === "finished") {
+      setHasUserReviewed(true);
+    }
+    clearQueue();
+    close();
+  };
+
   return (
-    <div className='flex flex-col justify-between items-center w-full'>
+    <div className='flex flex-col justify-between items-center w-full relative'>
       <VisuallyHidden>
         <DialogTitle>Mind</DialogTitle>
       </VisuallyHidden>
+      <div className='flex justify-end items-center z-10 pt-2 pr-2 w-full absolute top-2 right-2'>
+        <Button
+          size='sm'
+          className='h-8 relative gap-1 has-[>svg]:pl-0.5 pl-2 rounded-full cursor-pointer'
+          variant='glossy'
+          onClick={onPreviewClick}
+        >
+          <MindStatusIcon status={queueStatus} />
+          <span>Preview</span>
+        </Button>
+      </div>
       <div className='mt-2 flex flex-col items-center justify-center gap-6'>
         <MindWidgetSmall disableClick />
         {/* Mind level */}
         <div className='font-medium text-center text-sand-10'>{level}</div>
       </div>
-      <div className='flex justify-center relative z-10 mt-8 mb-3'>
+      <div className='flex justify-center relative z-10 mt-8 mb-3 items-center'>
         {/* Training status & add knowledge tabs */}
-        <TabsList className='p-[1px] px-1 rounded-[12px] gap-1'>
+        <TabsList className='gap-1'>
           {MIND_DIALOG_TABS.map((tab) => {
             const icon: IconName = tab.icon;
 
@@ -78,7 +117,7 @@ export function MindDialogHeader2({ level }: { level: string }) {
               <TabsTrigger
                 key={tab.id}
                 value={tab.id}
-                className='text-[14px] h-9 rounded-full px-2.5 pr-3 tracking-tight text-sand-9 dark:text-white/60  dark:hover:bg-white/10 data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:text-sand-11 gap-1 bg-sand-10/10 hover:bg-sand-10/20'
+                className='text-[14px] h-9 rounded-full px-2.5 pr-3 tracking-tight text-sand-9 dark:text-white/60  dark:hover:bg-white/10 data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:text-sand-11 gap-1 bg-sand-10/8 hover:bg-sand-10/20'
               >
                 <Icon
                   name={icon}

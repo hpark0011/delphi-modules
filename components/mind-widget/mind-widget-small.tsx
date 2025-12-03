@@ -22,7 +22,9 @@ interface MindWidgetSmallProps {
   disableClick?: boolean;
 }
 
-export function MindWidgetSmall({ disableClick = false }: MindWidgetSmallProps) {
+export function MindWidgetSmall({
+  disableClick = false,
+}: MindWidgetSmallProps) {
   const { openWithTab } = useMindDialog();
   const { current, level } = useMindScore();
 
@@ -55,12 +57,12 @@ export function MindWidgetSmall({ disableClick = false }: MindWidgetSmallProps) 
   const shadowString = generateSmallWidgetShadowString(levelColors);
 
   return (
-    <div className='flex gap-2 relative justify-start items-center rounded-full bg-light'>
+    <div className='flex gap-2 relative justify-start items-center rounded-full bg-sand-10/8'>
       {/* Mindscore Trigger */}
       <div
         className={cn(
-          'flex items-center p-0.5 bg-light rounded-full transition-all duration-200 w-fit relative',
-          !disableClick && 'hover:scale-108 cursor-pointer'
+          "flex items-center p-0.5 bg-sand-10/8 rounded-full transition-all duration-200 w-fit relative",
+          !disableClick && "hover:scale-108 cursor-pointer"
         )}
         onClick={handleClick}
       >
@@ -68,8 +70,8 @@ export function MindWidgetSmall({ disableClick = false }: MindWidgetSmallProps) 
         <div
           onClick={handleClick}
           className={cn(
-            'flex flex-col gap-2 rounded-full overflow-hidden bg-black/87 border-white/20 dark:border-white/3 dark:bg-black/40 w-fit px-2.5 py-1.5 relative justify-center items-center min-w-[52px] h-[40px] z-0',
-            !disableClick && 'cursor-pointer hover:bg-black/84'
+            "flex flex-col gap-2 rounded-full overflow-hidden bg-black/87 border-white/20 dark:border-white/3 dark:bg-black/40 w-fit px-2.5 py-1.5 relative justify-center items-center min-w-[52px] h-[40px] z-0",
+            !disableClick && "cursor-pointer hover:bg-black/84"
           )}
           style={{
             boxShadow: shadowString.replace(/_/g, " "),
@@ -107,7 +109,10 @@ export function MindWidgetSmall({ disableClick = false }: MindWidgetSmallProps) 
       </div>
       <AnimatePresence>
         {isWidgetVisible && (
-          <MiniTrainingStatus onDismiss={handleWidgetDismiss} disableTooltips={disableClick} />
+          <MiniTrainingStatus
+            onDismiss={handleWidgetDismiss}
+            disableTooltips={disableClick}
+          />
         )}
       </AnimatePresence>
     </div>
