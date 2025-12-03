@@ -29,7 +29,10 @@ import {
   MindDialogTabId,
   getMindDialogWidthClass,
 } from "./mind-dialog-config";
-import { type TrainingItemStatus } from "@/utils/training-status-helpers";
+import {
+  hasActiveItems,
+  type TrainingItemStatus,
+} from "@/utils/training-status-helpers";
 import { MindWidgetSmall } from "@/components/mind-widget/mind-widget-small";
 
 // Re-export for convenience
@@ -61,88 +64,19 @@ interface MindDialogProps {
   defaultTab?: MindDialogTabId;
 }
 
-function MindDialogHeader() {
-  const {
-    current,
-    level,
-    progressToNextLevel,
-    nextLevelThreshold,
-    progressCap,
-    lastIncrement,
-    lastDecrement,
-  } = useMindScore();
-  const [hasUserReviewed, setHasUserReviewed] = useState(false);
-  const { queue, clearQueue } = useTrainingQueue();
-  const { hasActiveItems, activeCount, queueStatus } =
-    useTrainingStatus(hasUserReviewed);
-  const { close } = useMindDialog();
-
-  // Reset review state when queue becomes active or empty
-  useEffect(() => {
-    if (queueStatus === "active" && !hasUserReviewed) {
-      setHasUserReviewed(true);
-    }
-    if (queue.length === 0 && !hasUserReviewed) {
-      setHasUserReviewed(true);
-    }
-  }, [queueStatus, hasUserReviewed, queue.length]);
-
-  const onPreviewClick = () => {
-    // Mark as reviewed to change status from "finished" to "dull"
-    if (queueStatus === "finished") {
-      setHasUserReviewed(true);
-    }
-    clearQueue();
-    close();
-  };
-
-  // Get level-based colors and generate shadow
-  const levelColors = getLevelShadowColors(level);
-  const defaultShadow = generateShadowString(levelColors, false);
+export function MindDialogHeader2() {
+  const { activeCount } = useTrainingStatus(false);
 
   return (
-    <div
-      className='mind-area flex-shrink-0 flex flex-col m-1 mb-0 overflow-hidden bg-black  dark:border-white/3 p-2 pb-1 relative'
-      style={{
-        boxShadow: defaultShadow.replace(/_/g, " "),
-      }}
-    >
-      <div className='absolute top-[3px] left-1/2 -translate-x-1/2 w-full max-w-[320px]'>
-        <MindProgressBar
-          progressToNextLevel={progressToNextLevel}
-          nextLevelThreshold={nextLevelThreshold}
-          progressCap={progressCap}
-          lastIncrement={lastIncrement}
-          lastDecrement={lastDecrement}
-        />
+    <div className='flex flex-col justify-between items-center w-full'>
+      <VisuallyHidden>
+        <DialogTitle>Mind</DialogTitle>
+      </VisuallyHidden>
+      <div className='mt-2'>
+        <MindWidgetSmall />
       </div>
-      <div className='flex justify-end items-center z-10 relative pt-2 pr-2'>
-        <VisuallyHidden>
-          <DialogTitle>Mind</DialogTitle>
-        </VisuallyHidden>
-        <Button
-          size='sm'
-          className='h-7.5 relative gap-1 has-[>svg]:pl-0.5 pl-2 rounded-full cursor-pointer'
-          variant='glossy'
-          onClick={onPreviewClick}
-        >
-          <MindStatusIcon status={queueStatus} />
-          <span>Preview</span>
-        </Button>
-      </div>
-
-      <div className='flex flex-col items-center justify-center mb-6 gap-1'>
-        <div className='text-6xl text-white tracking-tighter font-medium w-full text-center'>
-          {/* Mind Score */}
-          {current}
-        </div>
-        <div className='text-[15px] font-medium text-center text-white/70'>
-          {level}
-        </div>
-      </div>
-
-      <div className='flex justify-center relative z-10'>
-        <TabsList className='gap-0.5'>
+      <div className='flex justify-center relative z-10 mt-8 mb-0'>
+        <TabsList className='p-[1px] px-1 rounded-[12px] gap-1'>
           {MIND_DIALOG_TABS.map((tab) => {
             // Dynamic config for training-status tab when items are being processed
             const isTrainingTab = tab.id === "training-status";
@@ -159,8 +93,8 @@ function MindDialogHeader() {
                 key={tab.id}
                 value={tab.id}
                 className={cn(
-                  "text-[13px] h-7 rounded-md px-2 tracking-tight text-text-tertiary-inverse dark:text-white/60 hover:bg-white/10 dark:hover:bg-white/10 data-[state=active]:bg-white/10 dark:data-[state=active]:bg-white/10 data-[state=active]:text-white gap-1 pl-1.5",
-                  isActiveTraining && "gap-0.5"
+                  "text-[14px] h-9 rounded-full px-3 tracking-tight text-sand-8 dark:text-white/60  dark:hover:bg-white/10 data-[state=active]:bg-white dark:data-[state=active]:bg-white/10 data-[state=active]:text-sand-11 gap-1 pl-2 bg-sand-10/5 hover:bg-sand-10/15",
+                  isActiveTraining && "gap-1"
                 )}
               >
                 {isActiveTraining ? (
@@ -168,7 +102,7 @@ function MindDialogHeader() {
                 ) : (
                   <Icon
                     name={icon}
-                    className='size-4 text-current'
+                    className='size-4 text-sand-8'
                     aria-hidden='true'
                   />
                 )}
@@ -184,22 +118,6 @@ function MindDialogHeader() {
             );
           })}
         </TabsList>
-      </div>
-
-      {/* Mind Area Inner */}
-      <div className='mind-area-inner studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_-1px_1px_1px_rgba(255,255,255,0.7),inset_0px_2px_2px_2px_rgba(255,255,255,0.4),inset_0px_6px_6px_2px_rgba(255,255,255,0.2)] blur-[6px]' />
-    </div>
-  );
-}
-
-export function MindDialogHeader2() {
-  return (
-    <div className='flex flex-col justify-between items-center w-full'>
-      <VisuallyHidden>
-        <DialogTitle>Mind</DialogTitle>
-      </VisuallyHidden>
-      <div className='mt-2'>
-        <MindWidgetSmall />
       </div>
     </div>
   );
@@ -275,7 +193,6 @@ export function MindDialog({
             className='w-full flex flex-col h-full min-h-0 gap-0'
           >
             {/* Fixed Header Section */}
-            {/* <MindDialogHeader /> */}
             <MindDialogHeader2 />
 
             {/* Scrollable Content Section */}

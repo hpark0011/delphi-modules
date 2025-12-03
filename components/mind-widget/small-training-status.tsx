@@ -243,7 +243,7 @@ export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
               {...SLIDE_ANIMATION}
               className='flex items-center gap-1'
             >
-              <span className='text-[14px] font-medium'>Completed!</span>
+              <span className='text-[13px] font-medium'>Completed!</span>
               <TrainingResultBadges
                 completedCount={completedCount}
                 failedCount={failedCount}
@@ -272,7 +272,7 @@ export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
                 <div className='ml-1'>
                   <TrainingResultBadges
                     className='gap-0.5'
-                    countTextSize='text-[14px]'
+                    countTextSize='text-[13px]'
                     completedCount={completedCount}
                     failedCount={failedCount}
                     onCompletedClick={() =>
