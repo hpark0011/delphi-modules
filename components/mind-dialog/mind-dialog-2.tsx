@@ -57,14 +57,16 @@ interface MindDialogProps {
   defaultTab?: MindDialogTabId;
 }
 
-export function MindDialogHeader2() {
+export function MindDialogHeader2({ level }: { level: string }) {
   return (
     <div className='flex flex-col justify-between items-center w-full'>
       <VisuallyHidden>
         <DialogTitle>Mind</DialogTitle>
       </VisuallyHidden>
-      <div className='mt-2'>
+      <div className='mt-2 flex flex-col items-center justify-center gap-6'>
         <MindWidgetSmall disableClick />
+        {/* Mind level */}
+        <div className='font-medium text-center text-sand-10'>{level}</div>
       </div>
       <div className='flex justify-center relative z-10 mt-8 mb-3'>
         {/* Training status & add knowledge tabs */}
@@ -97,6 +99,7 @@ export function MindDialog({
   children,
   defaultTab = DEFAULT_MIND_DIALOG_TAB,
 }: MindDialogProps) {
+  const { level } = useMindScore();
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<MindDialogTabId>(defaultTab);
   const [initialFilter, setInitialFilter] = useState<
@@ -151,7 +154,7 @@ export function MindDialog({
         {children}
         <DialogContent
           // showCloseButton
-          className={`p-0 sm:max-w-2xl ${dialogWidthClass} rounded-[36px] max-h-[90vh] h-full flex flex-col overflow-hidden bg-dialog`}
+          className={`p-0 sm:max-w-2xl ${dialogWidthClass} rounded-[36px] max-h-[87vh] h-full flex flex-col overflow-hidden bg-dialog`}
           style={{
             boxShadow:
               "0 2px 2px 0 rgba(255, 255, 255, 1) inset,  0 10.213px 10.213px -5.107px rgba(0, 0, 0, 0.03), 0 5.107px 5.107px -2.553px rgba(0, 0, 0, 0.03), 0 2.553px 2.553px -2px rgba(0, 0, 0, 0.03), 0 0.638px 0.638px -0.319px rgba(0, 0, 0, 0.03)",
@@ -163,7 +166,7 @@ export function MindDialog({
             className='w-full flex flex-col h-full min-h-0 gap-0'
           >
             {/* Fixed Header Section */}
-            <MindDialogHeader2 />
+            <MindDialogHeader2 level={level} />
 
             {/* Scrollable Content Section */}
             <div className='flex-1 overflow-y-auto min-h-0 p-4 pt-2'>

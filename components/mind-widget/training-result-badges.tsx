@@ -45,9 +45,7 @@ export function TrainingResultBadges({
       }
     >
       <Icon name='CheckedCircleFillIcon' className='size-5' />
-      <span className={cn("font-medium", countTextSize)}>
-        {completedCount}
-      </span>
+      <span className={cn("font-medium", countTextSize)}>{completedCount}</span>
     </div>
   );
 
@@ -68,46 +66,35 @@ export function TrainingResultBadges({
           : undefined
       }
     >
-      <Icon
-        name='ExclamationmarkTriangleFillIcon'
-        className='size-4.5'
-      />
-      <span className={cn("font-medium", countTextSize)}>
-        {failedCount}
-      </span>
+      <Icon name='ExclamationmarkTriangleFillIcon' className='size-4.5' />
+      <span className={cn("font-medium", countTextSize)}>{failedCount}</span>
     </div>
   );
 
   return (
     <div className={cn("flex items-center gap-1", className)}>
-      {completedCount > 0 && (
-        disableTooltips ? (
+      {completedCount > 0 &&
+        (disableTooltips ? (
           completedBadge
         ) : (
           <Tooltip>
-            <TooltipTrigger asChild>
-              {completedBadge}
-            </TooltipTrigger>
+            <TooltipTrigger asChild>{completedBadge}</TooltipTrigger>
             <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
               Completed
             </TooltipContent>
           </Tooltip>
-        )
-      )}
-      {failedCount > 0 && (
-        disableTooltips ? (
+        ))}
+      {failedCount > 0 &&
+        (disableTooltips ? (
           failedBadge
         ) : (
           <Tooltip>
-            <TooltipTrigger asChild>
-              {failedBadge}
-            </TooltipTrigger>
+            <TooltipTrigger asChild>{failedBadge}</TooltipTrigger>
             <TooltipContent className='shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'>
               Failed
             </TooltipContent>
           </Tooltip>
-        )
-      )}
+        ))}
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { getDocTypeIcon } from "@/utils/doc-type-helpers";
 import { AnimatePresence, motion, type Transition } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { TrainingResultBadges } from "./training-result-badges";
 
 type BadgeState = "loading" | "newItem" | "finished";
@@ -68,7 +68,7 @@ interface StatusLabelProps {
 }
 
 function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
-  const [labelWidth, setLabelWidth] = useState(0);
+  const [labelWidth, setLabelWidth] = useState<number | "auto">("auto");
   const measureRef = useRef<HTMLDivElement>(null);
 
   const labelText =
@@ -76,10 +76,10 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
 
   const isNewItem = state === "newItem";
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (measureRef.current) {
       const { width } = measureRef.current.getBoundingClientRect();
-      setLabelWidth(isNewItem ? Math.min(width, 160) : width);
+      setLabelWidth(isNewItem ? Math.min(width, 184) : width);
     }
   }, [labelText, isNewItem]);
 
@@ -88,20 +88,21 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
       {/* Hidden copy to measure width */}
       <div
         ref={measureRef}
-        className='absolute invisible whitespace-nowrap text-[14px]'
+        className='absolute invisible whitespace-nowrap text-[13px]'
       >
         {labelText}
       </div>
 
       <motion.span
         className='relative overflow-hidden'
+        initial={false}
         animate={{ width: labelWidth }}
         transition={SPRING_CONFIG}
       >
         <AnimatePresence mode='sync' initial={false}>
           <motion.div
             key={state + labelText}
-            className={`text-[14px] dark:text-white/90 ${isNewItem ? "max-w-[168px] truncate" : "whitespace-nowrap"}`}
+            className={`text-[13px] dark:text-white/90 ${isNewItem ? "max-w-[184px] truncate" : "whitespace-nowrap"}`}
             initial={{
               y: -20,
               opacity: 0,
@@ -135,7 +136,10 @@ interface MiniTrainingStatusProps {
   disableTooltips?: boolean;
 }
 
-export function MiniTrainingStatus({ onDismiss, disableTooltips = false }: MiniTrainingStatusProps) {
+export function MiniTrainingStatus({
+  onDismiss,
+  disableTooltips = false,
+}: MiniTrainingStatusProps) {
   const { queue } = useTrainingQueue();
   const { openWithTab } = useMindDialog();
 
@@ -253,6 +257,7 @@ export function MiniTrainingStatus({ onDismiss, disableTooltips = false }: MiniT
                 }
                 onFailedClick={() => openWithTab("training-status", "failed")}
                 disableTooltips={disableTooltips}
+                countTextSize='text-[12px]'
               />
             </motion.div>
           ) : (
@@ -273,8 +278,8 @@ export function MiniTrainingStatus({ onDismiss, disableTooltips = false }: MiniT
               {(completedCount > 0 || failedCount > 0) && (
                 <div className='ml-1'>
                   <TrainingResultBadges
-                    className='gap-0.5'
-                    countTextSize='text-[13px]'
+                    className='gap-1'
+                    countTextSize='text-[12px]'
                     completedCount={completedCount}
                     failedCount={failedCount}
                     onCompletedClick={() =>
