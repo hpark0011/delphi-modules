@@ -1,29 +1,15 @@
 "use client";
 
-import { Icon, type IconName } from "@/components/ui/icon";
+import {
+  getStatusColor,
+  getStatusIcon,
+} from "@/app/studio/_utils/mind-dialog-helpers";
+import { Icon } from "@/components/ui/icon";
 import type { QueueItem } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { getDocTypeIcon } from "@/utils/doc-type-helpers";
-import type { TrainingItemStatus } from "@/utils/training-status-helpers";
 import { motion } from "framer-motion";
 import { RingPercentage } from "./ring-percentage";
-
-function getStatusIcon(status: TrainingItemStatus): IconName {
-  switch (status) {
-    case "completed":
-      return "CheckedCircleFillIcon";
-    case "training":
-      return "LoaderCircleIcon";
-    case "queued":
-      return "CircleDashedIcon";
-    case "failed":
-      return "ExclamationmarkTriangleFillIcon";
-    case "deleted":
-      return "TrashFillIcon";
-    default:
-      return "CircleDashedIcon";
-  }
-}
 
 interface TrainingQueueItemProps {
   item: QueueItem;
@@ -122,16 +108,7 @@ export function TrainingQueueItem({
               ) : (
                 <Icon
                   name={getStatusIcon(item.status)}
-                  className={cn(
-                    "size-5",
-                    item.status === "completed"
-                      ? "text-[#09CE6B]"
-                      : item.status === "failed"
-                        ? "text-orange-500"
-                        : item.status === "deleted"
-                          ? "text-red-400"
-                          : "text-[#8D8D86]"
-                  )}
+                  className={cn("size-5", getStatusColor(item.status))}
                 />
               )}
             </div>

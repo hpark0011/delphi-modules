@@ -2,7 +2,11 @@
 
 import { MindStatusIcon } from "@/components/mind-status-notification";
 // import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
+import { Icon, type IconName } from "@/components/ui/icon";
+import {
+  getStatusColor,
+  getStatusIcon,
+} from "@/app/studio/_utils/mind-dialog-helpers";
 import { TrainingQueueItem } from "@/app/studio/_components/mindscore/training-queue-item";
 import {
   Select,
@@ -34,12 +38,34 @@ interface ActiveTrainingQueueProps {
 const statusFilters: Array<{
   value: TrainingItemStatus | "all";
   label: string;
+  icon?: IconName;
+  color?: string;
 }> = [
   { value: "all", label: "All" },
-  { value: "queued", label: "Queued" },
-  { value: "training", label: "Training" },
-  { value: "completed", label: "Completed" },
-  { value: "failed", label: "Failed" },
+  {
+    value: "queued",
+    label: "Queued",
+    icon: getStatusIcon("queued"),
+    color: getStatusColor("queued"),
+  },
+  {
+    value: "training",
+    label: "Training",
+    icon: getStatusIcon("training"),
+    color: getStatusColor("training"),
+  },
+  {
+    value: "completed",
+    label: "Completed",
+    icon: getStatusIcon("completed"),
+    color: getStatusColor("completed"),
+  },
+  {
+    value: "failed",
+    label: "Failed",
+    icon: getStatusIcon("failed"),
+    color: getStatusColor("failed"),
+  },
 ];
 
 export function ActiveTrainingQueue({
@@ -122,7 +148,15 @@ export function ActiveTrainingQueue({
               <SelectContent>
                 {statusFilters.map((filter) => (
                   <SelectItem key={filter.value} value={filter.value}>
-                    {filter.label}
+                    <div className='flex items-center gap-1.5'>
+                      {filter.icon && (
+                        <Icon
+                          name={filter.icon}
+                          className={cn("size-4", filter.color)}
+                        />
+                      )}
+                      {filter.label}
+                    </div>
                   </SelectItem>
                 ))}
               </SelectContent>
