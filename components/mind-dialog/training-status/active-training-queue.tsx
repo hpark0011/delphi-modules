@@ -181,12 +181,13 @@ export function ActiveTrainingQueue({
                 <TrainingResultBadges
                   completedCount={completedCount}
                   failedCount={failedCount}
-                  countTextSize='text-[12px] mr-2'
+                  countTextSize='text-[12px]'
                   disableTooltips
+                  className='mr-4 gap-1'
                 />
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className='text-[14px] mr-3 flex items-center gap-0.5 justify-center cursor-help'>
+                    <div className='text-[14px] mr-4 flex items-center gap-0.5 justify-center cursor-help'>
                       <Icon
                         name='InfoCircleFillIcon'
                         className='size-4.5 text-icon-light'

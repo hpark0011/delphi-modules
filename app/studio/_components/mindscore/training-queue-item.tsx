@@ -106,7 +106,7 @@ export function TrainingQueueItem({
                   />
                 </div>
               ) : item.status === "queued" ? (
-                <div className='size-5 flex items-center justify-center'>
+                <div className='size-6 flex items-center justify-center'>
                   <RingPercentage
                     value={item.progress}
                     size={14}
@@ -120,15 +120,17 @@ export function TrainingQueueItem({
                 </div>
               ) : item.status === "failed" ? (
                 <>
-                  <Icon
-                    name={getStatusIcon(item.status)}
-                    className={cn("size-5", getStatusColor(item.status))}
-                  />
+                  <div className='flex items-center size-6 justify-center'>
+                    <Icon
+                      name={getStatusIcon(item.status)}
+                      className={cn("size-5", getStatusColor(item.status))}
+                    />
+                  </div>
                   <Button
                     variant='ghost'
                     size='sm'
                     onClick={handleRetry}
-                    className='h-6 w-6 p-0 hover:bg-extra-light/50'
+                    className='h-6 w-6 p-0 hover:bg-sand-4 rounded-sm'
                     aria-label='Retry training'
                   >
                     <Icon
@@ -140,7 +142,7 @@ export function TrainingQueueItem({
                     variant='ghost'
                     size='sm'
                     onClick={handleDelete}
-                    className='h-6 w-6 p-0 hover:bg-extra-light/50'
+                    className='h-6 w-6 p-0 hover:bg-sand-4 rounded-sm'
                     aria-label='Delete item'
                   >
                     <Icon
@@ -150,10 +152,12 @@ export function TrainingQueueItem({
                   </Button>
                 </>
               ) : (
-                <Icon
-                  name={getStatusIcon(item.status)}
-                  className={cn("size-5", getStatusColor(item.status))}
-                />
+                <div className='flex items-center size-6 justify-center'>
+                  <Icon
+                    name={getStatusIcon(item.status)}
+                    className={cn("size-5", getStatusColor(item.status))}
+                  />
+                </div>
               )}
             </div>
           </div>
