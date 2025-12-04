@@ -9,7 +9,7 @@ import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import {
   MindDialog,
   useMindDialog,
-} from "@/components/mind-dialog/mind-dialog";
+} from "@/components/mind-dialog/mind-dialog-2";
 import { useTrainingQueue, type QueueItem } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { cn } from "@/lib/utils";

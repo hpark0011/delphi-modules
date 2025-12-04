@@ -27,7 +27,7 @@ export default function AnalyticsPage() {
       {/* Header Section */}
       <div>
         <h1 className='text-[24px] leading-[1.2] font-medium mb-2 text-[#21201C] dark:text-[#EEEEEC] px-3'>
-          Good Afternoon, John!
+          Good Afternoon, Han!
         </h1>
       </div>
 

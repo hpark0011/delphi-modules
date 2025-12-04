@@ -1,7 +1,7 @@
 "use client";
 
 import { MindStatusIcon } from "@/components/mind-status-notification";
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Icon, type IconName } from "@/components/ui/icon";
 import {
   getStatusColor,
@@ -78,7 +78,7 @@ export function ActiveTrainingQueue({
   initialFilter,
   onFilterApplied,
 }: ActiveTrainingQueueProps) {
-  const { queue } = useTrainingQueue();
+  const { queue, removeItem, retryItem } = useTrainingQueue();
   const [selectedStatus, setSelectedStatus] = useState<
     TrainingItemStatus | "all"
   >("all");
@@ -112,6 +112,21 @@ export function ActiveTrainingQueue({
     };
   }, [showCompletedStatus, queueSnapshot, queue]);
 
+  // Handlers for bulk operations on failed items
+  const handleRetryAllFailed = () => {
+    const sourceQueue = showCompletedStatus ? queueSnapshot : queue;
+    sourceQueue
+      .filter((item) => item.status === "failed")
+      .forEach((item) => retryItem(item.id));
+  };
+
+  const handleDeleteAllFailed = () => {
+    const sourceQueue = showCompletedStatus ? queueSnapshot : queue;
+    sourceQueue
+      .filter((item) => item.status === "failed")
+      .forEach((item) => removeItem(item.id));
+  };
+
   return (
     <div className='flex flex-col gap-3 mt-4'>
       {/* Active Training Queue Header */}
@@ -127,29 +142,63 @@ export function ActiveTrainingQueue({
                 : `Learning ${activeCount} Items`}
             </span>
           </div>
-          <div className='flex items-center gap-2'>
-            {/* Completed/Failed count badges */}
-            <TrainingResultBadges
-              completedCount={completedCount}
-              failedCount={failedCount}
-              countTextSize='text-[12px]'
-              disableTooltips
-            />
-            {selectedStatus !== "failed" && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className='text-[14px] mr-2 flex items-center gap-0.5 justify-center cursor-help'>
-                    <Icon
-                      name='InfoCircleFillIcon'
-                      className='size-4.5 text-icon-light'
-                    />
-                    <span>Last 7d</span>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  Training history is shown uptil last 7 days
-                </TooltipContent>
-              </Tooltip>
+          <div className='flex items-center gap-0.5'>
+            {selectedStatus === "failed" ? (
+              <>
+                {/* Failed badge only + action buttons */}
+                {/* <TrainingResultBadges
+                  completedCount={0}
+                  failedCount={failedCount}
+                  countTextSize='text-[12px]'
+                  disableTooltips
+                /> */}
+                <div className='flex items-center gap-0 mr-1'>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={handleRetryAllFailed}
+                    className='h-7 px-2 has-[>svg]:pl-1.5 gap-0.5 text-icon-light hover:text-text-primary'
+                    disabled={failedCount === 0}
+                  >
+                    <Icon name='ArrowClockwiseIcon' className='size-5' />
+                    <span className='text-[12px]'>Retry All</span>
+                  </Button>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={handleDeleteAllFailed}
+                    className='h-7 px-2 has-[>svg]:pl-1.5 gap-0.5 text-icon-light hover:text-text-primary'
+                    disabled={failedCount === 0}
+                  >
+                    <Icon name='TrashFillIcon' className='size-5' />
+                    <span className='text-[12px]'>Delete All</span>
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Completed/Failed count badges */}
+                <TrainingResultBadges
+                  completedCount={completedCount}
+                  failedCount={failedCount}
+                  countTextSize='text-[12px] mr-2'
+                  disableTooltips
+                />
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className='text-[14px] mr-3 flex items-center gap-0.5 justify-center cursor-help'>
+                      <Icon
+                        name='InfoCircleFillIcon'
+                        className='size-4.5 text-icon-light'
+                      />
+                      <span>Last 7d</span>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    Training history is shown uptil last 7 days
+                  </TooltipContent>
+                </Tooltip>
+              </>
             )}
             {/* Status Filter */}
             <Select
@@ -160,7 +209,7 @@ export function ActiveTrainingQueue({
             >
               <SelectTrigger
                 size='sm'
-                className='data-[size=sm]:h-6 bg-[#EAEAE6] px-2 text-[13px] w-fit rounded-md hover:bg-base gap-2'
+                className='data-[size=sm]:h-7 bg-[#EAEAE6] px-2 text-[13px] w-fit rounded-md hover:bg-base gap-2'
               >
                 <div className='flex items-center gap-2 pb-[1px]'>
                   <SelectValue />
@@ -170,12 +219,12 @@ export function ActiveTrainingQueue({
                 {statusFilters.map((filter) => (
                   <SelectItem key={filter.value} value={filter.value}>
                     <div className='flex items-center gap-1.5'>
-                      {filter.icon && (
+                      {/* {filter.icon && (
                         <Icon
                           name={filter.icon}
                           className={cn("size-4", filter.color)}
                         />
-                      )}
+                      )} */}
                       {filter.label}
                     </div>
                   </SelectItem>

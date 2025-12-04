@@ -5,7 +5,9 @@ import {
   getStatusIcon,
 } from "@/app/studio/_utils/mind-dialog-helpers";
 import { Icon } from "@/components/ui/icon";
+import { Button } from "@/components/ui/button";
 import type { QueueItem } from "@/hooks/use-training-queue";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { getDocTypeIcon } from "@/utils/doc-type-helpers";
 import { motion } from "framer-motion";
@@ -26,6 +28,18 @@ export function TrainingQueueItem({
   fontSize = "text-sm",
   containerClassName,
 }: TrainingQueueItemProps) {
+  const { removeItem, retryItem } = useTrainingQueue();
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    removeItem(item.id);
+  };
+
+  const handleRetry = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    retryItem(item.id);
+  };
+
   return (
     <div
       className={cn(
@@ -82,9 +96,8 @@ export function TrainingQueueItem({
                 </span>
               )}
             </div>
-
             {/* Icon or Ring Percentage */}
-            <div className='flex-shrink-0'>
+            <div className='flex-shrink-0 flex items-center gap-1'>
               {item.status === "training" ? (
                 <div className='size-5 flex items-center justify-center'>
                   <Icon
@@ -105,6 +118,37 @@ export function TrainingQueueItem({
                     ariaLabel={`${item.name} progress`}
                   />
                 </div>
+              ) : item.status === "failed" ? (
+                <>
+                  <Icon
+                    name={getStatusIcon(item.status)}
+                    className={cn("size-5", getStatusColor(item.status))}
+                  />
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={handleRetry}
+                    className='h-6 w-6 p-0 hover:bg-extra-light/50'
+                    aria-label='Retry training'
+                  >
+                    <Icon
+                      name='ArrowClockwiseIcon'
+                      className='size-5 text-icon-light'
+                    />
+                  </Button>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={handleDelete}
+                    className='h-6 w-6 p-0 hover:bg-extra-light/50'
+                    aria-label='Delete item'
+                  >
+                    <Icon
+                      name='TrashFillIcon'
+                      className='size-5 text-icon-light'
+                    />
+                  </Button>
+                </>
               ) : (
                 <Icon
                   name={getStatusIcon(item.status)}

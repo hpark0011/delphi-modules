@@ -4,7 +4,7 @@ import { HomeIcon, PlusLargeIcon, PlusSmallIcon } from "@/delphi-ui/icons";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
+import { useMindDialog } from "@/components/mind-dialog/mind-dialog-2";
 
 const SPRING_CONFIG = {
   type: "spring" as const,

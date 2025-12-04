@@ -1,4 +1,4 @@
-import { MindDialog } from "@/components/mind-dialog/mind-dialog";
+import { MindDialog } from "@/components/mind-dialog/mind-dialog-2";
 import { OnboardingHeader } from "@/app/onboarding/_components/onboarding-header";
 import { OnboardingNavigationProvider } from "@/app/onboarding/_context/onboarding-navigation-context";
 

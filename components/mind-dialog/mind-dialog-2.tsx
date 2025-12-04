@@ -125,7 +125,7 @@ export function MindDialogHeader2({ level }: { level: string }) {
                   // Hover state
                   "hover:bg-sand-10/20 dark:hover:bg-white/10",
                   // Active state
-                  "data-[state=active]:bg-sand-2 data-[state=active]:text-sand-11 dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-[inset_0_2px_1px_0px_rgba(255,255,255,1),inset_0_-1px_1px_0px_rgba(255,255,255,1)] dark:data-[state=active]:shadow-[inset_0_2px_1px_0px_rgba(0,0,0,0.1),inset_0_-1px_1px_0px_rgba(0,0,0,0.1)]",
+                  "data-[state=active]:bg-sand-1 data-[state=active]:text-sand-11 dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-[inset_0_2px_1px_0px_rgba(255,255,255,1),inset_0_-1px_1px_0px_rgba(255,255,255,1)] dark:data-[state=active]:shadow-[inset_0_2px_1px_0px_rgba(0,0,0,0.1),inset_0_-1px_1px_0px_rgba(0,0,0,0.1)]",
                   // Conditional styles
                   tab.id === "training-status" && "gap-0.5"
                 )}
