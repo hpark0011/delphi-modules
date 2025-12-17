@@ -466,7 +466,7 @@ function ProfileChatInputDesktop({
           }
         >
           <ShieldCheckIcon className='size-4' />
-          <span>{firstName}'s Delphi will answer your calls & messages</span>
+          <span>{firstName}&apos;s Delphi will answer your calls & messages</span>
         </div>
         <div
           className='absolute z-0 -ml-5 -mr-5 inset-0 -mt-10 -mb-10'

@@ -46,7 +46,7 @@ export default function AnalyticsPage() {
                       className='size-6 text-[#FF8D28]'
                     />
                   </div>
-                  <h2 className='text-lg font-medium'>Today's Tasks</h2>
+                  <h2 className='text-lg font-medium'>Today&apos;s Tasks</h2>
                 </div>
               </div>
 
