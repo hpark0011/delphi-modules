@@ -1,0 +1,344 @@
+@import "@radix-ui/colors/sand.css";
+@import "@radix-ui/colors/sand-dark.css";
+@import "@radix-ui/colors/sand-alpha.css";
+@import "@radix-ui/colors/sand-dark-alpha.css";
+
+@import "@radix-ui/colors/black-alpha.css";
+@import "@radix-ui/colors/white-alpha.css";
+
+@import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/red-dark.css";
+
+@import "@radix-ui/colors/blue.css";
+@import "@radix-ui/colors/blue-dark.css";
+
+@import "@radix-ui/colors/indigo.css";
+@import "@radix-ui/colors/indigo-dark.css";
+
+@import "@radix-ui/colors/green.css";
+@import "@radix-ui/colors/green-dark.css";
+
+@import "@radix-ui/colors/tomato.css";
+@import "@radix-ui/colors/tomato-dark.css";
+
+@import "@radix-ui/colors/ruby.css";
+@import "@radix-ui/colors/ruby-dark.css";
+
+@import "@radix-ui/colors/crimson.css";
+@import "@radix-ui/colors/crimson-dark.css";
+
+@import "@radix-ui/colors/pink.css";
+@import "@radix-ui/colors/pink-dark.css";
+
+@import "@radix-ui/colors/plum.css";
+@import "@radix-ui/colors/plum-dark.css";
+
+@import "@radix-ui/colors/purple.css";
+@import "@radix-ui/colors/purple-dark.css";
+
+@import "@radix-ui/colors/violet.css";
+@import "@radix-ui/colors/violet-dark.css";
+
+@import "@radix-ui/colors/iris.css";
+@import "@radix-ui/colors/iris-dark.css";
+
+@import "@radix-ui/colors/cyan.css";
+@import "@radix-ui/colors/cyan-dark.css";
+
+@import "@radix-ui/colors/teal.css";
+@import "@radix-ui/colors/teal-dark.css";
+
+@import "@radix-ui/colors/jade.css";
+@import "@radix-ui/colors/jade-dark.css";
+
+@import "@radix-ui/colors/grass.css";
+@import "@radix-ui/colors/grass-dark.css";
+
+@import "@radix-ui/colors/bronze.css";
+@import "@radix-ui/colors/bronze-dark.css";
+
+@import "@radix-ui/colors/gold.css";
+@import "@radix-ui/colors/gold-alpha.css";
+@import "@radix-ui/colors/gold-dark.css";
+@import "@radix-ui/colors/gold-dark-alpha.css";
+
+@import "@radix-ui/colors/brown.css";
+@import "@radix-ui/colors/brown-dark.css";
+
+@import "@radix-ui/colors/amber.css";
+@import "@radix-ui/colors/amber-dark.css";
+
+@import "@radix-ui/colors/yellow.css";
+@import "@radix-ui/colors/yellow-dark.css";
+
+@import "@radix-ui/colors/lime.css";
+@import "@radix-ui/colors/lime-dark.css";
+
+@import "@radix-ui/colors/mint.css";
+@import "@radix-ui/colors/mint-dark.css";
+
+@import "@radix-ui/colors/sky.css";
+@import "@radix-ui/colors/sky-dark.css";
+
+@import "@radix-ui/colors/orange.css";
+@import "@radix-ui/colors/orange-dark.css";
+
+@layer base {
+  /* Prevent iOS focus zoom: ensure minimum 16px on touch devices
+     Scoped to embed app AND only when data-zoom-floor is enabled for selected slugs */
+  @media (hover: none) and (pointer: coarse) {
+    [data-app="embed"][data-zoom-floor="true"] input,
+    [data-app="embed"][data-zoom-floor="true"] textarea,
+    [data-app="embed"][data-zoom-floor="true"] select {
+      /* Use a minimum of 16px without shrinking larger sizes */
+      font-size: max(16px, 1em) !important;
+    }
+  }
+  :root {
+    --color-old-black: 0% 0 0;
+    --color-old-white: 100% 0 0;
+
+    --color-old-blue: 72.65% 0.15771568187844587 240.5467432168915;
+    --color-old-blue-soft: 96.32% 0.021666325375963084 230.53702079777366;
+
+    --color-old-orange: 70.22% 0.196 41.38;
+    --color-old-orange-soft: 95.82% 0.022 45.61;
+
+    --color-old-green: 69.45% 0.154 160.13;
+    --color-old-green-soft: 97.65% 0.024 170.99;
+
+    --color-old-red: 64.09% 0.24465720815444128 27.750167018908993;
+    --color-old-red-soft: 94.3% 0.02858429101723877 17.66988925225118;
+
+    --color-old-yellow: 82.44% 0.163 77.79;
+    --color-old-yellow-soft: 97.56% 0.024 83.42;
+
+    --color-old-base: 64.01% 0 0;
+    --color-old-subtle: 84.52% 0 0;
+    --color-old-muted: 42.02% 0 0;
+    --color-old-loud: var(--color-old-black);
+
+    --color-old-text: var(--color-old-base);
+    --color-old-text-subtle: var(--color-old-subtle);
+    --color-old-text-muted: var(--color-old-muted);
+    --color-old-text-loud: var(--color-old-loud);
+
+    --color-old-icon: var(--color-old-base);
+    --color-old-icon-subtle: var(--color-old-subtle);
+    --color-old-icon-muted: var(--color-old-muted);
+    --color-old-icon-loud: var(--color-old-loud);
+
+    --color-old-border: 80.39% 0 0;
+    --color-old-border-subtle: 94.01% 0 0;
+    --color-old-border-muted: 80.39% 0 0;
+    --color-old-border-loud: 73.24% 0 0;
+
+    --color-old-bg: 94.98% 0 0;
+    --color-old-bg-subtle: 97.1% 0 0;
+    --color-old-bg-muted: 92.12% 0 0;
+    --color-old-bg-loud: 0% 0 0;
+    --color-old-bg-fill: var(--color-old-white);
+
+    --color-old-shadow: 62.01% 0 0;
+    --color-old-shadow-hint: 19.69% 0.01 276.49;
+
+    /* TODO @luke: Link these to the color variables above for consistency. */
+    --embed-primary-color: #ff6a27;
+    --embed-primary-color-light: #ff6a274d;
+  }
+
+  .font-sans {
+    font-feature-settings:
+      "ss08" on,
+      "cv03" on,
+      "cv04" on,
+      "cv06" on,
+      "cv09" on,
+      "cv11" on;
+  }
+}
+
+@tailwind utilities;
+
+@layer utilities {
+  .progressive-blur {
+    --pb-top: to top;
+    --pb-left: to left;
+    --pb-right: to right;
+    --pb-bottom: to bottom;
+    --pb-top-left: to top left;
+
+    --pb-dir: var(--pb-bottom);
+    --pb-from: #000 35%;
+    --pb-to: transparent;
+    --pb-blur: 4px;
+
+    mask-image: linear-gradient(var(--pb-dir), var(--pb-from), var(--pb-to));
+    backdrop-filter: blur(var(--pb-blur));
+  }
+
+  :root {
+    --shadow-1: inset 0 0 0 1px var(--sand-a5),
+      inset 0 1.5px 2px 0 var(--sand-a2), inset 0 1.5px 2px 0 var(--black-a2);
+
+    --shadow-2: 0 0 0 1px var(--sand-a3), 0 0 0 0.5px var(--black-a1),
+      0 1px 1px 0 var(--sand-a2), 0 2px 1px -1px var(--black-a1),
+      0 1px 3px 0 var(--black-a1);
+
+    --shadow-3: 0 0 0 1px var(--sand-a3), 0 2px 3px -2px var(--sand-a3),
+      0 3px 12px -4px var(--sand-a2), 0 4px 16px -8px var(--sand-a2);
+
+    --shadow-4: 0 0 0 1px var(--sand-a3), 0 8px 40px var(--black-a1),
+      0 12px 32px -16px var(--sand-a3);
+
+    --shadow-5: 0 0 0 1px var(--sand-a3), 0 12px 60px var(--black-a3),
+      0 12px 32px -16px var(--sand-a5);
+
+    --shadow-6: 0 0 0 1px var(--sand-a3), 0 12px 60px var(--black-a3),
+      0 16px 64px var(--sand-a2), 0 16px 36px -20px var(--sand-a7);
+  }
+
+  /* prettier-ignore */
+  @supports (color: color-mix(in oklab, white, black)) {
+    :root {
+      --shadow-1:
+        inset 0 0 0 1px var(--sand-a5), inset 0 1.5px 2px 0 var(--sand-a2),
+        inset 0 1.5px 2px 0 var(--black-a2);
+
+      --shadow-2:
+        0 0 0 1px color-mix(in oklab, var(--sand-a3), var(--sand-3) 25%),
+        0 0 0 0.5px var(--black-a1),
+        0 1px 1px 0 var(--sand-a2),
+        0 2px 1px -1px var(--black-a1),
+        0 1px 3px 0 var(--black-a1);
+
+      --shadow-3:
+        0 0 0 1px color-mix(in oklab, var(--sand-a3), var(--sand-3) 25%),
+        0 2px 3px -2px var(--sand-a3),
+        0 3px 12px -4px var(--black-a2),
+        0 4px 16px -8px var(--black-a2);
+
+      --shadow-4:
+        0 0 0 1px color-mix(in oklab, var(--sand-a3), var(--sand-3) 25%), 0 8px
+        40px var(--black-a1), 0 12px 32px -16px var(--sand-a3);
+
+      --shadow-5:
+        0 0 0 1px color-mix(in oklab, var(--sand-a3), var(--sand-3) 25%), 0 12px
+        60px var(--black-a3), 0 12px 32px -16px var(--sand-a5);
+
+      --shadow-6:
+        0 0 0 1px color-mix(in oklab, var(--sand-a3), var(--sand-3) 25%), 0 12px
+        60px var(--black-a3), 0 16px 64px var(--sand-a2), 0 16px 36px -20px
+        var(--sand-a7);
+    }
+  }
+
+  /* prettier-ignore */
+  :is(.dark, .dark-theme) {
+    --shadow-1:
+      inset 0 -1px 1px 0 var(--sand-a3), inset 0 0 0 1px var(--sand-a3), inset 0 3px 4px 0
+      var(--black-a5), inset 0 0 0 1px var(--sand-a4);
+
+    --shadow-2:
+      0 0 0 1px var(--sand-a6),
+      0 0 0 0.5px var(--black-a3),
+      0 1px 1px 0 var(--black-a6),
+      0 2px 1px -1px var(--black-a6),
+      0 1px 3px 0 var(--black-a5);
+
+    --shadow-3:
+      0 0 0 1px var(--sand-a6), 0 2px 3px -2px var(--black-a3), 0 3px 8px -2px
+      var(--black-a6), 0 4px 12px -4px var(--black-a7);
+
+    --shadow-4:
+      0 0 0 1px var(--sand-a6), 0 8px 40px var(--black-a3), 0 12px 32px -16px
+      var(--black-a5);
+
+    --shadow-5:
+      0 0 0 1px var(--sand-a6), 0 12px 60px var(--black-a5), 0 12px 32px -16px
+      var(--black-a7);
+
+    --shadow-6:
+      0 0 0 1px var(--sand-a6), 0 12px 60px var(--black-a4), 0 16px 64px
+      var(--black-a6), 0 16px 36px -20px var(--black-a11);
+  }
+
+  /* prettier-ignore */
+  @supports (color: color-mix(in oklab, white, black)) {
+    :is(.dark, .dark-theme) {
+      --shadow-1:
+        inset 0 -1px 1px 0 var(--sand-a3), inset 0 0 0 1px var(--sand-a3), inset 0 3px 4px
+        0 var(--black-a5), inset 0 0 0 1px var(--sand-a4);
+
+      --shadow-2:
+        0 0 0 1px color-mix(in oklab, var(--sand-a6), var(--sand-6) 25%),
+        0 0 0 0.5px var(--black-a3),
+        0 1px 1px 0 var(--black-a6),
+        0 2px 1px -1px var(--black-a6),
+        0 1px 3px 0 var(--black-a5);
+
+      --shadow-3:
+        0 0 0 1px color-mix(in oklab, var(--sand-a6), var(--sand-6) 25%),
+        0 2px 3px -2px var(--black-a3),
+        0 3px 8px -2px var(--black-a6),
+        0 4px 12px -4px var(--black-a7);
+
+      --shadow-4:
+        0 0 0 1px color-mix(in oklab, var(--sand-a6), var(--sand-6) 25%), 0 8px
+        40px var(--black-a3), 0 12px 32px -16px var(--black-a5);
+
+      --shadow-5:
+        0 0 0 1px color-mix(in oklab, var(--sand-a6), var(--sand-6) 25%), 0 12px
+        60px var(--black-a5), 0 12px 32px -16px var(--black-a7);
+
+      --shadow-6:
+        0 0 0 1px color-mix(in oklab, var(--sand-a6), var(--sand-6) 25%), 0 12px
+        60px var(--black-a4), 0 16px 64px var(--black-a6), 0 16px 36px -20px
+        var(--black-a11);
+    }
+  }
+
+  .progressive-blur-none {
+    mask-image: none;
+    backdrop-filter: none;
+  }
+
+  .central-mask {
+    mask-image: radial-gradient(oklch(var(--color-old-black)) 70%, transparent);
+  }
+
+  .shine {
+    background-image: repeating-linear-gradient(
+      125deg,
+      transparent 0%,
+      transparent 15%,
+      #fff6 25%,
+      transparent 35%,
+      transparent 50%
+    );
+    background-size: 200%;
+    background-position: calc(var(--mx) + 20%) var(--my);
+  }
+
+  .glow {
+    background-image: radial-gradient(
+        100% 50% at calc(50% - var(--mx)) 0%,
+        #fff6 0%,
+        transparent 80%
+      ),
+      radial-gradient(
+        100% 50% at calc(var(--mx) + 50%) 100%,
+        #fff6 0%,
+        transparent 80%
+      );
+  }
+
+  .reveal {
+    background-image: linear-gradient(
+      to bottom,
+      oklch(var(--color-old-black)) 0%,
+      transparent 50%,
+      oklch(var(--color-old-black)) 100%
+    );
+  }
+}

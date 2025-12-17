@@ -1,6 +1,6 @@
 "use client";
 
-import { ScoreIncrementAnimation } from "./score-increment-animation";
+// import { ScoreIncrementAnimation } from "./score-increment-animation";
 
 interface MindProgressBarProps {
   progressToNextLevel: number;
@@ -41,15 +41,15 @@ export function MindProgressBar({
       <div className='w-full h-full flex items-center justify-between px-5 text-white/50 relative'>
         <div className='relative'>
           {/* Score Increment Animation */}
-          <ScoreIncrementAnimation
+          {/* <ScoreIncrementAnimation
             points={lastIncrement || 0}
             isVisible={lastIncrement !== null}
-          />
+          /> */}
           {/* Score Decrement Animation */}
-          <ScoreIncrementAnimation
+          {/* <ScoreIncrementAnimation
             points={-(lastDecrement || 0)}
             isVisible={lastDecrement !== null}
-          />
+          /> */}
         </div>
         <p className='text-[13px] font-medium'>
           / {nextLevelThreshold.toLocaleString()}

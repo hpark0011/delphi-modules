@@ -51,6 +51,8 @@ interface TrainingQueueContextType {
   queue: QueueItem[];
   addToQueue: (items: QueueItemInput[]) => QueueItem[];
   clearQueue: () => void;
+  removeItem: (itemId: string) => void;
+  retryItem: (itemId: string) => void;
 }
 
 const TrainingQueueContext = createContext<TrainingQueueContextType | null>(
@@ -159,7 +161,13 @@ export function TrainingQueueProvider({
     };
 
     processQueue();
-  }, [queue, updateItemStatus, processItemProgress, incrementScore, setLastTrainingDate]);
+  }, [
+    queue,
+    updateItemStatus,
+    processItemProgress,
+    incrementScore,
+    setLastTrainingDate,
+  ]);
 
   const addToQueue = useCallback((items: QueueItemInput[]) => {
     const newItems: QueueItem[] = items.map((item) => {
@@ -193,6 +201,29 @@ export function TrainingQueueProvider({
     processingRef.current = false;
   }, []);
 
+  const removeItem = useCallback((itemId: string) => {
+    // Clear any intervals/timeouts for this item
+    const intervalToClear = intervalRefs.current.get(itemId);
+    if (intervalToClear) {
+      clearInterval(intervalToClear);
+      intervalRefs.current.delete(itemId);
+    }
+    // Remove item from queue
+    setQueue((prev) => prev.filter((item) => item.id !== itemId));
+  }, []);
+
+  const retryItem = useCallback(
+    (itemId: string) => {
+      // Reset item status to queued and progress to 0
+      updateItemStatus(itemId, {
+        status: "queued" as TrainingItemStatus,
+        progress: 0,
+        shouldFail: false,
+      });
+    },
+    [updateItemStatus]
+  );
+
   // Dismiss toast when queue is empty
   useEffect(() => {
     if (queue.length === 0) {
@@ -208,8 +239,10 @@ export function TrainingQueueProvider({
       queue,
       addToQueue,
       clearQueue,
+      removeItem,
+      retryItem,
     }),
-    [queue, addToQueue, clearQueue]
+    [queue, addToQueue, clearQueue, removeItem, retryItem]
   );
 
   return (

@@ -4,9 +4,10 @@
 import { AnalyticsSectionWrapper } from "@/components/analytics/dashboard-ui";
 import { HomeAnalytics } from "@/components/analytics/home/home-analytics";
 import { HomeHighlights } from "@/components/analytics/home/home-highlights";
-import { MindWidgetLargeRect } from "@/components/mind-widget/mind-widget-large-rect";
-import { MindSolidIcon } from "@/delphi-ui/icons/MindSolid";
+import { MindWidgetLargeRect } from "@/app/studio/_components/mindscore/widget/mind-widget-large-rect";
+// import { MindSolidIcon } from "@/delphi-ui/icons/MindSolid";
 import { CircleDashedIcon } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 
 import {
   mockEngagements,
@@ -26,7 +27,7 @@ export default function AnalyticsPage() {
       {/* Header Section */}
       <div>
         <h1 className='text-[24px] leading-[1.2] font-medium mb-2 text-[#21201C] dark:text-[#EEEEEC] px-3'>
-          Good Afternoon, John!
+          Good Afternoon, Han!
         </h1>
       </div>
 
@@ -38,23 +39,20 @@ export default function AnalyticsPage() {
             {/* Header */}
             <div className='space-y-2 w-full'>
               <div className='flex items-center justify-between'>
-                <div className='flex items-center gap-3 p-2'>
-                  <div className='w-8 h-8 bg-[#FF8D28]/10 rounded-full flex items-center justify-center'>
-                    <MindSolidIcon className='size-6 text-[#FF8D28]' />
+                <div className='flex items-center gap-2.5 p-2'>
+                  <div className='w-8 h-8 bg-[#FF8D28]/10 rounded-lg flex items-center justify-center'>
+                    <Icon
+                      name='ChecklistIcon'
+                      className='size-6 text-[#FF8D28]'
+                    />
                   </div>
-                  <h2 className='text-lg font-medium'>Train your Delphi</h2>
-                </div>
-                <div className='flex items-end text-xs text-[#8D8D86] dark:text-neutral-400 flex-col mr-4'>
-                  <span>Reach 200 Mind Score</span>
-                  <span className='text-[#21201C] dark:text-[#EEEEEC]'>
-                    20 / 200
-                  </span>
+                  <h2 className='text-lg font-medium'>Today&apos;s Tasks</h2>
                 </div>
               </div>
 
               {/* Cards */}
               <div className='grid grid-cols-2 gap-2'>
-                {trainingCards.map((card, index) => (
+                {trainingCards.slice(0, 2).map((card, index) => (
                   <div
                     key={index}
                     className='group p-3 rounded-[20px] bg-card dark:bg-[#262626] hover:bg-[#EBEBE9] dark:hover:bg-[#2C2C2A] transition-colors cursor-pointer shadow-card-primary flex flex-col gap-3 w-full h-[144px]'

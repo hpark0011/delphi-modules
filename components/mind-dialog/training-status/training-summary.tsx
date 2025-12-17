@@ -8,10 +8,6 @@ interface SummaryStats {
   totalTrained: number;
   completed: number;
   failed: number;
-  trainedLast24Hours: number;
-  questionTypes: string;
-  wordsLeft: number;
-  totalWords: number;
 }
 
 interface TrainingSummaryProps {
@@ -52,14 +48,6 @@ export function TrainingSummary({
   remainingToNextLevel,
   trainingDate,
 }: TrainingSummaryProps) {
-  const questions = [
-    "What is your latest hobby?",
-    "How did you get into product design?",
-    "What is your favorite AI tool?",
-    "What are you working on right now?",
-    "What is next for you?",
-  ];
-
   // Format the training date
   const formattedDate = trainingDate
     ? format(trainingDate, "MMM d, yyyy")
@@ -89,7 +77,8 @@ export function TrainingSummary({
               <div className='flex gap-0 items-end justify-center relative  w-full'>
                 <span className='text-text-primary font-semibold text-6xl tracking-tighter ml-[-24px]'>
                   {/* Mind score increased */}
-                  <span className='text-5xl'>+</span>{scoreIncrease}
+                  <span className='text-5xl'>+</span>
+                  {scoreIncrease}
                 </span>{" "}
               </div>
               {/* Remaining mind score until next level */}

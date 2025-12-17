@@ -11,6 +11,7 @@
   --color-dark-inverse: var(--color-dq-gray-850);
   --color-extra-dark-inverse: var(--color-dq-gray-800);
   --color-highlight: var(--color-neon-yellow);
+  --color-dialog: #f6f6f1;
 }
 
 .dark {
@@ -26,4 +27,5 @@
   --color-dark-inverse: var(--color-dq-gray-200);
   --color-extra-dark-inverse: var(--color-dq-gray-300);
   --color-highlight: var(--color-neon-yellow);
+  --color-dialog: #1a1a1a;
 }

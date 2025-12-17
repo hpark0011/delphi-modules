@@ -1,0 +1,149 @@
+/**
+ * Profile theme CSS custom properties
+ * These are applied via Tailwind's dark: variant using the .dark class on html
+ */
+
+:root {
+  /* Background colors */
+  --profile-bg: #f6f2ee;
+
+  /* Box shadows */
+  --profile-shadow-container: 0 12px 12px 0 rgba(0, 0, 0, 0.09),
+    0 17.2px 17.2px -8.6px rgba(0, 0, 0, 0.03),
+    0 8.6px 8.6px -4.3px rgba(0, 0, 0, 0.03),
+    0 4.3px 4.3px -2.15px rgba(0, 0, 0, 0.03),
+    0 1.075px 1.075px -0.538px rgba(0, 0, 0, 0.03),
+    0 -2.15px 2.15px 0 rgba(255, 255, 255, 1) inset,
+    0 2.15px 2.15px 0 rgba(255, 255, 255, 1) inset;
+  --profile-shadow-button: 0 24.348px 24.348px 0 rgba(0, 0, 0, 0.05),
+    0 12.986px 12.986px -6.493px rgba(239, 5, 240, 0),
+    0 6.493px 6.493px -3.246px rgba(0, 0, 0, 0.05),
+    0 3.246px 3.246px -1.623px rgba(0, 0, 0, 0.05),
+    0 0.812px 0.812px -0.406px rgba(239, 95, 0, 0.05),
+    0 0 0 0.812px rgba(0, 0, 0, 0.04),
+    0 -1.623px 1.623px 0 rgba(255, 255, 255, 0.2) inset,
+    0 1.623px 1.623px 0 rgba(255, 255, 255, 0.2) inset;
+  --profile-shadow-image: 0 32.25px 32.25px 0 rgba(0, 0, 0, 0.1),
+    0 17.2px 17.2px -8.6px rgba(0, 0, 0, 0.1),
+    0 8.6px 8.6px -4.3px rgba(0, 0, 0, 0.03),
+    0 4.3px 4.3px -2.15px rgba(0, 0, 0, 0.05),
+    0 1.075px 1.075px -0.538px rgba(0, 0, 0, 0.05),
+    0 2px 4px 0 rgba(255, 255, 255, 0.5) inset,
+    0 -2px 4px 0 rgba(255, 255, 255, 0.4) inset;
+  --profile-shadow-image-inset: 0 2px 4px 0 rgba(255, 255, 255, 0.5) inset,
+    0 -2px 4px 0 rgba(255, 255, 255, 0.4) inset;
+  --profile-shadow-org-icon: 0 12.24px 12.24px -6.12px rgba(0, 0, 0, 0.1),
+    0 6.12px 6.12px -3.06px rgba(0, 0, 0, 0.03),
+    0 3.06px 3.06px -1.53px rgba(0, 0, 0, 0.05),
+    0 0.712px 1.423px 0 rgba(255, 255, 255, 0.5) inset;
+
+  /* Button colors */
+  --profile-btn-active: #028326;
+  --profile-btn-inactive: rgba(0, 0, 0, 0.03);
+  --profile-btn-inactive-hover: rgba(0, 0, 0, 0.05);
+
+  /* Accent color */
+  --profile-accent: #ff5f0f;
+
+  /* Transitions */
+  --profile-transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --profile-transition-spring: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark {
+  /* Background colors */
+  --profile-bg: #171716; /* BACKGROUND_COLOR.dark */
+
+  /* Box shadows - darker for dark mode */
+  --profile-shadow-container: 0 31.052px 31.052px 0 rgba(0, 0, 0, 0.06),
+    0 16.561px 16.561px -8.281px rgba(0, 0, 0, 0.03),
+    0 8.281px 8.281px -4.14px rgba(0, 0, 0, 0.03),
+    0 4.14px 4.14px -2.07px rgba(0, 0, 0, 0.03),
+    0 1.035px 1.035px -0.518px rgba(0, 0, 0, 0.03),
+    0 0 0 1.035px rgba(0, 0, 0, 0.04),
+    0 -2.07px 2.07px 0 rgba(255, 255, 255, 0.04) inset,
+    0 2.07px 2.07px 0 rgba(255, 255, 255, 0.08) inset;
+  --profile-shadow-button: 0 31.052px 31.052px 0 rgba(0, 0, 0, 0.06),
+    0 16.561px 16.561px -8.281px rgba(0, 0, 0, 0.03),
+    0 8.281px 8.281px -4.14px rgba(0, 0, 0, 0.03),
+    0 4.14px 4.14px -2.07px rgba(0, 0, 0, 0.03),
+    0 1.035px 1.035px -0.518px rgba(0, 0, 0, 0.03),
+    0 0 0 1.035px rgba(0, 0, 0, 0.04),
+    0 -2.07px 2.07px 0 rgba(255, 255, 255, 0.1) inset,
+    0 2.07px 2.07px 0 rgba(255, 255, 255, 0.2) inset;
+  --profile-shadow-image: 0 32.25px 32.25px 0 rgba(0, 0, 0, 0.4),
+    0 17.2px 17.2px -8.6px rgba(0, 0, 0, 0.35),
+    0 8.6px 8.6px -4.3px rgba(0, 0, 0, 0.2),
+    0 4.3px 4.3px -2.15px rgba(0, 0, 0, 0.15),
+    0 1.075px 1.075px -0.538px rgba(0, 0, 0, 0.1),
+    0 2px 4px 0 rgba(255, 255, 255, 0.05) inset,
+    0 -2px 4px 0 rgba(255, 255, 255, 0.03) inset;
+  --profile-shadow-image-inset: 0 2px 4px 0 rgba(255, 255, 255, 0.3) inset,
+    0 -2px 4px 0 rgba(255, 255, 255, 0.2) inset;
+  --profile-shadow-org-icon: 0 12.24px 12.24px -6.12px rgba(0, 0, 0, 0.4),
+    0 6.12px 6.12px -3.06px rgba(0, 0, 0, 0.2),
+    0 3.06px 3.06px -1.53px rgba(0, 0, 0, 0.15),
+    0 0.712px 1.423px 0 rgba(255, 255, 255, 0.05) inset;
+
+  /* Button colors */
+  --profile-btn-active: #004d09;
+  --profile-btn-inactive: rgba(255, 255, 255, 0.06);
+  --profile-btn-inactive-hover: rgba(255, 255, 255, 0.1);
+}
+
+/**
+ * Profile page background - applies to html/body for iOS Safari overscroll
+ * Used by ProfileBackgroundWrapper to set background without JavaScript
+ */
+.profile-page-bg,
+.profile-page-bg body {
+  background-color: var(--profile-bg) !important;
+}
+
+/**
+ * Text selection styling for profile pages
+ */
+.profile-page-bg ::selection {
+  color: var(--sand-12) !important;
+  background: rgba(239, 95, 0, 0.3) !important;
+}
+
+.profile-page-bg ::-moz-selection {
+  color: var(--sand-12) !important;
+  background: rgba(239, 95, 0, 0.3) !important;
+}
+
+/**
+ * Safari font rendering fixes
+ */
+.profile-page-bg {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Safari-specific fixes using feature detection */
+@supports (-webkit-backdrop-filter: none) {
+  .profile-page-bg strong,
+  .profile-page-bg b,
+  .profile-page-bg .font-bold,
+  .profile-page-bg .font-semibold,
+  .profile-page-bg .font-medium {
+    font-synthesis: none;
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+}
+
+/* Profile image with squircle shape */
+.profile-image-squircle {
+  border-radius: 80px;
+  /* @ts-expect-error - cornerShape is a new CSS property */
+  corner-shape: squircle;
+}
+
+/* Fallback for browsers that don't support corner-shape (like Safari) */
+@supports not (corner-shape: squircle) {
+  .profile-image-squircle {
+    border-radius: 40px;
+  }
+}

@@ -26,5 +26,7 @@ export function useTrainingQueue(options?: UseTrainingQueueOptions) {
     queue: context.queue,
     addToQueue: context.addToQueue,
     clearQueue: context.clearQueue,
+    removeItem: context.removeItem,
+    retryItem: context.retryItem,
   };
 }

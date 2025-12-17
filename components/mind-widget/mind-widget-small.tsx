@@ -6,12 +6,25 @@ import {
   getLevelShadowColors,
 } from "@/app/studio/_utils/mind-shadow-helpers";
 import { useTrainingStatus } from "@/hooks/use-training-status";
-import { AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
-import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
-import { MiniTrainingStatus } from "./mini-training-status";
+import { useMindDialog } from "@/components/mind-dialog/mind-dialog-2";
+import { MiniTrainingStatus } from "./training-status-small";
 
-export function MindWidgetSmall() {
+const SPRING_CONFIG = {
+  type: "spring" as const,
+  stiffness: 300,
+  damping: 25,
+};
+
+interface MindWidgetSmallProps {
+  disableClick?: boolean;
+}
+
+export function MindWidgetSmall({
+  disableClick = false,
+}: MindWidgetSmallProps) {
   const { openWithTab } = useMindDialog();
   const { current, level } = useMindScore();
 
@@ -30,6 +43,7 @@ export function MindWidgetSmall() {
   }, [queueStatus]);
 
   const handleClick = () => {
+    if (disableClick) return;
     openWithTab("add-knowledge");
   };
 
@@ -43,29 +57,62 @@ export function MindWidgetSmall() {
   const shadowString = generateSmallWidgetShadowString(levelColors);
 
   return (
-    <div className='flex gap-2 relative justify-start items-center rounded-full bg-light'>
+    <div className='flex gap-2 relative justify-start items-center rounded-full bg-sand-10/8'>
       {/* Mindscore Trigger */}
-      <div className='flex items-center p-0.5 bg-light rounded-full hover:scale-108 transition-all duration-200 w-fit relative'>
+      <div
+        className={cn(
+          "flex items-center p-0.5 bg-sand-10/8 rounded-full transition-all duration-200 w-fit relative",
+          !disableClick && "hover:scale-108 cursor-pointer"
+        )}
+        onClick={handleClick}
+      >
         {/* Mindscore Wrapper */}
         <div
           onClick={handleClick}
-          className='flex flex-col gap-2  cursor-pointer rounded-[18px] overflow-hidden bg-black/87  border-white/20 hover:bg-black/84 dark:border-white/3 dark:bg-black/40 w-fit h-fit px-2.5 py-1.5 relative z-10 justify-center items-center min-w-[46px]'
+          className={cn(
+            "flex flex-col gap-2 rounded-full overflow-hidden bg-black/87 border-white/20 dark:border-white/3 dark:bg-black/40 w-fit px-2.5 py-1.5 relative justify-center items-center min-w-[52px] h-[40px] z-0",
+            !disableClick && "cursor-pointer hover:bg-black/84"
+          )}
           style={{
             boxShadow: shadowString.replace(/_/g, " "),
           }}
         >
           {/* Mindscore Value */}
-          <span className='text-text-primary-inverse dark:text-text-primary text-[14px] font-semibold'>
+          <span className='text-text-primary-inverse dark:text-text-primary text-[16px] font-semibold'>
             {current}
           </span>
         </div>
 
         {/* Mind Area Inner */}
-        <div className='rounded-full studio absolute top-[2px] left-[2px] w-[calc(100%-4px)] h-[calc(100%-4px)] shadow-[inset_0px_1px_1px_1px_rgba(0,0,0,0.1),inset_0px_-1px_1px_0.5px_rgba(255,255,255,0.8),inset_0px_1px_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0px_1px_1px_1px_rgba(255,255,255,0.1),inset_0px_-1px_1px_0.5px_rgba(0,0,0,0.8),inset_0px_1px_1px_1px_rgba(0,0,0,0.4)] blur-[2px]' />
+        <motion.div
+          className='rounded-full absolute'
+          initial={{
+            top: "",
+            left: "",
+            width: "0px",
+            height: "0px",
+            filter: "blur(0px)",
+            boxShadow:
+              "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)",
+          }}
+          animate={{
+            top: "1px",
+            left: "1px",
+            width: "calc(100% - 2px)",
+            height: "calc(100% - 2px)",
+            filter: "blur(3px)",
+            boxShadow:
+              "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)",
+          }}
+          transition={SPRING_CONFIG}
+        />
       </div>
       <AnimatePresence>
         {isWidgetVisible && (
-          <MiniTrainingStatus onDismiss={handleWidgetDismiss} />
+          <MiniTrainingStatus
+            onDismiss={handleWidgetDismiss}
+            disableTooltips={disableClick}
+          />
         )}
       </AnimatePresence>
     </div>

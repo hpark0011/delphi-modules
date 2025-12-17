@@ -1,10 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./craft.css";
 @import "./primitives.css";
 @import "./text-colors.css";
 @import "./icon-colors.css";
 @import "./background-colors.css";
 @import "./shadows.css";
+@import "./profile.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -22,6 +24,7 @@
   --color-dark-inverse: var(--color-dark-inverse);
   --color-extra-dark-inverse: var(--color-extra-dark-inverse);
   --color-highlight: var(--color-text-highlight);
+  --color-dialog: var(--color-dialog);
 
   /* Text Colors */
   --color-text-strong: var(--color-text-strong);
@@ -141,6 +144,23 @@
   --shadow-chart-tooltip: var(--chart-tooltip-shadow);
   --shadow-card-stacked: var(--shadow-card-stacked);
   --shadow-card-people-highlights: var(--shadow-card-people-highlights);
+
+  /* Radix Sand Colors */
+  --color-sand-1: var(--sand-1);
+  --color-sand-2: var(--sand-2);
+  --color-sand-3: var(--sand-3);
+  --color-sand-4: var(--sand-4);
+  --color-sand-5: var(--sand-5);
+  --color-sand-6: var(--sand-6);
+  --color-sand-7: var(--sand-7);
+  --color-sand-8: var(--sand-8);
+  --color-sand-9: var(--sand-9);
+  --color-sand-10: var(--sand-10);
+  --color-sand-11: var(--sand-11);
+  --color-sand-12: var(--sand-12);
+
+  /* Profile Colors */
+  --color-profile-bg: var(--profile-bg);
 }
 
 :root {
@@ -325,13 +345,18 @@
   filter: drop-shadow(0 0 4px #0083ef) drop-shadow(0 0 8px #0083ef);
 }
 
+.mind-area-section {
+  corner-shape: superellipse(1.2);
+  border-radius: 38px 38px 20px 20px;
+}
+
 .mind-area {
   corner-shape: superellipse(1.2);
-  border-radius: 16px 16px 40px 40px;
+  border-radius: 36px 36px 36px 36px;
 }
 
 .mind-area.studio {
-  border-radius: 21px 21px 36px 36px;
+  border-radius: 36px 36px 36px 36px;
 }
 
 .mind-area-inner {
@@ -340,5 +365,5 @@
 }
 
 .mind-area-inner.studio {
-  border-radius: 19px 19px 34px 34px;
+  border-radius: 32px 32px 32px 32px;
 }

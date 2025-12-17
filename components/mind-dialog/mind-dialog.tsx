@@ -29,14 +29,20 @@ import {
   MindDialogTabId,
   getMindDialogWidthClass,
 } from "./mind-dialog-config";
+import { type TrainingItemStatus } from "@/utils/training-status-helpers";
 
 // Re-export for convenience
 export type { MindDialogTabId } from "./mind-dialog-config";
 
 interface MindDialogContextType {
   setActiveTab: (tab: MindDialogTabId) => void;
-  openWithTab: (tab: MindDialogTabId) => void;
+  openWithTab: (
+    tab: MindDialogTabId,
+    initialFilter?: TrainingItemStatus | "all"
+  ) => void;
   close: () => void;
+  initialFilter: TrainingItemStatus | "all" | null;
+  clearInitialFilter: () => void;
 }
 
 const MindDialogContext = createContext<MindDialogContextType | null>(null);
@@ -109,7 +115,7 @@ function MindDialogHeader() {
           lastDecrement={lastDecrement}
         />
       </div>
-      <div className='flex justify-end items-center z-10 relative'>
+      <div className='flex justify-end items-center z-10 relative pt-2 pr-2'>
         <VisuallyHidden>
           <DialogTitle>Mind</DialogTitle>
         </VisuallyHidden>
@@ -191,18 +197,36 @@ export function MindDialog({
 }: MindDialogProps) {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<MindDialogTabId>(defaultTab);
+  const [initialFilter, setInitialFilter] = useState<
+    TrainingItemStatus | "all" | null
+  >(null);
 
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
+    // Clear initial filter when dialog closes
+    if (!isOpen) {
+      setInitialFilter(null);
+    }
   };
 
-  const openWithTab = (tab: MindDialogTabId) => {
+  const openWithTab = (
+    tab: MindDialogTabId,
+    filter?: TrainingItemStatus | "all"
+  ) => {
     setActiveTab(tab);
+    if (filter) {
+      setInitialFilter(filter);
+    }
     setOpen(true);
   };
 
   const closeDialog = () => {
     setOpen(false);
+    setInitialFilter(null);
+  };
+
+  const clearInitialFilter = () => {
+    setInitialFilter(null);
   };
 
   // Get width class for current tab
@@ -213,13 +237,23 @@ export function MindDialog({
 
   return (
     <MindDialogContext.Provider
-      value={{ setActiveTab, openWithTab, close: closeDialog }}
+      value={{
+        setActiveTab,
+        openWithTab,
+        close: closeDialog,
+        initialFilter,
+        clearInitialFilter,
+      }}
     >
       <Dialog open={open} onOpenChange={handleOpenChange}>
         {children}
         <DialogContent
           // showCloseButton
-          className={`p-0 sm:max-w-[calc(100%-2rem)] ${dialogWidthClass} rounded-2xl max-h-[90vh] h-full flex flex-col overflow-hidden bg-extra-light`}
+          className={`p-0 sm:max-w-[calc(100%-2rem)] ${dialogWidthClass} rounded-[36px] max-h-[90vh] h-full flex flex-col overflow-hidden bg-dialog`}
+          style={{
+            boxShadow:
+              "0 2px 2px 0 rgba(255, 255, 255, 1) inset,  0 10.213px 10.213px -5.107px rgba(0, 0, 0, 0.03), 0 5.107px 5.107px -2.553px rgba(0, 0, 0, 0.03), 0 2.553px 2.553px -2px rgba(0, 0, 0, 0.03), 0 0.638px 0.638px -0.319px rgba(0, 0, 0, 0.03)",
+          }}
         >
           <Tabs
             value={activeTab}

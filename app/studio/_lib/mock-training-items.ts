@@ -1,4 +1,4 @@
-import { TrainingItem } from "../../../components/mind-dialog/training-status-tab";
+import { TrainingItem } from "../../../components/mind-dialog/training-status/training-status-tab";
 
 // Mock data - replace with actual data fetching
 export const mockTrainingItems: TrainingItem[] = [

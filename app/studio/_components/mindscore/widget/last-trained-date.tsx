@@ -2,7 +2,7 @@
 
 import { MindStatusIcon } from "@/components/mind-status-notification";
 // import { Icon } from "@/components/ui/icon";
-import { useMindDialog } from "../../../../../components/mind-dialog/mind-dialog";
+import { useMindDialog } from "@/components/mind-dialog/mind-dialog-2";
 
 export function LastTrainedDate() {
   const { openWithTab } = useMindDialog();

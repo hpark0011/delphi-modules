@@ -1,29 +1,17 @@
 "use client";
 
-import { Icon, type IconName } from "@/components/ui/icon";
+import {
+  getStatusColor,
+  getStatusIcon,
+} from "@/app/studio/_utils/mind-dialog-helpers";
+import { Icon } from "@/components/ui/icon";
+import { Button } from "@/components/ui/button";
 import type { QueueItem } from "@/hooks/use-training-queue";
+import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { cn } from "@/lib/utils";
 import { getDocTypeIcon } from "@/utils/doc-type-helpers";
-import type { TrainingItemStatus } from "@/utils/training-status-helpers";
 import { motion } from "framer-motion";
 import { RingPercentage } from "./ring-percentage";
-
-function getStatusIcon(status: TrainingItemStatus): IconName {
-  switch (status) {
-    case "completed":
-      return "CheckedCircleFillIcon";
-    case "training":
-      return "LoaderCircleIcon";
-    case "queued":
-      return "CircleDashedIcon";
-    case "failed":
-      return "ExclamationmarkTriangleFillIcon";
-    case "deleted":
-      return "TrashFillIcon";
-    default:
-      return "CircleDashedIcon";
-  }
-}
 
 interface TrainingQueueItemProps {
   item: QueueItem;
@@ -40,11 +28,23 @@ export function TrainingQueueItem({
   fontSize = "text-sm",
   containerClassName,
 }: TrainingQueueItemProps) {
+  const { removeItem, retryItem } = useTrainingQueue();
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    removeItem(item.id);
+  };
+
+  const handleRetry = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    retryItem(item.id);
+  };
+
   return (
     <div
       className={cn(
         "px-2.5 pr-[9px] py-0.5",
-        "hover:bg-extra-light/50 transition-colors",
+        "hover:bg-extra-light/50",
         containerClassName,
         className
       )}
@@ -96,9 +96,8 @@ export function TrainingQueueItem({
                 </span>
               )}
             </div>
-
             {/* Icon or Ring Percentage */}
-            <div className='flex-shrink-0'>
+            <div className='flex-shrink-0 flex items-center gap-1'>
               {item.status === "training" ? (
                 <div className='size-5 flex items-center justify-center'>
                   <Icon
@@ -107,7 +106,7 @@ export function TrainingQueueItem({
                   />
                 </div>
               ) : item.status === "queued" ? (
-                <div className='size-5 flex items-center justify-center'>
+                <div className='size-6 flex items-center justify-center'>
                   <RingPercentage
                     value={item.progress}
                     size={14}
@@ -119,20 +118,46 @@ export function TrainingQueueItem({
                     ariaLabel={`${item.name} progress`}
                   />
                 </div>
+              ) : item.status === "failed" ? (
+                <>
+                  <div className='flex items-center size-6 justify-center'>
+                    <Icon
+                      name={getStatusIcon(item.status)}
+                      className={cn("size-5", getStatusColor(item.status))}
+                    />
+                  </div>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={handleRetry}
+                    className='h-6 w-6 p-0 hover:bg-sand-4 rounded-sm'
+                    aria-label='Retry training'
+                  >
+                    <Icon
+                      name='ArrowClockwiseIcon'
+                      className='size-5 text-icon-light'
+                    />
+                  </Button>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={handleDelete}
+                    className='h-6 w-6 p-0 hover:bg-sand-4 rounded-sm'
+                    aria-label='Delete item'
+                  >
+                    <Icon
+                      name='TrashFillIcon'
+                      className='size-5 text-icon-light'
+                    />
+                  </Button>
+                </>
               ) : (
-                <Icon
-                  name={getStatusIcon(item.status)}
-                  className={cn(
-                    "size-5",
-                    item.status === "completed"
-                      ? "text-[#09CE6B]"
-                      : item.status === "failed"
-                        ? "text-orange-500"
-                        : item.status === "deleted"
-                          ? "text-red-400"
-                          : "text-[#8D8D86]"
-                  )}
-                />
+                <div className='flex items-center size-6 justify-center'>
+                  <Icon
+                    name={getStatusIcon(item.status)}
+                    className={cn("size-5", getStatusColor(item.status))}
+                  />
+                </div>
               )}
             </div>
           </div>

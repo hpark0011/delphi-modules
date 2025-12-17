@@ -122,7 +122,10 @@ export { default as QuoteOpeningIcon } from "@/icons/quote.opening.svg";
 export { default as RectangleLeadingHalfFilledIcon } from "@/icons/rectangle.leading.half.filled.svg";
 export { default as RectanglePortraitAndArrowRightIcon } from "@/icons/rectangle.portrait.and.arrow.right.svg";
 export { default as RectangleTrailingHalfFilledIcon } from "@/icons/rectangle.trailinghalf.filled.svg";
-export { default as RoundBubbleLeftIcon } from "@/icons/round.bubble.left.svg";
+export {
+  default as BubbleLeftIcon,
+  default as RoundBubbleLeftIcon,
+} from "@/icons/round.bubble.left.svg";
 export { default as ScreenShareFillIcon } from "@/icons/screen.share.fill.svg";
 export { default as XIcon } from "@/icons/social/x.svg";
 export { default as YoutubeIcon } from "@/icons/social/youtube.svg";

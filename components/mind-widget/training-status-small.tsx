@@ -1,6 +1,6 @@
 "use client";
 
-import { useMindDialog } from "@/components/mind-dialog/mind-dialog";
+import { useMindDialog } from "@/components/mind-dialog/mind-dialog-2";
 import type { TrainingDocType } from "@/components/mind-dialog/training-queue-context";
 import { MindStatusIcon } from "@/components/mind-status-notification";
 import { Icon } from "@/components/ui/icon";
@@ -8,7 +8,7 @@ import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
 import { getDocTypeIcon } from "@/utils/doc-type-helpers";
 import { AnimatePresence, motion, type Transition } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { TrainingResultBadges } from "./training-result-badges";
 
 type BadgeState = "loading" | "newItem" | "finished";
@@ -52,7 +52,7 @@ function StatusIcon({
           {state === "newItem" && (
             <Icon
               name={docType ? getDocTypeIcon(docType) : "DocFillIcon"}
-              className='size-4'
+              className='size-4.5'
             />
           )}
         </motion.span>
@@ -68,7 +68,7 @@ interface StatusLabelProps {
 }
 
 function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
-  const [labelWidth, setLabelWidth] = useState(0);
+  const [labelWidth, setLabelWidth] = useState<number | "auto">("auto");
   const measureRef = useRef<HTMLDivElement>(null);
 
   const labelText =
@@ -76,10 +76,10 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
 
   const isNewItem = state === "newItem";
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (measureRef.current) {
       const { width } = measureRef.current.getBoundingClientRect();
-      setLabelWidth(isNewItem ? Math.min(width, 160) : width);
+      setLabelWidth(isNewItem ? Math.min(width, 184) : width);
     }
   }, [labelText, isNewItem]);
 
@@ -95,13 +95,14 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
 
       <motion.span
         className='relative overflow-hidden'
+        initial={false}
         animate={{ width: labelWidth }}
         transition={SPRING_CONFIG}
       >
         <AnimatePresence mode='sync' initial={false}>
           <motion.div
             key={state + labelText}
-            className={`text-[13px] dark:text-white/90 ${isNewItem ? "max-w-[160px] truncate" : "whitespace-nowrap"}`}
+            className={`text-[13px] dark:text-white/90 ${isNewItem ? "max-w-[184px] truncate" : "whitespace-nowrap"}`}
             initial={{
               y: -20,
               opacity: 0,
@@ -132,9 +133,13 @@ function StatusLabel({ state, activeCount, newItemName }: StatusLabelProps) {
 
 interface MiniTrainingStatusProps {
   onDismiss?: () => void;
+  disableTooltips?: boolean;
 }
 
-export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
+export function MiniTrainingStatus({
+  onDismiss,
+  disableTooltips = false,
+}: MiniTrainingStatusProps) {
   const { queue } = useTrainingQueue();
   const { openWithTab } = useMindDialog();
 
@@ -247,6 +252,12 @@ export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
               <TrainingResultBadges
                 completedCount={completedCount}
                 failedCount={failedCount}
+                onCompletedClick={() =>
+                  openWithTab("training-status", "completed")
+                }
+                onFailedClick={() => openWithTab("training-status", "failed")}
+                disableTooltips={disableTooltips}
+                countTextSize='text-[12px]'
               />
             </motion.div>
           ) : (
@@ -264,6 +275,23 @@ export function MiniTrainingStatus({ onDismiss }: MiniTrainingStatusProps) {
                 activeCount={activeCount}
                 newItemName={newItemOverride?.name ?? ""}
               />
+              {(completedCount > 0 || failedCount > 0) && (
+                <div className='ml-1'>
+                  <TrainingResultBadges
+                    className='gap-1'
+                    countTextSize='text-[12px]'
+                    completedCount={completedCount}
+                    failedCount={failedCount}
+                    onCompletedClick={() =>
+                      openWithTab("training-status", "completed")
+                    }
+                    onFailedClick={() =>
+                      openWithTab("training-status", "failed")
+                    }
+                    disableTooltips={disableTooltips}
+                  />
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
