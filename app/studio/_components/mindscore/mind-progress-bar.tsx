@@ -1,6 +1,6 @@
 "use client";
 
-import { ScoreIncrementAnimation } from "./score-increment-animation";
+// import { ScoreIncrementAnimation } from "./score-increment-animation";
 
 interface MindProgressBarProps {
   progressToNextLevel: number;

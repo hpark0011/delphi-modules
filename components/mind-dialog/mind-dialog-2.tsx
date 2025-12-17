@@ -1,12 +1,8 @@
 "use client";
 
-import { MindProgressBar } from "@/app/studio/_components/mindscore/mind-progress-bar";
 import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-context";
-import {
-  generateShadowString,
-  getLevelShadowColors,
-} from "@/app/studio/_utils/mind-shadow-helpers";
 import { MindStatusIcon } from "@/components/mind-status-notification";
+import { MindWidgetSmall } from "@/components/mind-widget/mind-widget-small";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import type { IconName } from "@/components/ui/icon";
@@ -14,6 +10,8 @@ import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTrainingQueue } from "@/hooks/use-training-queue";
 import { useTrainingStatus } from "@/hooks/use-training-status";
+import { cn } from "@/lib/utils";
+import { type TrainingItemStatus } from "@/utils/training-status-helpers";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import React, {
   createContext,
@@ -28,9 +26,6 @@ import {
   MindDialogTabId,
   getMindDialogWidthClass,
 } from "./mind-dialog-config";
-import { type TrainingItemStatus } from "@/utils/training-status-helpers";
-import { MindWidgetSmall } from "@/components/mind-widget/mind-widget-small";
-import { cn } from "@/lib/utils";
 
 // Re-export for convenience
 export type { MindDialogTabId } from "./mind-dialog-config";

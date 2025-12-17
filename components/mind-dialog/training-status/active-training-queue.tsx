@@ -219,15 +219,7 @@ export function ActiveTrainingQueue({
               <SelectContent>
                 {statusFilters.map((filter) => (
                   <SelectItem key={filter.value} value={filter.value}>
-                    <div className='flex items-center gap-1.5'>
-                      {/* {filter.icon && (
-                        <Icon
-                          name={filter.icon}
-                          className={cn("size-4", filter.color)}
-                        />
-                      )} */}
-                      {filter.label}
-                    </div>
+                    <div className='flex items-center gap-1.5'></div>
                   </SelectItem>
                 ))}
               </SelectContent>

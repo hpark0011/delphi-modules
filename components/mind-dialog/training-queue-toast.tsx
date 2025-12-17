@@ -27,6 +27,7 @@ function TrainingQueueToast({
           {title}
         </p>
       </div>
+
       {/* Content container */}
       <div className='flex flex-1 flex-col gap-1 min-w-0 pl-5.5'>
         <p className='text-sm text-text-secondary dark:text-text-tertiary'>

@@ -1,0 +1,885 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-12-05",
+    "description": "Mind Widget UI Component Specification - Comprehensive documentation for Mind Score widget redesign including design handoff, prop contracts, state machines, and mock data",
+    "prdReference": "Mind Score Card Redesign PRD"
+  },
+
+  "stateDefinitions": {
+    "TrainingQueueStatus": {
+      "description": "The overall status of the training queue",
+      "type": "enum",
+      "values": ["dull", "active", "finished"],
+      "definitions": {
+        "dull": "Default state. No training going on and user has reviewed all updates.",
+        "active": "When there are items in the training queue (has queued or training items).",
+        "finished": "All items are finished (failed, completed, or deleted). No queued or training items, and user hasn't reviewed the recent change."
+      },
+      "stateTransitions": [
+        { "from": "dull", "to": "active", "trigger": "Items added to queue" },
+        { "from": "active", "to": "finished", "trigger": "All items complete processing" },
+        { "from": "finished", "to": "dull", "trigger": "User reviews/dismisses results" }
+      ]
+    },
+
+    "TrainingItemStatus": {
+      "description": "The status of an individual item in the training queue",
+      "type": "enum",
+      "values": ["queued", "training", "completed", "failed", "deleted"],
+      "categories": {
+        "active": ["queued", "training"],
+        "finished": ["completed", "failed", "deleted"]
+      },
+      "definitions": {
+        "queued": "Item is waiting to be processed",
+        "training": "Item is currently being processed",
+        "completed": "Item completed successfully",
+        "failed": "Item failed during processing",
+        "deleted": "Item was deleted (final state)"
+      },
+      "stateTransitions": [
+        { "from": "queued", "to": "training", "trigger": "Processing starts" },
+        { "from": "training", "to": "completed", "trigger": "Processing succeeds" },
+        { "from": "training", "to": "failed", "trigger": "Processing fails" },
+        { "from": "training", "to": "deleted", "trigger": "Item flagged for deletion" },
+        { "from": "failed", "to": "queued", "trigger": "User clicks retry" },
+        { "from": "*", "to": "deleted", "trigger": "User deletes item" }
+      ]
+    },
+
+    "TrainingDocType": {
+      "description": "The type of content being trained",
+      "type": "enum",
+      "values": ["interview", "youtube", "x", "website", "podcast", "file", "generic"],
+      "durations": {
+        "interview": 6000,
+        "youtube": 3500,
+        "x": 4000,
+        "website": 3500,
+        "podcast": 3000,
+        "file": 3500,
+        "generic": 3500
+      }
+    },
+
+    "MindLevel": {
+      "description": "Mind level progression thresholds",
+      "type": "object",
+      "thresholds": [
+        { "name": "Novice", "min": 0 },
+        { "name": "Skilled", "min": 200 },
+        { "name": "Expert", "min": 1000 },
+        { "name": "Master", "min": 2000 },
+        { "name": "Sage", "min": 3000 },
+        { "name": "Legendary", "min": 4000 },
+        { "name": "Eternal", "min": 5000 }
+      ],
+      "scorePerItem": 300
+    }
+  },
+
+  "dataInterfaces": {
+    "QueueItem": {
+      "description": "Individual training queue item",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier" },
+        "name": { "type": "string", "description": "Display name of the content" },
+        "docType": { "type": "TrainingDocType", "description": "Type of content" },
+        "status": { "type": "TrainingItemStatus", "description": "Current processing status" },
+        "progress": { "type": "number", "description": "Processing progress 0-100" },
+        "duration": { "type": "number", "description": "Training duration in milliseconds" },
+        "shouldFail": { "type": "boolean", "optional": true, "description": "Flag to simulate failure (testing)" },
+        "shouldDelete": { "type": "boolean", "optional": true, "description": "Flag to delete after training (testing)" }
+      }
+    },
+
+    "MindScoreState": {
+      "description": "Mind score context state",
+      "properties": {
+        "current": { "type": "number", "description": "Current mind score value" },
+        "level": { "type": "string", "description": "Current level name" },
+        "previousLevel": { "type": "string | null", "description": "Previous level for change detection" },
+        "hasLevelChanged": { "type": "boolean", "description": "Whether level just changed" },
+        "progressToNextLevel": { "type": "number", "description": "Points earned in current level" },
+        "nextLevelThreshold": { "type": "number", "description": "Points needed for next level" },
+        "progressCap": { "type": "number", "description": "Total points for current level bracket" },
+        "lastIncrement": { "type": "number | null", "description": "Recent score increase (clears after 3s)" },
+        "lastDecrement": { "type": "number | null", "description": "Recent score decrease (clears after 3s)" },
+        "lastTrainingDate": { "type": "Date | null", "description": "When training last completed" }
+      }
+    },
+
+    "TrainingStatusCounts": {
+      "description": "Aggregate counts for training status display",
+      "properties": {
+        "totalCount": { "type": "number", "description": "Total items in queue" },
+        "activeCount": { "type": "number", "description": "Items queued or training" },
+        "completedCount": { "type": "number", "description": "Successfully completed items" },
+        "failedCount": { "type": "number", "description": "Failed items" }
+      }
+    }
+  },
+
+  "components": {
+    "MindScoreWidget": {
+      "description": "Main mind score display widget with multiple variants for different contexts",
+      "filePaths": {
+        "large": "/app/studio/_components/mindscore/widget/mind-widget-large.tsx",
+        "small": "/components/mind-widget/mind-widget-small.tsx",
+        "profile": "/app/profile/_components/mind-widget/profile-mind-widget.tsx",
+        "onboarding": "/app/onboarding/_components/onboarding-mind-widget.tsx"
+      },
+      "variants": {
+        "large": {
+          "description": "Full-size widget for home dashboard",
+          "dimensions": { "width": 336, "height": 218 },
+          "props": {
+            "current": { "type": "number", "required": true, "description": "Current mind score" },
+            "level": { "type": "string", "required": true, "description": "Current level name" },
+            "progressToNextLevel": { "type": "number", "required": true },
+            "progressCap": { "type": "number", "required": true },
+            "lastIncrement": { "type": "number | null", "required": false },
+            "queueStatus": { "type": "TrainingQueueStatus", "required": true }
+          },
+          "states": {
+            "idle": {
+              "description": "Default state, no interaction",
+              "visual": "Shows score value, level name"
+            },
+            "hovered": {
+              "description": "Mouse hover state",
+              "visual": "Shows progress bar, add content button appears"
+            },
+            "active": {
+              "description": "Training in progress",
+              "visual": "Shows training status indicator, queue count"
+            },
+            "finished": {
+              "description": "Training complete",
+              "visual": "Shows result badges (completed/failed counts)"
+            }
+          },
+          "stateTransitions": [
+            { "from": "idle", "to": "hovered", "trigger": "mouseEnter" },
+            { "from": "hovered", "to": "idle", "trigger": "mouseLeave" },
+            { "from": ["idle", "hovered"], "to": "active", "trigger": "Items added to queue" },
+            { "from": "active", "to": "finished", "trigger": "All items processed" },
+            { "from": "finished", "to": "idle", "trigger": "User reviews results" }
+          ],
+          "features": [
+            "Level-based colored shadows",
+            "Animated score increment display",
+            "Hover reveals progress bar",
+            "Click opens MindDialog"
+          ]
+        },
+
+        "small": {
+          "description": "Compact floating widget for interview mode and modal header",
+          "dimensions": {
+            "collapsed": { "width": 52, "height": 40 },
+            "expanded": { "width": "auto", "height": 40 }
+          },
+          "props": {
+            "mindScore": { "type": "number", "required": true },
+            "level": { "type": "string", "required": true }
+          },
+          "states": {
+            "hidden": {
+              "description": "Widget not visible",
+              "condition": "queueStatus === 'dull'"
+            },
+            "learning": {
+              "description": "Active training display",
+              "visual": "Spinner + 'Learning X Items'",
+              "condition": "queueStatus === 'active'"
+            },
+            "newItem": {
+              "description": "New item added indicator",
+              "visual": "Doc type icon + truncated name",
+              "duration": 2000
+            },
+            "completed": {
+              "description": "Training finished",
+              "visual": "'Completed!' + Result badges",
+              "duration": 2000,
+              "autoDismiss": true
+            }
+          },
+          "features": [
+            "Floats above content",
+            "Auto-dismisses after completion",
+            "Click opens MindDialog"
+          ]
+        },
+
+        "profile": {
+          "description": "Profile page widget with expand/collapse",
+          "filePath": "/app/profile/_components/mind-widget/profile-mind-widget.tsx",
+          "dimensions": {
+            "collapsed": { "width": "fit-content", "minWidth": 52, "height": 40 },
+            "expanded": { "width": "100%", "maxWidth": 400, "height": 200 }
+          },
+          "props": {
+            "mindScore": { "type": "number", "required": true },
+            "level": { "type": "string", "required": true }
+          },
+          "states": {
+            "collapsed": {
+              "description": "Shows score only",
+              "visual": "Dark pill with score number"
+            },
+            "expanded": {
+              "description": "Shows full details",
+              "visual": "Level name, Home button, Add button"
+            }
+          },
+          "stateTransitions": [
+            { "from": "collapsed", "to": "expanded", "trigger": "click" },
+            { "from": "expanded", "to": "collapsed", "trigger": "click" }
+          ],
+          "actions": [
+            { "name": "Home", "icon": "HomeIcon", "action": "Navigate to home" },
+            { "name": "Add", "icon": "PlusLargeIcon", "action": "Open add-knowledge tab" }
+          ]
+        },
+
+        "onboarding": {
+          "description": "Onboarding flow widget with animated transitions",
+          "filePath": "/app/onboarding/_components/onboarding-mind-widget.tsx",
+          "props": {
+            "currentPage": { "type": "number", "required": true, "description": "Controls large vs small display" },
+            "mindScore": { "type": "number", "required": true }
+          },
+          "displayModes": {
+            "large": {
+              "condition": "currentPage === 1",
+              "dimensions": { "width": 336, "height": 218 },
+              "visual": "Full widget showing 'Novice' level"
+            },
+            "small": {
+              "condition": "currentPage !== 1",
+              "dimensions": { "width": 52, "height": 40 },
+              "visual": "Compact pill or 'Hello' label"
+            }
+          },
+          "animationStates": {
+            "idle": {
+              "description": "Default display",
+              "showLabel": "mindScore === 0"
+            },
+            "showing-plus": {
+              "description": "+10 animation",
+              "visual": "Shows '+10' with blur-in animation"
+            },
+            "showing-score": {
+              "description": "Score roll-in",
+              "visual": "Score rolls in with blur animation"
+            },
+            "training": {
+              "description": "Training status",
+              "visual": "Shows training message from context"
+            }
+          },
+          "features": [
+            "Level-based colored shadows (only page >= 1)",
+            "'Hello' label when mindScore === 0 and idle",
+            "Training message display during training state"
+          ]
+        }
+      }
+    },
+
+    "TrainingQueueStatusWidget": {
+      "description": "Widget status area showing training progress",
+      "filePath": "/components/mind-widget/training-status-small.tsx",
+      "props": {
+        "queueStatus": { "type": "TrainingQueueStatus", "required": true },
+        "activeCount": { "type": "number", "required": true },
+        "completedCount": { "type": "number", "required": true },
+        "failedCount": { "type": "number", "required": true },
+        "totalCount": { "type": "number", "required": true },
+        "latestItem": { "type": "QueueItem | null", "required": false }
+      },
+      "states": {
+        "hidden": {
+          "description": "Not visible",
+          "condition": "queueStatus === 'dull'"
+        },
+        "learning": {
+          "description": "Active training",
+          "visual": "Spinner icon + 'Learning X Items'",
+          "condition": "queueStatus === 'active'"
+        },
+        "newItem": {
+          "description": "New item notification",
+          "visual": "Doc type icon + truncated item name",
+          "duration": 2000,
+          "condition": "Item just added"
+        },
+        "completed": {
+          "description": "Training finished",
+          "visual": "'Completed!' text + clickable result badges",
+          "condition": "queueStatus === 'finished'",
+          "duration": 2000
+        }
+      },
+      "interactions": {
+        "badgeClick": {
+          "target": "TrainingResultBadges",
+          "action": "Open MindDialog with filter",
+          "params": { "filter": "completed | failed" }
+        }
+      }
+    },
+
+    "MindDialog": {
+      "description": "Modal dialog for training status and knowledge management",
+      "filePath": "/components/mind-dialog/mind-dialog.tsx",
+      "props": {
+        "open": { "type": "boolean", "required": true },
+        "onOpenChange": { "type": "(open: boolean) => void", "required": true }
+      },
+      "contextState": {
+        "activeTab": { "type": "'training-status' | 'add-knowledge'", "default": "'training-status'" },
+        "initialFilter": { "type": "TrainingItemStatus | 'all' | null", "default": "null" }
+      },
+      "tabs": {
+        "training-status": {
+          "label": "Training Status",
+          "width": "w-2xl",
+          "component": "TrainingStatusTab"
+        },
+        "add-knowledge": {
+          "label": "Add Knowledge",
+          "width": "w-4xl",
+          "component": "AddKnowledgeTab"
+        }
+      },
+      "header": {
+        "elements": [
+          { "name": "Score Display", "shows": "Current mind score" },
+          { "name": "Level Badge", "shows": "Current level name" },
+          { "name": "Progress Bar", "component": "MindProgressBar" },
+          { "name": "Preview Button", "action": "Opens preview", "condition": "queueStatus !== 'dull'" }
+        ]
+      },
+      "styling": {
+        "borderRadius": "36px",
+        "background": "Semi-transparent with backdrop blur",
+        "shadow": "Level-based colored shadow"
+      }
+    },
+
+    "TrainingStatusTab": {
+      "description": "Tab showing training queue status and history",
+      "filePath": "/components/mind-dialog/training-status/training-status-tab.tsx",
+      "props": {
+        "queue": { "type": "QueueItem[]", "source": "TrainingQueueContext" },
+        "queueStatus": { "type": "TrainingQueueStatus", "computed": true },
+        "hasUserReviewed": { "type": "boolean", "description": "Tracks if user has seen finished results" }
+      },
+      "states": {
+        "empty": {
+          "description": "No items ever",
+          "render": "TrainingSummary component (empty state)"
+        },
+        "active": {
+          "description": "Training in progress",
+          "render": "ActiveTrainingQueue component"
+        },
+        "finished": {
+          "description": "All items processed",
+          "render": "ActiveTrainingQueue with result badges"
+        },
+        "dull": {
+          "description": "Results reviewed",
+          "render": "TrainingSummary component (history view)"
+        }
+      },
+      "subComponents": ["ActiveTrainingQueue", "TrainingSummary"]
+    },
+
+    "ActiveTrainingQueue": {
+      "description": "Live training queue list with filtering and actions",
+      "filePath": "/components/mind-dialog/training-status/active-training-queue.tsx",
+      "props": {
+        "queue": { "type": "QueueItem[]", "required": true },
+        "filter": { "type": "TrainingItemStatus | 'all'", "default": "'all'" },
+        "completedCount": { "type": "number", "required": true },
+        "failedCount": { "type": "number", "required": true }
+      },
+      "features": {
+        "filtering": {
+          "options": ["all", "queued", "training", "completed", "failed"],
+          "component": "Dropdown select"
+        },
+        "scrollArea": {
+          "maxHeight": "488px",
+          "component": "ScrollArea"
+        },
+        "bulkActions": {
+          "retryAll": {
+            "label": "Retry All",
+            "condition": "failedCount > 0",
+            "action": "Retry all failed items"
+          },
+          "deleteAll": {
+            "label": "Delete All",
+            "condition": "failedCount > 0",
+            "action": "Delete all failed items"
+          }
+        },
+        "resultBadges": {
+          "show": "When queueStatus === 'finished'",
+          "clickable": true,
+          "action": "Set filter to clicked status"
+        }
+      },
+      "itemComponent": "TrainingQueueItem"
+    },
+
+    "TrainingQueueItem": {
+      "description": "Individual queue item display",
+      "filePath": "/app/studio/_components/mindscore/training-queue-item.tsx",
+      "props": {
+        "item": { "type": "QueueItem", "required": true },
+        "onRetry": { "type": "(id: string) => void", "required": false },
+        "onDelete": { "type": "(id: string) => void", "required": false },
+        "fontSize": { "type": "string", "default": "'text-[15px]'" },
+        "docIconSize": { "type": "string", "default": "'size-6'" }
+      },
+      "statusVisuals": {
+        "queued": {
+          "indicator": "Ring progress (circular)",
+          "color": "gray",
+          "animation": "none"
+        },
+        "training": {
+          "indicator": "Loader circle",
+          "color": "blue",
+          "animation": "Shimmer effect on text",
+          "showProgress": true
+        },
+        "completed": {
+          "indicator": "Checkmark icon",
+          "color": "green",
+          "animation": "none"
+        },
+        "failed": {
+          "indicator": "Warning icon",
+          "color": "amber/yellow",
+          "animation": "none",
+          "actions": ["Retry button", "Delete button"]
+        },
+        "deleted": {
+          "render": false,
+          "description": "Item not rendered"
+        }
+      },
+      "layout": {
+        "left": "Doc type icon + item name (truncated)",
+        "right": "Status indicator or action buttons"
+      }
+    },
+
+    "MindProgressBar": {
+      "description": "Progress bar showing advancement to next level",
+      "filePath": "/app/studio/_components/mindscore/mind-progress-bar.tsx",
+      "props": {
+        "progressToNextLevel": { "type": "number", "required": true },
+        "progressCap": { "type": "number", "required": true },
+        "level": { "type": "string", "required": true }
+      },
+      "computed": {
+        "percentage": "Math.min(100, (progressToNextLevel / progressCap) * 100)"
+      },
+      "styling": {
+        "height": "4px",
+        "background": "Level-based gradient",
+        "animation": "Smooth width transition"
+      }
+    },
+
+    "TrainingResultBadges": {
+      "description": "Badges showing completed and failed counts",
+      "filePath": "/components/mind-widget/training-result-badges.tsx",
+      "props": {
+        "completedCount": { "type": "number", "required": true },
+        "failedCount": { "type": "number", "required": true },
+        "onClick": { "type": "(status: 'completed' | 'failed') => void", "required": false }
+      },
+      "badges": {
+        "completed": {
+          "icon": "CheckCircle",
+          "color": "green",
+          "label": "{count} completed",
+          "show": "completedCount > 0"
+        },
+        "failed": {
+          "icon": "Warning",
+          "color": "amber",
+          "label": "{count} failed",
+          "show": "failedCount > 0"
+        }
+      },
+      "interactions": {
+        "clickable": "When onClick prop provided",
+        "action": "Filter queue list by status"
+      }
+    },
+
+    "TrainingQueueToast": {
+      "description": "Toast notification when items added to queue",
+      "filePath": "/components/mind-dialog/training-queue-toast.tsx",
+      "props": {
+        "itemCount": { "type": "number", "required": true },
+        "icon": { "type": "ReactNode", "required": false }
+      },
+      "trigger": "Called after addToQueue() succeeds",
+      "content": {
+        "title": "Added to training queue",
+        "description": "{itemCount} item(s) added",
+        "icon": "CheckedCircleFillIcon (green)"
+      },
+      "styling": {
+        "background": "bg-[#FCFBFA] / dark:bg-[#2C2C2A]",
+        "borderRadius": "rounded-2xl",
+        "shadow": "Custom glass effect"
+      },
+      "duration": "Auto-dismiss"
+    },
+
+    "AddKnowledgeTab": {
+      "description": "Tab for adding content to training queue",
+      "filePath": "/components/mind-dialog/add-knowledge-tab.tsx",
+      "status": "PLACEHOLDER - Detailed spec TBD by Joe",
+      "props": {
+        "onAddItems": { "type": "(items: QueueItemInput[]) => void", "required": true }
+      },
+      "contentCards": [
+        {
+          "type": "interview",
+          "label": "Interview",
+          "height": 220,
+          "description": "Add interview content",
+          "mockItems": 3
+        },
+        {
+          "type": "youtube",
+          "label": "YouTube",
+          "height": 152,
+          "description": "Add YouTube videos",
+          "mockItems": 4
+        },
+        {
+          "type": "x",
+          "label": "X / Twitter",
+          "height": 152,
+          "description": "Add X/Twitter posts",
+          "mockItems": 1
+        },
+        {
+          "type": "website",
+          "label": "Website",
+          "height": 152,
+          "description": "Add website content",
+          "mockItems": 2
+        },
+        {
+          "type": "podcast",
+          "label": "Podcast",
+          "height": 152,
+          "description": "Add podcast episodes",
+          "mockItems": 1
+        }
+      ],
+      "note": "Interface contract only. Joe will provide detailed content card specifications."
+    },
+
+    "LevelUpDialog": {
+      "description": "Celebration dialog when user levels up",
+      "filePath": "/components/mind-dialog/level-up-dialog.tsx",
+      "props": {
+        "open": { "type": "boolean", "required": true },
+        "onOpenChange": { "type": "(open: boolean) => void", "required": true },
+        "level": { "type": "string", "required": true },
+        "previousLevel": { "type": "string", "required": true },
+        "progressToNextLevel": { "type": "number", "required": true },
+        "progressCap": { "type": "number", "required": true }
+      },
+      "trigger": "hasLevelChanged === true in MindScoreContext",
+      "content": {
+        "header": "Level Up!",
+        "body": "You've reached {level}",
+        "progressBar": "Shows progress to next level",
+        "action": "Continue button"
+      },
+      "styling": {
+        "shadow": "Level-based colored shadow",
+        "animation": "Celebration effect"
+      },
+      "onClose": "Calls acknowledgeLevelChange()"
+    }
+  },
+
+  "mockData": {
+    "widgetStates": {
+      "idle": {
+        "description": "Default state with no active training",
+        "mindScore": {
+          "current": 500,
+          "level": "Skilled",
+          "previousLevel": null,
+          "hasLevelChanged": false,
+          "progressToNextLevel": 300,
+          "nextLevelThreshold": 1000,
+          "progressCap": 800,
+          "lastIncrement": null,
+          "lastDecrement": null,
+          "lastTrainingDate": "2025-12-04T10:30:00Z"
+        },
+        "trainingQueue": [],
+        "queueStatus": "dull",
+        "counts": {
+          "totalCount": 0,
+          "activeCount": 0,
+          "completedCount": 0,
+          "failedCount": 0
+        }
+      },
+
+      "activeTraining": {
+        "description": "Training in progress with multiple items",
+        "mindScore": {
+          "current": 500,
+          "level": "Skilled",
+          "previousLevel": null,
+          "hasLevelChanged": false,
+          "progressToNextLevel": 300,
+          "nextLevelThreshold": 1000,
+          "progressCap": 800,
+          "lastIncrement": null,
+          "lastDecrement": null,
+          "lastTrainingDate": null
+        },
+        "trainingQueue": [
+          {
+            "id": "item-001",
+            "name": "Interview with John Doe - Product Strategy",
+            "docType": "interview",
+            "status": "training",
+            "progress": 45,
+            "duration": 6000
+          },
+          {
+            "id": "item-002",
+            "name": "How to Build AI Agents in 2025",
+            "docType": "youtube",
+            "status": "queued",
+            "progress": 0,
+            "duration": 3500
+          },
+          {
+            "id": "item-003",
+            "name": "@elonmusk thread on AI future",
+            "docType": "x",
+            "status": "queued",
+            "progress": 0,
+            "duration": 4000
+          }
+        ],
+        "queueStatus": "active",
+        "counts": {
+          "totalCount": 3,
+          "activeCount": 3,
+          "completedCount": 0,
+          "failedCount": 0
+        }
+      },
+
+      "finishedTraining": {
+        "description": "Training completed with mixed results",
+        "mindScore": {
+          "current": 1100,
+          "level": "Expert",
+          "previousLevel": "Skilled",
+          "hasLevelChanged": true,
+          "progressToNextLevel": 100,
+          "nextLevelThreshold": 2000,
+          "progressCap": 1000,
+          "lastIncrement": 600,
+          "lastDecrement": null,
+          "lastTrainingDate": "2025-12-05T14:30:00Z"
+        },
+        "trainingQueue": [
+          {
+            "id": "item-001",
+            "name": "Interview with John Doe - Product Strategy",
+            "docType": "interview",
+            "status": "completed",
+            "progress": 100,
+            "duration": 6000
+          },
+          {
+            "id": "item-002",
+            "name": "How to Build AI Agents in 2025",
+            "docType": "youtube",
+            "status": "completed",
+            "progress": 100,
+            "duration": 3500
+          },
+          {
+            "id": "item-003",
+            "name": "company-roadmap-2025.pdf",
+            "docType": "website",
+            "status": "failed",
+            "progress": 100,
+            "duration": 3500
+          }
+        ],
+        "queueStatus": "finished",
+        "counts": {
+          "totalCount": 3,
+          "activeCount": 0,
+          "completedCount": 2,
+          "failedCount": 1
+        }
+      },
+
+      "levelUp": {
+        "description": "User just leveled up",
+        "mindScore": {
+          "current": 1000,
+          "level": "Expert",
+          "previousLevel": "Skilled",
+          "hasLevelChanged": true,
+          "progressToNextLevel": 0,
+          "nextLevelThreshold": 2000,
+          "progressCap": 1000,
+          "lastIncrement": 300,
+          "lastDecrement": null,
+          "lastTrainingDate": "2025-12-05T14:30:00Z"
+        },
+        "trainingQueue": [],
+        "queueStatus": "dull",
+        "showLevelUpDialog": true
+      },
+
+      "profileExpanded": {
+        "description": "Profile widget in expanded state",
+        "mindScore": {
+          "current": 2500,
+          "level": "Master"
+        },
+        "widgetExpanded": true
+      },
+
+      "onboardingPage1": {
+        "description": "Onboarding at page 1 (large widget)",
+        "currentPage": 1,
+        "mindScore": 10,
+        "animationState": "showing-score",
+        "isLarge": true,
+        "level": "Novice"
+      },
+
+      "onboardingPage0": {
+        "description": "Onboarding at page 0 (small widget with Hello)",
+        "currentPage": 0,
+        "mindScore": 0,
+        "animationState": "idle",
+        "isLarge": false,
+        "showLabel": true
+      }
+    },
+
+    "queueItemExamples": {
+      "interview": {
+        "id": "int-001",
+        "name": "Interview with Sarah Chen - AI Research Lead",
+        "docType": "interview",
+        "status": "queued",
+        "progress": 0,
+        "duration": 6000
+      },
+      "youtube": {
+        "id": "yt-001",
+        "name": "Building Production RAG Systems - Full Tutorial",
+        "docType": "youtube",
+        "status": "training",
+        "progress": 67,
+        "duration": 3500
+      },
+      "x": {
+        "id": "x-001",
+        "name": "@sama discussing AGI timelines",
+        "docType": "x",
+        "status": "completed",
+        "progress": 100,
+        "duration": 4000
+      },
+      "website": {
+        "id": "web-001",
+        "name": "Anthropic Research Papers Collection",
+        "docType": "website",
+        "status": "failed",
+        "progress": 100,
+        "duration": 3500
+      },
+      "podcast": {
+        "id": "pod-001",
+        "name": "Lex Fridman #401 - Ilya Sutskever",
+        "docType": "podcast",
+        "status": "queued",
+        "progress": 0,
+        "duration": 3000
+      },
+      "file": {
+        "id": "file-001",
+        "name": "Q4-2024-Product-Roadmap.pdf",
+        "docType": "file",
+        "status": "completed",
+        "progress": 100,
+        "duration": 3500
+      }
+    }
+  },
+
+  "userFlows": {
+    "addContentFlow": {
+      "description": "User adds content to training queue",
+      "steps": [
+        { "step": 1, "action": "User clicks mind score card", "result": "MindDialog opens" },
+        { "step": 2, "action": "User switches to Add Knowledge tab", "result": "Content cards displayed" },
+        { "step": 3, "action": "User clicks add button on content card", "result": "Items added to queue" },
+        { "step": 4, "action": "System shows toast notification", "result": "TrainingQueueToast displayed" },
+        { "step": 5, "action": "Queue status changes to active", "result": "Widget shows training status" },
+        { "step": 6, "action": "Items process sequentially", "result": "Progress updates in real-time" },
+        { "step": 7, "action": "All items complete", "result": "Queue status changes to finished" },
+        { "step": 8, "action": "User views results", "result": "Result badges shown, score updated" },
+        { "step": 9, "action": "User dismisses/previews", "result": "Queue status resets to dull" }
+      ]
+    },
+
+    "retryFailedFlow": {
+      "description": "User retries failed training items",
+      "steps": [
+        { "step": 1, "action": "User sees failed badge", "result": "Can click to filter" },
+        { "step": 2, "action": "User clicks retry on item", "result": "Item status resets to queued" },
+        { "step": 3, "action": "Item reprocesses", "result": "Status → training → completed/failed" }
+      ]
+    },
+
+    "levelUpFlow": {
+      "description": "User levels up after training",
+      "steps": [
+        { "step": 1, "action": "Training completes", "result": "Score increments by 300 per item" },
+        { "step": 2, "action": "Score crosses threshold", "result": "hasLevelChanged = true" },
+        { "step": 3, "action": "LevelUpDialog triggers", "result": "Celebration dialog shows" },
+        { "step": 4, "action": "User clicks Continue", "result": "acknowledgeLevelChange() called" }
+      ]
+    }
+  }
+}
