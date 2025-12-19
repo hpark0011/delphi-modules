@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { MindStatusIcon } from "@/components/mind-status-notification";
 import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
+import { ONBOARDING_STEPS } from "@/app/onboarding/_util/onboarding-steps-config";
 import { cn } from "@/lib/utils";
 import {
   getLevelShadowColors,
@@ -43,8 +44,9 @@ export function OnboardingMindWidget({
   mindScore,
 }: OnboardingMindWidgetProps) {
   const { animationState, trainingMessage } = useOnboardingNavigation();
-  // When the current page is 1, the widget is large. All the other pages, the widget is small (default).
-  const isLarge = currentPage === 1;
+  // Check if the current step should show the large widget based on configuration
+  const currentStep = ONBOARDING_STEPS[currentPage];
+  const isLarge = currentStep?.showLargeWidget ?? false;
   const showLabel = mindScore === 0 && animationState === "idle";
   const showPlusTen = animationState === "showing-plus";
   const showTrainingStatus = animationState === "training";

@@ -20,7 +20,7 @@ const options = [
   "Other",
 ];
 
-export function OnboardingPage3() {
+export function NewUseCaseStep() {
   const router = useRouter();
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 

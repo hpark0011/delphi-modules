@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback } from "react";
+import { ONBOARDING_STEPS_COUNT } from "../_util/onboarding-steps-config";
 
 export type AnimationState =
   | "idle"
@@ -39,7 +40,9 @@ export function OnboardingNavigationProvider({
   }, []);
 
   const handleNext = useCallback(() => {
-    setCurrentPage((prev) => (prev < 3 ? prev + 1 : prev));
+    setCurrentPage((prev) =>
+      prev < ONBOARDING_STEPS_COUNT - 1 ? prev + 1 : prev
+    );
   }, []);
 
   const addMindScore = useCallback((points: number) => {
