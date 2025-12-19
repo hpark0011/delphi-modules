@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon } from "@/delphi-ui/icons/ArrowLeft";
 import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
-import { OnboardingMindWidget } from "./onboarding-mind-widget";
+import { OnboardingMindWidget } from "./onboarding-mind-widget/onboarding-mind-widget";
 
 export function OnboardingHeader() {
   const { handlePrevious, currentPage, mindScore } = useOnboardingNavigation();
@@ -16,16 +16,14 @@ export function OnboardingHeader() {
         <Button
           size='sm'
           onClick={handlePrevious}
-          className='gap-1 rounded-full h-7 has-[>svg]:px-3 hover:bg-light absolute left-2 mt-2.5'
+          className='gap-1 rounded-full h-10 w-10 has-[>svg]:px-3 hover:bg-light absolute left-2 mt-2.5'
           variant='ghost'
         >
-          <ArrowLeftIcon className='size-4 text-icon-medium' />
+          <ArrowLeftIcon className='size-5 text-icon-medium' />
         </Button>
 
         {/* Desktop: Show "Interview" title */}
         <OnboardingMindWidget currentPage={currentPage} mindScore={mindScore} />
-        {/* <MindWidgetSmall /> */}
-        {/* <h1 className='text-sm font-medium hidden md:block'>Interview</h1> */}
       </div>
     </header>
   );

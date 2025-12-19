@@ -1,8 +1,7 @@
 "use client";
 
-import { MindStatusIcon } from "@/components/mind-status-notification";
-import { BrainIcon } from "@/delphi-ui/icons/Brain";
 import { AnimatePresence, motion } from "framer-motion";
+import { MindStatusIcon } from "@/components/mind-status-notification";
 import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
 import { cn } from "@/lib/utils";
 import {
@@ -10,172 +9,39 @@ import {
   generateShadowString,
   generateSmallWidgetShadowString,
 } from "@/app/studio/_utils/mind-shadow-helpers";
+import { calculateLevel } from "./onboarding-mind-widget-utils";
+import {
+  SPRING_CONFIG,
+  WIDGET_WIDTH_LARGE,
+  WIDGET_HEIGHT_LARGE,
+  WIDGET_WIDTH_SMALL,
+  WIDGET_HEIGHT_SMALL,
+  POSITION_TOP_LARGE,
+  POSITION_TOP_SMALL,
+  BORDER_RADIUS_LARGE,
+  BORDER_RADIUS_SMALL,
+  PADDING_OUTER_LARGE,
+  PADDING_OUTER_SMALL,
+  PADDING_INNER_X,
+  PADDING_INNER_Y,
+  DEFAULT_NEUTRAL_SHADOW_LARGE,
+  DEFAULT_NEUTRAL_SHADOW_SMALL,
+  SMALL_WIDGET_INNER_SHADOW,
+} from "./onboarding-mind-widget-constants";
+import { OnboardingMindWidgetHelloLabel } from "./onboarding-mind-widget-hello-label";
+import { OnboardingMindWidgetPlusTen } from "./onboarding-mind-widget-plus-ten";
+import { OnboardingMindWidgetScore } from "./onboarding-mind-widget-score";
+import { OnboardingMindWidgetLevel } from "./onboarding-mind-widget-level";
 
-const LEVEL_THRESHOLDS = [
-  { name: "Novice", min: 0 },
-  { name: "Skilled", min: 200 },
-  { name: "Expert", min: 1000 },
-  { name: "Master", min: 2000 },
-  { name: "Sage", min: 3000 },
-  { name: "Legendary", min: 4000 },
-  { name: "Eternal", min: 5000 },
-];
-
-function calculateLevel(score: number): string {
-  for (let i = LEVEL_THRESHOLDS.length - 1; i >= 0; i--) {
-    if (score >= LEVEL_THRESHOLDS[i].min) {
-      return LEVEL_THRESHOLDS[i].name;
-    }
-  }
-  return LEVEL_THRESHOLDS[0].name;
-}
-
-// Animation Config
-
-export const SPRING_CONFIG = {
-  type: "spring" as const,
-  stiffness: 300,
-  damping: 25,
-};
-
-// Dimensions
-
-export const WIDGET_WIDTH_LARGE = 336;
-export const WIDGET_HEIGHT_LARGE = 218;
-export const WIDGET_WIDTH_SMALL = 52;
-export const WIDGET_HEIGHT_SMALL = 40;
-
-// Positions
-
-export const POSITION_TOP_LARGE = "17vh";
-export const POSITION_TOP_SMALL = "8px";
-
-// Styling Values
-
-export const BORDER_RADIUS_LARGE = 9999;
-export const BORDER_RADIUS_SMALL = 9999;
-export const PADDING_OUTER_LARGE = "0px";
-export const PADDING_OUTER_SMALL = "2px";
-export const PADDING_INNER_X = 12;
-export const PADDING_INNER_Y = 4;
-export const FONT_SIZE_LARGE = "80px";
-export const FONT_SIZE_SMALL = "16px";
-
-// ============================================================================
-// Subcomponents
-// ============================================================================
-
-function HelloLabel() {
-  return (
-    <motion.div
-      key='label'
-      className='flex items-center gap-1'
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-    >
-      <BrainIcon className='text-icon-light size-4' />
-      <motion.h1 className='text-text-primary-inverse dark:text-white tracking-tighter font-medium flex items-center justify-center h-fit leading-[100%]'>
-        Hello
-      </motion.h1>
-    </motion.div>
-  );
-}
-
-function PlusTenContent({ isLarge }: { isLarge: boolean }) {
-  return (
-    <motion.h1
-      key='plus-ten'
-      className='text-text-primary-inverse tracking-tighter font-semibold flex items-center justify-center h-fit leading-[100%] dark:text-white'
-      initial={{
-        y: 20,
-        opacity: 0,
-        filter: "blur(10px)",
-        fontSize: isLarge ? FONT_SIZE_LARGE : FONT_SIZE_SMALL,
-      }}
-      animate={{
-        y: 0,
-        opacity: 1,
-        filter: "blur(0px)",
-        fontSize: isLarge ? FONT_SIZE_LARGE : FONT_SIZE_SMALL,
-      }}
-      exit={{
-        y: -20,
-        opacity: 0,
-        filter: "blur(10px)",
-      }}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
-    >
-      +10
-    </motion.h1>
-  );
-}
-
-function ScoreContent({
-  mindScore,
-  isLarge,
-  shouldRollIn,
-}: {
+interface OnboardingMindWidgetProps {
+  currentPage: number;
   mindScore: number;
-  isLarge: boolean;
-  shouldRollIn?: boolean;
-}) {
-  return (
-    <motion.h1
-      key='score'
-      className='text-text-primary-inverse tracking-tighter font-semibold flex items-center justify-center h-fit leading-[100%] dark:text-white'
-      initial={
-        shouldRollIn
-          ? {
-              y: 20,
-              opacity: 0,
-              filter: "blur(10px)",
-              fontSize: FONT_SIZE_LARGE,
-            }
-          : { opacity: 0, fontSize: FONT_SIZE_LARGE }
-      }
-      animate={{
-        y: 0,
-        opacity: 1,
-        filter: "blur(0px)",
-        fontSize: isLarge ? FONT_SIZE_LARGE : FONT_SIZE_SMALL,
-      }}
-      exit={{ opacity: 0 }}
-      transition={
-        shouldRollIn ? { duration: 0.2, ease: "easeInOut" } : SPRING_CONFIG
-      }
-    >
-      {mindScore}
-    </motion.h1>
-  );
 }
-
-function MindLevel() {
-  return (
-    <motion.div
-      className='text-[16px] font-[480] text-text-muted'
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: "auto" }}
-      exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.2 }}
-    >
-      Novice
-    </motion.div>
-  );
-}
-
-// ============================================================================
-// Main Component
-// ============================================================================
 
 export function OnboardingMindWidget({
   currentPage,
   mindScore,
-}: {
-  currentPage: number;
-  mindScore: number;
-}) {
+}: OnboardingMindWidgetProps) {
   const { animationState, trainingMessage } = useOnboardingNavigation();
   // When the current page is 1, the widget is large. All the other pages, the widget is small (default).
   const isLarge = currentPage === 1;
@@ -188,23 +54,14 @@ export function OnboardingMindWidget({
   const level = calculateLevel(mindScore);
   const levelColors = getLevelShadowColors(level);
 
-  // Default neutral shadows for page 0
-  const defaultNeutralShadowLarge =
-    "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 3px rgba(255,255,255,1)";
-  const defaultNeutralShadowSmall =
-    "0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)";
-  // White inset shadow for small widget's inner div (always the same regardless of colored shadow)
-  const smallWidgetInnerShadow =
-    "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)";
-
   // Use different shadow generators for large vs small widgets (only if colored shadow is enabled)
   const defaultShadow = shouldUseColoredShadow
     ? isLarge
       ? generateShadowString(levelColors, false)
       : generateSmallWidgetShadowString(levelColors)
     : isLarge
-      ? defaultNeutralShadowLarge
-      : defaultNeutralShadowSmall;
+      ? DEFAULT_NEUTRAL_SHADOW_LARGE
+      : DEFAULT_NEUTRAL_SHADOW_SMALL;
   const hoverShadow = shouldUseColoredShadow
     ? isLarge
       ? generateShadowString(levelColors, true)
@@ -228,7 +85,7 @@ export function OnboardingMindWidget({
 
     // Small widget with neutral shadow (page 0)
     return {
-      boxShadow: defaultNeutralShadowSmall.replace(/_/g, " "),
+      boxShadow: DEFAULT_NEUTRAL_SHADOW_SMALL.replace(/_/g, " "),
     };
   })();
 
@@ -246,7 +103,7 @@ export function OnboardingMindWidget({
     }
 
     // Large widget with neutral shadow (page 0)
-    return defaultNeutralShadowLarge;
+    return DEFAULT_NEUTRAL_SHADOW_LARGE;
   })();
 
   return (
@@ -313,11 +170,11 @@ export function OnboardingMindWidget({
             {/* Content: Label, +10, or Score */}
             <AnimatePresence mode='wait'>
               {showLabel ? (
-                <HelloLabel />
+                <OnboardingMindWidgetHelloLabel />
               ) : showPlusTen ? (
-                <PlusTenContent isLarge={isLarge} />
+                <OnboardingMindWidgetPlusTen isLarge={isLarge} />
               ) : (
-                <ScoreContent
+                <OnboardingMindWidgetScore
                   mindScore={mindScore}
                   isLarge={isLarge}
                   shouldRollIn={animationState === "showing-score"}
@@ -326,7 +183,9 @@ export function OnboardingMindWidget({
             </AnimatePresence>
 
             {/* Mind Level (only visible when large) */}
-            <AnimatePresence>{isLarge && <MindLevel />}</AnimatePresence>
+            <AnimatePresence>
+              {isLarge && <OnboardingMindWidgetLevel level={level} />}
+            </AnimatePresence>
 
             {/* Mind Area Inner */}
             {isLarge && (
@@ -349,7 +208,9 @@ export function OnboardingMindWidget({
                   width: isLarge ? "calc(100% - 4px)" : "calc(100% - 2px)",
                   height: isLarge ? "calc(100% - 4px)" : "calc(100% - 2px)",
                   filter: isLarge ? "blur(6px)" : "blur(3px)",
-                  boxShadow: isLarge ? innerDivShadow : smallWidgetInnerShadow,
+                  boxShadow: isLarge
+                    ? innerDivShadow
+                    : SMALL_WIDGET_INNER_SHADOW,
                 }}
                 transition={SPRING_CONFIG}
                 onMouseEnter={
@@ -378,8 +239,8 @@ export function OnboardingMindWidget({
                 height: isLarge ? "calc(100% - 4px)" : "calc(100% - 2px)",
                 filter: isLarge ? "blur(6px)" : "blur(3px)",
                 boxShadow: isLarge
-                  ? "inset 0px 1px 1px 1px rgba(0,0,0,0.1), inset 0px -1px 1px 0px rgba(255,255,255,0.7), inset 0px 1px 1px 3px rgba(255,255,255,1)"
-                  : "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)",
+                  ? DEFAULT_NEUTRAL_SHADOW_LARGE
+                  : SMALL_WIDGET_INNER_SHADOW,
               }}
               transition={SPRING_CONFIG}
             />
