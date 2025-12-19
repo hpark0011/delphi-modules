@@ -13,9 +13,8 @@ export function OnboardingMindWidgetHelloLabel() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <BrainIcon className='text-icon-light size-4' />
       <motion.h1 className='text-text-primary-inverse dark:text-white tracking-tighter font-medium flex items-center justify-center h-fit leading-[100%]'>
-        Hello
+        Hey 👋
       </motion.h1>
     </motion.div>
   );

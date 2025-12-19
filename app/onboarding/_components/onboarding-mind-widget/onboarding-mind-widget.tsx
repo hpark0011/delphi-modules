@@ -21,8 +21,6 @@ import {
   POSITION_TOP_SMALL,
   BORDER_RADIUS_LARGE,
   BORDER_RADIUS_SMALL,
-  PADDING_OUTER_LARGE,
-  PADDING_OUTER_SMALL,
   PADDING_INNER_X,
   PADDING_INNER_Y,
   DEFAULT_NEUTRAL_SHADOW_LARGE,
@@ -121,10 +119,6 @@ export function OnboardingMindWidget({
       {/* Outer border */}
       <motion.div
         className='relative bg-light rounded-full flex flex-row items-center'
-        initial={{ padding: PADDING_OUTER_SMALL }}
-        animate={{
-          padding: isLarge ? PADDING_OUTER_LARGE : PADDING_OUTER_SMALL,
-        }}
         transition={SPRING_CONFIG}
       >
         {/* Width wrapper for label state */}

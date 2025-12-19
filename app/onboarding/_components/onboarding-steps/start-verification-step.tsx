@@ -11,7 +11,7 @@ export function StartVerificationStep() {
   const { handleNext } = useOnboardingNavigation();
 
   return (
-    <div className='flex flex-col items-center justify-center h-full relative'>
+    <div className='flex flex-col items-center justify-center h-full relative w-full'>
       <div className='flex flex-col items-center justify-center gap-8 w-full'>
         {/* Heading and description */}
         <div className='flex flex-col gap-4 items-center justify-center max-w-md w-full'>
@@ -22,7 +22,7 @@ export function StartVerificationStep() {
         </div>
 
         {/* LinkedIn Handle Input */}
-        <div className='flex flex-col gap-2 w-full max-w-md'>
+        <div className='flex flex-col gap-2 w-full max-w-md '>
           <Label htmlFor='linkedin-handle'>LinkedIn Handle</Label>
           <Input
             id='linkedin-handle'
@@ -33,7 +33,7 @@ export function StartVerificationStep() {
         </div>
 
         {/* Action Buttons */}
-        <div className='flex gap-2 items-center justify-center flex-col w-full'>
+        <div className='flex gap-2 items-center justify-center flex-col w-full mt-4'>
           <Button
             size='lg'
             className='w-full rounded-full max-w-[348px]'
@@ -54,12 +54,6 @@ export function StartVerificationStep() {
         <div className='mt-8 flex items-center justify-center'>
           <OnboardingPrivacyStatement />
         </div>
-      </div>
-
-      {/* Decorative Elements */}
-      {/* Settings/Filter icon on middle-right */}
-      <div className='absolute right-4 top-1/2 -translate-y-1/2'>
-        <FilterIcon className='size-5 text-icon-medium' />
       </div>
 
       {/* Stylized "N" in bottom-right */}

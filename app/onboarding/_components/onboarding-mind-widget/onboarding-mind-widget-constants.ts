@@ -18,8 +18,6 @@ export const POSITION_TOP_SMALL = "8px";
 // Styling Values
 export const BORDER_RADIUS_LARGE = 9999;
 export const BORDER_RADIUS_SMALL = 9999;
-export const PADDING_OUTER_LARGE = "0px";
-export const PADDING_OUTER_SMALL = "2px";
 export const PADDING_INNER_X = 12;
 export const PADDING_INNER_Y = 4;
 export const FONT_SIZE_LARGE = "80px";
