@@ -7,7 +7,8 @@ import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-na
 import { OnboardingMindWidget } from "./onboarding-mind-widget/onboarding-mind-widget";
 
 export function OnboardingHeader() {
-  const { handlePrevious, currentPage, mindScore } = useOnboardingNavigation();
+  const { handlePrevious, currentPage, mindScore, animationState } =
+    useOnboardingNavigation();
 
   return (
     <header className='bg-gradient-to-b from-background via-background/80 to-transparent absolute top-0 left-0 right-0 z-10'>
@@ -23,7 +24,12 @@ export function OnboardingHeader() {
         </Button>
 
         {/* Desktop: Show "Interview" title */}
-        <OnboardingMindWidget currentPage={currentPage} mindScore={mindScore} />
+        <OnboardingMindWidget
+          currentPage={currentPage}
+          mindScore={mindScore}
+          isLuminating={animationState === "training"}
+          isGlowing={false}
+        />
       </div>
     </header>
   );

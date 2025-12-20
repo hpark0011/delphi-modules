@@ -1,18 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
-import { LoadingCircleIcon } from "@/delphi-ui/icons/LoadingCircle";
-import { useTrainingAnimation } from "../../_hooks/use-training-animation";
 
 export function ContentScrapingStep() {
-  const { handleNext } = useOnboardingNavigation();
-  const { isLoading, startAnimation } = useTrainingAnimation({
-    points: 10,
-    message: "Learning your content.",
-    onComplete: handleNext,
-  });
+  const { setAnimationState, setTrainingMessage } = useOnboardingNavigation();
+  const [addCount, setAddCount] = useState(0);
+
+  const handleAddContent = () => {
+    const newCount = addCount + 1;
+    setAddCount(newCount);
+    setAnimationState("training");
+    setTrainingMessage(`Learning ${newCount}`);
+  };
 
   return (
     <div className='flex flex-col items-center justify-center h-full'>
@@ -33,7 +35,6 @@ export function ContentScrapingStep() {
             size='lg'
             className='w-full rounded-full max-w-[348px]'
             variant='secondary'
-            disabled={isLoading}
           >
             Don&apos;t add
           </Button>
@@ -41,14 +42,9 @@ export function ContentScrapingStep() {
             size='lg'
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
-            onClick={startAnimation}
-            disabled={isLoading}
+            onClick={handleAddContent}
           >
-            {isLoading ? (
-              <LoadingCircleIcon className='size-5 animate-spin' />
-            ) : (
-              "Add this"
-            )}
+            Add this
           </Button>
         </div>
 

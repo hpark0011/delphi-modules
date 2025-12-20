@@ -1,7 +1,6 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { MindStatusIcon } from "@/components/mind-status-notification";
 import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
 import { ONBOARDING_STEPS } from "@/app/onboarding/_util/onboarding-steps-config";
 import { cn } from "@/lib/utils";
@@ -27,19 +26,25 @@ import {
   DEFAULT_NEUTRAL_SHADOW_SMALL,
   SMALL_WIDGET_INNER_SHADOW,
 } from "./onboarding-mind-widget-constants";
-import { OnboardingMindWidgetHelloLabel } from "./onboarding-mind-widget-hello-label";
-import { OnboardingMindWidgetPlusTen } from "./onboarding-mind-widget-plus-ten";
-import { OnboardingMindWidgetScore } from "./onboarding-mind-widget-score";
+import { OnboardingMindWidgetContent } from "./onboarding-mind-widget-content";
 import { OnboardingMindWidgetLevel } from "./onboarding-mind-widget-level";
+import { OnboardingMindWidgetTrainingStatus } from "./onboarding-mind-widget-training-status";
+import { CSSProperties } from "react";
 
 interface OnboardingMindWidgetProps {
   currentPage: number;
   mindScore: number;
+  isLuminating: boolean;
+  isGlowing: boolean;
+  style?: CSSProperties;
 }
 
 export function OnboardingMindWidget({
   currentPage,
   mindScore,
+  isLuminating,
+  isGlowing,
+  style,
 }: OnboardingMindWidgetProps) {
   const { animationState, trainingMessage } = useOnboardingNavigation();
   // Check if the current step should show the large widget based on configuration
@@ -106,6 +111,23 @@ export function OnboardingMindWidget({
     return DEFAULT_NEUTRAL_SHADOW_LARGE;
   })();
 
+  // CSS custom properties for the animations
+  const cssVariables = {
+    "--pill-color-light": levelColors.light,
+    "--pill-color-medium": levelColors.medium,
+    "--pill-color-dark": levelColors.dark,
+  } as CSSProperties;
+
+  // Base shadow when not animating
+  const baseShadow = `inset 0 1px 8px -2px ${levelColors.light}, inset 0 -4px 6px -2px ${levelColors.medium}, inset 0 -13px 24px -14px ${levelColors.dark}, 0 0 0 0.5px rgba(0,0,0,0.05), 0 10px 20px -5px rgba(0,0,0,0.4), 0 1px 1px 0 rgba(0,0,0,0.15), inset 0 0 6px 0 rgba(255,255,255,0.1)`;
+
+  // Determine inline box-shadow for non-animated states
+  const getBoxShadow = (): string | undefined => {
+    // When animating, let CSS keyframes handle the shadow
+    if (isLuminating || isGlowing) return undefined;
+    return baseShadow;
+  };
+
   return (
     // Widget container
     <motion.div
@@ -164,19 +186,13 @@ export function OnboardingMindWidget({
             transition={{ duration: 0.2, ease: "easeIn" }}
           >
             {/* Content: Label, +10, or Score */}
-            <AnimatePresence mode='wait'>
-              {showLabel ? (
-                <OnboardingMindWidgetHelloLabel />
-              ) : showPlusTen ? (
-                <OnboardingMindWidgetPlusTen isLarge={isLarge} />
-              ) : (
-                <OnboardingMindWidgetScore
-                  mindScore={mindScore}
-                  isLarge={isLarge}
-                  shouldRollIn={animationState === "showing-score"}
-                />
-              )}
-            </AnimatePresence>
+            <OnboardingMindWidgetContent
+              showLabel={showLabel}
+              showPlusTen={showPlusTen}
+              isLarge={isLarge}
+              mindScore={mindScore}
+              shouldRollIn={animationState === "showing-score"}
+            />
 
             {/* Mind Level (only visible when large) */}
             <AnimatePresence>
@@ -239,6 +255,15 @@ export function OnboardingMindWidget({
                   : SMALL_WIDGET_INNER_SHADOW,
               }}
               transition={SPRING_CONFIG}
+              data-luminating={isLuminating}
+              data-glowing={isGlowing}
+              style={{
+                ...cssVariables,
+                boxShadow: getBoxShadow(),
+                // Apply hover shadow via CSS variable for hover state
+                ["--pill-hover-shadow" as string]: hoverShadow,
+                ...style,
+              }}
             />
           </motion.div>
         </div>
@@ -246,20 +271,9 @@ export function OnboardingMindWidget({
         {/* Training Status */}
         <AnimatePresence>
           {showTrainingStatus && (
-            <motion.div
-              className='overflow-hidden'
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: "auto", opacity: 1 }}
-              exit={{ width: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-            >
-              <div className='pl-2.5 pr-3.5 text-text-tertiary flex items-center gap-1 whitespace-nowrap'>
-                <MindStatusIcon status='active' />
-                <span className='max-w-[176px] truncate text-[13px]'>
-                  {trainingMessage}
-                </span>
-              </div>
-            </motion.div>
+            <OnboardingMindWidgetTrainingStatus
+              trainingMessage={trainingMessage}
+            />
           )}
         </AnimatePresence>
       </motion.div>

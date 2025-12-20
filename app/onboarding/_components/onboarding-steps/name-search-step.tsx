@@ -1,18 +1,39 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 import { LoadingCircleIcon } from "@/delphi-ui/icons/LoadingCircle";
-import { useTrainingAnimation } from "../../_hooks/use-training-animation";
 
 export function NameSearchStep() {
-  const { handleNext } = useOnboardingNavigation();
-  const { isLoading, startAnimation } = useTrainingAnimation({
-    points: 10,
-    message: "Learning your LinkedIn.",
-    onComplete: handleNext,
-  });
+  const { handleNext, setAnimationState, addMindScore } =
+    useOnboardingNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleContinue = () => {
+    setIsLoading(true);
+
+    // Step 1: Show +10 for 1 second
+    setAnimationState("showing-plus");
+
+    setTimeout(() => {
+      // Step 2: Show score and add points
+      setAnimationState("showing-score");
+      addMindScore(10);
+
+      setTimeout(() => {
+        // Step 3: Hide training status (set to idle)
+        setAnimationState("idle");
+
+        setTimeout(() => {
+          // Step 4: Go to next page
+          setIsLoading(false);
+          handleNext();
+        }, 500);
+      }, 1000);
+    }, 1000);
+  };
 
   return (
     <div className='flex flex-col items-center justify-center h-full'>
@@ -20,7 +41,7 @@ export function NameSearchStep() {
       <div className='flex flex-col items-center justify-center gap-8 w-full'>
         {/* Heading and description */}
         <div className='flex flex-col gap-4 items-center justify-center max-w-md w-full'>
-          <h1 className='text-3xl font-medium'>Is this you?</h1>
+          <h1 className='text-3xl font-medium'>Tell us about yourself</h1>
           <p className='text-text-muted font-[480] text-center leading-[140%] text-[15px]'>
             We&apos;ll use the basics here to start training Digital Hyunsol.
           </p>
@@ -34,7 +55,7 @@ export function NameSearchStep() {
             size='lg'
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
-            onClick={startAnimation}
+            onClick={handleContinue}
             disabled={isLoading}
           >
             {isLoading ? (

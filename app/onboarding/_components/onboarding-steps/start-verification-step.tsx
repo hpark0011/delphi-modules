@@ -8,7 +8,17 @@ import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 import { FilterIcon } from "@/delphi-ui/icons/Filter";
 
 export function StartVerificationStep() {
-  const { handleNext } = useOnboardingNavigation();
+  const { handleNext, setAnimationState, setTrainingMessage } =
+    useOnboardingNavigation();
+
+  const handleVerifyLinkedIn = () => {
+    setAnimationState("training");
+    setTrainingMessage("Learning about you");
+    // Wait 1.5 seconds to show the training state before navigating
+    setTimeout(() => {
+      handleNext();
+    }, 1500);
+  };
 
   return (
     <div className='flex flex-col items-center justify-center h-full relative w-full'>
@@ -38,7 +48,7 @@ export function StartVerificationStep() {
             size='lg'
             className='w-full rounded-full max-w-[348px]'
             variant='primary'
-            onClick={handleNext}
+            onClick={handleVerifyLinkedIn}
           >
             Verify Using LinkedIn
           </Button>
