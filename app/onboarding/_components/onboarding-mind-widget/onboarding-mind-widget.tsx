@@ -2,7 +2,7 @@
 
 import { AnimatePresence } from "framer-motion";
 import { useOnboardingAnimation } from "@/app/onboarding/_context";
-import { ONBOARDING_STEPS } from "@/app/onboarding/_utils/onboarding-steps-config";
+import { ONBOARDING_STEP_ORDER } from "@/app/onboarding/_utils/onboarding-steps-config";
 import { useOnboardingBubbleShadow } from "../../_hooks/use-onboarding-bubble-shadow";
 import { OnboardingMindWidgetContent } from "./onboarding-mind-widget-content";
 import { OnboardingMindWidgetLevel } from "./onboarding-mind-widget-level";
@@ -29,9 +29,9 @@ export function OnboardingMindWidget({
   style,
 }: OnboardingMindWidgetProps) {
   const { animationState, trainingMessage } = useOnboardingAnimation();
-  // Check if the current step should show the large widget based on configuration
-  const step = ONBOARDING_STEPS[currentStep];
-  const isLarge = step?.showLargeWidget ?? false;
+  // Check if the current step should show the large widget
+  const currentStepId = ONBOARDING_STEP_ORDER[currentStep];
+  const isLarge = currentStepId === "MindScore";
   const showLabel = mindScore === 0 && animationState === "idle";
   const showPlusTen = animationState === "showing-plus";
   const showTrainingStatus = animationState === "training";
