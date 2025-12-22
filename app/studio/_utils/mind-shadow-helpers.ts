@@ -52,7 +52,6 @@ export function getLevelShadowColors(level: string): LevelColors {
         dark: "rgba(30,50,100,1)",
       };
     default:
-      // Fallback to Skilled (orange) colors
       return {
         light: "rgba(255,164,102,1)",
         medium: "rgba(255,167,109,0.5)",

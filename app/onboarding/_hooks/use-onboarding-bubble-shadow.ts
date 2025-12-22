@@ -12,7 +12,7 @@ import {
 } from "../_utils/onboarding-mind-widget-style-config";
 
 interface UseOnboardingBubbleShadowProps {
-  /** Current onboarding step index (0-based). Colored shadows apply from step 1+. */
+  /** Current onboarding step index (0-based). */
   currentStep: number;
   /** Current mind score used to calculate level and shadow colors. */
   mindScore: number;
@@ -28,8 +28,6 @@ export interface BubbleShadowResult {
   level: string;
   /** RGB color values for the current level. */
   levelColors: LevelColors;
-  /** Whether to use level-colored shadows (true from step 1+). */
-  shouldUseColoredShadow: boolean;
   /** Default box-shadow string for the bubble. */
   defaultShadow: string;
   /** Hover state box-shadow string for the bubble. */
@@ -60,23 +58,25 @@ export function useOnboardingBubbleShadow({
     const isLarge = sizeVariant === "large";
     const config = WIDGET_STYLE_CONFIG[sizeVariant];
 
-    // Calculate level and get shadow colors (only apply colored shadow on and after step 1)
-    const shouldUseColoredShadow = currentStep >= 1;
+    // Calculate level and get shadow colors
     const level = calculateLevel(mindScore);
     const levelColors = getLevelShadowColors(level);
 
-    // Use different shadow generators for large vs small widgets (only if colored shadow is enabled)
-    const defaultShadow = shouldUseColoredShadow
-      ? isLarge
-        ? generateShadowString(levelColors, false)
-        : generateSmallWidgetShadowString(levelColors)
-      : config.shadows.defaultNeutral;
+    // Use default neutral shadow when mindScore is 0, otherwise use level-based colored shadows
+    const useDefaultShadow = mindScore === 0;
 
-    const hoverShadow = shouldUseColoredShadow
-      ? isLarge
+    // Use different shadow generators for large vs small widgets
+    const defaultShadow = useDefaultShadow
+      ? config.shadows.defaultNeutral
+      : isLarge
+        ? generateShadowString(levelColors, false)
+        : generateSmallWidgetShadowString(levelColors);
+
+    const hoverShadow = useDefaultShadow
+      ? defaultShadow
+      : isLarge
         ? generateShadowString(levelColors, true)
-        : generateSmallWidgetShadowString(levelColors) // Small widget doesn't have hover state
-      : defaultShadow;
+        : generateSmallWidgetShadowString(levelColors); // Small widget doesn't have hover state
 
     // Compute outer container shadow style for small widgets
     // Small widgets have colored shadow applied to outer container (not inner div)
@@ -86,16 +86,8 @@ export function useOnboardingBubbleShadow({
         return undefined;
       }
 
-      // Small widget with colored shadow (step 1+)
-      if (shouldUseColoredShadow) {
-        return {
-          boxShadow: defaultShadow.replace(/_/g, " "),
-        };
-      }
-
-      // Small widget with neutral shadow (step 0)
       return {
-        boxShadow: config.shadows.defaultNeutral.replace(/_/g, " "),
+        boxShadow: defaultShadow.replace(/_/g, " "),
       };
     })();
 
@@ -107,13 +99,9 @@ export function useOnboardingBubbleShadow({
         return undefined;
       }
 
-      // Large widget with colored shadow (step 1+)
-      if (shouldUseColoredShadow) {
-        return "var(--shadow-default)";
-      }
-
-      // Large widget with neutral shadow (step 0)
-      return config.shadows.defaultNeutral;
+      return useDefaultShadow
+        ? config.shadows.defaultNeutral
+        : "var(--shadow-default)";
     })();
 
     // CSS custom properties for the animations
@@ -123,13 +111,12 @@ export function useOnboardingBubbleShadow({
       "--pill-color-dark": levelColors.dark,
     } as CSSProperties;
 
-    // Base shadow when not animating
+    // Base shadow when not animating - always use level colors for base shadow
     const baseShadow = `inset 0 1px 8px -2px ${levelColors.light}, inset 0 -4px 6px -2px ${levelColors.medium}, inset 0 -13px 24px -14px ${levelColors.dark}, 0 0 0 0.5px rgba(0,0,0,0.05), 0 10px 20px -5px rgba(0,0,0,0.4), 0 1px 1px 0 rgba(0,0,0,0.15), inset 0 0 6px 0 rgba(255,255,255,0.1)`;
 
     return {
       level,
       levelColors,
-      shouldUseColoredShadow,
       defaultShadow,
       hoverShadow,
       outerContainerShadowStyle,

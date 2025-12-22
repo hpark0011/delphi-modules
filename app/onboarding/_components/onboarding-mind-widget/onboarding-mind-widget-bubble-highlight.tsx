@@ -33,7 +33,6 @@ export function OnboardingMindWidgetBubbleHighlight({
   style,
 }: OnboardingMindWidgetBubbleHighlightProps) {
   const {
-    shouldUseColoredShadow,
     defaultShadow,
     hoverShadow,
     innerDivShadow,
@@ -48,12 +47,13 @@ export function OnboardingMindWidgetBubbleHighlight({
   );
 
   // CSS variables for hover shadow transitions (large widgets only)
-  const hoverShadowVariables = shouldUseColoredShadow
-    ? ({
-        "--shadow-default": defaultShadow.replace(/_/g, " "),
-        "--shadow-hover": hoverShadow.replace(/_/g, " "),
-      } as CSSProperties)
-    : undefined;
+  const hoverShadowVariables =
+    sizeVariant === "large"
+      ? ({
+          "--shadow-default": defaultShadow.replace(/_/g, " "),
+          "--shadow-hover": hoverShadow.replace(/_/g, " "),
+        } as CSSProperties)
+      : undefined;
 
   return (
     <>
@@ -71,20 +71,12 @@ export function OnboardingMindWidgetBubbleHighlight({
             boxShadow: innerDivShadow,
           }}
           transition={SPRING_CONFIG}
-          onMouseEnter={
-            shouldUseColoredShadow
-              ? (e) => {
-                  e.currentTarget.style.boxShadow = "var(--shadow-hover)";
-                }
-              : undefined
-          }
-          onMouseLeave={
-            shouldUseColoredShadow
-              ? (e) => {
-                  e.currentTarget.style.boxShadow = "var(--shadow-default)";
-                }
-              : undefined
-          }
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = "var(--shadow-hover)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = "var(--shadow-default)";
+          }}
         />
       )}
 
