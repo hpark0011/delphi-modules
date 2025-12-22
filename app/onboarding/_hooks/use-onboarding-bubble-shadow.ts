@@ -5,19 +5,12 @@ import {
   generateSmallWidgetShadowString,
   LevelColors,
 } from "@/app/studio/_utils/mind-shadow-helpers";
+import { useWidgetConfig } from "../_context";
 import { calculateLevel } from "../_utils/onboarding-mind-widget-utils";
-import {
-  WidgetSizeVariant,
-  WIDGET_STYLE_CONFIG,
-} from "../_utils/onboarding-mind-widget-style-config";
 
 interface UseOnboardingBubbleShadowProps {
-  /** Current onboarding step index (0-based). */
-  currentStep: number;
   /** Current mind score used to calculate level and shadow colors. */
   mindScore: number;
-  /** Size variant of the widget (large or small). */
-  sizeVariant: WidgetSizeVariant;
 }
 
 /**
@@ -44,20 +37,17 @@ export interface BubbleShadowResult {
 
 /**
  * Computes all shadow-related values for the mind widget bubble effect.
- * Memoizes calculations based on current step, score, and size.
+ * Uses widget config from context to determine size-specific shadow behavior.
  *
  * @param props - The widget state properties
  * @returns Memoized shadow configuration for the bubble effect
  */
 export function useOnboardingBubbleShadow({
-  currentStep,
   mindScore,
-  sizeVariant,
 }: UseOnboardingBubbleShadowProps): BubbleShadowResult {
-  return useMemo(() => {
-    const isLarge = sizeVariant === "large";
-    const config = WIDGET_STYLE_CONFIG[sizeVariant];
+  const { config, isLarge } = useWidgetConfig();
 
+  return useMemo(() => {
     // Calculate level and get shadow colors
     const level = calculateLevel(mindScore);
     const levelColors = getLevelShadowColors(level);
@@ -67,7 +57,7 @@ export function useOnboardingBubbleShadow({
 
     // Use different shadow generators for large vs small widgets
     const defaultShadow = useDefaultShadow
-      ? config.shadows.defaultNeutral
+      ? config.neutralShadow
       : isLarge
         ? generateShadowString(levelColors, false)
         : generateSmallWidgetShadowString(levelColors);
@@ -80,29 +70,17 @@ export function useOnboardingBubbleShadow({
 
     // Compute outer container shadow style for small widgets
     // Small widgets have colored shadow applied to outer container (not inner div)
-    const outerContainerShadowStyle = (() => {
-      // Large widgets don't need shadow on outer container (shadow is on inner div)
-      if (isLarge) {
-        return undefined;
-      }
-
-      return {
-        boxShadow: defaultShadow.replace(/_/g, " "),
-      };
-    })();
+    const outerContainerShadowStyle = isLarge
+      ? undefined
+      : { boxShadow: defaultShadow.replace(/_/g, " ") };
 
     // Compute inner div shadow for the "Mind Area Inner" element
     // Only applies to large widgets (small widgets use white inset shadow)
-    const innerDivShadow = (() => {
-      // Only compute shadow for large widgets
-      if (!isLarge) {
-        return undefined;
-      }
-
-      return useDefaultShadow
-        ? config.shadows.defaultNeutral
-        : "var(--shadow-default)";
-    })();
+    const innerDivShadow = isLarge
+      ? useDefaultShadow
+        ? config.neutralShadow
+        : "var(--shadow-default)"
+      : undefined;
 
     // CSS custom properties for the animations
     const cssVariables = {
@@ -113,7 +91,7 @@ export function useOnboardingBubbleShadow({
 
     // Base shadow when not animating - use default neutral when mindScore is 0, otherwise use level colors
     const baseShadow = useDefaultShadow
-      ? config.shadows.defaultNeutral
+      ? config.neutralShadow
       : `inset 0 1px 8px -2px ${levelColors.light}, inset 0 -4px 6px -2px ${levelColors.medium}, inset 0 -13px 24px -14px ${levelColors.dark}, 0 0 0 0.5px rgba(0,0,0,0.05), 0 10px 20px -5px rgba(0,0,0,0.4), 0 1px 1px 0 rgba(0,0,0,0.15), inset 0 0 6px 0 rgba(255,255,255,0.1)`;
 
     return {
@@ -126,5 +104,5 @@ export function useOnboardingBubbleShadow({
       cssVariables,
       baseShadow,
     };
-  }, [currentStep, mindScore, sizeVariant]);
+  }, [config, isLarge, mindScore]);
 }

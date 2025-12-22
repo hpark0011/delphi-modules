@@ -2,14 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { CSSProperties, ReactNode, useMemo } from "react";
-import {
-  WidgetStyleConfig,
-  getBubbleMotionProps,
-} from "../../_utils/onboarding-mind-widget-style-config";
+import { ReactNode, useMemo } from "react";
+import { useWidgetConfig } from "@/app/onboarding/_context";
+import { getMotionProps } from "../../_utils/widget-config";
 
 interface OnboardingMindWidgetBubbleProps {
-  config: WidgetStyleConfig;
   children: ReactNode;
 }
 
@@ -18,10 +15,10 @@ interface OnboardingMindWidgetBubbleProps {
  * Handles the main widget container styling, animations, and layout.
  */
 export function OnboardingMindWidgetBubble({
-  config,
   children,
 }: OnboardingMindWidgetBubbleProps) {
-  const motionProps = useMemo(() => getBubbleMotionProps(config), [config]);
+  const { config } = useWidgetConfig();
+  const motionProps = useMemo(() => getMotionProps(config), [config]);
 
   return (
     <motion.div

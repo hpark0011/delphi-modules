@@ -2,20 +2,13 @@
 
 import { motion } from "framer-motion";
 import { CSSProperties, useMemo } from "react";
-import {
-  SPRING_CONFIG,
-  WidgetStyleConfig,
-} from "../../_utils/onboarding-mind-widget-style-config";
+import { useWidgetConfig } from "@/app/onboarding/_context";
+import { BubbleShadowResult } from "../../_hooks/use-onboarding-bubble-shadow";
 
 interface OnboardingMindWidgetBubbleHighlightProps {
-  config: WidgetStyleConfig;
   isLuminating: boolean;
   isGlowing: boolean;
-  defaultShadow: string;
-  hoverShadow: string;
-  innerDivShadow?: string;
-  cssVariables: CSSProperties;
-  baseShadow: string;
+  shadowData: BubbleShadowResult;
   style?: CSSProperties;
 }
 
@@ -26,16 +19,16 @@ interface OnboardingMindWidgetBubbleHighlightProps {
  * 2. Animation layer - handles luminating/glowing states and base shadow
  */
 export function OnboardingMindWidgetBubbleHighlight({
-  config,
   isLuminating,
   isGlowing,
-  defaultShadow,
-  hoverShadow,
-  innerDivShadow,
-  cssVariables,
-  baseShadow,
+  shadowData,
   style,
 }: OnboardingMindWidgetBubbleHighlightProps) {
+  const { config, springConfig } = useWidgetConfig();
+
+  const { defaultShadow, hoverShadow, innerDivShadow, cssVariables, baseShadow } =
+    shadowData;
+
   // When animating, let CSS keyframes handle the shadow
   const boxShadow = useMemo(
     () => (isLuminating || isGlowing ? undefined : baseShadow),
@@ -43,7 +36,7 @@ export function OnboardingMindWidgetBubbleHighlight({
   );
 
   // CSS variables for hover shadow transitions (when hover layer is enabled)
-  const hoverShadowVariables = config.highlight.showHoverLayer
+  const hoverShadowVariables = config.showHoverLayer
     ? ({
         "--shadow-default": defaultShadow.replace(/_/g, " "),
         "--shadow-hover": hoverShadow.replace(/_/g, " "),
@@ -52,20 +45,20 @@ export function OnboardingMindWidgetBubbleHighlight({
 
   return (
     <>
-      {/* Hover layer - handles mouse hover shadow transitions (when enabled in config) */}
-      {config.highlight.showHoverLayer && (
+      {/* Hover layer - handles mouse hover shadow transitions (when enabled) */}
+      {config.showHoverLayer && (
         <motion.div
-          className='mind-bubble-pill'
+          className="mind-bubble-pill"
           style={hoverShadowVariables}
           animate={{
-            top: config.bubble.offset,
-            left: config.bubble.offset,
-            width: config.bubble.size,
-            height: config.bubble.size,
-            filter: config.bubble.blur,
+            top: config.bubbleOffset,
+            left: config.bubbleOffset,
+            width: config.bubbleSize,
+            height: config.bubbleSize,
+            filter: config.bubbleBlur,
             boxShadow: innerDivShadow,
           }}
-          transition={SPRING_CONFIG}
+          transition={springConfig}
           onMouseEnter={(e) => {
             e.currentTarget.style.boxShadow = "var(--shadow-hover)";
           }}
@@ -77,16 +70,16 @@ export function OnboardingMindWidgetBubbleHighlight({
 
       {/* Animation layer - handles luminating/glowing states and base shadow */}
       <motion.div
-        className='mind-bubble rounded-full absolute'
+        className="mind-bubble rounded-full absolute"
         animate={{
-          top: config.bubble.offset,
-          left: config.bubble.offset,
-          width: config.bubble.size,
-          height: config.bubble.size,
-          filter: config.bubble.blur,
-          boxShadow: config.shadows.innerShadow,
+          top: config.bubbleOffset,
+          left: config.bubbleOffset,
+          width: config.bubbleSize,
+          height: config.bubbleSize,
+          filter: config.bubbleBlur,
+          boxShadow: config.innerShadow,
         }}
-        transition={SPRING_CONFIG}
+        transition={springConfig}
         data-luminating={isLuminating}
         data-glowing={isGlowing}
         style={{

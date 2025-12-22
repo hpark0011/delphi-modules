@@ -5,3 +5,7 @@ export {
   useOnboardingAnimation,
   type AnimationState,
 } from "./onboarding-animation-context";
+export {
+  WidgetConfigProvider,
+  useWidgetConfig,
+} from "./widget-config-context";

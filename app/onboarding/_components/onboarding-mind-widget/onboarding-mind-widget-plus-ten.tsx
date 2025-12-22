@@ -1,30 +1,26 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { WidgetStyleConfig } from "../../_utils/onboarding-mind-widget-style-config";
+import { useWidgetConfig } from "@/app/onboarding/_context";
 
-interface OnboardingMindWidgetPlusTenProps {
-  config: WidgetStyleConfig;
-}
+export function OnboardingMindWidgetPlusTen() {
+  const { config } = useWidgetConfig();
 
-export function OnboardingMindWidgetPlusTen({
-  config,
-}: OnboardingMindWidgetPlusTenProps) {
   return (
     <motion.h1
-      key='plus-ten'
-      className='text-text-primary-inverse tracking-tighter font-semibold flex items-center justify-center h-fit leading-[100%] dark:text-white'
+      key="plus-ten"
+      className="text-text-primary-inverse tracking-tighter font-semibold flex items-center justify-center h-fit leading-[100%] dark:text-white"
       initial={{
         y: 20,
         opacity: 0,
         filter: "blur(10px)",
-        fontSize: config.typography.fontSize,
+        fontSize: config.fontSize,
       }}
       animate={{
         y: 0,
         opacity: 1,
         filter: "blur(0px)",
-        fontSize: config.typography.fontSize,
+        fontSize: config.fontSize,
       }}
       exit={{
         y: -20,

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { SPRING_CONFIG } from "../../_utils/onboarding-mind-widget-style-config";
+import { useWidgetConfig } from "@/app/onboarding/_context";
 
 interface OnboardingMindWidgetWrapperProps {
   children: React.ReactNode;
@@ -10,10 +10,12 @@ interface OnboardingMindWidgetWrapperProps {
 export function OnboardingMindWidgetWrapper({
   children,
 }: OnboardingMindWidgetWrapperProps) {
+  const { springConfig } = useWidgetConfig();
+
   return (
     <motion.div
-      className='mind-bubble-wrapper relative bg-light rounded-full flex flex-row items-center'
-      transition={SPRING_CONFIG}
+      className="mind-bubble-wrapper relative bg-light rounded-full flex flex-row items-center"
+      transition={springConfig}
     >
       {children}
     </motion.div>

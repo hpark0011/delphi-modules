@@ -1,26 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  SPRING_CONFIG,
-  WidgetStyleConfig,
-} from "../../_utils/onboarding-mind-widget-style-config";
+import { useWidgetConfig } from "@/app/onboarding/_context";
 
 interface OnboardingMindWidgetContainerProps {
-  config: WidgetStyleConfig;
   children: React.ReactNode;
 }
 
 export function OnboardingMindWidgetContainer({
-  config,
   children,
 }: OnboardingMindWidgetContainerProps) {
+  const { config, springConfig } = useWidgetConfig();
+
   return (
     <motion.div
-      className='flex items-center justify-center relative'
-      transition={SPRING_CONFIG}
+      className="flex items-center justify-center relative"
+      transition={springConfig}
       animate={{
-        top: config.position.top,
+        top: config.top,
       }}
     >
       {children}
