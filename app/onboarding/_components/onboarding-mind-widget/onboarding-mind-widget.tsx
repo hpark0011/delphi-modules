@@ -14,7 +14,7 @@ import { OnboardingMindWidgetBubbleHighlight } from "./onboarding-mind-widget-bu
 import { CSSProperties } from "react";
 
 interface OnboardingMindWidgetProps {
-  currentPage: number;
+  currentStep: number;
   mindScore: number;
   isLuminating: boolean;
   isGlowing: boolean;
@@ -22,7 +22,7 @@ interface OnboardingMindWidgetProps {
 }
 
 export function OnboardingMindWidget({
-  currentPage,
+  currentStep,
   mindScore,
   isLuminating,
   isGlowing,
@@ -30,15 +30,15 @@ export function OnboardingMindWidget({
 }: OnboardingMindWidgetProps) {
   const { animationState, trainingMessage } = useOnboardingAnimation();
   // Check if the current step should show the large widget based on configuration
-  const currentStep = ONBOARDING_STEPS[currentPage];
-  const isLarge = currentStep?.showLargeWidget ?? false;
+  const step = ONBOARDING_STEPS[currentStep];
+  const isLarge = step?.showLargeWidget ?? false;
   const showLabel = mindScore === 0 && animationState === "idle";
   const showPlusTen = animationState === "showing-plus";
   const showTrainingStatus = animationState === "training";
 
   // Get shadow data from hook
   const shadowData = useOnboardingBubbleShadow({
-    currentPage,
+    currentStep,
     mindScore,
     isLarge,
   });

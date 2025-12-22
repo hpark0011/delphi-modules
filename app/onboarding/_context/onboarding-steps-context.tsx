@@ -9,54 +9,54 @@ import React, {
 } from "react";
 import { ONBOARDING_STEPS_COUNT } from "../_utils/onboarding-steps-config";
 
-interface OnboardingNavigationContextType {
-  currentPage: number;
+interface OnboardingStepsContextType {
+  currentStep: number;
   handlePrevious: () => void;
   handleNext: () => void;
 }
 
-const OnboardingNavigationContext = createContext<
-  OnboardingNavigationContextType | undefined
+const OnboardingStepsContext = createContext<
+  OnboardingStepsContextType | undefined
 >(undefined);
 
-export function OnboardingNavigationProvider({
+export function OnboardingStepsProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
 
   const handlePrevious = useCallback(() => {
-    setCurrentPage((prev) => (prev > 0 ? prev - 1 : prev));
+    setCurrentStep((prev) => (prev > 0 ? prev - 1 : prev));
   }, []);
 
   const handleNext = useCallback(() => {
-    setCurrentPage((prev) =>
+    setCurrentStep((prev) =>
       prev < ONBOARDING_STEPS_COUNT - 1 ? prev + 1 : prev
     );
   }, []);
 
   const value = useMemo(
     () => ({
-      currentPage,
+      currentStep,
       handlePrevious,
       handleNext,
     }),
-    [currentPage, handlePrevious, handleNext]
+    [currentStep, handlePrevious, handleNext]
   );
 
   return (
-    <OnboardingNavigationContext.Provider value={value}>
+    <OnboardingStepsContext.Provider value={value}>
       {children}
-    </OnboardingNavigationContext.Provider>
+    </OnboardingStepsContext.Provider>
   );
 }
 
-export function useOnboardingNavigation() {
-  const context = useContext(OnboardingNavigationContext);
+export function useOnboardingSteps() {
+  const context = useContext(OnboardingStepsContext);
   if (context === undefined) {
     throw new Error(
-      "useOnboardingNavigation must be used within OnboardingProviders"
+      "useOnboardingSteps must be used within OnboardingProviders"
     );
   }
   return context;

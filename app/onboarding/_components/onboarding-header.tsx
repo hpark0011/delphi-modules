@@ -4,14 +4,14 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon } from "@/delphi-ui/icons/ArrowLeft";
 import {
-  useOnboardingNavigation,
+  useOnboardingSteps,
   useOnboardingScore,
   useOnboardingAnimation,
 } from "@/app/onboarding/_context";
 import { OnboardingMindWidget } from "./onboarding-mind-widget/onboarding-mind-widget";
 
 export function OnboardingHeader() {
-  const { handlePrevious, currentPage } = useOnboardingNavigation();
+  const { handlePrevious, currentStep } = useOnboardingSteps();
   const { mindScore } = useOnboardingScore();
   const { animationState } = useOnboardingAnimation();
 
@@ -30,7 +30,7 @@ export function OnboardingHeader() {
 
         {/* Desktop: Show "Interview" title */}
         <OnboardingMindWidget
-          currentPage={currentPage}
+          currentStep={currentStep}
           mindScore={mindScore}
           isLuminating={animationState === "training"}
           isGlowing={false}

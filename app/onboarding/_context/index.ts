@@ -1,5 +1,5 @@
 export { OnboardingProviders } from "./onboarding-providers";
-export { useOnboardingNavigation } from "./onboarding-navigation-context";
+export { useOnboardingSteps } from "./onboarding-steps-context";
 export { useOnboardingScore } from "./onboarding-score-context";
 export {
   useOnboardingAnimation,

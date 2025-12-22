@@ -3,14 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  useOnboardingAnimation,
-  useOnboardingNavigation,
-} from "../../_context";
+import { useOnboardingAnimation, useOnboardingSteps } from "../../_context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 
 export function StartVerificationStep() {
-  const { handleNext } = useOnboardingNavigation();
+  const { handleNext } = useOnboardingSteps();
   const { setAnimationState, setTrainingMessage } = useOnboardingAnimation();
 
   const handleVerifyLinkedIn = () => {

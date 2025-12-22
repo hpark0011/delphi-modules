@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { useOnboardingNavigation } from "../../_context";
+import { useOnboardingSteps } from "../../_context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 
 export function MindScoreStep() {
-  const { handleNext } = useOnboardingNavigation();
+  const { handleNext } = useOnboardingSteps();
   return (
     <div className='flex flex-col items-center justify-center gap-[80px] relative translate-y-[50%]'>
       <div className='flex flex-col items-center justify-center gap-8 '>

@@ -12,8 +12,8 @@ import {
 } from "../_utils/onboarding-mind-widget-constants";
 
 interface UseOnboardingBubbleShadowProps {
-  /** Current onboarding page index (0-based). Colored shadows apply from page 1+. */
-  currentPage: number;
+  /** Current onboarding step index (0-based). Colored shadows apply from step 1+. */
+  currentStep: number;
   /** Current mind score used to calculate level and shadow colors. */
   mindScore: number;
   /** Whether the widget is in large (expanded) mode. */
@@ -28,7 +28,7 @@ export interface BubbleShadowResult {
   level: string;
   /** RGB color values for the current level. */
   levelColors: LevelColors;
-  /** Whether to use level-colored shadows (true from page 1+). */
+  /** Whether to use level-colored shadows (true from step 1+). */
   shouldUseColoredShadow: boolean;
   /** Default box-shadow string for the bubble. */
   defaultShadow: string;
@@ -46,19 +46,19 @@ export interface BubbleShadowResult {
 
 /**
  * Computes all shadow-related values for the mind widget bubble effect.
- * Memoizes calculations based on current page, score, and size.
+ * Memoizes calculations based on current step, score, and size.
  *
  * @param props - The widget state properties
  * @returns Memoized shadow configuration for the bubble effect
  */
 export function useOnboardingBubbleShadow({
-  currentPage,
+  currentStep,
   mindScore,
   isLarge,
 }: UseOnboardingBubbleShadowProps): BubbleShadowResult {
   return useMemo(() => {
-    // Calculate level and get shadow colors (only apply colored shadow on and after page 1)
-    const shouldUseColoredShadow = currentPage >= 1;
+    // Calculate level and get shadow colors (only apply colored shadow on and after step 1)
+    const shouldUseColoredShadow = currentStep >= 1;
     const level = calculateLevel(mindScore);
     const levelColors = getLevelShadowColors(level);
 
@@ -85,14 +85,14 @@ export function useOnboardingBubbleShadow({
         return undefined;
       }
 
-      // Small widget with colored shadow (page 1+)
+      // Small widget with colored shadow (step 1+)
       if (shouldUseColoredShadow) {
         return {
           boxShadow: defaultShadow.replace(/_/g, " "),
         };
       }
 
-      // Small widget with neutral shadow (page 0)
+      // Small widget with neutral shadow (step 0)
       return {
         boxShadow: DEFAULT_NEUTRAL_SHADOW_SMALL.replace(/_/g, " "),
       };
@@ -106,12 +106,12 @@ export function useOnboardingBubbleShadow({
         return undefined;
       }
 
-      // Large widget with colored shadow (page 1+)
+      // Large widget with colored shadow (step 1+)
       if (shouldUseColoredShadow) {
         return "var(--shadow-default)";
       }
 
-      // Large widget with neutral shadow (page 0)
+      // Large widget with neutral shadow (step 0)
       return DEFAULT_NEUTRAL_SHADOW_LARGE;
     })();
 
@@ -136,5 +136,5 @@ export function useOnboardingBubbleShadow({
       cssVariables,
       baseShadow,
     };
-  }, [currentPage, mindScore, isLarge]);
+  }, [currentStep, mindScore, isLarge]);
 }
