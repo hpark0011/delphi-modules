@@ -49,28 +49,11 @@ export function OnboardingMindWidget({
     sizeVariant,
   });
 
-  // Calculate width based on showGreeting state
-  const initialWidth =
-    showGreeting && sizeVariant === "small"
-      ? undefined
-      : widgetConfig.dimensions.width;
-  const animateWidth =
-    sizeVariant === "large"
-      ? widgetConfig.dimensions.width
-      : showGreeting
-        ? "fit-content"
-        : widgetConfig.dimensions.width;
-
   return (
     <OnboardingMindWidgetContainer config={widgetConfig}>
       <OnboardingMindWidgetWrapper>
         {/* Inner widget: Widget that contains the greeting or score. */}
-        <OnboardingMindWidgetBubble
-          config={widgetConfig}
-          style={shadowData.outerContainerShadowStyle}
-          initialWidth={initialWidth}
-          animateWidth={animateWidth}
-        >
+        <OnboardingMindWidgetBubble config={widgetConfig}>
           {/* Content: Greeting, +10, or Score */}
           <OnboardingMindWidgetContent
             showGreeting={showGreeting}
@@ -90,7 +73,6 @@ export function OnboardingMindWidget({
 
           {/* Bubble Highlight Effect (glow/shadow layers) */}
           <OnboardingMindWidgetBubbleHighlight
-            sizeVariant={sizeVariant}
             config={widgetConfig}
             isLuminating={isLuminating}
             isGlowing={isGlowing}

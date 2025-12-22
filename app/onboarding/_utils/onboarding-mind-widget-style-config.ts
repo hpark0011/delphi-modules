@@ -38,6 +38,63 @@ export interface WidgetStyleConfig {
   highlight: {
     showHoverLayer: boolean;
   };
+  motion: {
+    initial: {
+      borderWidth: number;
+      paddingLeft: number;
+      paddingRight: number;
+      paddingTop: number;
+      paddingBottom: number;
+    };
+    animate: {
+      borderWidth: number;
+      paddingLeft: number;
+      paddingRight: number;
+      paddingTop: number;
+      paddingBottom: number;
+    };
+    transition: {
+      duration: number;
+      ease: "easeIn" | "easeOut" | "easeInOut" | "linear";
+    };
+  };
+}
+
+/**
+ * Computes motion props for the bubble component based on config and runtime state.
+ */
+export function getBubbleMotionProps(
+  config: WidgetStyleConfig,
+  options?: {
+    initialWidth?: number | string;
+    animateWidth?: number | string;
+  }
+) {
+  const { initialWidth, animateWidth } = options ?? {};
+
+  return {
+    initial: {
+      width: initialWidth ?? config.dimensions.width,
+      height: config.dimensions.height,
+      borderWidth: config.motion.initial.borderWidth,
+      borderRadius: config.border.radius,
+      paddingLeft: config.motion.initial.paddingLeft,
+      paddingRight: config.motion.initial.paddingRight,
+      paddingTop: config.motion.initial.paddingTop,
+      paddingBottom: config.motion.initial.paddingBottom,
+    },
+    animate: {
+      width: animateWidth ?? config.dimensions.width,
+      height: config.dimensions.height,
+      borderWidth: config.motion.animate.borderWidth,
+      borderRadius: config.border.radius,
+      paddingLeft: config.motion.animate.paddingLeft,
+      paddingRight: config.motion.animate.paddingRight,
+      paddingTop: config.motion.animate.paddingTop,
+      paddingBottom: config.motion.animate.paddingBottom,
+    },
+    transition: config.motion.transition,
+  };
 }
 
 export const WIDGET_STYLE_CONFIG: Record<WidgetSizeVariant, WidgetStyleConfig> =
@@ -75,6 +132,26 @@ export const WIDGET_STYLE_CONFIG: Record<WidgetSizeVariant, WidgetStyleConfig> =
       highlight: {
         showHoverLayer: true,
       },
+      motion: {
+        initial: {
+          borderWidth: 0,
+          paddingLeft: 0,
+          paddingRight: 0,
+          paddingTop: 0,
+          paddingBottom: 0,
+        },
+        animate: {
+          borderWidth: 1.5,
+          paddingLeft: 0,
+          paddingRight: 0,
+          paddingTop: 0,
+          paddingBottom: 0,
+        },
+        transition: {
+          duration: 0.2,
+          ease: "easeIn",
+        },
+      },
     },
     small: {
       dimensions: {
@@ -108,6 +185,26 @@ export const WIDGET_STYLE_CONFIG: Record<WidgetSizeVariant, WidgetStyleConfig> =
       },
       highlight: {
         showHoverLayer: false,
+      },
+      motion: {
+        initial: {
+          borderWidth: 0,
+          paddingLeft: 0,
+          paddingRight: 0,
+          paddingTop: 0,
+          paddingBottom: 0,
+        },
+        animate: {
+          borderWidth: 1,
+          paddingLeft: 12,
+          paddingRight: 12,
+          paddingTop: 4,
+          paddingBottom: 4,
+        },
+        transition: {
+          duration: 0.2,
+          ease: "easeIn",
+        },
       },
     },
   };

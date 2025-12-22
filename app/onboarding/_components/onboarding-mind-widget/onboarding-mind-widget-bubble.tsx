@@ -2,14 +2,14 @@
 
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { CSSProperties, ReactNode } from "react";
-import { WidgetStyleConfig } from "../../_utils/onboarding-mind-widget-style-config";
+import { CSSProperties, ReactNode, useMemo } from "react";
+import {
+  WidgetStyleConfig,
+  getBubbleMotionProps,
+} from "../../_utils/onboarding-mind-widget-style-config";
 
 interface OnboardingMindWidgetBubbleProps {
   config: WidgetStyleConfig;
-  style?: CSSProperties;
-  initialWidth?: number | string;
-  animateWidth?: number | string;
   children: ReactNode;
 }
 
@@ -19,11 +19,10 @@ interface OnboardingMindWidgetBubbleProps {
  */
 export function OnboardingMindWidgetBubble({
   config,
-  style,
-  initialWidth,
-  animateWidth,
   children,
 }: OnboardingMindWidgetBubbleProps) {
+  const motionProps = useMemo(() => getBubbleMotionProps(config), [config]);
+
   return (
     <motion.div
       className={cn(
@@ -35,28 +34,9 @@ export function OnboardingMindWidgetBubble({
         "flex flex-col items-center justify-center",
         "relative"
       )}
-      style={style}
-      initial={{
-        width: initialWidth ?? config.dimensions.width,
-        height: config.dimensions.height,
-        borderWidth: 0,
-        borderRadius: config.border.radius,
-        paddingLeft: 0,
-        paddingRight: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-      }}
-      animate={{
-        width: animateWidth ?? config.dimensions.width,
-        height: config.dimensions.height,
-        borderWidth: config.border.width,
-        borderRadius: config.border.radius,
-        paddingLeft: config.padding.x,
-        paddingRight: config.padding.x,
-        paddingTop: config.padding.y,
-        paddingBottom: config.padding.y,
-      }}
-      transition={{ duration: 0.2, ease: "easeIn" }}
+      initial={motionProps.initial}
+      animate={motionProps.animate}
+      transition={motionProps.transition}
     >
       {children}
     </motion.div>
