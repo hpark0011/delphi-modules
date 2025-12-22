@@ -5,11 +5,11 @@ import {
   generateSmallWidgetShadowString,
   LevelColors,
 } from "@/app/studio/_utils/mind-shadow-helpers";
-import { calculateLevel } from "./onboarding-mind-widget-utils";
+import { calculateLevel } from "../_utils/onboarding-mind-widget-utils";
 import {
   DEFAULT_NEUTRAL_SHADOW_LARGE,
   DEFAULT_NEUTRAL_SHADOW_SMALL,
-} from "./onboarding-mind-widget-constants";
+} from "../_utils/onboarding-mind-widget-constants";
 
 interface UseOnboardingBubbleShadowProps {
   /** Current onboarding page index (0-based). Colored shadows apply from page 1+. */
