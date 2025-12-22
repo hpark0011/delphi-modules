@@ -111,8 +111,10 @@ export function useOnboardingBubbleShadow({
       "--pill-color-dark": levelColors.dark,
     } as CSSProperties;
 
-    // Base shadow when not animating - always use level colors for base shadow
-    const baseShadow = `inset 0 1px 8px -2px ${levelColors.light}, inset 0 -4px 6px -2px ${levelColors.medium}, inset 0 -13px 24px -14px ${levelColors.dark}, 0 0 0 0.5px rgba(0,0,0,0.05), 0 10px 20px -5px rgba(0,0,0,0.4), 0 1px 1px 0 rgba(0,0,0,0.15), inset 0 0 6px 0 rgba(255,255,255,0.1)`;
+    // Base shadow when not animating - use default neutral when mindScore is 0, otherwise use level colors
+    const baseShadow = useDefaultShadow
+      ? config.shadows.defaultNeutral
+      : `inset 0 1px 8px -2px ${levelColors.light}, inset 0 -4px 6px -2px ${levelColors.medium}, inset 0 -13px 24px -14px ${levelColors.dark}, 0 0 0 0.5px rgba(0,0,0,0.05), 0 10px 20px -5px rgba(0,0,0,0.4), 0 1px 1px 0 rgba(0,0,0,0.15), inset 0 0 6px 0 rgba(255,255,255,0.1)`;
 
     return {
       level,

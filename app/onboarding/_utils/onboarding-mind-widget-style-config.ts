@@ -35,6 +35,9 @@ export interface WidgetStyleConfig {
     size: string;
     blur: string;
   };
+  highlight: {
+    showHoverLayer: boolean;
+  };
 }
 
 export const WIDGET_STYLE_CONFIG: Record<WidgetSizeVariant, WidgetStyleConfig> =
@@ -69,6 +72,9 @@ export const WIDGET_STYLE_CONFIG: Record<WidgetSizeVariant, WidgetStyleConfig> =
         size: "calc(100% - 4px)",
         blur: "blur(6px)",
       },
+      highlight: {
+        showHoverLayer: true,
+      },
     },
     small: {
       dimensions: {
@@ -99,6 +105,9 @@ export const WIDGET_STYLE_CONFIG: Record<WidgetSizeVariant, WidgetStyleConfig> =
         offset: "1px",
         size: "calc(100% - 2px)",
         blur: "blur(3px)",
+      },
+      highlight: {
+        showHoverLayer: false,
       },
     },
   };

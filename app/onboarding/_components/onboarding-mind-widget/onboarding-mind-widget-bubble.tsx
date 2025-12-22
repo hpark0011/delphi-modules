@@ -1,19 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import {
-  WidgetStyleConfig,
-  WidgetSizeVariant,
-} from "../../_utils/onboarding-mind-widget-style-config";
-import { BubbleShadowResult } from "../../_hooks/use-onboarding-bubble-shadow";
+import { motion } from "framer-motion";
+import { CSSProperties, ReactNode } from "react";
+import { WidgetStyleConfig } from "../../_utils/onboarding-mind-widget-style-config";
 
 interface OnboardingMindWidgetBubbleProps {
-  sizeVariant: WidgetSizeVariant;
   config: WidgetStyleConfig;
-  showGreeting: boolean;
-  shadowData: BubbleShadowResult;
+  style?: CSSProperties;
+  initialWidth?: number | string;
+  animateWidth?: number | string;
   children: ReactNode;
 }
 
@@ -22,10 +18,10 @@ interface OnboardingMindWidgetBubbleProps {
  * Handles the main widget container styling, animations, and layout.
  */
 export function OnboardingMindWidgetBubble({
-  sizeVariant,
   config,
-  showGreeting,
-  shadowData,
+  style,
+  initialWidth,
+  animateWidth,
   children,
 }: OnboardingMindWidgetBubbleProps) {
   return (
@@ -39,12 +35,9 @@ export function OnboardingMindWidgetBubble({
         "flex flex-col items-center justify-center",
         "relative"
       )}
-      style={shadowData.outerContainerShadowStyle}
+      style={style}
       initial={{
-        width:
-          showGreeting && sizeVariant === "small"
-            ? undefined
-            : config.dimensions.width,
+        width: initialWidth ?? config.dimensions.width,
         height: config.dimensions.height,
         borderWidth: 0,
         borderRadius: config.border.radius,
@@ -54,12 +47,7 @@ export function OnboardingMindWidgetBubble({
         paddingBottom: 0,
       }}
       animate={{
-        width:
-          sizeVariant === "large"
-            ? config.dimensions.width
-            : showGreeting
-              ? "fit-content"
-              : config.dimensions.width,
+        width: animateWidth ?? config.dimensions.width,
         height: config.dimensions.height,
         borderWidth: config.border.width,
         borderRadius: config.border.radius,

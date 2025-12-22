@@ -5,16 +5,17 @@ import { CSSProperties, useMemo } from "react";
 import {
   SPRING_CONFIG,
   WidgetStyleConfig,
-  WidgetSizeVariant,
 } from "../../_utils/onboarding-mind-widget-style-config";
-import { BubbleShadowResult } from "../../_hooks/use-onboarding-bubble-shadow";
 
 interface OnboardingMindWidgetBubbleHighlightProps {
-  sizeVariant: WidgetSizeVariant;
   config: WidgetStyleConfig;
   isLuminating: boolean;
   isGlowing: boolean;
-  shadowData: BubbleShadowResult;
+  defaultShadow: string;
+  hoverShadow: string;
+  innerDivShadow?: string;
+  cssVariables: CSSProperties;
+  baseShadow: string;
   style?: CSSProperties;
 }
 
@@ -25,40 +26,34 @@ interface OnboardingMindWidgetBubbleHighlightProps {
  * 2. Animation layer - handles luminating/glowing states and base shadow
  */
 export function OnboardingMindWidgetBubbleHighlight({
-  sizeVariant,
   config,
   isLuminating,
   isGlowing,
-  shadowData,
+  defaultShadow,
+  hoverShadow,
+  innerDivShadow,
+  cssVariables,
+  baseShadow,
   style,
 }: OnboardingMindWidgetBubbleHighlightProps) {
-  const {
-    defaultShadow,
-    hoverShadow,
-    innerDivShadow,
-    cssVariables,
-    baseShadow,
-  } = shadowData;
-
   // When animating, let CSS keyframes handle the shadow
   const boxShadow = useMemo(
     () => (isLuminating || isGlowing ? undefined : baseShadow),
     [isLuminating, isGlowing, baseShadow]
   );
 
-  // CSS variables for hover shadow transitions (large widgets only)
-  const hoverShadowVariables =
-    sizeVariant === "large"
-      ? ({
-          "--shadow-default": defaultShadow.replace(/_/g, " "),
-          "--shadow-hover": hoverShadow.replace(/_/g, " "),
-        } as CSSProperties)
-      : undefined;
+  // CSS variables for hover shadow transitions (when hover layer is enabled)
+  const hoverShadowVariables = config.highlight.showHoverLayer
+    ? ({
+        "--shadow-default": defaultShadow.replace(/_/g, " "),
+        "--shadow-hover": hoverShadow.replace(/_/g, " "),
+      } as CSSProperties)
+    : undefined;
 
   return (
     <>
-      {/* Hover layer - handles mouse hover shadow transitions (large widgets only) */}
-      {sizeVariant === "large" && (
+      {/* Hover layer - handles mouse hover shadow transitions (when enabled in config) */}
+      {config.highlight.showHoverLayer && (
         <motion.div
           className='mind-bubble-pill'
           style={hoverShadowVariables}
