@@ -30,3 +30,11 @@ export const DEFAULT_NEUTRAL_SHADOW_SMALL =
   "0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)";
 export const SMALL_WIDGET_INNER_SHADOW =
   "inset 0px -2px 2px 0px rgba(255,255,255,0.9), inset 0px 5px 2px 0px rgba(255,255,255,0.5), inset 0px 4px 4px 0px rgba(255,255,255,0), inset 0px 1px 1px 0.5px rgba(255,255,255,0.7)";
+
+// Bubble layer positioning
+export const BUBBLE_OFFSET_LARGE = "2px";
+export const BUBBLE_OFFSET_SMALL = "1px";
+export const BUBBLE_SIZE_LARGE = "calc(100% - 4px)";
+export const BUBBLE_SIZE_SMALL = "calc(100% - 2px)";
+export const BUBBLE_BLUR_LARGE = "blur(6px)";
+export const BUBBLE_BLUR_SMALL = "blur(3px)";
