@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback } from "react";
-import { ONBOARDING_STEPS_COUNT } from "../_util/onboarding-steps-config";
+import { ONBOARDING_STEPS_COUNT } from "../_utils/onboarding-steps-config";
 
 export type AnimationState =
   | "idle"

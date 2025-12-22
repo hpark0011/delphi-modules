@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
-import { ONBOARDING_STEPS } from "@/app/onboarding/_util/onboarding-steps-config";
+import { ONBOARDING_STEPS } from "@/app/onboarding/_utils/onboarding-steps-config";
 import { cn } from "@/lib/utils";
 import {
   getLevelShadowColors,
@@ -16,8 +16,6 @@ import {
   WIDGET_HEIGHT_LARGE,
   WIDGET_WIDTH_SMALL,
   WIDGET_HEIGHT_SMALL,
-  POSITION_TOP_LARGE,
-  POSITION_TOP_SMALL,
   BORDER_RADIUS_LARGE,
   BORDER_RADIUS_SMALL,
   PADDING_INNER_X,
@@ -25,10 +23,12 @@ import {
   DEFAULT_NEUTRAL_SHADOW_LARGE,
   DEFAULT_NEUTRAL_SHADOW_SMALL,
   SMALL_WIDGET_INNER_SHADOW,
-} from "./onboarding-mind-widget-constants";
+} from "../../_utils/onboarding-mind-widget-constants";
 import { OnboardingMindWidgetContent } from "./onboarding-mind-widget-content";
 import { OnboardingMindWidgetLevel } from "./onboarding-mind-widget-level";
 import { OnboardingMindWidgetTrainingStatus } from "./onboarding-mind-widget-training-status";
+import { OnboardingMindWidgetContainer } from "./onboarding-mind-widget-container";
+import { OnboardingMindWidgetWrapper } from "./onboarding-mind-widget-wrapper";
 import { CSSProperties } from "react";
 
 interface OnboardingMindWidgetProps {
@@ -129,20 +129,8 @@ export function OnboardingMindWidget({
   };
 
   return (
-    // Widget container
-    <motion.div
-      className='flex items-center justify-center relative'
-      initial={false}
-      transition={SPRING_CONFIG}
-      animate={{
-        top: isLarge ? POSITION_TOP_LARGE : POSITION_TOP_SMALL,
-      }}
-    >
-      {/* Outer border */}
-      <motion.div
-        className='relative bg-light rounded-full flex flex-row items-center'
-        transition={SPRING_CONFIG}
-      >
+    <OnboardingMindWidgetContainer isLarge={isLarge}>
+      <OnboardingMindWidgetWrapper>
         {/* Width wrapper for label state */}
         <div className={showLabel && !isLarge ? "w-fit" : ""}>
           {/* Inner widget: Widget that contains the label or score. */}
@@ -276,7 +264,7 @@ export function OnboardingMindWidget({
             />
           )}
         </AnimatePresence>
-      </motion.div>
-    </motion.div>
+      </OnboardingMindWidgetWrapper>
+    </OnboardingMindWidgetContainer>
   );
 }

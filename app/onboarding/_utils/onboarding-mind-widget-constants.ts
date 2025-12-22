@@ -13,7 +13,7 @@ export const WIDGET_HEIGHT_SMALL = 40;
 
 // Positions
 export const POSITION_TOP_LARGE = "17vh";
-export const POSITION_TOP_SMALL = "8px";
+export const POSITION_TOP_SMALL = "10px";
 
 // Styling Values
 export const BORDER_RADIUS_LARGE = 9999;

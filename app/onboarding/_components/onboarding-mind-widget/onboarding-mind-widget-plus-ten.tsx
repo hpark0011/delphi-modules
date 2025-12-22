@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   FONT_SIZE_LARGE,
   FONT_SIZE_SMALL,
-} from "./onboarding-mind-widget-constants";
+} from "../../_utils/onboarding-mind-widget-constants";
 
 interface OnboardingMindWidgetPlusTenProps {
   isLarge: boolean;

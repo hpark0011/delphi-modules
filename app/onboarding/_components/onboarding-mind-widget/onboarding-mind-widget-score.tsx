@@ -5,7 +5,7 @@ import {
   FONT_SIZE_LARGE,
   FONT_SIZE_SMALL,
   SPRING_CONFIG,
-} from "./onboarding-mind-widget-constants";
+} from "../../_utils/onboarding-mind-widget-constants";
 
 interface OnboardingMindWidgetScoreProps {
   mindScore: number;

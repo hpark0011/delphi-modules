@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
-import { ONBOARDING_STEPS } from "@/app/onboarding/_util/onboarding-steps-config";
+import { ONBOARDING_STEPS } from "@/app/onboarding/_utils/onboarding-steps-config";
 
 export default function OnboardingClient() {
   const { currentPage } = useOnboardingNavigation();
