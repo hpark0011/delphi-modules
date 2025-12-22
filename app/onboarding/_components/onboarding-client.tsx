@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
+import { useOnboardingNavigation } from "@/app/onboarding/_context";
 import { ONBOARDING_STEPS } from "@/app/onboarding/_utils/onboarding-steps-config";
 
 export default function OnboardingClient() {

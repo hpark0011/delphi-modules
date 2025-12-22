@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
+import {
+  useOnboardingNavigation,
+  useOnboardingAnimation,
+  useOnboardingScore,
+} from "../../_context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 import { LoadingCircleIcon } from "@/delphi-ui/icons/LoadingCircle";
 
 export function NameSearchStep() {
-  const { handleNext, setAnimationState, addMindScore } =
-    useOnboardingNavigation();
+  const { handleNext } = useOnboardingNavigation();
+  const { setAnimationState } = useOnboardingAnimation();
+  const { addMindScore } = useOnboardingScore();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleContinue = () => {

@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
+import { useOnboardingAnimation } from "../../_context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 
 export function ContentScrapingStep() {
-  const { setAnimationState, setTrainingMessage } = useOnboardingNavigation();
+  const { setAnimationState, setTrainingMessage } = useOnboardingAnimation();
   const [addCount, setAddCount] = useState(0);
 
   const handleAddContent = () => {

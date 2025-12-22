@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
+import { useOnboardingAnimation } from "@/app/onboarding/_context";
 import { ONBOARDING_STEPS } from "@/app/onboarding/_utils/onboarding-steps-config";
 import { cn } from "@/lib/utils";
 import {
@@ -9,7 +9,7 @@ import {
   generateShadowString,
   generateSmallWidgetShadowString,
 } from "@/app/studio/_utils/mind-shadow-helpers";
-import { calculateLevel } from "./onboarding-mind-widget-utils";
+import { calculateLevel } from "../../_utils/onboarding-mind-widget-utils";
 import {
   SPRING_CONFIG,
   WIDGET_WIDTH_LARGE,
@@ -46,7 +46,7 @@ export function OnboardingMindWidget({
   isGlowing,
   style,
 }: OnboardingMindWidgetProps) {
-  const { animationState, trainingMessage } = useOnboardingNavigation();
+  const { animationState, trainingMessage } = useOnboardingAnimation();
   // Check if the current step should show the large widget based on configuration
   const currentStep = ONBOARDING_STEPS[currentPage];
   const isLarge = currentStep?.showLargeWidget ?? false;

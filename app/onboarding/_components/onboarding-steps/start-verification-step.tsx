@@ -3,13 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
+import {
+  useOnboardingAnimation,
+  useOnboardingNavigation,
+} from "../../_context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
-import { FilterIcon } from "@/delphi-ui/icons/Filter";
 
 export function StartVerificationStep() {
-  const { handleNext, setAnimationState, setTrainingMessage } =
-    useOnboardingNavigation();
+  const { handleNext } = useOnboardingNavigation();
+  const { setAnimationState, setTrainingMessage } = useOnboardingAnimation();
 
   const handleVerifyLinkedIn = () => {
     setAnimationState("training");

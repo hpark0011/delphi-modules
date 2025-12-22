@@ -1,6 +1,6 @@
 import { MindDialog } from "@/components/mind-dialog/mind-dialog-2";
 import { OnboardingHeader } from "@/app/onboarding/_components/onboarding-header";
-import { OnboardingNavigationProvider } from "@/app/onboarding/_context/onboarding-navigation-context";
+import { OnboardingProviders } from "@/app/onboarding/_context";
 
 export default function OnboardingLayout({
   children,
@@ -9,12 +9,12 @@ export default function OnboardingLayout({
 }) {
   return (
     <MindDialog>
-      <OnboardingNavigationProvider>
+      <OnboardingProviders>
         <div className='h-screen flex flex-col bg-background'>
           <OnboardingHeader />
           {children}
         </div>
-      </OnboardingNavigationProvider>
+      </OnboardingProviders>
     </MindDialog>
   );
 }

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useOnboardingNavigation } from "../../_context/onboarding-navigation-context";
+import { useOnboardingNavigation } from "../../_context";
 import { OnboardingPrivacyStatement } from "../onboarding-privacy-statement";
 
 export function MindScoreStep() {

@@ -3,12 +3,17 @@
 // import { MindWidgetSmall } from "@/components/mind-widget/mind-widget-small";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon } from "@/delphi-ui/icons/ArrowLeft";
-import { useOnboardingNavigation } from "@/app/onboarding/_context/onboarding-navigation-context";
+import {
+  useOnboardingNavigation,
+  useOnboardingScore,
+  useOnboardingAnimation,
+} from "@/app/onboarding/_context";
 import { OnboardingMindWidget } from "./onboarding-mind-widget/onboarding-mind-widget";
 
 export function OnboardingHeader() {
-  const { handlePrevious, currentPage, mindScore, animationState } =
-    useOnboardingNavigation();
+  const { handlePrevious, currentPage } = useOnboardingNavigation();
+  const { mindScore } = useOnboardingScore();
+  const { animationState } = useOnboardingAnimation();
 
   return (
     <header className='bg-gradient-to-b from-background via-background/80 to-transparent absolute top-0 left-0 right-0 z-10'>

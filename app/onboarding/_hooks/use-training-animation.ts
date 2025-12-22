@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useOnboardingNavigation } from "../_context/onboarding-navigation-context";
+import { useOnboardingScore, useOnboardingAnimation } from "../_context";
 
 // Animation timing constants (in milliseconds)
 const TRAINING_DURATION = 1500;
@@ -19,8 +19,8 @@ export function useTrainingAnimation({
   message,
   onComplete,
 }: UseTrainingAnimationOptions) {
-  const { addMindScore, setAnimationState, setTrainingMessage } =
-    useOnboardingNavigation();
+  const { addMindScore } = useOnboardingScore();
+  const { setAnimationState, setTrainingMessage } = useOnboardingAnimation();
   const [isLoading, setIsLoading] = useState(false);
 
   const startAnimation = useCallback(() => {
