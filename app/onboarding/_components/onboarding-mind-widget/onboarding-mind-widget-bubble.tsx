@@ -17,7 +17,7 @@ import { BubbleShadowResult } from "../../_hooks/use-onboarding-bubble-shadow";
 
 interface OnboardingMindWidgetBubbleProps {
   isLarge: boolean;
-  showLabel: boolean;
+  showGreeting: boolean;
   shadowData: BubbleShadowResult;
   children: ReactNode;
 }
@@ -28,7 +28,7 @@ interface OnboardingMindWidgetBubbleProps {
  */
 export function OnboardingMindWidgetBubble({
   isLarge,
-  showLabel,
+  showGreeting,
   shadowData,
   children,
 }: OnboardingMindWidgetBubbleProps) {
@@ -47,7 +47,7 @@ export function OnboardingMindWidgetBubble({
       )}
       style={shadowData.outerContainerShadowStyle}
       initial={{
-        width: showLabel && !isLarge ? undefined : WIDGET_WIDTH_LARGE,
+        width: showGreeting && !isLarge ? undefined : WIDGET_WIDTH_LARGE,
         height: WIDGET_HEIGHT_SMALL,
         borderWidth: 0,
         borderRadius: BORDER_RADIUS_LARGE,
@@ -59,7 +59,7 @@ export function OnboardingMindWidgetBubble({
       animate={{
         width: isLarge
           ? WIDGET_WIDTH_LARGE
-          : showLabel
+          : showGreeting
             ? "fit-content"
             : WIDGET_WIDTH_SMALL,
         height: isLarge ? WIDGET_HEIGHT_LARGE : WIDGET_HEIGHT_SMALL,

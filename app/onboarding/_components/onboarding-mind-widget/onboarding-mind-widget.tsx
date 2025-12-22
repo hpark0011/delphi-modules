@@ -32,7 +32,7 @@ export function OnboardingMindWidget({
   // Check if the current step should show the large widget
   const currentStepId = ONBOARDING_STEP_ORDER[currentStep];
   const isLarge = currentStepId === "MindScore";
-  const showLabel = mindScore === 0 && animationState === "idle";
+  const showGreeting = mindScore === 0 && animationState === "idle";
   const showPlusTen = animationState === "showing-plus";
   const showTrainingStatus = animationState === "training";
 
@@ -46,40 +46,35 @@ export function OnboardingMindWidget({
   return (
     <OnboardingMindWidgetContainer isLarge={isLarge}>
       <OnboardingMindWidgetWrapper>
-        {/* Width wrapper for label state */}
-        <div className={showLabel && !isLarge ? "w-fit" : ""}>
-          {/* Inner widget: Widget that contains the label or score. */}
-          <OnboardingMindWidgetBubble
+        {/* Inner widget: Widget that contains the greeting or score. */}
+        <OnboardingMindWidgetBubble
+          isLarge={isLarge}
+          showGreeting={showGreeting}
+          shadowData={shadowData}
+        >
+          {/* Content: Greeting, +10, or Score */}
+          <OnboardingMindWidgetContent
+            showGreeting={showGreeting}
+            showPlusTen={showPlusTen}
             isLarge={isLarge}
-            showLabel={showLabel}
+            mindScore={mindScore}
+            shouldRollIn={animationState === "showing-score"}
+          />
+
+          {/* Mind Level (only visible when large) */}
+          <AnimatePresence>
+            {isLarge && <OnboardingMindWidgetLevel level={shadowData.level} />}
+          </AnimatePresence>
+
+          {/* Bubble Highlight Effect (glow/shadow layers) */}
+          <OnboardingMindWidgetBubbleHighlight
+            isLarge={isLarge}
+            isLuminating={isLuminating}
+            isGlowing={isGlowing}
             shadowData={shadowData}
-          >
-            {/* Content: Label, +10, or Score */}
-            <OnboardingMindWidgetContent
-              showLabel={showLabel}
-              showPlusTen={showPlusTen}
-              isLarge={isLarge}
-              mindScore={mindScore}
-              shouldRollIn={animationState === "showing-score"}
-            />
-
-            {/* Mind Level (only visible when large) */}
-            <AnimatePresence>
-              {isLarge && (
-                <OnboardingMindWidgetLevel level={shadowData.level} />
-              )}
-            </AnimatePresence>
-
-            {/* Bubble Highlight Effect (glow/shadow layers) */}
-            <OnboardingMindWidgetBubbleHighlight
-              isLarge={isLarge}
-              isLuminating={isLuminating}
-              isGlowing={isGlowing}
-              shadowData={shadowData}
-              style={style}
-            />
-          </OnboardingMindWidgetBubble>
-        </div>
+            style={style}
+          />
+        </OnboardingMindWidgetBubble>
 
         {/* Training Status */}
         <AnimatePresence>

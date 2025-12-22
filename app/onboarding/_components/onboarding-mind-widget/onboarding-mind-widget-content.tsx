@@ -6,7 +6,7 @@ import { OnboardingMindWidgetPlusTen } from "./onboarding-mind-widget-plus-ten";
 import { OnboardingMindWidgetScore } from "./onboarding-mind-widget-score";
 
 interface OnboardingMindWidgetContentProps {
-  showLabel: boolean;
+  showGreeting: boolean;
   showPlusTen: boolean;
   isLarge: boolean;
   mindScore: number;
@@ -14,7 +14,7 @@ interface OnboardingMindWidgetContentProps {
 }
 
 export function OnboardingMindWidgetContent({
-  showLabel,
+  showGreeting,
   showPlusTen,
   isLarge,
   mindScore,
@@ -22,7 +22,7 @@ export function OnboardingMindWidgetContent({
 }: OnboardingMindWidgetContentProps) {
   return (
     <AnimatePresence mode='wait'>
-      {showLabel ? (
+      {showGreeting ? (
         <OnboardingMindWidgetHelloLabel />
       ) : showPlusTen ? (
         <OnboardingMindWidgetPlusTen isLarge={isLarge} />
