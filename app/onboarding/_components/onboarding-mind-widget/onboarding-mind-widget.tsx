@@ -3,6 +3,10 @@
 import { AnimatePresence } from "framer-motion";
 import { useOnboardingAnimation } from "@/app/onboarding/_context";
 import { ONBOARDING_STEP_ORDER } from "@/app/onboarding/_utils/onboarding-steps-config";
+import {
+  WIDGET_STYLE_CONFIG,
+  WidgetSizeVariant,
+} from "@/app/onboarding/_utils/onboarding-mind-widget-style-config";
 import { useOnboardingBubbleShadow } from "../../_hooks/use-onboarding-bubble-shadow";
 import { OnboardingMindWidgetContent } from "./onboarding-mind-widget-content";
 import { OnboardingMindWidgetLevel } from "./onboarding-mind-widget-level";
@@ -31,7 +35,9 @@ export function OnboardingMindWidget({
   const { animationState, trainingMessage } = useOnboardingAnimation();
   // Check if the current step should show the large widget
   const currentStepId = ONBOARDING_STEP_ORDER[currentStep];
-  const isLarge = currentStepId === "MindScore";
+  const sizeVariant: WidgetSizeVariant =
+    currentStepId === "MindScore" ? "large" : "small";
+  const widgetConfig = WIDGET_STYLE_CONFIG[sizeVariant];
   const showGreeting = mindScore === 0 && animationState === "idle";
   const showPlusTen = animationState === "showing-plus";
   const showTrainingStatus = animationState === "training";
@@ -40,15 +46,19 @@ export function OnboardingMindWidget({
   const shadowData = useOnboardingBubbleShadow({
     currentStep,
     mindScore,
-    isLarge,
+    sizeVariant,
   });
 
   return (
-    <OnboardingMindWidgetContainer isLarge={isLarge}>
+    <OnboardingMindWidgetContainer
+      sizeVariant={sizeVariant}
+      config={widgetConfig}
+    >
       <OnboardingMindWidgetWrapper>
         {/* Inner widget: Widget that contains the greeting or score. */}
         <OnboardingMindWidgetBubble
-          isLarge={isLarge}
+          sizeVariant={sizeVariant}
+          config={widgetConfig}
           showGreeting={showGreeting}
           shadowData={shadowData}
         >
@@ -56,19 +66,23 @@ export function OnboardingMindWidget({
           <OnboardingMindWidgetContent
             showGreeting={showGreeting}
             showPlusTen={showPlusTen}
-            isLarge={isLarge}
+            sizeVariant={sizeVariant}
+            config={widgetConfig}
             mindScore={mindScore}
             shouldRollIn={animationState === "showing-score"}
           />
 
           {/* Mind Level (only visible when large) */}
           <AnimatePresence>
-            {isLarge && <OnboardingMindWidgetLevel level={shadowData.level} />}
+            {sizeVariant === "large" && (
+              <OnboardingMindWidgetLevel level={shadowData.level} />
+            )}
           </AnimatePresence>
 
           {/* Bubble Highlight Effect (glow/shadow layers) */}
           <OnboardingMindWidgetBubbleHighlight
-            isLarge={isLarge}
+            sizeVariant={sizeVariant}
+            config={widgetConfig}
             isLuminating={isLuminating}
             isGlowing={isGlowing}
             shadowData={shadowData}

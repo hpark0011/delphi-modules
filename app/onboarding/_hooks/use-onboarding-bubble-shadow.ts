@@ -7,17 +7,17 @@ import {
 } from "@/app/studio/_utils/mind-shadow-helpers";
 import { calculateLevel } from "../_utils/onboarding-mind-widget-utils";
 import {
-  DEFAULT_NEUTRAL_SHADOW_LARGE,
-  DEFAULT_NEUTRAL_SHADOW_SMALL,
-} from "../_utils/onboarding-mind-widget-constants";
+  WidgetSizeVariant,
+  WIDGET_STYLE_CONFIG,
+} from "../_utils/onboarding-mind-widget-style-config";
 
 interface UseOnboardingBubbleShadowProps {
   /** Current onboarding step index (0-based). Colored shadows apply from step 1+. */
   currentStep: number;
   /** Current mind score used to calculate level and shadow colors. */
   mindScore: number;
-  /** Whether the widget is in large (expanded) mode. */
-  isLarge: boolean;
+  /** Size variant of the widget (large or small). */
+  sizeVariant: WidgetSizeVariant;
 }
 
 /**
@@ -54,9 +54,12 @@ export interface BubbleShadowResult {
 export function useOnboardingBubbleShadow({
   currentStep,
   mindScore,
-  isLarge,
+  sizeVariant,
 }: UseOnboardingBubbleShadowProps): BubbleShadowResult {
   return useMemo(() => {
+    const isLarge = sizeVariant === "large";
+    const config = WIDGET_STYLE_CONFIG[sizeVariant];
+
     // Calculate level and get shadow colors (only apply colored shadow on and after step 1)
     const shouldUseColoredShadow = currentStep >= 1;
     const level = calculateLevel(mindScore);
@@ -67,9 +70,7 @@ export function useOnboardingBubbleShadow({
       ? isLarge
         ? generateShadowString(levelColors, false)
         : generateSmallWidgetShadowString(levelColors)
-      : isLarge
-        ? DEFAULT_NEUTRAL_SHADOW_LARGE
-        : DEFAULT_NEUTRAL_SHADOW_SMALL;
+      : config.shadows.defaultNeutral;
 
     const hoverShadow = shouldUseColoredShadow
       ? isLarge
@@ -94,7 +95,7 @@ export function useOnboardingBubbleShadow({
 
       // Small widget with neutral shadow (step 0)
       return {
-        boxShadow: DEFAULT_NEUTRAL_SHADOW_SMALL.replace(/_/g, " "),
+        boxShadow: config.shadows.defaultNeutral.replace(/_/g, " "),
       };
     })();
 
@@ -112,7 +113,7 @@ export function useOnboardingBubbleShadow({
       }
 
       // Large widget with neutral shadow (step 0)
-      return DEFAULT_NEUTRAL_SHADOW_LARGE;
+      return config.shadows.defaultNeutral;
     })();
 
     // CSS custom properties for the animations
@@ -136,5 +137,5 @@ export function useOnboardingBubbleShadow({
       cssVariables,
       baseShadow,
     };
-  }, [currentStep, mindScore, isLarge]);
+  }, [currentStep, mindScore, sizeVariant]);
 }

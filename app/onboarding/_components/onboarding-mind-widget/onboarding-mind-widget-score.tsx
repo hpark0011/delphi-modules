@@ -2,20 +2,19 @@
 
 import { motion } from "framer-motion";
 import {
-  FONT_SIZE_LARGE,
-  FONT_SIZE_SMALL,
   SPRING_CONFIG,
-} from "../../_utils/onboarding-mind-widget-constants";
+  WidgetStyleConfig,
+} from "../../_utils/onboarding-mind-widget-style-config";
 
 interface OnboardingMindWidgetScoreProps {
   mindScore: number;
-  isLarge: boolean;
+  config: WidgetStyleConfig;
   shouldRollIn?: boolean;
 }
 
 export function OnboardingMindWidgetScore({
   mindScore,
-  isLarge,
+  config,
   shouldRollIn,
 }: OnboardingMindWidgetScoreProps) {
   return (
@@ -28,15 +27,15 @@ export function OnboardingMindWidgetScore({
               y: 20,
               opacity: 0,
               filter: "blur(10px)",
-              fontSize: FONT_SIZE_LARGE,
+              fontSize: config.typography.fontSize,
             }
-          : { opacity: 0, fontSize: FONT_SIZE_LARGE }
+          : { opacity: 0, fontSize: config.typography.fontSize }
       }
       animate={{
         y: 0,
         opacity: 1,
         filter: "blur(0px)",
-        fontSize: isLarge ? FONT_SIZE_LARGE : FONT_SIZE_SMALL,
+        fontSize: config.typography.fontSize,
       }}
       exit={{ opacity: 0 }}
       transition={

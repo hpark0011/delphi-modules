@@ -1,17 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  FONT_SIZE_LARGE,
-  FONT_SIZE_SMALL,
-} from "../../_utils/onboarding-mind-widget-constants";
+import { WidgetStyleConfig } from "../../_utils/onboarding-mind-widget-style-config";
 
 interface OnboardingMindWidgetPlusTenProps {
-  isLarge: boolean;
+  config: WidgetStyleConfig;
 }
 
 export function OnboardingMindWidgetPlusTen({
-  isLarge,
+  config,
 }: OnboardingMindWidgetPlusTenProps) {
   return (
     <motion.h1
@@ -21,13 +18,13 @@ export function OnboardingMindWidgetPlusTen({
         y: 20,
         opacity: 0,
         filter: "blur(10px)",
-        fontSize: isLarge ? FONT_SIZE_LARGE : FONT_SIZE_SMALL,
+        fontSize: config.typography.fontSize,
       }}
       animate={{
         y: 0,
         opacity: 1,
         filter: "blur(0px)",
-        fontSize: isLarge ? FONT_SIZE_LARGE : FONT_SIZE_SMALL,
+        fontSize: config.typography.fontSize,
       }}
       exit={{
         y: -20,

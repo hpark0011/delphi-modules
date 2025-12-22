@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { SPRING_CONFIG } from "../../_utils/onboarding-mind-widget-constants";
+import { SPRING_CONFIG } from "../../_utils/onboarding-mind-widget-style-config";
 
 interface OnboardingMindWidgetWrapperProps {
   children: React.ReactNode;

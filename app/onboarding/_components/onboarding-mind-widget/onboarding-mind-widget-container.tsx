@@ -3,25 +3,26 @@
 import { motion } from "framer-motion";
 import {
   SPRING_CONFIG,
-  POSITION_TOP_LARGE,
-  POSITION_TOP_SMALL,
-} from "../../_utils/onboarding-mind-widget-constants";
+  WidgetStyleConfig,
+  WidgetSizeVariant,
+} from "../../_utils/onboarding-mind-widget-style-config";
 
-interface OnboardingMindWidgetWrapperProps {
-  isLarge: boolean;
+interface OnboardingMindWidgetContainerProps {
+  sizeVariant: WidgetSizeVariant;
+  config: WidgetStyleConfig;
   children: React.ReactNode;
 }
 
 export function OnboardingMindWidgetContainer({
-  isLarge,
+  config,
   children,
-}: OnboardingMindWidgetWrapperProps) {
+}: OnboardingMindWidgetContainerProps) {
   return (
     <motion.div
       className='flex items-center justify-center relative'
       transition={SPRING_CONFIG}
       animate={{
-        top: isLarge ? POSITION_TOP_LARGE : POSITION_TOP_SMALL,
+        top: config.position.top,
       }}
     >
       {children}
