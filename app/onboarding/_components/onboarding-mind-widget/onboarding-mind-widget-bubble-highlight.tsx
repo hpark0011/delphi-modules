@@ -60,7 +60,7 @@ export function OnboardingMindWidgetBubbleHighlight({
       {/* Hover layer - handles mouse hover shadow transitions (large widgets only) */}
       {sizeVariant === "large" && (
         <motion.div
-          className='rounded-full absolute'
+          className='mind-bubble-pill'
           style={hoverShadowVariables}
           animate={{
             top: config.bubble.offset,
@@ -90,7 +90,7 @@ export function OnboardingMindWidgetBubbleHighlight({
 
       {/* Animation layer - handles luminating/glowing states and base shadow */}
       <motion.div
-        className='rounded-full absolute'
+        className='mind-bubble rounded-full absolute'
         animate={{
           top: config.bubble.offset,
           left: config.bubble.offset,

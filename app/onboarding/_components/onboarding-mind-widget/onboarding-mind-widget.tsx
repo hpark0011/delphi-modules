@@ -50,10 +50,7 @@ export function OnboardingMindWidget({
   });
 
   return (
-    <OnboardingMindWidgetContainer
-      sizeVariant={sizeVariant}
-      config={widgetConfig}
-    >
+    <OnboardingMindWidgetContainer config={widgetConfig}>
       <OnboardingMindWidgetWrapper>
         {/* Inner widget: Widget that contains the greeting or score. */}
         <OnboardingMindWidgetBubble

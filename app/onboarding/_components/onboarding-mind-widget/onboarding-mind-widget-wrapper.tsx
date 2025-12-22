@@ -12,7 +12,7 @@ export function OnboardingMindWidgetWrapper({
 }: OnboardingMindWidgetWrapperProps) {
   return (
     <motion.div
-      className='relative bg-light rounded-full flex flex-row items-center'
+      className='mind-bubble-wrapper relative bg-light rounded-full flex flex-row items-center'
       transition={SPRING_CONFIG}
     >
       {children}

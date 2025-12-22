@@ -4,11 +4,9 @@ import { motion } from "framer-motion";
 import {
   SPRING_CONFIG,
   WidgetStyleConfig,
-  WidgetSizeVariant,
 } from "../../_utils/onboarding-mind-widget-style-config";
 
 interface OnboardingMindWidgetContainerProps {
-  sizeVariant: WidgetSizeVariant;
   config: WidgetStyleConfig;
   children: React.ReactNode;
 }

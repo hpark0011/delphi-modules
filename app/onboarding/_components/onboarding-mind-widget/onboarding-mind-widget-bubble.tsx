@@ -31,6 +31,7 @@ export function OnboardingMindWidgetBubble({
   return (
     <motion.div
       className={cn(
+        "mind-bubble",
         sizeVariant === "large" && !shadowData.shouldUseColoredShadow
           ? "shadow-[0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.4),0_1px_1px_0_rgba(0,0,0,0.15)]"
           : "",
