@@ -26,7 +26,7 @@ export function OnboardingMindWidgetBubble({
         "mind-bubble",
         "overflow-hidden",
         "bg-sand-12 hover:bg-sand-12 dark:bg-black/60",
-        "border-none",
+        "border-none rounded-full",
         "z-10",
         "flex flex-col items-center justify-center",
         "relative"

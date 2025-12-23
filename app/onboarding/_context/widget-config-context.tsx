@@ -16,8 +16,6 @@ interface WidgetConfigContextType {
   config: WidgetConfig;
   /** Current step ID */
   stepId: OnboardingStepId;
-  /** Whether widget is in large mode */
-  isLarge: boolean;
   /** Spring animation config */
   springConfig: typeof SPRING_CONFIG;
 }
@@ -42,7 +40,6 @@ export function WidgetConfigProvider({
     return {
       config,
       stepId,
-      isLarge: stepId === "MindScore",
       springConfig: SPRING_CONFIG,
     };
   }, [currentStep]);

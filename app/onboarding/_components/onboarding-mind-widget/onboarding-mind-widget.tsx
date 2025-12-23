@@ -57,7 +57,7 @@ function OnboardingMindWidgetInner({
   style,
 }: OnboardingMindWidgetInnerProps) {
   const { animationState, trainingMessage } = useOnboardingAnimation();
-  const { isLarge } = useWidgetConfig();
+  const { config } = useWidgetConfig();
 
   const showGreeting = mindScore === 0 && animationState === "idle";
   const showPlusTen = animationState === "showing-plus";
@@ -69,7 +69,7 @@ function OnboardingMindWidgetInner({
   return (
     <OnboardingMindWidgetContainer>
       <OnboardingMindWidgetWrapper>
-        {/* Inner widget: Widget that contains the greeting or score. */}
+        {/* Mind Bubble */}
         <OnboardingMindWidgetBubble>
           {/* Content: Greeting, +10, or Score */}
           <OnboardingMindWidgetContent
@@ -79,9 +79,11 @@ function OnboardingMindWidgetInner({
             shouldRollIn={animationState === "showing-score"}
           />
 
-          {/* Mind Level (only visible when large) */}
+          {/* Mind Level */}
           <AnimatePresence>
-            {isLarge && <OnboardingMindWidgetLevel level={shadowData.level} />}
+            {config.showLevel && (
+              <OnboardingMindWidgetLevel level={shadowData.level} />
+            )}
           </AnimatePresence>
 
           {/* Bubble Highlight Effect (glow/shadow layers) */}
