@@ -137,29 +137,69 @@ export function getLevelSvgShadowColors(level: string): SvgShadowColors {
 export type MotionEase = "easeIn" | "easeOut" | "easeInOut" | "linear";
 export type WidgetVariant = "large" | "small";
 
+/**
+ * Configuration for the onboarding mind widget.
+ * Properties are grouped by the component they affect.
+ */
 export interface WidgetConfig {
+  // General / Variant
+  /** Widget variant type - determines overall size and behavior */
   variant: WidgetVariant;
+
+  // Bubble Container
+  // Affects: onboarding-mind-widget-bubble.tsx
+  /** Width of the main bubble container */
   bubbleWidth: number;
+  /** Height of the main bubble container */
   bubbleHeight: number;
-  top: string;
-  borderWidth: number;
-  paddingX: number;
-  paddingY: number;
-  fontSize: string;
-  neutralShadow: string;
-  innerShadow: string;
-  bubbleOffset: string;
-  bubbleSize: string;
-  bubbleBlur: string;
-  showHoverLayer: boolean;
-  showLevel: boolean;
+  /** Border width for the bubble container */
+  bubbleBorderWidth: number;
+  /** Horizontal padding for the bubble container */
+  bubblePaddingX: number;
+  /** Vertical padding for the bubble container */
+  bubblePaddingY: number;
+  /** Animation duration for bubble container transitions */
   motionDuration: number;
+  /** Animation easing function for bubble container transitions */
   motionEase: MotionEase;
+
+  // Bubble Highlight
+  // Affects: onboarding-mind-widget-bubble-highlight.tsx
+  /** Offset position for the highlight layer (top/left positioning) */
+  highlightOffset: string;
+  /** Size of the highlight layer (width/height) */
+  highlightSize: string;
+  /** Blur filter applied to the highlight layer */
+  highlightBlur: string;
+  /** Shadow applied to the highlight layer */
+  innerShadow: string;
+  /** Whether to show the hover layer (large widgets only) */
+  showHoverLayer: boolean;
+
+  // Content
+  // Affects: onboarding-mind-widget-score.tsx, onboarding-mind-widget-plus-ten.tsx
+  /** Font size for score and plus-ten content */
+  contentFontSize: string;
+
+  // Container
+  // Affects: onboarding-mind-widget-container.tsx
+  /** Vertical positioning of the widget container */
+  top: string;
+
+  // Shadows
+  // Affects: use-onboarding-bubble-shadow.ts
+  /** Default neutral shadow used when mindScore is 0 */
+  neutralShadow: string;
+
+  // Display Flags
+  // Affects: onboarding-mind-widget.tsx
+  /** Whether to display the level text */
+  showLevel: boolean;
 }
 
 // Base Configurations
 const BASE_DEFAULTS = {
-  bubbleOffset: "0px",
+  highlightOffset: "0px",
   motionDuration: 0.2,
   motionEase: "easeIn" as MotionEase,
 } as const;
@@ -168,12 +208,12 @@ const LARGE_BASE = {
   bubbleWidth: 336,
   bubbleHeight: 218,
   top: "17vh",
-  borderWidth: 1.5,
-  paddingX: 0,
-  paddingY: 0,
-  fontSize: "80px",
-  bubbleSize: "calc(100% - 4px)",
-  bubbleBlur: "blur(6px)",
+  bubbleBorderWidth: 1.5,
+  bubblePaddingX: 0,
+  bubblePaddingY: 0,
+  contentFontSize: "80px",
+  highlightSize: "calc(100% - 4px)",
+  highlightBlur: "blur(6px)",
   showHoverLayer: true,
   showLevel: true,
 } as const;
@@ -182,12 +222,12 @@ const SMALL_BASE = {
   bubbleWidth: 52,
   bubbleHeight: 40,
   top: "10px",
-  borderWidth: 1,
-  paddingX: 12,
-  paddingY: 4,
-  fontSize: "16px",
-  bubbleSize: "calc(100% - 2px)",
-  bubbleBlur: "blur(3px)",
+  bubbleBorderWidth: 1,
+  bubblePaddingX: 12,
+  bubblePaddingY: 4,
+  contentFontSize: "16px",
+  highlightSize: "calc(100% - 2px)",
+  highlightBlur: "blur(3px)",
   showHoverLayer: false,
   showLevel: false,
 } as const;
@@ -246,11 +286,11 @@ export function getMotionProps(
     animate: {
       width: options?.animateWidth ?? config.bubbleWidth,
       height: config.bubbleHeight,
-      borderWidth: config.borderWidth,
-      paddingLeft: config.paddingX,
-      paddingRight: config.paddingX,
-      paddingTop: config.paddingY,
-      paddingBottom: config.paddingY,
+      borderWidth: config.bubbleBorderWidth,
+      paddingLeft: config.bubblePaddingX,
+      paddingRight: config.bubblePaddingX,
+      paddingTop: config.bubblePaddingY,
+      paddingBottom: config.bubblePaddingY,
     },
     transition: {
       duration: config.motionDuration,

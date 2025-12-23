@@ -26,8 +26,13 @@ export function OnboardingMindWidgetBubbleHighlight({
 }: OnboardingMindWidgetBubbleHighlightProps) {
   const { config, springConfig } = useWidgetConfig();
 
-  const { defaultShadow, hoverShadow, innerDivShadow, cssVariables, baseShadow } =
-    shadowData;
+  const {
+    defaultShadow,
+    hoverShadow,
+    innerDivShadow,
+    cssVariables,
+    baseShadow,
+  } = shadowData;
 
   // When animating, let CSS keyframes handle the shadow
   const boxShadow = useMemo(
@@ -48,14 +53,14 @@ export function OnboardingMindWidgetBubbleHighlight({
       {/* Hover layer - handles mouse hover shadow transitions (when enabled) */}
       {config.showHoverLayer && (
         <motion.div
-          className="mind-bubble-pill"
+          className='mind-bubble-pill'
           style={hoverShadowVariables}
           animate={{
-            top: config.bubbleOffset,
-            left: config.bubbleOffset,
-            width: config.bubbleSize,
-            height: config.bubbleSize,
-            filter: config.bubbleBlur,
+            top: config.highlightOffset,
+            left: config.highlightOffset,
+            width: config.highlightSize,
+            height: config.highlightSize,
+            filter: config.highlightBlur,
             boxShadow: innerDivShadow,
           }}
           transition={springConfig}
@@ -70,13 +75,13 @@ export function OnboardingMindWidgetBubbleHighlight({
 
       {/* Animation layer - handles luminating/glowing states and base shadow */}
       <motion.div
-        className="mind-bubble rounded-full absolute"
+        className='mind-bubble rounded-full absolute'
         animate={{
-          top: config.bubbleOffset,
-          left: config.bubbleOffset,
-          width: config.bubbleSize,
-          height: config.bubbleSize,
-          filter: config.bubbleBlur,
+          top: config.highlightOffset,
+          left: config.highlightOffset,
+          width: config.highlightSize,
+          height: config.highlightSize,
+          filter: config.highlightBlur,
           boxShadow: config.innerShadow,
         }}
         transition={springConfig}
