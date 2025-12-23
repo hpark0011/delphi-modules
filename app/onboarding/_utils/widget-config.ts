@@ -195,6 +195,10 @@ export interface WidgetConfig {
   // Affects: onboarding-mind-widget.tsx
   /** Whether to display the level text */
   showLevel: boolean;
+
+  // Width Behavior
+  /** Use auto width with minWidth (small variant) vs fixed width (large variant) */
+  autoWidth: boolean;
 }
 
 // Base Configurations
@@ -216,6 +220,7 @@ const LARGE_BASE = {
   highlightBlur: "blur(6px)",
   showHoverLayer: true,
   showLevel: true,
+  autoWidth: false,
 } as const;
 
 const SMALL_BASE = {
@@ -225,11 +230,12 @@ const SMALL_BASE = {
   bubbleBorderWidth: 1,
   bubblePaddingX: 12,
   bubblePaddingY: 4,
-  contentFontSize: "16px",
+  contentFontSize: "18px",
   highlightSize: "calc(100% - 2px)",
   highlightBlur: "blur(3px)",
   showHoverLayer: false,
   showLevel: false,
+  autoWidth: true,
 } as const;
 
 // Variant Registry
@@ -273,9 +279,15 @@ export function getMotionProps(
     animateWidth?: number | string;
   }
 ) {
+  // For autoWidth (small variant): use minWidth + auto width
+  // For fixed width (large variant): use explicit width
+  const widthStyles = config.autoWidth
+    ? { width: "auto", minWidth: config.bubbleWidth }
+    : { width: options?.animateWidth ?? config.bubbleWidth };
+
   return {
     initial: {
-      width: options?.initialWidth ?? config.bubbleWidth,
+      ...widthStyles,
       height: config.bubbleHeight,
       borderWidth: 0,
       paddingLeft: 0,
@@ -284,7 +296,7 @@ export function getMotionProps(
       paddingBottom: 0,
     },
     animate: {
-      width: options?.animateWidth ?? config.bubbleWidth,
+      ...widthStyles,
       height: config.bubbleHeight,
       borderWidth: config.bubbleBorderWidth,
       paddingLeft: config.bubblePaddingX,

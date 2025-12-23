@@ -2,8 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { useWidgetConfig } from "@/app/onboarding/_context";
 
 export function OnboardingMindWidgetHelloLabel() {
+  const { config } = useWidgetConfig();
+
   return (
     <motion.h1
       key='label'
@@ -19,8 +22,18 @@ export function OnboardingMindWidgetHelloLabel() {
         // Sizing
         "h-fit"
       )}
-      initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
-      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={{
+        opacity: 0,
+        y: 8,
+        filter: "blur(4px)",
+        fontSize: config.contentFontSize,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        fontSize: config.contentFontSize,
+      }}
       transition={{
         duration: 0.25,
         ease: [0.32, 0.72, 0, 1],
