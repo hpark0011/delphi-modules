@@ -4,7 +4,7 @@ import {
   generateShadowString,
   generateSmallWidgetShadowString,
   LevelColors,
-} from "@/app/studio/_utils/mind-shadow-helpers";
+} from "../_utils/widget-config";
 import { useWidgetConfig } from "../_context";
 import { calculateLevel } from "../_utils/onboarding-mind-widget-utils";
 
