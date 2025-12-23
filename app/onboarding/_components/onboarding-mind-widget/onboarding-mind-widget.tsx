@@ -6,6 +6,7 @@ import {
   WidgetConfigProvider,
   useWidgetConfig,
 } from "@/app/onboarding/_context";
+import { WidgetVariant } from "@/app/onboarding/_utils/widget-config";
 import { useOnboardingBubbleShadow } from "../../_hooks/use-onboarding-bubble-shadow";
 import { OnboardingMindWidgetContent } from "./onboarding-mind-widget-content";
 import { OnboardingMindWidgetLevel } from "./onboarding-mind-widget-level";
@@ -15,6 +16,9 @@ import { OnboardingMindWidgetWrapper } from "./onboarding-mind-widget-wrapper";
 import { OnboardingMindWidgetBubble } from "./onboarding-mind-widget-bubble";
 import { OnboardingMindWidgetBubbleHighlight } from "./onboarding-mind-widget-bubble-highlight";
 import { CSSProperties } from "react";
+
+// Step 2 (MindScore) uses large variant, all others use small
+const MIND_SCORE_STEP = 2;
 
 interface OnboardingMindWidgetProps {
   currentStep: number;
@@ -31,8 +35,11 @@ export function OnboardingMindWidget({
   isGlowing,
   style,
 }: OnboardingMindWidgetProps) {
+  const variant: WidgetVariant =
+    currentStep === MIND_SCORE_STEP ? "large" : "small";
+
   return (
-    <WidgetConfigProvider currentStep={currentStep}>
+    <WidgetConfigProvider variant={variant}>
       <OnboardingMindWidgetInner
         mindScore={mindScore}
         isLuminating={isLuminating}

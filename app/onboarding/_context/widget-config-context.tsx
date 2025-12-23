@@ -3,19 +3,14 @@
 import React, { createContext, useContext, useMemo } from "react";
 import {
   WidgetConfig,
-  STEP_WIDGET_CONFIG,
+  WidgetVariant,
+  createWidgetConfig,
   SPRING_CONFIG,
 } from "../_utils/widget-config";
-import {
-  OnboardingStepId,
-  ONBOARDING_STEP_ORDER,
-} from "../_utils/onboarding-steps-config";
 
 interface WidgetConfigContextType {
-  /** Current widget configuration based on step */
+  /** Current widget configuration */
   config: WidgetConfig;
-  /** Current step ID */
-  stepId: OnboardingStepId;
   /** Spring animation config */
   springConfig: typeof SPRING_CONFIG;
 }
@@ -25,24 +20,21 @@ const WidgetConfigContext = createContext<WidgetConfigContextType | undefined>(
 );
 
 interface WidgetConfigProviderProps {
-  currentStep: number;
+  variant: WidgetVariant;
   children: React.ReactNode;
 }
 
 export function WidgetConfigProvider({
-  currentStep,
+  variant,
   children,
 }: WidgetConfigProviderProps) {
-  const value = useMemo(() => {
-    const stepId = ONBOARDING_STEP_ORDER[currentStep];
-    const config = STEP_WIDGET_CONFIG[stepId];
-
-    return {
-      config,
-      stepId,
+  const value = useMemo(
+    () => ({
+      config: createWidgetConfig(variant),
       springConfig: SPRING_CONFIG,
-    };
-  }, [currentStep]);
+    }),
+    [variant]
+  );
 
   return (
     <WidgetConfigContext.Provider value={value}>

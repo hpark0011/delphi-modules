@@ -5,7 +5,7 @@ import { useMindScore } from "@/app/studio/_components/mindscore/mind-score-cont
 import {
   generateShadowString,
   getLevelShadowColors,
-} from "@/app/studio/_utils/mind-shadow-helpers";
+} from "@/app/onboarding/_utils/widget-config";
 import { MindStatusIcon } from "@/components/mind-status-notification";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";

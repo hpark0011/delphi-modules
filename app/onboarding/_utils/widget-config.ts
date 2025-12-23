@@ -1,5 +1,3 @@
-import { OnboardingStepId } from "./onboarding-steps-config";
-
 // Animation Config
 export const SPRING_CONFIG = {
   type: "spring" as const,
@@ -93,6 +91,48 @@ export function generateSmallWidgetShadowString(colors: LevelColors): string {
   return `inset_0_1px_8px_-2px_${colors.light},inset_0_-4px_6px_-2px_${colors.medium},inset_0_-13px_24px_-14px_${colors.dark},_0_0_0_0.5px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.3),0_1px_1px_0_rgba(0,0,0,0.15),_inset_0_0_6px_0_rgba(255,255,255,0.1)`;
 }
 
+// SVG Shadow Colors (for SVG filters)
+export interface SvgShadowColors {
+  outerShadow: { r: number; g: number; b: number; a: number };
+  midShadow: { r: number; g: number; b: number; a: number };
+  highlight: { r: number; g: number; b: number; a: number };
+  accent: { r: number; g: number; b: number; a: number };
+}
+
+function parseRgba(rgbaString: string): {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+} {
+  const match = rgbaString.match(
+    /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/
+  );
+  if (!match) {
+    throw new Error(`Invalid rgba string: ${rgbaString}`);
+  }
+  return {
+    r: parseInt(match[1], 10),
+    g: parseInt(match[2], 10),
+    b: parseInt(match[3], 10),
+    a: match[4] ? parseFloat(match[4]) : 1,
+  };
+}
+
+export function getLevelSvgShadowColors(level: string): SvgShadowColors {
+  const colors = getLevelShadowColors(level);
+  const darkRgba = parseRgba(colors.dark);
+  const mediumRgba = parseRgba(colors.medium);
+  const lightRgba = parseRgba(colors.light);
+
+  return {
+    outerShadow: { r: darkRgba.r, g: darkRgba.g, b: darkRgba.b, a: 1.0 },
+    midShadow: { r: mediumRgba.r, g: mediumRgba.g, b: mediumRgba.b, a: 0.3 },
+    highlight: { r: 255, g: 255, b: 255, a: 0.3 },
+    accent: { r: lightRgba.r, g: lightRgba.g, b: lightRgba.b, a: 0.15 },
+  };
+}
+
 // Types
 export type MotionEase = "easeIn" | "easeOut" | "easeInOut" | "linear";
 export type WidgetVariant = "large" | "small";
@@ -184,18 +224,6 @@ export function createWidgetConfig(
     ...overrides,
   };
 }
-
-// Pre-built Variants
-const LARGE_WIDGET = createWidgetConfig("large");
-const SMALL_WIDGET = createWidgetConfig("small");
-
-// Step Configuration Mapping
-export const STEP_WIDGET_CONFIG: Record<OnboardingStepId, WidgetConfig> = {
-  StartVerification: SMALL_WIDGET,
-  NameSearch: SMALL_WIDGET,
-  MindScore: LARGE_WIDGET,
-  ContentScraping: SMALL_WIDGET,
-};
 
 // Motion Helpers
 export function getMotionProps(
