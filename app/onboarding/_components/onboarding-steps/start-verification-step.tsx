@@ -12,7 +12,7 @@ export function StartVerificationStep() {
 
   const handleVerifyLinkedIn = () => {
     setAnimationState("training");
-    setTrainingMessage("Learning about you");
+    setTrainingMessage("Learning about you...");
     // Wait 1.5 seconds to show the training state before navigating
     setTimeout(() => {
       handleNext();

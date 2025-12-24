@@ -14,8 +14,11 @@ export function OnboardingMindWidgetContainer({
 
   return (
     <motion.div
-      className="flex items-center justify-center relative"
+      className='flex items-center justify-center relative'
       transition={springConfig}
+      initial={{
+        top: "10px",
+      }}
       animate={{
         top: config.top,
       }}

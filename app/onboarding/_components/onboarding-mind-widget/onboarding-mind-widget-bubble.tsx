@@ -1,9 +1,9 @@
 "use client";
 
+import { useWidgetConfig } from "@/app/onboarding/_context";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { ReactNode, useMemo } from "react";
-import { useWidgetConfig } from "@/app/onboarding/_context";
+import { ReactNode, useMemo, useRef } from "react";
 import { getMotionProps } from "../../_utils/widget-config";
 
 interface OnboardingMindWidgetBubbleProps {
@@ -19,9 +19,11 @@ export function OnboardingMindWidgetBubble({
 }: OnboardingMindWidgetBubbleProps) {
   const { config } = useWidgetConfig();
   const motionProps = useMemo(() => getMotionProps(config), [config]);
+  const elementRef = useRef<HTMLDivElement>(null);
 
   return (
     <motion.div
+      ref={elementRef}
       className={cn(
         "mind-bubble",
         "overflow-hidden",
@@ -34,6 +36,18 @@ export function OnboardingMindWidgetBubble({
       initial={motionProps.initial}
       animate={motionProps.animate}
       transition={motionProps.transition}
+      onAnimationStart={() => {
+        // Ensure minWidth is set during animation
+        if (config.autoWidth && elementRef.current) {
+          elementRef.current.style.minWidth = `${config.bubbleWidth}px`;
+        }
+      }}
+      onAnimationComplete={() => {
+        // Ensure minWidth persists after animation completes
+        if (config.autoWidth && elementRef.current) {
+          elementRef.current.style.minWidth = `${config.bubbleWidth}px`;
+        }
+      }}
     >
       {children}
     </motion.div>

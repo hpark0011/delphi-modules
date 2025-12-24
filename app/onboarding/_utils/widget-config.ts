@@ -152,8 +152,6 @@ export interface WidgetConfig {
   bubbleWidth: number;
   /** Height of the main bubble container */
   bubbleHeight: number;
-  /** Border width for the bubble container */
-  bubbleBorderWidth: number;
   /** Horizontal padding for the bubble container */
   bubblePaddingX: number;
   /** Vertical padding for the bubble container */
@@ -210,9 +208,9 @@ const BASE_DEFAULTS = {
 
 const LARGE_BASE = {
   bubbleWidth: 336,
+  bubbleMinWidth: 336,
   bubbleHeight: 218,
   top: "17vh",
-  bubbleBorderWidth: 1.5,
   bubblePaddingX: 0,
   bubblePaddingY: 0,
   contentFontSize: "80px",
@@ -224,10 +222,10 @@ const LARGE_BASE = {
 } as const;
 
 const SMALL_BASE = {
-  bubbleWidth: 52,
+  bubbleWidth: 48,
+  bubbleMinWidth: 48,
   bubbleHeight: 40,
   top: "10px",
-  bubbleBorderWidth: 1,
   bubblePaddingX: 12,
   bubblePaddingY: 4,
   contentFontSize: "18px",
@@ -279,31 +277,39 @@ export function getMotionProps(
     animateWidth?: number | string;
   }
 ) {
-  // For autoWidth (small variant): use minWidth + auto width
-  // For fixed width (large variant): use explicit width
-  const widthStyles = config.autoWidth
-    ? { width: "auto", minWidth: config.bubbleWidth }
+  // Small variant: width adapts to content (e.g., "Hey 👋" vs "10") but maintains minimum width
+  // Large variant: fixed width regardless of content
+  // Note: minWidth is NOT included in animate prop - it's set via style prop and ref in the component
+  // This ensures minWidth is always applied as static CSS and not animated/overridden by Framer Motion
+  const animateWidth = config.autoWidth
+    ? { width: "auto" }
     : { width: options?.animateWidth ?? config.bubbleWidth };
+
+  const animate = {
+    ...animateWidth,
+    minWidth: config.bubbleWidth,
+    height: config.bubbleHeight,
+    paddingLeft: config.bubblePaddingX,
+    paddingRight: config.bubblePaddingX,
+    paddingTop: config.bubblePaddingY,
+    paddingBottom: config.bubblePaddingY,
+  };
+
+  // When autoWidth is true, set minWidth in initial state to ensure it's present from the start
+  // The component will also set it via style prop, but having it in initial helps with the transition
+  const initialMinWidth = config.autoWidth ? `${config.bubbleWidth}px` : "12px";
 
   return {
     initial: {
-      ...widthStyles,
-      height: config.bubbleHeight,
-      borderWidth: 0,
+      width: "12px",
+      height: "12px",
+      minWidth: "12px",
       paddingLeft: 0,
       paddingRight: 0,
       paddingTop: 0,
       paddingBottom: 0,
     },
-    animate: {
-      ...widthStyles,
-      height: config.bubbleHeight,
-      borderWidth: config.bubbleBorderWidth,
-      paddingLeft: config.bubblePaddingX,
-      paddingRight: config.bubblePaddingX,
-      paddingTop: config.bubblePaddingY,
-      paddingBottom: config.bubblePaddingY,
-    },
+    animate,
     transition: {
       duration: config.motionDuration,
       ease: config.motionEase,
